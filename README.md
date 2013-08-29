@@ -51,7 +51,7 @@ I. Install the Viewer Files
 II. Set the values for the configuration file
 --------------------------------------------
 
-The next steps will require using a text editing program to create your configuration file for the viewer. This configuration file allows you to set the background colors, the Usage and Rights statements and images used on the Viewer page. You can refer to the config.example.ini in the Viewer subdirectory "config"as a guide for settings values.
+The next steps will require using a text editing program to create your configuration file for the Viewer. This configuration file allows you to set the background colors, the Usage and Rights statements and images used on the Viewer page. You can refer to the config.example.ini in the Viewer subdirectory "config"as a guide for settings values.
 
 1) Create the configuration file "config.ini". Rename the file "config.template.ini" to "config.ini" in the Viewer subdirectory "config". The reason for this is that if you implement a newer version of the Viewer, your current config.ini file will not be overwritten or replaced (though a future version may require changes to your config.ini).
 
