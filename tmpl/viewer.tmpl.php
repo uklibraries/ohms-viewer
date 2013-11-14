@@ -20,7 +20,7 @@
   </head>
   <body>
     <div id="header">
-      <div class="center" style="height:180px; width:860px;">
+      <div class="center" style="height:180px; width:960px;">
 	<h1><?php echo $cacheFile->title; ?></h1>
 	<h2>
 	  <?php echo $cacheFile->collection; ?><br/>

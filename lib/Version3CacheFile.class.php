@@ -60,6 +60,7 @@ class Version3CacheFile {
     $this->data['account_id'] =  (string)$ohfile->record->mediafile->host_account_id;
     $this->data['player_id'] =  (string)$ohfile->record->mediafile->host_player_id;
     $this->data['clip_id'] =  (string)$ohfile->record->mediafile->host_clip_id;
+    $this->data['clip_format'] =  (string)$ohfile->record->mediafile->clip_format;
     $this->Transcript = new Transcript($ohfile->record->transcript, $this->data['chunks'], $ohfile->record->index);
     $this->data['transcript'] = $this->Transcript->getTranscriptHTML();
     $this->data['index'] = $this->Transcript->getIndexHTML();

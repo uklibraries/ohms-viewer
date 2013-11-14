@@ -46,6 +46,7 @@ class LegacyCacheFile {
       'collection' => (string)$ohfile->record->collection_name,
       'series' => (string)$ohfile->record->series_name,
       'fmt' => (string)$ohfile->record->fmt,
+      'media_url' => (string)$ohfile->record->media_url,
       'file_name' => (string)$ohfile->record->file_name,
       'rights' => (string)$ohfile->record->rights,
       'usage' => (string)$ohfile->record->usage,

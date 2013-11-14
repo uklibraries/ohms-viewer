@@ -36,7 +36,11 @@ else: ?>
 	<?php
 		echo '<a href="';
 		if (isset($config['fileserver'])) {
-			echo '//'.$config['fileserver'].$cacheFile->file_name;
+                        $path = $cacheFile->file_name;
+                        if ($path === ".mp3") {
+                          $path = $cacheFile->media_url;
+                        }
+			echo '//'.$config['fileserver'].$path;
 		} else {  
 			echo $cacheFile->media_url;
 		}

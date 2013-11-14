@@ -10,7 +10,6 @@
 class CacheFile {
   private $cacheFile;
   private static $Instance = NULL;
-  public $yamlconfig;
   
   public static function getInstance($cachefile = NULL,$configtmpDir,$config) {
     $viewerconfig = $config;

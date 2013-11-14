@@ -12,8 +12,12 @@ echo "<style>
 
 $filepath = $cacheFile->media_url;
 echo '<div class="centered">';
-if($cacheFile->fmt=='audio' || $cacheFile->fmt=='audiotrans') {
-	if(strpos($filepath,'http://') !== false) {
+if($cacheFile->clip_format=='audio' || $cacheFile->clip_format=='audiotrans') {
+	if(strpos($filepath,'http://') !== false || strpos($filepath,'https://') !== false) {
+		echo "<style>
+        		      #header {height: 200px; }
+        		      #audio-panel { height: 100px; width:670px; }              
+			  </style>";
 		echo '<a href="' . $filepath .'" id="subjectPlayer"></a>';
 	} else {
 		echo '<a href="http://' . $config['fileserver'] . $cacheFile->file_name .'" id="subjectPlayer"></a>';

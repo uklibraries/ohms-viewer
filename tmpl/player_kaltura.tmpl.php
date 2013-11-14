@@ -1,6 +1,6 @@
 <?php
 //Set style values for Kaltura player and page based on file format
-if ($cacheFile->fmt == 'audio') {
+if ($cacheFile->clip_format == 'audio') {
     $height = "126";
     $width  =  "450";
     $styleheight = "300";

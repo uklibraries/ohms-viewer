@@ -12,7 +12,7 @@ echo "<style>
 
 $filepath = $cacheFile->media_url;
 echo '<div class="centered">';
-if($cacheFile->fmt=='audio' || $cacheFile->fmt=='audiotrans') {
+if($cacheFile->clip_format=='audio') {
 	if(strpos($filepath,'://') !== false) {
 		echo '<a href="' . $filepath .'" id="subjectPlayer"></a>';
 	} else {
