@@ -55,9 +55,9 @@ class Transcript {
 	$indexHTML .= '<p><a class="indexJumpLink" href="#" data-timestamp="' . $point->time  . '">Play segment</a></p>';
     	$indexHTML .= '<div class="synopsis">';
     	$indexHTML .= '<a name="tp_' . $point->time . '"></a>';
-    	$indexHTML .= '<p><strong>Partial Transcript:</strong><span>' . $partial_transcript . '</span></p><p><strong>Segment Synopsis:</strong><span> ' . $synopsis . '</span></p><p><strong>Keywords:</strong><span> ' . $keywords . '</span></p><p><strong>Subjects:</strong><span> ' . $subjects . '</span></p>'; 
+    	$indexHTML .= '<p><strong>Partial Transcript:</strong><span>' . $partial_transcript . '</span></p><p><strong>Segment Synopsis:</strong><span> ' . $synopsis . '</span></p><p><strong>Keywords:</strong><span> ' . str_replace(';', '; ', $keywords) . '</span></p><p><strong>Subjects:</strong><span> ' . str_replace(';', ' ', $subjects) . '</span></p>'; 
     	if ($gps <> '') {
-		$indexHTML .= '<br/><strong>GPS:</strong> <a  class="fancybox-media" href="' . htmlentities(str_replace(' ', '', 'http://maps.google.com/maps?ll='.$gps.'&amp;t=m&amp;z=10&amp;output=embed')).'">';
+		$indexHTML .= '<br/><strong>GPS:</strong> <a  class="fancybox-media" href="' . htmlentities(str_replace(' ', '', 'http://maps.google.com/maps?ll='.$gps.'&t=m&z=10&output=embed')).'">';
 	    	if ($gps_text <> '') { 
 			$indexHTML .= $gps_text;
 	    	} else {
