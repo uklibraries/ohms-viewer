@@ -43,7 +43,7 @@
 	    <?php echo $cacheFile->index; ?>
 	  </div>
 	</div>
-	<div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
+	<div id="searchbox-panel" class="<?=($cacheFile->clipsource == 'YouTube') ? 'youtube' : ''?>"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
       </div>
     </div>
     <div id="footer">

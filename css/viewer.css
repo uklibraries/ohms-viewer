@@ -65,6 +65,13 @@ h2 {
   padding: 24px 34px 24px 35px;
   background: #3c3c3c;
 }
+#headervid {
+  width: 955px;
+  height: 450px;
+  margin: 0 auto;
+  padding: 24px 34px 24px 35px;
+  background: #3c3c3c;
+}
 .close_link {
   float: right;
   color: white;
@@ -204,6 +211,10 @@ h2 {
 #searchbox-panel p {
   padding-left: 2em;
 }
+#searchbox-panel.youtube {
+	margin-top: -187px;
+}
+
 .highlight {
   color: #ff0000;
   font-weight: bold;
