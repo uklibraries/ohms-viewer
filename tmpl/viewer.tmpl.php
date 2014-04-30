@@ -138,7 +138,7 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-49098938-1', 'nunncenter.org');
+  ga('create', '<?php echo $config[$cacheFile->repository]['ga_tracking_id']; ?>', '<?php echo $config[$cacheFile->repository]['ga_host']; ?>');
   ga('send', 'pageview');
 
 </script>
