@@ -14,8 +14,6 @@ a {
 }
 h1 {
   margin: 0 0 12px;
-  padding: 0 0 8px;
-  border-bottom: 3px solid #c2c2c2;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
@@ -23,8 +21,11 @@ h1 {
 }
 h2 {
   font-size: 12px;
+  padding: 0 0 8px;
   text-align: center;
   color: #f5f5f5;
+  font-weight: normal;
+  border-bottom: 3px solid #c2c2c2;
 }
 .linenum {
   font-size: 8px;
@@ -79,27 +80,19 @@ h2 {
 }
 #footer {
   width: 955px;
-  height: 250px;
+  height: auto;
   margin: 0 auto;
   padding: 20px 34px 20px 35px;
   background: #3c3c3c;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
 }
-#footer img {
-  float: left;
-  margin: 28px 20px 0 0;
-}
 #footer div {
-  float: left;
   color: #f5f5f5;
-  margin: 0px auto;
 }
 #footer h3 {
   margin: 0 0 6px;
   font-size: 12px;
   font-weight: normal;
-  font-style: italic;
-  text-transform: lowercase;
   color: #b5b5b5;
 }
 #footer address {
@@ -109,11 +102,9 @@ h2 {
   display: block;
 }
 #footer a {
-  text-decoration: none;
   color: #f5f5f5;
 }
 #footer a:hover {
-  text-decoration: underline;
   color: #ffffff;
 }
 #footer small {
@@ -212,7 +203,7 @@ h2 {
   padding-left: 2em;
 }
 #searchbox-panel.youtube {
-	margin-top: -187px;
+	margin-top: -226px;
 }
 
 .highlight {
@@ -222,7 +213,7 @@ h2 {
 #audio-panel {
   width: 500px;
   height: 30px;
-  padding-top: 10px;
+  /*padding-top: 10px;*/
   padding-bottom: 10px;
   text-align: center;
   margin: 0px auto;
@@ -473,4 +464,20 @@ legend {
 */
 div.point {
   line-height: 1.5em;
+}
+
+#lnkShowMeta {
+	color: #aaaaaa !important;
+	font-weight: normal;
+}
+
+.ui-widget { font-family: Arial, Helvetica, sans-serif !important; font-size: 10pt !important; }
+.ui-accordion-content { padding-top: 0px !important; padding-bottom: 0px !important; }
+
+#rightsStatement {
+	display: none;
+}
+
+#usageStatement {
+	display: none;
 }
