@@ -209,9 +209,10 @@ jQuery(function($) {
   $('#kw').on('keypress', getSearchResults);
 
   $('#accordionHolder').accordion({
+	autoHeight: false,
     collapsible: true,
     active: false,
-    fillSpace: true,
+    fillSpace: false,
     change: function(e, ui) {
       $('#index-panel').scrollTo($('.ui-state-active'), 800, {easing:'easeInOutCubic'});
     }

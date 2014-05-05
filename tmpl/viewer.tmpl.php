@@ -22,11 +22,12 @@
     <div id="header">
       <div class="center" style="height:180px; width:960px;">
 	<h1><?php echo $cacheFile->title; ?></h1>
-	<h2>
-	  <?php echo $cacheFile->collection; ?><br/>
-	  <?php echo $cacheFile->series; ?><br/>
-	  <?php echo $cacheFile->accession; ?><br />
-	  <?php echo $cacheFile->interviewer; ?>, Interviewer
+	<h2 id="secondaryMetaData">
+		<div style="margin-left: 80px;">
+			<strong><?php echo $cacheFile->repository; ?></strong><br />
+			<?php echo $cacheFile->collection; ?>, <?php echo $cacheFile->series; ?><br/>
+			<?php echo $cacheFile->interviewer; ?>, Interviewer | <?php echo $cacheFile->accession; ?>
+		</div>
 	</h2>
 	<div id="audio-panel">
 	  <?php include_once 'tmpl/player_'.$cacheFile->playername.'.tmpl.php'; ?>
@@ -43,39 +44,22 @@
 	    <?php echo $cacheFile->index; ?>
 	  </div>
 	</div>
-	<div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
+	<div id="searchbox-panel" class="<?=($cacheFile->clipsource == 'YouTube') ? 'youtube' : ''?>"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
       </div>
     </div>
     <div id="footer">
-      <img src="<?php echo $config[$cacheFile->repository]['footerimg'];?>" alt="<?php echo $config[$cacheFile->repository]['footerimgalt'];?>" /><img alt="Powered by OHMS logo" src="imgs/ohms_logo.png" border="0"/>
-      <div>
-	<h3>Contact Us</h3>
-	<address>
-<a href="mailto:<?php echo $config[$cacheFile->repository]['contactemail'];?>"><?php echo $config[$cacheFile->repository]['contactemail'];?></a><br />
-	  <a href="<?php echo $config[$cacheFile->repository]['contactlink'];?>"><?php echo $config[$cacheFile->repository]['contactlink'];?></a>
-	</address>
-      </div>
-      <small id="copyright"><span>&copy; <?php print(Date("Y")); ?></span><span>Powered by OHMS</span><?php echo $config[$cacheFile->repository]['copyrightholder'];?></small>
-	  <div style="clear:both; color:white; margin-top:30px;text-align:left;">
-	    <p>
-		<?php 
-			if($cacheFile->rights) {
-			        echo '<span><h3>Rights Statement:</h3>';
-				echo $cacheFile->rights;
-				echo '</span>';
-			} 
-		 ?>
-	    </p>
-	<p>	
-		<?php 
-			if($cacheFile->usage) {
-			        echo '<span><h3>Usage Statement:</h3>';
-				echo $cacheFile->usage;
-				echo '</span>';
-			} 
-		 ?>
-	    </p>
+		<div style="float: left; text-align: left; width: 50%; margin-top: -12px;">
+			<p><span><h3><a href="#" id="lnkRights">View Rights Statement</a></h3><div id="rightsStatement"><?php echo $cacheFile->rights; ?></div></span></p>
+			<p><span><h3><a href="#" id="lnkUsage">View Usage Statement</a></h3><div id="usageStatement"><?php echo $cacheFile->usage; ?></div></span></p>
+			<p><span><h3>Contact Us: <a href="mailto:nunncenter@lsv.uky.edu">nunncenter@lsv.uky.edu</a> | <a href="http://www.nunncenter.org">http://www.nunncenter.org</a></h3></span></p>
+		</div>
+		<div style="float: right; text-align: right; width: 50%;">
+			<small id="copyright"><span>&copy; 2012 Louie B. Nunn Center for Oral History</span><span>University of Kentucky Libraries</small>
+		</div>
+		<div style="float: right; color:white; margin-top: 10px; text-align:right;">
+			<img alt="Powered by OHMS logo" src="imgs/ohms_logo.png" border="0"/>
 	  </div>
+		<br clear="both" />
       </div>
       <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
       <script type="text/javascript" src="js/jquery-ui.toggleSwitch.js"></script>
@@ -126,6 +110,18 @@
 		            title     : { type : 'inside' },
 		            buttons   : {}
 		       }
+		  });
+		  
+		  jQuery('#lnkRights').click(function() {
+			jQuery('#rightsStatement').fadeToggle(400);
+			
+			return false;
+		  });
+
+		  jQuery('#lnkUsage').click(function() {
+			jQuery('#usageStatement').fadeToggle(400);
+			
+			return false;
 		  });
 	     });
 	</script>

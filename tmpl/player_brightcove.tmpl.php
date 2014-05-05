@@ -15,20 +15,21 @@
 		 <param name="isVid" value="true" />
 		 <param name="isUI" value="true" />
 		 <param name="@videoPlayer" value="{$cacheFile->clip_id}" />
-<param name="secureConnections" value="true" />
-<param name="secureHTMLConnections" value="true" />
+     <param name="secureConnections" value="true" />
+     <param name="secureHTMLConnections" value="true" />
 		 </object>
 
 		  <div class="video-spacer"></div>
 
 		  <style>
-		    #transcript-panel { height:350px; }
-		    #index-panel { height:350px; }
-		    #searchbox-panel { height:350px; }
+		    #transcript-panel { height:550px; }
+		    #index-panel { height:550px; }
+		    #searchbox-panel { height:550px; }
 		    #search-results { height:177px; }
-		    #audio-panel { height: 270px; width:670px; }
+		    #audio-panel { height: 270px; margin-left: 220px; }
 		    #header {height: 415px; }
-		    #main {height: 350px; }
+			#headervid {height: 380px; }
+		    #main {height: 550px; }
 		  </style>
 BRIGHTCOVE;
 
