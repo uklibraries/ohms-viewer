@@ -1,6 +1,8 @@
 <?php
 	$audioFormats = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
 	$filepath =$cacheFile->media_url;
+	$rights = (string)$cacheFile->rights;
+	$usage = (string)$cacheFile->usage;
 ?>
 <!DOCTYPE html>
 <html>
@@ -58,8 +60,16 @@
     </div>
     <div id="footer">
 		<div style="float: left; text-align: left; width: 50%; margin-top: -12px;">
-			<p><span><h3><a href="#" id="lnkRights">View Rights Statement</a></h3><div id="rightsStatement"><?php echo $cacheFile->rights; ?></div></span></p>
-			<p><span><h3><a href="#" id="lnkUsage">View Usage Statement</a></h3><div id="usageStatement"><?php echo $cacheFile->usage; ?></div></span></p>
+			<?php if(!empty($rights)): ?>
+				<p><span><h3><a href="#" id="lnkRights">View Rights Statement</a></h3><div id="rightsStatement"><?php echo $rights; ?></div></span></p>
+			<?php else: ?>
+				<p><span><h3>View Rights Statement</h3></span></p>
+			<?php endif; ?>
+			<?php if(!empty($usage)): ?>
+				<p><span><h3><a href="#" id="lnkUsage">View Usage Statement</a></h3><div id="usageStatement"><?php echo $usage; ?></div></span></p>
+			<?php else: ?>
+				<p><span><h3>View Usage Statement</h3></span></p>
+			<?php endif; ?>
 			<p><span><h3>Contact Us: <a href="mailto:nunncenter@lsv.uky.edu">nunncenter@lsv.uky.edu</a> | <a href="http://www.nunncenter.org">http://www.nunncenter.org</a></h3></span></p>
 		</div>
 		<div style="float: right; text-align: right; width: 50%;">
