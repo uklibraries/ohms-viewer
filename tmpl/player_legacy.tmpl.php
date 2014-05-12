@@ -5,7 +5,7 @@ if($cacheFile->hasVideo == 1):
 		$player_id = '81922792001';
 		$publisher_id = '73755470001';
 		echo <<<BRIGHTCOVE
-<script language="JavaScript" type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences_all.js">
+<script language="JavaScript" type="text/javascript" src="https://sadmin.brightcove.com/js/BrightcoveExperiences_all.js">
 </script>
 		 <object id="myExperience" class="BrightcoveExperience">
 		 <param name="bgcolor" value="#FFFFFF" />
@@ -16,6 +16,8 @@ if($cacheFile->hasVideo == 1):
 		 <param name="isVid" value="true" />
 		 <param name="isUI" value="true" />
 		 <param name="@videoPlayer" value="{$cacheFile->videoID}" />
+<param name="secureConnections" value="true" />
+<param name="secureHTMLConnections" value="true" />
 		 </object>
 
 		  <div class="video-spacer"></div>
