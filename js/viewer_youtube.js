@@ -114,7 +114,7 @@ jQuery(function($) {
 	  });
 	}
 
-	$.getJSON('index.php?action=search&id=' + cachefile + '&kw=' + kw, function(data) {
+	$.getJSON('viewer.php?action=search&cachefile=' + cachefile + '&kw=' + kw, function(data) {
 	  var matches = [];
 	  $('#search-results').empty();
 	  if(data.matches.length == 0) {
@@ -170,7 +170,7 @@ jQuery(function($) {
 	  });
 	}
 
-	$.getJSON('index.php?action=index&id=' + cachefile + '&kw=' + kw, function(data) {
+	$.getJSON('viewer.php?action=index&cachefile=' + cachefile + '&kw=' + kw, function(data) {
 	  var matches = [];
 	  $('#search-results').empty();
 
