@@ -169,7 +169,7 @@ class Transcript {
       }
     }
 
-    return $json . ']}';
+    return str_replace("\0", "", $json) . ']}';
   }
 
   public function indexSearch($kw) {
