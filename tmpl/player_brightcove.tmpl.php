@@ -4,7 +4,7 @@
 		$publisher_id = $cacheFile->account_id;
 
 		echo <<<BRIGHTCOVE
-<script language="JavaScript" type="text/javascript" src="//sadmin.brightcove.com/js/BrightcoveExperiences_all.js">
+<script language="JavaScript" type="text/javascript" src="https://sadmin.brightcove.com/js/BrightcoveExperiences_all.js">
 </script>
 		 <object id="myExperience" class="BrightcoveExperience">
 		 <param name="bgcolor" value="#FFFFFF" />

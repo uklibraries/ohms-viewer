@@ -1,3 +1,7 @@
+<?php
+	$audioFormats = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
+	$filepath =$cacheFile->media_url;
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -19,8 +23,13 @@
 <?php } ?>
   </head>
   <body>
+<?php if(in_array(substr(strtolower($filepath), -4, 4), $audioFormats)): ?>
     <div id="header">
-      <div class="center" style="height:180px; width:960px;">
+<?php else: ?>
+    <div id="headervid">
+<?php endif; ?>
+		<img src="imgs/logo-footer.png" alt="University of Kentucky logo" style="float: left;" />
+      <div class="center" style="height:180px; width:860px;">
 	<h1><?php echo $cacheFile->title; ?></h1>
 	<h2 id="secondaryMetaData">
 		<div style="margin-left: 80px;">
