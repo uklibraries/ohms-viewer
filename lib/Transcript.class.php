@@ -142,6 +142,7 @@ class Transcript {
   private function quoteChange($kw) {
     $q_kw = preg_replace('/\'/', "&#39;", $kw);
     $q_kw = preg_replace('/\"/', "&quot;", $kw);
+	$q_kw = trim($q_kw);
     return $q_kw;
   }
 
@@ -196,7 +197,7 @@ class Transcript {
       }
     }
 
-    return $json . ']}';
+    return str_replace("\0", "", $json) . ']}';
   }
 }
 ?>
