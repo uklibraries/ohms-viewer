@@ -34,6 +34,16 @@ if($cacheFile->hasVideo == 1):
 BRIGHTCOVE;
 
 else: ?>
+<style>
+    #transcript-panel { height:550px; }
+    #index-panel { height:550px; }
+    #searchbox-panel { height:550px; }
+    #search-results { height:177px; }
+    #audio-panel { height: 270px; }
+    #header {height: auto; }
+    #main {height: 550px; }
+	div.centered { margin-left: 35px; }
+</style>
 <div class="centered">
 	<?php
 		echo '<a href="';
