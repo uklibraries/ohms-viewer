@@ -1,3 +1,7 @@
+body {
+  background: url("../imgs/bg-1.png") repeat-x top #ffffff;
+}
+
 #header {
      background: #3c3c3c;
 }

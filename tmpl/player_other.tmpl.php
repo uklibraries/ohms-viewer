@@ -1,5 +1,8 @@
 <?php
-
+$headerheight = '415px';
+if($cacheFile->clip_format=='audio' || empty($cacheFile->clip_format) || $cacheFile->clip_format=='audiotrans') {
+	$headerheight = '140px';
+}
 echo "<style>
               #transcript-panel { height:550px; }
               #index-panel { height:550px; }

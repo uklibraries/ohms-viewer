@@ -113,16 +113,14 @@ jQuery(function($) {
         line.find('.highlight').contents().unwrap();
 	  });
 	}
-
-	$.getJSON('index.php?action=search&id=' + cachefile + '&kw=' + kw, function(data) {
+	$.getJSON('viewer.php?action=search&cachefile=' + cachefile + '&kw=' + kw, function(data) {
 	  var matches = [];
 	  $('#search-results').empty();
 	  if(data.matches.length == 0) {
 	    $('<ul/>').addClass('error-msg').html('<li>No results found.</li>').appendTo('#search-results');
-
 	  }else{
 	  $("#kw").prop('disabled', true);
-	  $("#submit-btn").css("display", "none");
+	$("#submit-btn").css("display", "none");
 	  $("#clear-btn").css("display", "inline-block");
 	    prevSearch.keyword = data.keyword;
 	    $.each(data.matches, function(key, val) {
@@ -169,8 +167,7 @@ jQuery(function($) {
         synopsis.find('.highlight').contents().unwrap();
 	  });
 	}
-
-	$.getJSON('index.php?action=index&id=' + cachefile + '&kw=' + kw, function(data) {
+	$.getJSON('viewer.php?action=index&cachefile=' + cachefile + '&kw=' + kw, function(data) {
 	  var matches = [];
 	  $('#search-results').empty();
 
@@ -179,7 +176,7 @@ jQuery(function($) {
 
 	  }else{
 	  $("#kw").prop('disabled', true);
-	  $("#submit-btn").css("display", "none");
+	$("#submit-btn").css("display", "none");
 	  $("#clear-btn").css("display", "inline-block");
 	    prevSearch.keyword = data.keyword;
 	    $.each(data.matches, function(key, val) {
