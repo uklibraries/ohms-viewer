@@ -14,7 +14,7 @@ echo  '#transcript-panel { height:350px; }';
 echo  '#index-panel { height:350px; }';
 echo  '#searchbox-panel { height:350px; }';
 echo  '#search-results { height:230px; }';
-echo  '#audio-panel { height: 270px; width:670px; }';
+echo  '#audio-panel { height: 270px; }';
 echo  '#header {height: '.$styleheight.'px; }';
 echo  '#main {height: 350px; }';
 echo  '</style>';

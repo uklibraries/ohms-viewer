@@ -39,7 +39,7 @@ jQuery(function($) {
 
   $('#kw').focus();
 
-	// Bugfix...refresh flowplayer links after HTML replacement. Move flowplayer link hookups into function so it can be called elsewhere in the program. - SD @ Artifex 2013-01-13
+	// Bugfix...refresh brightcove links after HTML replacement. Move brightcove link hookups into function so it can be called elsewhere in the program. - SD @ Artifex 2013-01-13
 	function brightcovePlayerControl() {
 		//Brightcove control
 		$('a.jumpLink').on('click', function(e) {
@@ -107,7 +107,7 @@ jQuery(function($) {
 	      var lineText = line.html();
           var re = new RegExp('(' + preg_quote(data.keyword) + ')', 'gi');
           line.html(lineText.replace(re, "<span class=\"highlight\">$1</span>"));
-		  // Bugfix...refresh flowplayer links after HTML replacement. - SD @ Artifex 2013-01-13
+		  // Bugfix...refresh brightcove links after HTML replacement. - SD @ Artifex 2013-01-13
 		  brightcovePlayerControl();
 	    });
 	    $('<ol/>').addClass('nline').html(matches.join('')).appendTo('#search-results');

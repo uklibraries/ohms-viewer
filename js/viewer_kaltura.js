@@ -39,27 +39,7 @@ jQuery(function($) {
 
   $('#kw').focus();
 
-  if($('#subjectPlayer')[0]) {
-    //Flowplayer (audio-only)
-    flowplayer("subjectPlayer", {
-	src: 'swf/flowplayer-3.2.11.swf',
-	wmode: 'opaque'
-    },  {
-      wmode: 'transparent',
-      plugins: {
-	controls: {
-	  fullscreen: false,
-	  height: 30,
-	  autoHide: false
-	}
-      },
-      clip: {
-	autoPlay: true, 
-	autoBuffering: true
-      }
-    }).ipad();
-}
-	// Bugfix...refresh flowplayer links after HTML replacement. Move flowplayer link hookups into function so it can be called elsewhere in the program. - SD @ Artifex 2013-01-13
+	// Bugfix...refresh kaltura links after HTML replacement. Move kaltura link hookups into function so it can be called elsewhere in the program. - SD @ Artifex 2013-01-13
 	function kalturaControl() {
                //Kaltura control (use Kaltura player ID value in code below)
 
@@ -132,7 +112,7 @@ jQuery(function($) {
 	      var lineText = line.html();
           var re = new RegExp('(' + preg_quote(data.keyword) + ')', 'gi');
           line.html(lineText.replace(re, "<span class=\"highlight\">$1</span>"));
-		  // Bugfix...refresh flowplayer links after HTML replacement. - SD @ Artifex 2013-01-13
+		  // Bugfix...refresh kaltura links after HTML replacement. - SD @ Artifex 2013-01-13
 		  kalturaControl();
 	    });
 	    $('<ol/>').addClass('nline').html(matches.join('')).appendTo('#search-results');

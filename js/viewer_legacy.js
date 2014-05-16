@@ -42,53 +42,39 @@ jQuery(function($) {
   $('#kw').focus();
 
   if($('#subjectPlayer')[0]) {
-    //Flowplayer (audio-only)
-    flowplayer("subjectPlayer", {
-	src: 'swf/flowplayer-3.2.11.swf',
-	wmode: 'opaque'
-    },  {
-      wmode: 'transparent',
-      plugins: {
-	controls: {
-	  fullscreen: false,
-	  height: 30,
-	  autoHide: false
-	}
+		jQuery.jPlayer.timeFormat.showHour = true;
+		jQuery("#subjectPlayer").jPlayer({
+			ready: function () {
+				playerData = {};
+				playerData['title'] = "Player";
+				playerData[jQuery('#subjectPlayer').attr('rel')] = jQuery('#subjectPlayer').attr('href');
+				jQuery(this).jPlayer("setMedia", playerData).jPlayer("play");
+			},
+			loadstart: function () {
+				jQuery('#jp-loading-graphic').show();
+			},
+			playing: function() {
+				jQuery('#jp-loading-graphic').hide();
       },
-      clip: {
-	autoPlay: true, 
-	autoBuffering: true
+			swfPath: "/js",
+			supplied: jQuery('#subjectPlayer').attr('rel')
+		});
       }
-    }).ipad();
-}
-	// Bugfix...refresh flowplayer links after HTML replacement. Move flowplayer link hookups into function so it can be called elsewhere in the program. - SD @ Artifex 2013-01-13
-	function flowPlayerControl() {
-		if($('#subjectPlayer')[0]) {
-			//Flowplayer control
+
+	// Bugfix...refresh player links after HTML replacement. Move player link hookups into function so it can be called elsewhere in the program. - SD @ Artifex 2013-01-13
+	function playerControl() {
+		//Player control
 			$('a.jumpLink').on('click', function(e) {
 			  e.preventDefault();
-			  flowplayer().seek($(e.target).data('timestamp') * 60)
+			jQuery('#subjectPlayer').jPlayer("play", $(e.target).data('timestamp') * 60);
 			});
 			$('a.indexJumpLink').on('click', function(e) {
 			  e.preventDefault();
-			  flowplayer().seek($(e.target).data('timestamp'));
-			});
-		  } else {
-			//Brightcove control
-			$('a.jumpLink').on('click', function(e) {
-			  e.preventDefault();
-			  var target = $(e.target);
-			  goToAudioChunk(target.data('timestamp'), target.data('chunksize'));
-			});
-			$('a.indexJumpLink').on('click', function(e) {
-			  e.preventDefault();
-			  var target = $(e.target);
-			  goToSecond(target.data('timestamp'));
+			jQuery('#subjectPlayer').jPlayer("play", $(e.target).data('timestamp'));
 			});
 		  }
-	}
 	
-	flowPlayerControl();
+	playerControl();
 
   var prevSearch = { keyword:'', highLines:[] };
 
@@ -143,8 +129,8 @@ jQuery(function($) {
 	      var lineText = line.html();
           var re = new RegExp('(' + preg_quote(data.keyword) + ')', 'gi');
           line.html(lineText.replace(re, "<span class=\"highlight\">$1</span>"));
-		  // Bugfix...refresh flowplayer links after HTML replacement. - SD @ Artifex 2013-01-13
-		  flowPlayerControl();
+		  // Bugfix...refresh player links after HTML replacement. - SD @ Artifex 2013-01-13
+		  playerControl();
 	    });
 	    $('<ol/>').addClass('nline').html(matches.join('')).appendTo('#search-results');
 	    $('a.search-result').on('click', function(e) {

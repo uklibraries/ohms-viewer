@@ -1,5 +1,18 @@
 <?php
 
+$mediaFormat = 	substr($cacheFile->file_name, -3, 3);
+if(isset($config['fileserver'])) {
+	$linkToMedia = $cacheFile->file_name;
+    if($linkToMedia === ".mp3") {
+    	$linkToMedia = $cacheFile->media_url;
+    }
+	$linkToMedia = '//' . $config['fileserver'] . $linkToMedia;
+}
+else
+{  
+	$linkToMedia = $cacheFile->media_url;
+}
+
 if($cacheFile->hasVideo == 1): 
 
 		$player_id = '81922792001';
@@ -21,23 +34,43 @@ if($cacheFile->hasVideo == 1):
 		 </object>
 
 		  <div class="video-spacer"></div>
+
 BRIGHTCOVE;
 
 else: ?>
 <div class="centered">
-	<?php
-		echo '<a href="';
-		if (isset($config['fileserver'])) {
-                        $path = $cacheFile->file_name;
-                        if ($path === ".mp3") {
-                          $path = $cacheFile->media_url;
-                        }
-			echo '//'.$config['fileserver'].$path;
-		} else {  
-			echo $cacheFile->media_url;
-		}
-		echo '" id="subjectPlayer"></a>';
-	?>
+	<a href="http://<?=$linkToMedia?>" rel="<?=$mediaFormat?>" id="subjectPlayer" class="jp-jplayer"></a>
+	<div id="jp_container_1" class="jp-audio" style="margin: auto;">
+		<div class="jp-type-single">
+			<div class="jp-gui jp-interface">
+				<ul class="jp-controls">
+					<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+					<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+					<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+					<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+					<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+					<li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+				</ul>
+				<div class="jp-progress">
+					<div class="jp-seek-bar">
+						<div class="jp-play-bar"></div>
+					</div>
+				</div>
+				<div class="jp-volume-bar">
+					<div class="jp-volume-bar-value"></div>
+				</div>
+				<div class="jp-time-holder">
+					<div class="jp-current-time"></div>
+					<div class="jp-duration"></div>
+				</div>
+				<div id="jp-loading-graphic"></div>
+			</div>
+			<div class="jp-no-solution">
+				<span>Update Required</span>
+				To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+			</div>
+		</div>
+	</div>
 </div>
 <?php endif; ?>
 <style>
