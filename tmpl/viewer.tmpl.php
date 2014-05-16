@@ -3,6 +3,9 @@
 	$filepath =$cacheFile->media_url;
 	$rights = (string)$cacheFile->rights;
 	$usage = (string)$cacheFile->usage;
+	$contactemail = $config[$cacheFile->repository]['contactemail'];
+	$contactlink = $config[$cacheFile->repository]['contactlink'];
+	$copyrightholder = $config[$cacheFile->repository]['copyrightholder'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,7 +33,7 @@
 <?php else: ?>
     <div id="headervid">
 <?php endif; ?>
-		<img src="imgs/logo-footer.png" alt="University of Kentucky logo" style="float: left;" />
+		<img src="<?php echo $config[$cacheFile->repository]['footerimg'];?>" alt="<?php echo $config[$cacheFile->repository]['footerimgalt'];?>" style="float: left;" />
       <div class="center" style="width:860px;">
 	<h1><?php echo $cacheFile->title; ?></h1>
 	<h2 id="secondaryMetaData">
@@ -70,10 +73,10 @@
 			<?php else: ?>
 				<p><span><h3>View Usage Statement</h3></span></p>
 			<?php endif; ?>
-			<p><span><h3>Contact Us: <a href="mailto:nunncenter@lsv.uky.edu">nunncenter@lsv.uky.edu</a> | <a href="http://www.nunncenter.org">http://www.nunncenter.org</a></h3></span></p>
+			<p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail;?>"><?php echo $contactemail; ?></a> | <a href="<?php echo $contactlink; ?>"><?php echo $contactlink; ?></a></h3></span></p>
 		</div>
 		<div style="float: right; text-align: right; width: 50%;">
-			<small id="copyright"><span>&copy; 2012 Louie B. Nunn Center for Oral History</span><span>University of Kentucky Libraries</small>
+			<small id="copyright"><span>&copy; <?php echo Date("Y"); ?></span><?php echo $copyrightholder; ?></small>
 		</div>
 		<div style="float: right; color:white; margin-top: 10px; text-align:right;">
 			<img alt="Powered by OHMS logo" src="imgs/ohms_logo.png" border="0"/>
