@@ -27,8 +27,8 @@
 		    #searchbox-panel { height:550px; }
 		    #search-results { height:177px; }
 		    #audio-panel { height: 270px; margin-left: 220px; }
-		    #header {height: 415px; }
-			#headervid {height: 380px; }
+		    #header {height: auto; padding-bottom: 1px; }
+			#headervid {height: auto; padding-bottom: 1px; }
 		    #main {height: 550px; }
 		  </style>
 BRIGHTCOVE;

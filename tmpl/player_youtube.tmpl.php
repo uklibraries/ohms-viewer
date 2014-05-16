@@ -15,9 +15,10 @@
 		    #search-results { height:177px; }
 		    #audio-panel { height: 270px; }
 		    #header {height: 415px; }
-			#headervid {height: 380px; }
+			#headervid {height: auto; padding-bottom: 1px; }
 		    #main {height: 550px; }
 			#youtubePlayer {margin-left: 50px;}
+			.video-spacer {height: 0px; }
 		  </style>
 			<script type="text/javascript">
 				var tag = document.createElement('script');

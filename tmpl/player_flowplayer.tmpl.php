@@ -1,13 +1,14 @@
 <?php
 
 echo "<style>
-              #transcript-panel { height:350px; }
-              #index-panel { height:350px; }
-              #searchbox-panel { height:350px; }
+              #transcript-panel { height:550px; }
+              #index-panel { height:550px; }
+              #searchbox-panel { height:550px; }
               #search-results { height:177px; }
-              #audio-panel { height: 270px; width:670px; }
-              #header {height: 415px; }
-              #main {height: 350px; }
+              #audio-panel { height: auto;  padding-top: 0px; padding-bottom: 20px; margin-bottom: 0px; }
+              #header {height: auto; padding-bottom: 0px; }
+              #main {height: 550px; }
+			  div.centered { margin-left: 35px; }
             </style>";
 
 $filepath = $cacheFile->media_url;

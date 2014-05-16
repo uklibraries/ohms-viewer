@@ -34,7 +34,7 @@
     <div id="headervid">
 <?php endif; ?>
 		<img src="<?php echo $config[$cacheFile->repository]['footerimg'];?>" alt="<?php echo $config[$cacheFile->repository]['footerimgalt'];?>" style="float: left;" />
-      <div class="center" style="height:180px; width:860px;">
+      <div class="center" style="width:860px;">
 	<h1><?php echo $cacheFile->title; ?></h1>
 	<h2 id="secondaryMetaData">
 		<div style="margin-left: 80px;">
@@ -58,7 +58,7 @@
 	    <?php echo $cacheFile->index; ?>
 	  </div>
 	</div>
-	<div id="searchbox-panel" class="<?=($cacheFile->clipsource == 'YouTube') ? 'youtube' : ''?>"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
+	<div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
       </div>
     </div>
     <div id="footer">

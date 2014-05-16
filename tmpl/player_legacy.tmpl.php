@@ -21,29 +21,9 @@ if($cacheFile->hasVideo == 1):
 		 </object>
 
 		  <div class="video-spacer"></div>
-
-		  <style>
-		    #transcript-panel { height:350px; }
-		    #index-panel { height:350px; }
-		    #searchbox-panel { height:350px; }
-		    #search-results { height:177px; }
-		    #audio-panel { height: 270px; width:670px; }
-		    #header {height: 415px; }
-		   #main {height: 350px; }
-		  </style>
 BRIGHTCOVE;
 
 else: ?>
-<style>
-    #transcript-panel { height:550px; }
-    #index-panel { height:550px; }
-    #searchbox-panel { height:550px; }
-    #search-results { height:177px; }
-    #audio-panel { height: 270px; }
-    #header {height: auto; }
-    #main {height: 550px; }
-	div.centered { margin-left: 35px; }
-</style>
 <div class="centered">
 	<?php
 		echo '<a href="';
@@ -60,3 +40,14 @@ else: ?>
 	?>
 </div>
 <?php endif; ?>
+<style>
+	#transcript-panel { height:550px; }
+	#index-panel { height:550px; }
+	#searchbox-panel { height:550px; }
+	#search-results { height:177px; }
+	#audio-panel { height: auto;  padding-top: 0px; padding-bottom: 20px; margin-bottom: 0px; }
+	#header {height: auto; padding-bottom: 0px; }
+	#headervid {height: auto; padding-bottom: 0px; }
+	#main {height: 550px; }
+	div.centered { margin-left: 35px; } 
+</style>
