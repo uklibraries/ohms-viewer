@@ -30,7 +30,7 @@
   </head>
   <body>
 	<script type="text/javascript">
-		var jumpToTime = 0;
+		var jumpToTime = null;
 		if(location.href.search('#segment') > -1)
 		{
 			var jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));
@@ -133,50 +133,52 @@
 		   jQuery('.segmentLinkTextBox').on('click', function() {
 				jQuery(this).select();
 			});
-						
-			jQuery('div.point').each(function(index) {
-				if(parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime)
-				{
-					jumpLink = jQuery(this).find('a.indexJumpLink');
-					jQuery('#accordionHolder').accordion({active: index});
-					var interval = setInterval(function() {
-						<?php
-							switch($cacheFile->playername):
-								case 'youtube':
-						?>
-							if(player !== undefined && player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime)
-						<?php
-									break;
-								case 'brightcove':
-						?>
-							if(modVP !== undefined && modVP.getVideoPosition !== undefined && Math.floor(modVP.getVideoPosition(false)) == jumpToTime)
-						<?php
-									break;
-								case 'kaltura':
-						?>
-							// Kaltura not implemented yet. Replace this with the right "if" statement at the appropriate time.
-							if(true)
-						<?php
-									break;
-								default:
-						?>
-							if(Math.floor(jQuery('#subjectPlayer').data('jPlayer').status.currentTime) == jumpToTime)
-						<?php
-									break;
-							endswitch;
-						?>
-							{
-								clearInterval(interval);
-							}
-							else
-							{
-								jumpLink.click();
-							}
-					}, 500);
-					jQuery(this).find('a.indexJumpLink').click();
-				}
-			});
-
+			
+			if(jumpToTime !== null)
+			{
+				jQuery('div.point').each(function(index) {
+					if(parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime)
+					{
+						jumpLink = jQuery(this).find('a.indexJumpLink');
+						jQuery('#accordionHolder').accordion({active: index});
+						var interval = setInterval(function() {
+							<?php
+								switch($cacheFile->playername):
+									case 'youtube':
+							?>
+								if(player !== undefined && player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime)
+							<?php
+										break;
+									case 'brightcove':
+							?>
+								if(modVP !== undefined && modVP.getVideoPosition !== undefined && Math.floor(modVP.getVideoPosition(false)) == jumpToTime)
+							<?php
+										break;
+									case 'kaltura':
+							?>
+								// Kaltura not implemented yet. Replace this with the right "if" statement at the appropriate time.
+								if(true)
+							<?php
+										break;
+									default:
+							?>
+								if(Math.floor(jQuery('#subjectPlayer').data('jPlayer').status.currentTime) == jumpToTime)
+							<?php
+										break;
+								endswitch;
+							?>
+								{
+									clearInterval(interval);
+								}
+								else
+								{
+									jumpLink.click();
+								}
+						}, 500);
+						jQuery(this).find('a.indexJumpLink').click();
+					}
+				});
+			}
 						$(".fancybox").fancybox();
 		  $(".various").fancybox({
 		       maxWidth  : 800,
