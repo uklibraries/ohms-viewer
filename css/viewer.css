@@ -481,3 +481,21 @@ div.point {
 #usageStatement {
 	display: none;
 }
+
+.indexJumpLink {
+	float: left;
+}
+
+.indexSegmentLink {
+	float: right;
+}
+
+.segmentLink {
+	border: #000000 1px solid;
+	padding: 5px;
+	display: none;
+}
+
+.segmentLink input {
+	width: 99%;
+}

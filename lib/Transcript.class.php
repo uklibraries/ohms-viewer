@@ -52,7 +52,8 @@ class Transcript {
 
 	$indexHTML .= '<h3><a href="#" id="link' . $point->time . '">' . $timePoint . ' - ' . trim($point->title, ';') . "</a></h3>\n";
 	$indexHTML .= '<div class="point">' . "\n";
-	$indexHTML .= '<p><a class="indexJumpLink" href="#" data-timestamp="' . $point->time  . '">Play segment</a></p>';
+	$indexHTML .= '<p><a class="indexJumpLink" href="#" data-timestamp="' . $point->time  . '">Play segment</a><a class="indexSegmentLink" href="#" data-timestamp="' . $point->time . '">Segment link</a><br clear="both" /></p>';
+	$indexHTML .= '<p class="segmentLink" id="segmentLink' . $point->time . '"><strong>Direct segment link:</strong><br /><input type="text" readonly="readonly" class="segmentLinkTextBox" value="' . ($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '#segment' . $point->time . '" /></p>';
     	$indexHTML .= '<div class="synopsis">';
     	$indexHTML .= '<a name="tp_' . $point->time . '"></a>';
     	$indexHTML .= '<p><strong>Partial Transcript:</strong><span>' . $partial_transcript . '</span></p><p><strong>Segment Synopsis:</strong><span> ' . $synopsis . '</span></p><p><strong>Keywords:</strong><span> ' . str_replace(';', '; ', $keywords) . '</span></p><p><strong>Subjects:</strong><span> ' . str_replace(';', ' ', $subjects) . '</span></p>'; 

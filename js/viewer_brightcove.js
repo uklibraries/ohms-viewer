@@ -231,13 +231,22 @@ function onContentLoad(evt) {
 }
 
 function onVideoLoad(evt) {
-  modVP.loadVideo(evt.video.id);
+	if(modVP !== undefined)
+	{
+		modVP.loadVideo(evt.video.id);
+	}
 }
 
 function goToAudioChunk(key,chunksize) {
-  modVP.seek(key * chunksize * 60);
+	if(modVP !== undefined)
+	{
+		modVP.seek(key * chunksize * 60);
+	}
 }
 
 function goToSecond(key) {
-  modVP.seek(key);
+	if(modVP !== undefined)
+	{
+		modVP.seek(key);
+	}
 }

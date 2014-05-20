@@ -6,6 +6,8 @@
 	$contactemail = $config[$cacheFile->repository]['contactemail'];
 	$contactlink = $config[$cacheFile->repository]['contactlink'];
 	$copyrightholder = $config[$cacheFile->repository]['copyrightholder'];
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +15,6 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <title><?php echo $cacheFile->title; ?></title>
     <link rel="stylesheet" href="css/viewer.css" type="text/css" />
-
     <link rel="stylesheet" href="css/<?php echo $config[$cacheFile->repository]['css'];?>" type="text/css" />
     <link rel="stylesheet" href="css/jquery-ui.toggleSwitch.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery-ui-1.8.16.custom.css" type="text/css" />
@@ -28,6 +29,17 @@
 <?php } ?>
   </head>
   <body>
+	<script type="text/javascript">
+		var jumpToTime = 0;
+		if(location.href.search('#segment') > -1)
+		{
+			var jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));
+			if(isNaN(jumpToTime))
+			{
+				jumpToTime = 0;
+			}
+		}
+	</script>
 <?php if(in_array(substr(strtolower($filepath), -4, 4), $audioFormats)): ?>
     <div id="header">
 <?php else: ?>
@@ -102,7 +114,70 @@
 	<script type="text/javascript" src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
 	<script type="text/javascript">
 	     $(document).ready(function() {
-		  $(".fancybox").fancybox();
+		   jQuery('a.indexSegmentLink').on('click', function(e) {
+				var linkContainer = '#segmentLink' + jQuery(e.target).data('timestamp');
+
+				e.preventDefault();
+				if(jQuery(linkContainer).css("display") == "none")
+				{
+					jQuery(linkContainer).fadeIn(1000);
+				}
+				else
+				{
+					jQuery(linkContainer).fadeOut();
+				}
+				
+				return false;
+		   });
+		   
+		   jQuery('.segmentLinkTextBox').on('click', function() {
+				jQuery(this).select();
+			});
+						
+			jQuery('div.point').each(function(index) {
+				if(parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime)
+				{
+					jumpLink = jQuery(this).find('a.indexJumpLink');
+					jQuery('#accordionHolder').accordion({active: index});
+					var interval = setInterval(function() {
+						<?php
+							switch($cacheFile->playername):
+								case 'youtube':
+						?>
+							if(player !== undefined && player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime)
+						<?php
+									break;
+								case 'brightcove':
+						?>
+							if(modVP !== undefined && modVP.getVideoPosition !== undefined && Math.floor(modVP.getVideoPosition(false)) == jumpToTime)
+						<?php
+									break;
+								case 'kaltura':
+						?>
+							// Kaltura not implemented yet. Replace this with the right "if" statement at the appropriate time.
+							if(true)
+						<?php
+									break;
+								default:
+						?>
+							if(Math.floor(jQuery('#subjectPlayer').data('jPlayer').status.currentTime) == jumpToTime)
+						<?php
+									break;
+							endswitch;
+						?>
+							{
+								clearInterval(interval);
+							}
+							else
+							{
+								jumpLink.click();
+							}
+					}, 500);
+					jQuery(this).find('a.indexJumpLink').click();
+				}
+			});
+
+						$(".fancybox").fancybox();
 		  $(".various").fancybox({
 		       maxWidth  : 800,
 		       maxHeight : 600,

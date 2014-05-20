@@ -46,14 +46,21 @@ jQuery(function($) {
                $('a.jumpLink').on('click', function(e) {
                  e.preventDefault();
                  var target = $(e.target);
-                 player.playVideo();
-                 player.seekTo(target.data('timestamp') * 60);
+				 if(player !== undefined && player.playVideo !== undefined)
+				 {
+					 player.playVideo();
+					 player.seekTo(target.data('timestamp') * 60);
+				 }
                });
                $('a.indexJumpLink').on('click', function(e) {
                  e.preventDefault();
                  var target = $(e.target);
-                 player.playVideo();
-                 player.seekTo(target.data('timestamp'));
+				 
+				 if(player !== undefined && player.playVideo !== undefined)
+				 {
+					 player.playVideo();
+					 player.seekTo(target.data('timestamp'));
+				  }
                });
      }
 	
