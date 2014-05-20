@@ -68,7 +68,9 @@ class Version3CacheFile {
     // Video or audio-only
     $fmt_info = explode(":", $this->data['fmt']);
     if($fmt_info[0] == 'video') {
-      $this->data['videoID'] = $fmt_info[1];
+      if (count($fmt_info) > 1) {
+        $this->data['videoID'] = $fmt_info[1];
+      }
       $this->data['hasVideo'] = 1;
     } else {
       $this->data['hasVideo'] = (strstr(strtolower($this->data['file_name']), '.mp4')) ? 2 : 0;
