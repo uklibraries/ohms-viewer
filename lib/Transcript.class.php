@@ -127,43 +127,43 @@ class Transcript {
 		}
 	}
 
-	private function formatShortline($line, $kw) {
-		$shortline = preg_replace("/.*?\s*(\S*\s*)($kw.*)/i","$1$2",$line);
-		$shortline = preg_replace("/($kw.{30,}?).*/i","$1",$shortline);
-		$shortline = preg_replace("/($kw.*\S)\s+\S*$/i","$1",$shortline);
-		$shortline = preg_replace("/($kw)/mis","<span class='highlight'>$1</span>",$shortline);
+	private function formatShortline($line, $keyword) {
+		$shortline = preg_replace("/.*?\s*(\S*\s*)($keyword.*)/i","$1$2",$line);
+		$shortline = preg_replace("/($keyword.{30,}?).*/i","$1",$shortline);
+		$shortline = preg_replace("/($keyword.*\S)\s+\S*$/i","$1",$shortline);
+		$shortline = preg_replace("/($keyword)/mis","<span class='highlight'>$1</span>",$shortline);
 		$shortline = preg_replace('/\"/', "&quot;", $shortline);
 
 		return $shortline;
 	}
 
-	private function quoteWords($kw) {
-		$q_kw = preg_replace('/\'/', '\\\'', $kw);
+	private function quoteWords($string) {
+		$q_kw = preg_replace('/\'/', '\\\'', $string);
 		$q_kw = preg_replace('/\"/', "&quot;", $q_kw);
 		return $q_kw;
 	}
 
-	private function quoteChange($kw) {
-		$q_kw = preg_replace('/\'/', "&#39;", $kw);
-		$q_kw = preg_replace('/\"/', "&quot;", $kw);
+	private function quoteChange($string) {
+		$q_kw = preg_replace('/\'/', "&#39;", $string);
+		$q_kw = preg_replace('/\"/', "&quot;", $string);
 		$q_kw = trim($q_kw);
 		return $q_kw;
 	}
 
-	public function keywordSearch($kw) {
+	public function keywordSearch($keyword) {
 		# quote kw for later
-		$q_kw = $this->quoteWords($kw);
+		$q_kw = $this->quoteWords($keyword);
 		$json = "{ \"keyword\":\"$q_kw\", \"matches\":[";
 
 		//Actual search
 		$lines = explode("\n", $this->transcript);
 		$totalLines = sizeof($lines);
 		foreach ($lines as $lineNum => $line) {
-			if (preg_match("/$kw/i", $line, $matches)) {
+			if (preg_match("/$keyword/i", $line, $matches)) {
 				if ($lineNum < $totalLines-1) {
 					$line .= ' ' . $lines[$lineNum + 1];
 				}
-				$shortline = $this->formatShortline($line, $kw);
+				$shortline = $this->formatShortline($line, $keyword);
 				if (strstr($json, 'shortline')) {
 					$json .= ',';
 				}
@@ -174,9 +174,9 @@ class Transcript {
 		return str_replace("\0", "", $json) . ']}';
 	}
 
-	public function indexSearch($kw) {
-		if (!empty($kw)){
-			$q_kw = $this->quoteWords($kw);
+	public function indexSearch($keyword) {
+		if (!empty($keyword)){
+			$q_kw = $this->quoteWords($keyword);
 			$json = "{ \"keyword\":\"$q_kw\", \"matches\":[";
 
 			foreach ($this->index->point as $point) {
@@ -187,10 +187,10 @@ class Transcript {
 				$title = $point->title;
 				$timePoint = floor($time / 60) . ':' . str_pad($time % 60, 2, '0', STR_PAD_LEFT);
 
-				if (preg_match("/{$kw}/imsU", $synopsis) > 0
-				|| preg_match("/{$kw}/ismU", $title) > 0
-				|| preg_match("/{$kw}/ismU", $keywords) > 0
-				|| preg_match("/{$kw}/ismU", $subjects) > 0) {
+				if (preg_match("/{$keyword}/imsU", $synopsis) > 0
+				|| preg_match("/{$keyword}/ismU", $title) > 0
+				|| preg_match("/{$keyword}/ismU", $keywords) > 0
+				|| preg_match("/{$keyword}/ismU", $subjects) > 0) {
 					if (strstr($json, 'time')) {
 						$json .= ', ';
 					}
