@@ -35,11 +35,11 @@ class CacheFile {
 		$cacheversion = (string)$filecheck->record->version;
 		if ($cacheversion=='') {
 			require_once 'LegacyCacheFile.class.php';
-			return LegacyCacheFile::getInstanceLegacy($cachefile,$tmpDir,$viewerconfig);
+			return LegacyCacheFile::getInstanceLegacy($cachefile, $tmpDir, $viewerconfig);
 		}
 		else {
 			require_once 'Version3CacheFile.class.php';
-			return Version3CacheFile::getInstanceVersion3($cachefile,$tmpDir,$viewerconfig);
+			return Version3CacheFile::getInstanceVersion3($cachefile, $tmpDir, $viewerconfig);
 		}
 	}
 }
