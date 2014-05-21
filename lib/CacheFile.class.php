@@ -8,7 +8,7 @@
  */
 
 class CacheFile {
-	public static function getInstance($cachefile = NULL,$configtmpDir,$config) {
+	public static function getInstance($cachefile = NULL, $configtmpDir, $config) {
 		$viewerconfig = $config;
 		$tmpDir = $configtmpDir;
 		if ($cachefile) {
