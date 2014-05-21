@@ -8,9 +8,6 @@
  */
 
 class CacheFile {
-	private $cacheFile;
-	private static $Instance = NULL;
-
 	public static function getInstance($cachefile = NULL,$configtmpDir,$config) {
 		$viewerconfig = $config;
 		$tmpDir = $configtmpDir;
