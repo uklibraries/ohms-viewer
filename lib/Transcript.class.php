@@ -68,7 +68,7 @@ class Transcript {
 					$indexHTML .= '</a><br/><strong>Map Coordinates:</strong> ' . $gps .'<br/>';
 				}
 				if ($hyperlink <> '') {
-					$indexHTML .= '<br/><strong>Hyperlink:</strong> <a class="fancybox" rel="group" href="' . $hyperlink . '">' . $hyperlink_text . '</a><br/>';
+					$indexHTML .= '<br/><strong>Hyperlink:</strong> <a class="fancybox" rel="group" target="_new" href="' . $hyperlink . '">' . $hyperlink_text . '</a><br/>';
 				}
 				$indexHTML .= '</div>';
 				$indexHTML .= "\n</div>\n";
