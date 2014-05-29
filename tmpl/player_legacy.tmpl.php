@@ -39,7 +39,7 @@ BRIGHTCOVE;
 
 else: ?>
 <div class="centered">
-	<a href="http://<?=$linkToMedia?>" rel="<?=$mediaFormat?>" id="subjectPlayer" class="jp-jplayer"></a>
+	<a href="<?php echo $linkToMedia?>" rel="<?php echo $mediaFormat?>" id="subjectPlayer" class="jp-jplayer"></a>
 	<div id="jp_container_1" class="jp-audio" style="margin: auto;">
 		<div class="jp-type-single">
 			<div class="jp-gui jp-interface">

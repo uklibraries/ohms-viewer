@@ -23,7 +23,7 @@ $mediaFormat = 	substr($linkToMedia, -3, 3);
 </style>
 <div class="centered">
 	<?php if($cacheFile->clip_format=='audio' || $cacheFile->clip_format=='audiotrans'): ?>
-		<a href="<?=$linkToMedia?>" rel="<?=$mediaFormat?>" id="subjectPlayer" class="jp-jplayer"></a>
+		<a href="<?php echo $linkToMedia?>" rel="<?php echo $mediaFormat?>" id="subjectPlayer" class="jp-jplayer"></a>
 		<div id="jp_container_1" class="jp-audio" style="margin: auto;">
 			<div class="jp-type-single">
 				<div class="jp-gui jp-interface">
