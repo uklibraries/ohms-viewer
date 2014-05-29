@@ -45,7 +45,9 @@
 <?php else: ?>
     <div id="headervid">
 <?php endif; ?>
+		<?php if(isset($config[$cacheFile->repository])): ?>
 		<img src="<?php echo $config[$cacheFile->repository]['footerimg'];?>" alt="<?php echo $config[$cacheFile->repository]['footerimgalt'];?>" style="float: left;" />
+		<?php endif; ?>
       <div class="center" style="width:860px;">
 	<h1><?php echo $cacheFile->title; ?></h1>
 	<h2 id="secondaryMetaData">
@@ -233,8 +235,10 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  <?php if(isset($config[$cacheFile->repository]['ga_tracking_id'])): ?>
   ga('create', '<?php echo $config[$cacheFile->repository]['ga_tracking_id']; ?>', '<?php echo $config[$cacheFile->repository]['ga_host']; ?>');
   ga('send', 'pageview');
+  <?php endif; ?>
 
 </script>
     </body>
