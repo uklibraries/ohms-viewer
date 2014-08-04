@@ -56,7 +56,7 @@ jQuery(function($) {
 			playing: function() {
 				jQuery('#jp-loading-graphic').hide();
       },
-			swfPath: "/js",
+			swfPath: "swf",
 			supplied: jQuery('#subjectPlayer').attr('rel')
 		});
       }
