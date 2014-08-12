@@ -1,5 +1,5 @@
 <?php
-	date_default_timezone_set('America/New_York');
+	date_default_timezone_set($config['timezone']);
 	$audioFormats = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
 	$filepath =$cacheFile->media_url;
 	$rights = (string)$cacheFile->rights;
