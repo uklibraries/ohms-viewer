@@ -75,53 +75,74 @@ The next steps will require using a text editing program to create your configur
                tmpDir = http://example.com/cachefiles/
 
    In any case, you must ensure that the location you specify exists and is readable by the OHMS Viewer.
+   
+3) Set the players the OHMS Viewer can utilize for audio/video playback.  At the moment, these include other,brightcove,youtube.  So, a likely entry for this parameter can be the following.
+
+       players = other,brightcove,youtube
+
+4) Set the timezone.  For example, Eastern time is:
+
+       timezone = America/New_York   
  
-3) Set the repository name. Replace the existing entry that states "Your Repository Name" with your repository name as entered in the "repository" data field of your cache files. The names must match exactly (the same uppercase or lowercase letters and any punctation). For example, if your repository's name is "John J. Doe Center, University of Us" then that is what must be entered (without the double quotes).
+5) Set the repository name. Replace the existing entry that states "Your Repository Name" with your repository name as entered in the "repository" data field of your cache files. The names must match exactly (the same uppercase or lowercase letters and any punctation). For example, if your repository's name is "John J. Doe Center, University of Us" then that is what must be entered (without the double quotes).  Note that the OHMS Viewer is capable of handling multiple configurations within one installation and that these configurations are grouped and controlled based on the repository name.  A cache XML file interpreted by the OHMS Viewer code will match configuration settings to a specific interview based on an exact matching of the repository name listed in the config.ini and the repository field in the cache XML file.
  
-4) The CSS file name (the "css" config property). The default setting is to the "custom_default.css" file located in the "css" subdirectory of the Viewer. We suggest you keep this file name. Edit the custom_default.css values to the background colors you wish to use. This is further discussed in the next installation section.
+6) The CSS file name (the "css" config property). The default setting is to the "custom_default.css" file located in the "css" subdirectory of the Viewer. We suggest you keep this file name. Edit the custom_default.css values to the background colors you wish to use. This is further discussed in the next installation section.
  
-5) Set the location for the footer image (such as a logo) that appears in the footer area of the viewer (the "footerimg" config property). The image must reside in the root directory of your web site.
+7) Set the location for the footer image (such as a logo) that appears in the footer area of the viewer (the "footerimg" config property). The image must reside in the root directory of your web site.
    An example is that if the image file is "footerimage.jpg" in the "images" subdirectory of your site, you would enter: images/footerimage.jpg .
 
-6) Set the alternate text for the footer image that will appear when a computer pointing device (such as a mouse) hovers over the image or that is read by a screen reader. This is entered for the "footerimgalt" config property.
+8) Set the alternate text for the footer image that will appear when a computer pointing device (such as a mouse) hovers over the image or that is read by a screen reader. This is entered for the "footerimgalt" config property.
  
-7) Set the contact email address for the "contactemail" config property.
+9) Set the contact email address for the "contactemail" config property.
  
-8) Set the link to the web site for the repository owner for the "contactlink" config property. This may be the same as the URL for your site hosting the Viewer.
+10) Set the link to the web site for the repository owner for the "contactlink" config property. This may be the same as the URL for your site hosting the Viewer.
  
-9) Set the text for the copyright holder information for the "copyrightholder" config property. If this text will list an entry such as a department or division of an organization (for example "History Department, University of State"), then each entity should be inside the HTML `<span></span>` tags such as:
+11) Set the text for the copyright holder information for the "copyrightholder" config property. If this text will list an entry such as a department or division of an organization (for example "History Department, University of State"), then each entity should be inside the HTML `<span></span>` tags such as:
 
 	 <span>History Department</span><span>University of State</span>
  
-10) Set the Open Graph "description" value for the "open_graph_description" config property. The Open Graph protocol provides a way for links placed in social media sites to display thumbnail images, descriptions and titles. The "description" is what will always appear as the description (such as "Our Repository") for every link to interviews hosted by your OHMS Viewer.
+12) Set the Open Graph "description" value for the "open_graph_description" config property. The Open Graph protocol provides a way for links placed in social media sites to display thumbnail images, descriptions and titles. The "description" is what will always appear as the description (such as "Our Repository") for every link to interviews hosted by your OHMS Viewer.
 
-11) Set the Open Graph image to use for links placed in social media sites ("open_graph_image" config property). This will be the image seen with links placed in social media site postings (it does not appear on the Viewer page). The image must reside in the root directory of your web site. An example is that if the image is "ourimage.jpg" in the "images" subdirectory of your site, you would enter: images/ourimage.jpg .
+13) Set the Open Graph image to use for links placed in social media sites ("open_graph_image" config property). This will be the image seen with links placed in social media site postings (it does not appear on the Viewer page). The image must reside in the root directory of your web site. An example is that if the image is "ourimage.jpg" in the "images" subdirectory of your site, you would enter: images/ourimage.jpg .
   
 Please note that the "title" that appears for links in social media sites using Open Graph is set by the "title" data field in the linked interview cache file.
  
 III. Configuring the style values in the CSS file
 --------------------------------------------
  
- The file css/custom_default.css contains a base set of style elements for the Viewer you can configure (The file css/viewer.css contains the overall CSS values if you wish to further change settings).  You can edit the  "background" attribute for body, #header, #footer, #audio-panel, or   #subjectPlayer to set the background color.  For example, if you want the footer to have a light red background, you can edit #footer to include the line
+The file css/custom_default.css contains a base set of style elements for the Viewer you can configure.  These are:
 
-    background: #ff0000;
+body {
+  background: url("../imgs/bg-1.png") repeat-x top #ffffff;
+}
+
+#header, #headervid, #footer, #audio-panel, #subjectPlayer {
+     background: #3c3c3c;
+}
+
+These settings allow you to quickly change the whole color of the viewer and replace background image to match desired color.  Note that further changes involving CSS should be handled within custom_default.css.  We suggest taking a element from viewer.css and pasting it into custom_default.css to then make changes to it.  Whatever changes are made in custom_default.css will override elements included in viewer.css.
+
     
 IV. Using the Viewer with your interview XML files exported from OHMS
 ---------------------------------------------------------------------
 
 After installing and configuring the Viewer, you can begin testing and using it immediately. You must have your interview files exported from OHMS in the directory you set for the "tmpDir" configuration property. The URL for using the Viewer would be your web site address and the subdirectory for the Viewer along with the page (viewer.php) that processes the interview file. An example is:
 
-  http://www.myviewerexamplesite.edu/viewer/viewer.php?cachefile=name_of_file.xml
-  
+http://www.myviewerexamplesite.edu/ohms-viewer/viewer.php?cachefile=name_of_file.xml
+
+Sample live interview at the University of Kentucky Libraries Louie B. Nunn Center for Oral History:
+
+https://nyx.uky.edu/oh/render.php?cachefile=2007OH219_PC103_Shraberg.xml
+
+
 If this URL does not load properly or you receive an error message about not finding the interview file, check the following:
 
-  * The subdirectory name where the Viewer is located is correct.
-  * The "tmpDir" in the configuration file is correct for the location where you placed your interview files exported from OHMS.
-  * The name of the XML file after "cachefile=" in the URL is correct.
-  * Check the permissions on the subdirectories for the Viewer and XML interview files to make sure that your web server can read/access files.
+*The subdirectory name where the Viewer is located is correct.
+*The "tmpDir" in the configuration file is correct for the location where you placed your interview files exported from  OHMS.
+*The name of the XML file after "cachefile=" in the URL is correct.
+*Check the permissions on the subdirectories for the Viewer and XML interview files to make sure that your web server   can read/access files.
 
  
-
 Extending OHMS Viewer
 =======================
 
