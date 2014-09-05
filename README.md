@@ -179,4 +179,26 @@ The two most likely scenarios for implementing a different player and what we su
 
 	   The modifications to these files will require changing settings such as the values of ID fields in the cache file to the corresponding ID names used by the media service, how the javascript is able to interact with the player for linking to time points and the changing CSS for how the media clip is displayed (dimensions). You will also need to check that the functionality for transcript and index searching works correctly.
 
+Upgrading OHMS Viewer
+=======================
+
+I. Upgrading the OHMS Viewer as new versions are released
+--------------------------------------------
+
+’The Viewer’ directory refers to the directory in var/www/html that holds the extracted contents of the OHMS Viewer zip file.
+
+These instructions assume that the directory holding your cache XML files does NOT live within ‘The Viewer’ directory.
+
+1)download and move a copy of the new zip file for the most current release of the OHMS Viewer over to your /var/www/html directory
+
+2)unzip the new zip file
+
+3)copy the config.ini file from the installation of your old viewer.  This is located in the config directory.  Copy the config.ini into the new new viewer’s config directory.
+
+4)rename the current viewer directory.  We suggest appending the directory name with the version of the viewer, for example ‘ohms-viewer’ becomes ‘ohms-viewer-zipv3.2.9’.
+
+5)rename the newly unzipped viewer directory as ‘ohms-viewer’ or whatever name had been given previously to your current viewer directory
+
+6)in the the new current viewer directory, move over any custom css and/or image files from the previous version of the OHMS Viewer directory
+
 		
