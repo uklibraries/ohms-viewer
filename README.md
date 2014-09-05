@@ -116,7 +116,7 @@ body {
   background: url("../imgs/bg-1.png") repeat-x top #ffffff;
 }
 
-#header, #headervid, #footer, #audio-panel, #subjectPlayer {
+ #header, #headervid, #footer, #audio-panel, #subjectPlayer {
      background: #3c3c3c;
 }
 
