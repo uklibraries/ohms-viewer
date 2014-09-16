@@ -52,8 +52,8 @@
 	<h2 id="secondaryMetaData">
 		<div style="margin-left: 80px;">
 			<strong><?php echo $cacheFile->repository; ?></strong><br />
-			<?php echo $cacheFile->collection; ?>, <?php echo $cacheFile->series; ?><br/>
-			<?php echo $cacheFile->interviewer; ?>, Interviewer | <?php echo $cacheFile->accession; ?>
+			<?php echo $cacheFile->interviewer; ?>, Interviewer | <?php echo $cacheFile->accession; ?><br />
+			<?php echo $cacheFile->collection; ?> | <?php echo $cacheFile->series; ?>
 		</div>
 	</h2>
 	<div id="audio-panel">
@@ -85,6 +85,12 @@
 				<p><span><h3><a href="#" id="lnkUsage">View Usage Statement</a></h3><div id="usageStatement"><?php echo $usage; ?></div></span></p>
 			<?php else: ?>
 				<p><span><h3>View Usage Statement</h3></span></p>
+			<?php endif; ?>
+			<?php if((string)$cacheFile->collection_link != ''): ?>
+				<p><span><h3>Collection Link: <a href="<?=$cacheFile->collection_link?>"><?=$cacheFile->collection?></a></h3></span></p>
+			<?php endif; ?>
+			<?php if((string)$cacheFile->series_link != ''): ?>
+				<p><span><h3>Series Link: <a href="<?=$cacheFile->series_link?>"><?=$cacheFile->series?></a></h3></span></p>
 			<?php endif; ?>
 			<p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail;?>"><?php echo $contactemail; ?></a> | <a href="<?php echo $contactlink; ?>"><?php echo $contactlink; ?></a></h3></span></p>
 		</div>

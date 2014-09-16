@@ -49,9 +49,24 @@ class Version3CacheFile {
 			'file_name' => (string)$ohfile->record->file_name,
 			'rights' => (string)$ohfile->record->rights,
 			'usage' => (string)$ohfile->record->usage,
-			'repository' => (string)$ohfile->record->repository
+			'repository' => (string)$ohfile->record->repository,
+			'collection_link' => (string)$ohfile->record->collection_link,
+			'series_link' => (string)$ohfile->record->series_link
 		);
-
+		
+		$collection_link = ($ohfile->record->collection_link != null) ? (string)$ohfile->record->collection_link : '';
+		$series_link = ($ohfile->record->series_link != null) ? (string)$ohfile->record->series_link : '';
+		
+		if(!empty($collection_link))
+		{
+			$this->data['collection'] = "<a href=\"{$collection_link}\" target=\"_new\" class=\"graylink\">" . $this->data['collection'] . "</a>";
+		}
+		
+		if(!empty($series_link))
+		{
+			$this->data['series'] = "<a href=\"{$series_link}\" target=\"_new\" class=\"graylink\">" . $this->data['series'] . "</a>";
+		}
+		
 		# temp fix for mp3 doubling
 		$this->data['file_name'] = preg_replace("/\.mp3.mp3$/", ".mp3", $this->data['file_name']);
 		$this->data['clipsource'] =	(string)$ohfile->record->mediafile->host;
