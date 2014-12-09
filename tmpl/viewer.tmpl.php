@@ -45,7 +45,7 @@
     <div id="headervid">
 <?php endif; ?>
 		<?php if(isset($config[$cacheFile->repository])): ?>
-		<img src="<?php echo $config[$cacheFile->repository]['footerimg'];?>" alt="<?php echo $config[$cacheFile->repository]['footerimgalt'];?>" style="float: left;" />
+		<img width="77" src="<?php echo $config[$cacheFile->repository]['footerimg'];?>" alt="<?php echo $config[$cacheFile->repository]['footerimgalt'];?>" style="float: left;" />
 		<?php endif; ?>
       <div class="center" style="width:860px;">
 	<h1><?php echo $cacheFile->title; ?></h1>
@@ -86,10 +86,10 @@
 			<?php else: ?>
 				<p><span><h3>View Usage Statement</h3></span></p>
 			<?php endif; ?>
-			<?php if((string)$cacheFile->collection_link != ''): ?>
+			<?php if($cacheFile->collection_link && (string)$cacheFile->collection_link != ''): ?>
 				<p><span><h3>Collection Link: <a href="<?=$cacheFile->collection_link?>"><?=$cacheFile->collection?></a></h3></span></p>
 			<?php endif; ?>
-			<?php if((string)$cacheFile->series_link != ''): ?>
+			<?php if($cacheFile->series_link && (string)$cacheFile->series_link != ''): ?>
 				<p><span><h3>Series Link: <a href="<?=$cacheFile->series_link?>"><?=$cacheFile->series?></a></h3></span></p>
 			<?php endif; ?>
 			<p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail;?>"><?php echo $contactemail; ?></a> | <a href="<?php echo $contactlink; ?>"><?php echo $contactlink; ?></a></h3></span></p>

@@ -186,11 +186,15 @@ class Transcript {
 				$time = $point->time;
 				$title = $point->title;
 				$timePoint = floor($time / 60) . ':' . str_pad($time % 60, 2, '0', STR_PAD_LEFT);
+				$gps = $point->gps;
+				$hyperlink = $point->hyperlink;
 
 				if (preg_match("/{$keyword}/imsU", $synopsis) > 0
 				|| preg_match("/{$keyword}/ismU", $title) > 0
 				|| preg_match("/{$keyword}/ismU", $keywords) > 0
-				|| preg_match("/{$keyword}/ismU", $subjects) > 0) {
+				|| preg_match("/{$keyword}/ismU", $subjects) > 0
+				|| preg_match("/{$keyword}/ismu", $gps) > 0
+				|| preg_match("/{$keyword}/ismu", $hyperlink) > 0) {
 					if (strstr($json, 'time')) {
 						$json .= ', ';
 					}
