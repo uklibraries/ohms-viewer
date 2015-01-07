@@ -56,7 +56,7 @@ class Transcript {
 				$indexHTML .= '<p class="segmentLink" id="segmentLink' . $point->time . '"><strong>Direct segment link:</strong><br /><input type="text" readonly="readonly" class="segmentLinkTextBox" value="' . ($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '#segment' . $point->time . '" /></p>';
 				$indexHTML .= '<div class="synopsis">';
 				$indexHTML .= '<a name="tp_' . $point->time . '"></a>';
-				$indexHTML .= '<p><strong>Partial Transcript:</strong><span>' . $partial_transcript . '</span></p><p><strong>Segment Synopsis:</strong><span> ' . $synopsis . '</span></p><p><strong>Keywords:</strong><span> ' . str_replace(';', '; ', $keywords) . '</span></p><p><strong>Subjects:</strong><span> ' . str_replace(';', ' ', $subjects) . '</span></p>';
+				$indexHTML .= '<p><strong>Partial Transcript:</strong> <span>' . $partial_transcript . '</span></p><p><strong>Segment Synopsis:</strong><span> ' . $synopsis . '</span></p><p><strong>Keywords:</strong><span> ' . str_replace(';', '; ', $keywords) . '</span></p><p><strong>Subjects:</strong><span> ' . str_replace(';', ' ', $subjects) . '</span></p>';
 				if ($gps <> '') {
 					$indexHTML .= '<br/><strong>GPS:</strong> <a	class="fancybox-media" href="' . htmlentities(str_replace(' ', '', 'http://maps.google.com/maps?ll='.$gps.'&t=m&z=10&output=embed')).'">';
 					if ($gps_text <> '') {

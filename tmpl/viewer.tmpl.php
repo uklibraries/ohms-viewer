@@ -86,10 +86,10 @@
 			<?php else: ?>
 				<p><span><h3>View Usage Statement</h3></span></p>
 			<?php endif; ?>
-			<?php if($cacheFile->collection_link && (string)$cacheFile->collection_link != ''): ?>
+			<?php if(isset($cacheFile->collection_link) && (string)$cacheFile->collection_link != ''): ?>
 				<p><span><h3>Collection Link: <a href="<?=$cacheFile->collection_link?>"><?=$cacheFile->collection?></a></h3></span></p>
 			<?php endif; ?>
-			<?php if($cacheFile->series_link && (string)$cacheFile->series_link != ''): ?>
+			<?php if(isset($cacheFile->series_link) && (string)$cacheFile->series_link != ''): ?>
 				<p><span><h3>Series Link: <a href="<?=$cacheFile->series_link?>"><?=$cacheFile->series?></a></h3></span></p>
 			<?php endif; ?>
 			<p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail;?>"><?php echo $contactemail; ?></a> | <a href="<?php echo $contactlink; ?>"><?php echo $contactlink; ?></a></h3></span></p>
