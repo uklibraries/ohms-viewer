@@ -10,150 +10,150 @@
 require_once 'Transcript.class.php';
 
 class Version3CacheFile {
-	private static $InstanceVersion3 = NULL;
-	public $Transcript;
-	private $data;
+    private static $instanceVersion3 = NULL;
+    public $Transcript;
+    private $data;
 
-	private function __construct($cachefile,$tmpDir,$viewerconfig) {
-		if ($cachefile) {
-			if ($myfile = file_get_contents("{$tmpDir}/$cachefile")) {
-				libxml_use_internal_errors(true);
-				$ohfile = simplexml_load_string($myfile);
+    private function __construct($cachefile,$tmpDir,$viewerconfig)
+    {
+        if ($cachefile) {
+            if ($myfile = file_get_contents("{$tmpDir}/$cachefile")) {
+                libxml_use_internal_errors(true);
+                $ohfile = simplexml_load_string($myfile);
 
-				if (!$ohfile) {
-					$error_msg = "Error loading XML.\n<br />\n";
-					foreach (libxml_get_errors() as $error) {
-						$error_msg .= "\t" . $error->message;
-					}
-					throw new Exception($error_msg);
-				}
-			}
-			else {
-				throw new Exception("Invalid Version3CacheFile.");
-			}
-		}
-		else {
-			throw new Exception("Initialization requires valid Version3CacheFile.");
-		}
+                if (!$ohfile) {
+                    $errorMessage = "Error loading XML.\n<br />\n";
+                    foreach (libxml_get_errors() as $error) {
+                        $errorMessage .= "\t" . $error->message;
+                    }
+                    throw new Exception($errorMessage);
+                }
+            } else {
+                throw new Exception("Invalid Version3CacheFile.");
+            }
+        } else {
+            throw new Exception("Initialization requires valid Version3CacheFile.");
+        }
 
-		$this->data = array(
-			'cachefile' => $cachefile,
-			'title' => (string)$ohfile->record->title,
-			'accession' => (string)$ohfile->record->accession,
-			'chunks' => (string)$ohfile->record->sync,
-			'time_length' => (string)$ohfile->record->duration,
-			'collection' => (string)$ohfile->record->collection_name,
-			'series' => (string)$ohfile->record->series_name,
-			'fmt' => (string)$ohfile->record->fmt,
-			'media_url' => (string)$ohfile->record->media_url,
-			'file_name' => (string)$ohfile->record->file_name,
-			'rights' => (string)$ohfile->record->rights,
-			'usage' => (string)$ohfile->record->usage,
-			'repository' => (string)$ohfile->record->repository,
-			'collection_link' => (string)$ohfile->record->collection_link,
-			'series_link' => (string)$ohfile->record->series_link
-		);
-		
-		$collection_link = ($ohfile->record->collection_link != null) ? (string)$ohfile->record->collection_link : '';
-		$series_link = ($ohfile->record->series_link != null) ? (string)$ohfile->record->series_link : '';
-		
-		if(!empty($collection_link))
-		{
-			$this->data['collection'] = "<a href=\"{$collection_link}\" target=\"_new\" class=\"graylink\">" . $this->data['collection'] . "</a>";
-		}
-		
-		if(!empty($series_link))
-		{
-			$this->data['series'] = "<a href=\"{$series_link}\" target=\"_new\" class=\"graylink\">" . $this->data['series'] . "</a>";
-		}
-		
-		# temp fix for mp3 doubling
-		$this->data['file_name'] = preg_replace("/\.mp3.mp3$/", ".mp3", $this->data['file_name']);
-		$this->data['clipsource'] =	(string)$ohfile->record->mediafile->host;
-		$this->data['account_id'] =	(string)$ohfile->record->mediafile->host_account_id;
-		$this->data['player_id'] =	(string)$ohfile->record->mediafile->host_player_id;
-		$this->data['clip_id'] =	(string)$ohfile->record->mediafile->host_clip_id;
-		$this->data['clip_format'] =	(string)$ohfile->record->mediafile->clip_format;
-		$this->Transcript = new Transcript($ohfile->record->transcript, $this->data['chunks'], $ohfile->record->index);
-		$this->data['transcript'] = $this->Transcript->getTranscriptHTML();
-		$this->data['index'] = $this->Transcript->getIndexHTML();
+        $this->data = array(
+            'cachefile' => $cachefile,
+            'title' => (string)$ohfile->record->title,
+            'accession' => (string)$ohfile->record->accession,
+            'chunks' => (string)$ohfile->record->sync,
+            'time_length' => (string)$ohfile->record->duration,
+            'collection' => (string)$ohfile->record->collection_name,
+            'series' => (string)$ohfile->record->series_name,
+            'fmt' => (string)$ohfile->record->fmt,
+            'media_url' => (string)$ohfile->record->media_url,
+            'file_name' => (string)$ohfile->record->file_name,
+            'rights' => (string)$ohfile->record->rights,
+            'usage' => (string)$ohfile->record->usage,
+            'repository' => (string)$ohfile->record->repository,
+            'collectionLink' => (string)$ohfile->record->collectionLink,
+            'seriesLink' => (string)$ohfile->record->seriesLink,
+        );
 
-		// Video or audio-only
-		$fmt_info = explode(":", $this->data['fmt']);
-		if ($fmt_info[0] == 'video') {
-			if (count($fmt_info) > 1) {
-				$this->data['videoID'] = $fmt_info[1];
-			}
-			$this->data['hasVideo'] = 1;
-		}
-		else {
-			$this->data['hasVideo'] = (strstr(strtolower($this->data['file_name']), '.mp4')) ? 2 : 0;
-			$this->data['videoID'] = NULL;
-		}
-		if (!$this->data['hasVideo'] && !(strstr(strtolower($this->data['file_name']), '.mp3')) ) {
-			$this->data['file_name'] .= '.mp3';
-			$this->data['videoID'] = NULL;
-		}
+        $collectionLink = ($ohfile->record->collectionLink != null) ? (string)$ohfile->record->collectionLink : '';
+        $seriesLink = ($ohfile->record->seriesLink != null) ? (string)$ohfile->record->seriesLink : '';
 
-		$players = explode(',',$viewerconfig['players']); 
-		$player = strtolower($this->data['clipsource']);
-		if (in_array($player, $players)) {
-			$this->data['viewerjs'] = $player;
-			$this->data['playername'] = $player;
-		}
-		else {
-			$this->data['viewerjs'] = 'flowplayer';
-			$this->data['playername'] = 'flowplayer';
-		}
+        if(!empty($collectionLink)) {
+            $this->data['collection'] = "<a href=\"{$collectionLink}\" target=\"_new\" class=\"graylink\">" . $this->data['collection'] . "</a>";
+        }
 
-		// Interviewer, Interviewee
-		$interviewer_info = $ohfile->record->interviewer;
-		$pieces = array();
-		foreach ($interviewer_info as $part) {
-			$pieces[] = $part;
-		}
-		$this->data['interviewer'] = implode($pieces, '');
+        if(!empty($seriesLink)) {
+            $this->data['series'] = "<a href=\"{$seriesLink}\" target=\"_new\" class=\"graylink\">" . $this->data['series'] . "</a>";
+        }
 
-		unset($this->cacheFile);
-	}
+        # temp fix for mp3 doubling
+        $this->data['file_name'] = preg_replace("/\.mp3.mp3$/", ".mp3", $this->data['file_name']);
+        $this->data['clipsource'] =	(string)$ohfile->record->mediafile->host;
+        $this->data['account_id'] =	(string)$ohfile->record->mediafile->host_account_id;
+        $this->data['player_id'] =	(string)$ohfile->record->mediafile->host_player_id;
+        $this->data['clip_id'] =	(string)$ohfile->record->mediafile->host_clip_id;
+        $this->data['clip_format'] =	(string)$ohfile->record->mediafile->clip_format;
+        $this->Transcript = new Transcript($ohfile->record->transcript, $this->data['chunks'], $ohfile->record->index);
+        $this->data['transcript'] = $this->Transcript->getTranscriptHTML();
+        $this->data['index'] = $this->Transcript->getIndexHTML();
 
-	private function __clone() {
-		//empty
-	}
+        // Video or audio-only
+        $formatInfo = explode(":", $this->data['fmt']);
+        if ($formatInfo[0] == 'video') {
+            if (count($formatInfo) > 1) {
+                $this->data['videoID'] = $formatInfo[1];
+            }
+            $this->data['hasVideo'] = 1;
+        } else {
+            $this->data['hasVideo'] = (strstr(strtolower($this->data['file_name']), '.mp4')) ? 2 : 0;
+            $this->data['videoID'] = NULL;
+        }
+        if (!$this->data['hasVideo'] && !(strstr(strtolower($this->data['file_name']), '.mp3')) ) {
+            $this->data['file_name'] .= '.mp3';
+            $this->data['videoID'] = NULL;
+        }
 
-	public function __get($name) {
-		if (array_key_exists($name, $this->data)) {
-			return $this->data[$name];
-		}
-		else {
-			$trace = debug_backtrace();
-			trigger_error('Undefined property ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'], E_USER_NOTICE);
-			return null;
-		}
-	}
+        $players = explode(',',$viewerconfig['players']);
+        $player = strtolower($this->data['clipsource']);
+        if (in_array($player, $players)) {
+            $this->data['viewerjs'] = $player;
+            $this->data['playername'] = $player;
+        } else {
+            $this->data['viewerjs'] = 'flowplayer';
+            $this->data['playername'] = 'flowplayer';
+        }
 
-	public function hasIndex() {
-		return strlen($this->index) > 0;
-	}
+        // Interviewer, Interviewee
+        $interviewerInfo = $ohfile->record->interviewer;
+        $pieces = array();
+        foreach ($interviewerInfo as $part) {
+            $pieces[] = $part;
+        }
+        $this->data['interviewer'] = implode($pieces, '');
 
-	public function getFields() {
-		return array_keys($this->data);
-	}
+        unset($this->cacheFile);
+    }
 
-	public static function getInstanceVersion3($cachefile = NULL,$tmpDir,$viewerconfig) {
-		if (!self::$InstanceVersion3) {
-			self::$InstanceVersion3 = new Version3CacheFile($cachefile,$tmpDir,$viewerconfig);
-		}
-		return self::$InstanceVersion3;
-	}
+    private function __clone()
+    {
+        //empty
+    }
 
-	public function toJSON() {
-		$keys = array_keys($this->data);
-		$pairs = array();
-		foreach($keys as $key) {
-			$pairs[] = "'{$key}':'{$this->data[$key]}'";
-		}
-		return '{' . implode(',', $pairs) . '}';
-	}
+    public function __get($name)
+    {
+        if (array_key_exists($name, $this->data)) {
+            return $this->data[$name];
+        }
+        else {
+            $trace = debug_backtrace();
+            trigger_error('Undefined property ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'], E_USER_NOTICE);
+            return null;
+        }
+    }
+
+    public function hasIndex()
+    {
+        return strlen($this->index) > 0;
+    }
+
+    public function getFields()
+    {
+        return array_keys($this->data);
+    }
+
+    public static function getInstanceVersion3($cachefile = NULL,$tmpDir,$viewerconfig)
+    {
+        if (!self::$instanceVersion3) {
+            self::$instanceVersion3 = new Version3CacheFile($cachefile,$tmpDir,$viewerconfig);
+        }
+        return self::$instanceVersion3;
+    }
+
+    public function toJSON()
+    {
+        $keys = array_keys($this->data);
+        $pairs = array();
+        foreach($keys as $key) {
+            $pairs[] = "'{$key}':'{$this->data[$key]}'";
+        }
+        return '{' . implode(',', $pairs) . '}';
+    }
 }
-?>
