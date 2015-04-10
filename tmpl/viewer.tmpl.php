@@ -53,7 +53,16 @@
 		<div style="margin-left: 80px;">
 			<strong><?php echo $cacheFile->repository; ?></strong><br />
 			<?php echo $cacheFile->interviewer; ?>, Interviewer | <?php echo $cacheFile->accession; ?><br />
-			<?php echo $cacheFile->collection; ?> | <?php echo $cacheFile->series; ?>
+			<?php if(isset($cacheFile->collection_link) && (string)$cacheFile->collection_link != ''): ?>
+				<a href="<?=$cacheFile->collection_link?>"><?=$cacheFile->collection?></a> | 
+			<?php else: ?>
+				<?=$cacheFile->collection; ?> | 
+			<?php endif; ?>
+			<?php if(isset($cacheFile->series_link) && (string)$cacheFile->series_link != ''): ?>
+				<a href="<?=$cacheFile->series_link?>"><?=$cacheFile->series?></a>
+			<?php else: ?>
+				<?=$cacheFile->series; ?>
+			<?php endif; ?>
 		</div>
 	</h2>
 	<div id="audio-panel">
