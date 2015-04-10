@@ -54,14 +54,14 @@
 			<strong><?php echo $cacheFile->repository; ?></strong><br />
 			<?php echo $cacheFile->interviewer; ?>, Interviewer | <?php echo $cacheFile->accession; ?><br />
 			<?php if(isset($cacheFile->collection_link) && (string)$cacheFile->collection_link != ''): ?>
-				<a href="<?=$cacheFile->collection_link?>"><?=$cacheFile->collection?></a> | 
+                <a href="<?php echo $cacheFile->collection_link?>"><?php echo $cacheFile->collection?></a> | 
 			<?php else: ?>
-				<?=$cacheFile->collection; ?> | 
+                <?php echo $cacheFile->collection; ?> | 
 			<?php endif; ?>
 			<?php if(isset($cacheFile->series_link) && (string)$cacheFile->series_link != ''): ?>
-				<a href="<?=$cacheFile->series_link?>"><?=$cacheFile->series?></a>
+                <a href="<?php echo $cacheFile->series_link?>"><?php echo $cacheFile->series?></a>
 			<?php else: ?>
-				<?=$cacheFile->series; ?>
+                <?php echo $cacheFile->series; ?>
 			<?php endif; ?>
 		</div>
 	</h2>
@@ -96,10 +96,10 @@
 				<p><span><h3>View Usage Statement</h3></span></p>
 			<?php endif; ?>
 			<?php if(isset($cacheFile->collection_link) && (string)$cacheFile->collection_link != ''): ?>
-				<p><span><h3>Collection Link: <a href="<?=$cacheFile->collection_link?>"><?=$cacheFile->collection?></a></h3></span></p>
+                <p><span><h3>Collection Link: <a href="<?php echo $cacheFile->collection_link?>"><?php echo $cacheFile->collection?></a></h3></span></p>
 			<?php endif; ?>
 			<?php if(isset($cacheFile->series_link) && (string)$cacheFile->series_link != ''): ?>
-				<p><span><h3>Series Link: <a href="<?=$cacheFile->series_link?>"><?=$cacheFile->series?></a></h3></span></p>
+                <p><span><h3>Series Link: <a href="<?php echo $cacheFile->series_link?>"><?php echo $cacheFile->series?></a></h3></span></p>
 			<?php endif; ?>
 			<p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail;?>"><?php echo $contactemail; ?></a> | <a href="<?php echo $contactlink; ?>"><?php echo $contactlink; ?></a></h3></span></p>
 		</div>
