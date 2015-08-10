@@ -7,6 +7,8 @@
 	$contactemail = $config[$cacheFile->repository]['contactemail'];
 	$contactlink = $config[$cacheFile->repository]['contactlink'];
 	$copyrightholder = $config[$cacheFile->repository]['copyrightholder'];
+	$seriesLink = (string)$cacheFile->series_link;
+	$collectionLink = (string)$cacheFile->collection_link;
 ?>
 <!DOCTYPE html>
 <html>
@@ -95,10 +97,10 @@
 			<?php else: ?>
 				<p><span><h3>View Usage Statement</h3></span></p>
 			<?php endif; ?>
-			<?php if(isset($cacheFile->collection_link) && (string)$cacheFile->collection_link != ''): ?>
+			<?php if(!empty($collectionLink)): ?>
                 <p><span><h3>Collection Link: <a href="<?php echo $cacheFile->collection_link?>"><?php echo $cacheFile->collection?></a></h3></span></p>
 			<?php endif; ?>
-			<?php if(isset($cacheFile->series_link) && (string)$cacheFile->series_link != ''): ?>
+			<?php if(!empty($seriesLink)): ?>
                 <p><span><h3>Series Link: <a href="<?php echo $cacheFile->series_link?>"><?php echo $cacheFile->series?></a></h3></span></p>
 			<?php endif; ?>
 			<p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail;?>"><?php echo $contactemail; ?></a> | <a href="<?php echo $contactlink; ?>"><?php echo $contactlink; ?></a></h3></span></p>
