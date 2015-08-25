@@ -48,7 +48,7 @@ jQuery(function($) {
 				playerData = {};
 				playerData['title'] = "Player";
 				playerData[jQuery('#subjectPlayer').attr('rel')] = jQuery('#subjectPlayer').attr('href');
-				jQuery(this).jPlayer("setMedia", playerData).jPlayer("play");
+				jQuery(this).jPlayer("setMedia", playerData).jPlayer("play").jPlayer("stop");
 			},
 			loadstart: function () {
 				jQuery('#jp-loading-graphic').show();
