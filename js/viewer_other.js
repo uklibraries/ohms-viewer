@@ -48,6 +48,7 @@ jQuery(function($) {
 				playerData = {};
 				playerData['title'] = "Player";
 				playerData[jQuery('#subjectPlayer').attr('rel')] = jQuery('#subjectPlayer').attr('href');
+				// TODO .jPlayer("play").jPlayer("stop") is probably unnecessary
 				jQuery(this).jPlayer("setMedia", playerData).jPlayer("play").jPlayer("stop");
 			},
 			loadstart: function () {
