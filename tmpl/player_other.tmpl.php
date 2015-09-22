@@ -61,7 +61,6 @@ if($mediaFormat == 'mp4') $mediaFormat = "m4v";
 						<div class="jp-current-time"></div>
 						<div class="jp-duration"></div>
 					</div>
-					<div id="jp-loading-graphic"></div>
 				</div>
 				<div class="jp-no-solution">
 					<span>Update Required</span>
