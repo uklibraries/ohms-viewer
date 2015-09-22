@@ -48,7 +48,6 @@ $mediaFormat = 	substr($linkToMedia, -3, 3);
 						<div class="jp-current-time"></div>
 						<div class="jp-duration"></div>
 					</div>
-					<div id="jp-loading-graphic"></div>
 				</div>
 				<div class="jp-no-solution">
 					<span>Update Required</span>
