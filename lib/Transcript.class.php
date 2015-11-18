@@ -46,6 +46,7 @@ class Transcript {
 				$keywords = $point->keywords;
 				$subjects = $point->subjects;
 				$gps = $point->gps;
+				$zoom = (empty($point->gps_zoom) ? '17' : $point->gps_zoom);
 				$gps_text = $point->gps_text;
 				$hyperlink = $point->hyperlink;
 				$hyperlink_text = $point->hyperlink_text;
@@ -58,7 +59,7 @@ class Transcript {
 				$indexHTML .= '<a name="tp_' . $point->time . '"></a>';
 				$indexHTML .= '<p><strong>Partial Transcript:</strong> <span>' . nl2br($partial_transcript) . '</span></p><p><strong>Segment Synopsis:</strong><span> ' . nl2br($synopsis) . '</span></p><p><strong>Keywords:</strong><span> ' . str_replace(';', '; ', $keywords) . '</span></p><p><strong>Subjects:</strong><span> ' . str_replace(';', ' ', $subjects) . '</span></p>';
 				if ($gps <> '') {
-					$indexHTML .= '<br/><strong>GPS:</strong> <a	class="fancybox-media" href="' . htmlentities(str_replace(' ', '', 'http://maps.google.com/maps?ll='.$gps.'&t=m&z=10&output=embed')).'">';
+					$indexHTML .= '<br/><strong>GPS:</strong> <a	class="fancybox-media" href="' . htmlentities(str_replace(' ', '', 'http://maps.google.com/maps?ll='.$gps.'&t=m&z=' . $zoom . '&output=embed')).'">';
 					if ($gps_text <> '') {
 						$indexHTML .= $gps_text;
 					}
