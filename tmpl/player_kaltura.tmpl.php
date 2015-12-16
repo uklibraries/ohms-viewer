@@ -23,11 +23,48 @@ $clipid=$cacheFile->clip_id;
 $PARTNER_ID = $cacheFile->account_id;
 $UICONF_ID = $cacheFile->player_id;
 $embedcode = html_entity_decode($cacheFile->kembed);
-$embedcode = preg_replace('/height=\"([0-9]+)\"/', 'height="250"', $embedcode);
-$embedcode = preg_replace('/width=\"([0-9]+)\"/', 'width="432"', $embedcode);
+
+$matches = array();
+preg_match("/\/p\/([0-9]+)\//", $embedcode, $matches);
+$partner_id = $matches[1];
+
+$matches = array();
+preg_match("/\/uiconf_id\/([0-9]+)\//", $embedcode, $matches);
+$uiconf_id = $matches[1];
+
+$matches = array();
+preg_match("/\&entry_id=(.*?)\&/", $embedcode, $matches);
+$entry_id = $matches[1];
+
+$matches = array();
+preg_match("/https?\:\/\/[^\/]+/", $embedcode, $matches);
+$kalturaURL = $matches[0];
 
 echo <<<KALTURA
-			<div id="youtubePlayer">{$embedcode}</div>
+		<div id="youtubePlayer">
+			<div id="kaltura_player_embed" style="width: 500px; height: 279px;"></div>
+		</div>
+		<script src="{$kalturaURL}/p/{$partner_id}/sp/{$partner_id}00/embedIframeJs/uiconf_id/{$uiconf_id}/partner_id/{$partner_id}"></script>
+		<script type="text/javascript">
+			kWidget.embed({
+				'targetId': 'kaltura_player_embed',
+				'wid': '_{$partner_id}',
+				'uiconf_id' : '{$uiconf_id}',
+				'entry_id' : '{$entry_id}',
+				'flashvars':
+				{
+				  'autoPlay': true,
+				  'externalInterfaceDisabled': false
+				},
+				'params':
+				{
+				  'wmode': 'transparent'
+				},
+				readyCallback: function( playerId ){
+				  window.kdp = document.getElementById(playerId);
+				}
+			});
+		</script>
 
 		  <div class="video-spacer"></div>
 
@@ -46,10 +83,3 @@ echo <<<KALTURA
 KALTURA;
 
 ?>
-<script type="text/javascript">
-	function jsCallbackReady(objectId)
-	{
-		window.kdp = document.getElementById(objectId);
-		kdp.sendNotification('doPlay');
-	}
-</script>
