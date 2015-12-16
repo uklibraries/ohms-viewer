@@ -174,8 +174,7 @@
 										break;
 									case 'kaltura':
 							?>
-								// Kaltura not implemented yet. Replace this with the right "if" statement at the appropriate time.
-								if(true)
+								if(kdp !== undefined && kdp.evaluate('{video.player.currentTime}') == jumpToTime)
 							<?php
 										break;
 									default:
