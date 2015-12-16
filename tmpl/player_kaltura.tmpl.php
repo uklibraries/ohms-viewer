@@ -22,6 +22,34 @@ echo  '</style>';
 $clipid=$cacheFile->clip_id;
 $PARTNER_ID = $cacheFile->account_id;
 $UICONF_ID = $cacheFile->player_id;
-echo '<object id="kaltura_player" name="kaltura_player" type="application/x-shockwave-flash" allowFullScreen="true" allowNetworking="all" allowScriptAccess="always" height="'. $height .'" width="'. $width.'" bgcolor="#000000" xmlns:dc="http://purl.org/dc/terms/" xmlns:media="http://search.yahoo.com/searchmonkey/media/" rel="media:video" resource="http://kaltura.uky.edu/index.php/kwidget/cache_st/1/wid/_'.$PARTNER_ID.'/uiconf_id/'.$UICONF_ID.'/entry_id/'.$clipid.'" data="http://kaltura.uky.edu/index.php/kwidget/cache_st/1/wid/_'.$PARTNER_ID.'/uiconf_id/'.$UICONF_ID.'/entry_id/'.$clipid.'"><param name="allowFullScreen" value="true" /><param name="allowNetworking" value="all" /><param name="allowScriptAccess" value="always" /><param name="bgcolor" value="#000000" /><param name="flashVars" value="&autoPlay=true" /><param name="movie" value="http://kaltura.uky.edu/index.php/kwidget/cache_st/1/wid/_'.$PARTNER_ID.'/uiconf_id/'.$UICONF_ID.'/entry_id/'.$clipid.'" /><a href="http://corp.kaltura.com">video platform</a> <a href="http://corp.kaltura.com/video_platform/video_management">video management</a> <a href="http://corp.kaltura.com/solutions/video_solution">video solutions</a> <a href="http://corp.kaltura.com/video_platform/video_publishing">video player</a> <a rel="media:thumbnail" href="http://kaltura.uky.edu/p/'.$PARTNER_ID.'/sp/'.$PARTNER_ID.'00/thumbnail/entry_id/'.$clipid.'/width/120/height/90/bgcolor/000000/type/2"></a> <span property="media:autostart" content="true"></span> <span property="media:width" content="300"></span><span property="media:height" content="126"></span></span> <span property="media:type" content="application/x-shockwave-flash"></span> </object>';
+$embedcode = html_entity_decode($cacheFile->kembed);
+$embedcode = preg_replace('/height=\"([0-9]+)\"/', 'height="250"', $embedcode);
+$embedcode = preg_replace('/width=\"([0-9]+)\"/', 'width="432"', $embedcode);
+
+echo <<<KALTURA
+			<div id="youtubePlayer">{$embedcode}</div>
+			
+		  <div class="video-spacer"></div>
+
+		  <style>
+		    #transcript-panel { height:550px; }
+		    #index-panel { height:550px; }
+		    #searchbox-panel { height:544px; }
+		    #search-results { height:177px; }
+		    #audio-panel { height: 270px; }
+		    #header {height: 415px; }
+			#headervid {height: auto; padding-bottom: 1px; }
+		    #main {height: 550px; }
+			#youtubePlayer {margin-left: 50px;}
+			.video-spacer {height: 0px; }
+		  </style>
+KALTURA;
 
 ?>
+<script type="text/javascript">
+	function jsCallbackReady(objectId)
+	{
+		window.kdp = document.getElementById(objectId);
+		kdp.sendNotification('doPlay');
+	}
+</script>
