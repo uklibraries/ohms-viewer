@@ -151,6 +151,11 @@ h2 {
   color: #0000ff;
   text-decoration: none;
 }
+
+.footnoteLink {
+	color: #0000ff !important;
+}
+
 #transcript-panel p.first-p {
   margin-top: 0px;
 }

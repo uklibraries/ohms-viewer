@@ -122,7 +122,31 @@ class Transcript {
 		}
 
 		$this->transcriptHTML = "";
+		$noteNum = 0;
+		$supNum = 0;
 		foreach ($itlines as $key => $line) {
+			if(strstr($line, '[footnote]') !== false)
+			{
+				$line = preg_replace('/\[footnote\]([0-9]+)\[\/footnote\]/', '<a name="sup' . ++$supNum . '"></a><a href="#footnote$1" class="footnoteLink">[$1]</a>', $line);
+			}
+			$line = str_replace('[footnotes]', '', $line);
+			$line = str_replace('[/footnotes]', '', $line);
+			$matches = array();
+			preg_match('/\[link\](.*)\[\/link\]/', $line, $matches);
+			if(isset($matches[1]))
+			{
+				$line = preg_replace('/\[link\](.*)\[\/link\]/', '', $line);
+				$line = str_replace('[note]', '<a name="footnote' . ++$noteNum . '"></a><div><a class="footnoteLink" href="#sup' . $noteNum . '">' . $noteNum . '</a>. <a class="footnoteLink" href="' . $matches[1] . '" target="_new">', $line);
+				$line = str_replace('[/note]', '</div>', $line);
+			}
+			else
+			{
+				if(strstr($line, '[note]') !== false)
+				{
+					$line = str_replace('[note]', '<a name="footnote' . ++$noteNum . '"></a><div><a class="footnoteLink" href="#sup' . $noteNum . '">' . $noteNum . '</a>. ', $line);
+					$line = str_replace('[/note]', '</div>', $line);
+				}
+			}
 			$this->transcriptHTML .= "<span class='transcript-line' id='line_$key'>$line</span>\n";
 		}
 	}
