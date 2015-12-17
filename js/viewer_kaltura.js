@@ -46,14 +46,14 @@ jQuery(function($) {
                $('a.jumpLink').on('click', function(e) {
                  e.preventDefault();
                  var target = $(e.target);
-                 kaltura_player.sendNotification("doPlay");
-                 kaltura_player.sendNotification("doSeek", target.data('timestamp')* 60);
+                 kdp.sendNotification("doPlay");
+                 kdp.sendNotification("doSeek", target.data('timestamp') * 60);
                });
                $('a.indexJumpLink').on('click', function(e) {
                  e.preventDefault();
                  var target = $(e.target);
-                 kaltura_player.sendNotification("doPlay");
-                 kaltura_player.sendNotification("doSeek", target.data('timestamp'));
+                 kdp.sendNotification("doPlay");
+                 kdp.sendNotification("doSeek", target.data('timestamp'));
                });
      }
 	
