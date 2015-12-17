@@ -50,6 +50,7 @@ class Version3CacheFile {
 			'rights' => (string)$ohfile->record->rights,
 			'usage' => (string)$ohfile->record->usage,
 			'repository' => (string)$ohfile->record->repository,
+			'kembed' => (string)$ohfile->record->kembed,
 			'collection_link' => (string)$ohfile->record->collection_link,
 			'series_link' => (string)$ohfile->record->series_link,
 			'transcript_alt_lang' => (string)$ohfile->record->transcript_alt_lang
