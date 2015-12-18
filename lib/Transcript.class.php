@@ -6,12 +6,12 @@ class Transcript {
 	private $index;
 	private $indexHTML;
 
-	public function __construct($transcript, $timecodes, $index) {
+	public function __construct($transcript, $timecodes, $index, $translate = false) {
 		$this->transcript = (string)$transcript;
 		$this->index = $index;
 		$this->chunks = $timecodes;
 		$this->formatTranscript();
-		$this->formatIndex();
+		$this->formatIndex($translate);
 	}
 
 	public function getTranscriptHTML() {
@@ -32,13 +32,13 @@ class Transcript {
 		}
 	}
 
-	private function formatIndex() {
+	private function formatIndex($translate) {
 		if (!empty($this->index)) {
 			if (count($this->index->point) == 0) {
 				$this->indexHTML = '';
 				return;
 			}
-			$indexHTML = "<div id=\"accordionHolder\">\n";
+			$indexHTML = "<div id=\"accordionHolder" . ($translate ? '-alt' : '') . "\">\n";
 			foreach ($this->index->point as $point) {
 				$timePoint = (floor((int)$point->time / 60)) . ':' . str_pad(((int)$point->time % 60), 2, '0', STR_PAD_LEFT);
 				$synopsis = $point->synopsis;

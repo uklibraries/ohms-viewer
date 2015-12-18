@@ -41,6 +41,7 @@ class Version3CacheFile {
 			'title' => (string)$ohfile->record->title,
 			'accession' => (string)$ohfile->record->accession,
 			'chunks' => (string)$ohfile->record->sync,
+			'chunks_alt' => (string)$ohfile->record->sync_alt,
 			'time_length' => (string)$ohfile->record->duration,
 			'collection' => (string)$ohfile->record->collection_name,
 			'series' => (string)$ohfile->record->series_name,
@@ -53,7 +54,8 @@ class Version3CacheFile {
 			'kembed' => (string)$ohfile->record->kembed,
 			'collection_link' => (string)$ohfile->record->collection_link,
 			'series_link' => (string)$ohfile->record->series_link,
-			'transcript_alt_lang' => (string)$ohfile->record->transcript_alt_lang
+			'transcript_alt_lang' => (string)$ohfile->record->transcript_alt_lang,
+			'translate' => (string)$ohfile->record->translate,
 		);
 		
 		$collection_link = ($ohfile->record->collection_link != null) ? (string)$ohfile->record->collection_link : '';
@@ -77,8 +79,11 @@ class Version3CacheFile {
 		$this->data['clip_id'] =	(string)$ohfile->record->mediafile->host_clip_id;
 		$this->data['clip_format'] =	(string)$ohfile->record->mediafile->clip_format;
 		$this->Transcript = new Transcript($ohfile->record->transcript, $this->data['chunks'], $ohfile->record->index);
+		$this->TranscriptAlt = new Transcript($ohfile->record->transcript_alt, $this->data['chunks_alt'], $ohfile->record->index_alt, true);
 		$this->data['transcript'] = $this->Transcript->getTranscriptHTML();
+		$this->data['transcript_alt'] = $this->TranscriptAlt->getTranscriptHTML();
 		$this->data['index'] = $this->Transcript->getIndexHTML();
+		$this->data['index_alt'] = $this->TranscriptAlt->getIndexHTML();
 
 		// Video or audio-only
 		$fmt_info = explode(":", $this->data['fmt']);

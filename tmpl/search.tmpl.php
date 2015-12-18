@@ -16,7 +16,12 @@
 <span id="alert"></span>
 
 <?php if(!empty($lang)): ?>
-	<div style="margin-bottom: 10px;">Also available in: <a href="#"><?php echo $lang; ?></a></div>
+	<div id="language-toggle">
+		<select id="language-type">
+			<option id="language-english" selected="selected">English</option>
+			<option id="language-alt"><?php echo $lang; ?></option>
+		</select>
+	</div>
 <?php endif; ?>
 <form id="search-form" onSubmit="return false;" name="search-form">
     <?php if ($cacheFile->hasIndex()) { ?>

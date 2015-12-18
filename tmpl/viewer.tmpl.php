@@ -9,6 +9,7 @@
 	$copyrightholder = $config[$cacheFile->repository]['copyrightholder'];
 	$seriesLink = (string)$cacheFile->series_link;
 	$collectionLink = (string)$cacheFile->collection_link;
+	$lang = (string)$cacheFile->translate;
 ?>
 <!DOCTYPE html>
 <html>
@@ -75,12 +76,23 @@
     <div id="main">
       <div id="main-panels">
 	<div id="content-panel">
-	  <div id="transcript-panel">
+	  <div id="holder-panel" style="position: relative; width: 500px; height: 550px;"></div>
+	  <div id="transcript-panel" class="transcript-panel">
 	    <?php echo $cacheFile->transcript; ?>
 	  </div>
-	  <div id="index-panel">
+	  <?php if($lang == '1'): ?>
+		<div id="transcript-panel-alt" class="transcript-panel">
+			<?php echo $cacheFile->transcript_alt; ?>
+		</div>
+	  <?php endif; ?>
+	  <div id="index-panel" class="index-panel">
 	    <?php echo $cacheFile->index; ?>
 	  </div>
+	  <?php if($lang == '1'): ?>
+		<div id="index-panel-alt" class="index-panel">
+			<?php echo $cacheFile->index_alt; ?>
+		</div>
+	  <?php endif; ?>
 	</div>
 	<div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
       </div>
@@ -159,6 +171,7 @@
 					{
 						jumpLink = jQuery(this).find('a.indexJumpLink');
 						jQuery('#accordionHolder').accordion({active: index});
+						jQuery('#accordionHolder-alt').accordion({active: index});
 						var interval = setInterval(function() {
 							<?php
 								switch($cacheFile->playername):

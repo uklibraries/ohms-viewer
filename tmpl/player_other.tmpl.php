@@ -16,8 +16,8 @@ $mediaFormat = 	substr($linkToMedia, -3, 3);
 if($mediaFormat == 'mp4') $mediaFormat = "m4v";
 ?>
 <style type="text/css">
-              #transcript-panel { height:550px; }
-              #index-panel { height:550px; }
+              #transcript-panel, #transcript-panel-alt { height:550px; }
+              #index-panel, #index-panel-alt { height:550px; }
               #searchbox-panel { height:550px; }
               #audio-panel { height: auto;  padding-top: 0px; padding-bottom: 20px; margin-bottom: 0px; }
               #header {height: auto; padding-bottom: 0px; }
