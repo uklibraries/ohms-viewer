@@ -6,12 +6,12 @@ class Transcript {
 	private $index;
 	private $indexHTML;
 
-	public function __construct($transcript, $timecodes, $index) {
+	public function __construct($transcript, $timecodes, $index, $translate = false) {
 		$this->transcript = (string)$transcript;
 		$this->index = $index;
 		$this->chunks = $timecodes;
 		$this->formatTranscript();
-		$this->formatIndex();
+		$this->formatIndex($translate);
 	}
 
 	public function getTranscriptHTML() {
@@ -32,13 +32,13 @@ class Transcript {
 		}
 	}
 
-	private function formatIndex() {
+	private function formatIndex($translate) {
 		if (!empty($this->index)) {
 			if (count($this->index->point) == 0) {
 				$this->indexHTML = '';
 				return;
 			}
-			$indexHTML = "<div id=\"accordionHolder\">\n";
+			$indexHTML = "<div id=\"accordionHolder" . ($translate ? '-alt' : '') . "\">\n";
 			foreach ($this->index->point as $point) {
 				$timePoint = (floor((int)$point->time / 60)) . ':' . str_pad(((int)$point->time % 60), 2, '0', STR_PAD_LEFT);
 				$synopsis = $point->synopsis;
@@ -46,6 +46,7 @@ class Transcript {
 				$keywords = $point->keywords;
 				$subjects = $point->subjects;
 				$gps = $point->gps;
+				$zoom = (empty($point->gps_zoom) ? '17' : $point->gps_zoom);
 				$gps_text = $point->gps_text;
 				$hyperlink = $point->hyperlink;
 				$hyperlink_text = $point->hyperlink_text;
@@ -58,7 +59,7 @@ class Transcript {
 				$indexHTML .= '<a name="tp_' . $point->time . '"></a>';
 				$indexHTML .= '<p><strong>Partial Transcript:</strong> <span>' . nl2br($partial_transcript) . '</span></p><p><strong>Segment Synopsis:</strong><span> ' . nl2br($synopsis) . '</span></p><p><strong>Keywords:</strong><span> ' . str_replace(';', '; ', $keywords) . '</span></p><p><strong>Subjects:</strong><span> ' . str_replace(';', ' ', $subjects) . '</span></p>';
 				if ($gps <> '') {
-					$indexHTML .= '<br/><strong>GPS:</strong> <a	class="fancybox-media" href="' . htmlentities(str_replace(' ', '', 'http://maps.google.com/maps?ll='.$gps.'&t=m&z=10&output=embed')).'">';
+					$indexHTML .= '<br/><strong>GPS:</strong> <a	class="fancybox-media" href="' . htmlentities(str_replace(' ', '', 'http://maps.google.com/maps?ll='.$gps.'&t=m&z=' . $zoom . '&output=embed')).'">';
 					if ($gps_text <> '') {
 						$indexHTML .= $gps_text;
 					}
@@ -122,7 +123,31 @@ class Transcript {
 		}
 
 		$this->transcriptHTML = "";
+		$noteNum = 0;
+		$supNum = 0;
 		foreach ($itlines as $key => $line) {
+			if(strstr($line, '[[footnote]]') !== false)
+			{
+				$line = preg_replace('/\[\[footnote\]\]([0-9]+)\[\[\/footnote\]\]/', '<a name="sup' . ++$supNum . '"></a><a href="#footnote$1" class="footnoteLink">[$1]</a>', $line);
+			}
+			$line = str_replace('[[footnotes]]', '', $line);
+			$line = str_replace('[[/footnotes]]', '', $line);
+			$matches = array();
+			preg_match('/\[\[link\]\](.*)\[\[\/link\]\]/', $line, $matches);
+			if(isset($matches[1]))
+			{
+				$line = preg_replace('/\[\[link\]\](.*)\[\[\/link\]\]/', '', $line);
+				$line = str_replace('[[note]]', '<a name="footnote' . ++$noteNum . '"></a><div><a class="footnoteLink" href="#sup' . $noteNum . '">' . $noteNum . '</a>. <a class="footnoteLink" href="' . $matches[1] . '" target="_new">', $line);
+				$line = str_replace('[[/note]]', '</div>', $line);
+			}
+			else
+			{
+				if(strstr($line, '[[note]]') !== false)
+				{
+					$line = str_replace('[[note]]', '<a name="footnote' . ++$noteNum . '"></a><div><a class="footnoteLink" href="#sup' . $noteNum . '">' . $noteNum . '</a>. ', $line);
+					$line = str_replace('[[/note]]', '</div>', $line);
+				}
+			}
 			$this->transcriptHTML .= "<span class='transcript-line' id='line_$key'>$line</span>\n";
 		}
 	}

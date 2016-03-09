@@ -25,6 +25,11 @@ jQuery(function($) {
       }
     }
   });
+  
+  $('#language-type').toggleSwitch({
+	  change: function(e) {
+	  }
+  });
 
   $('#kw').on('focus', function(e) {
     if($('#kw').val() == 'Keyword') {

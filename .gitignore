@@ -2,4 +2,4 @@ config/config.ini
 viewerfiles
 viewerfiles/*
 .htaccess
-
+.idea/

@@ -1,3 +1,6 @@
+<?php
+	$lang = $cacheFile->__get('transcript_alt_lang');
+?>
 <div id="search-toggle">
   <select id="search-type">
     <?php if ($cacheFile->hasIndex()) { ?>
@@ -12,6 +15,14 @@
 
 <span id="alert"></span>
 
+<?php if(!empty($lang)): ?>
+	<div id="language-toggle">
+		<select id="language-type">
+			<option id="language-english" selected="selected">English</option>
+			<option id="language-alt"><?php echo $lang; ?></option>
+		</select>
+	</div>
+<?php endif; ?>
 <form id="search-form" onSubmit="return false;" name="search-form">
     <?php if ($cacheFile->hasIndex()) { ?>
   <fieldset><legend id="search-legend">Search This Index</legend>

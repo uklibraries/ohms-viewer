@@ -124,7 +124,7 @@ h2 {
   margin: 0px auto;
   width: 90%;
 }
-#transcript-panel {
+#holder-panel {
   width: 500px;
   height: 550px;
   position: relative;
@@ -137,27 +137,7 @@ h2 {
   background: #ffffff;
   text-align: left;
 }
-#transcript-panel .speaker {
-  font-weight: bold;
-  display: inline;
-}
-#transcript-panel a {
-  color: #000000;
-}
-#transcript-panel .jumpLink {
-  position: absolute;
-  left: 50px;
-  font-size: 10px;
-  color: #0000ff;
-  text-decoration: none;
-}
-#transcript-panel p.first-p {
-  margin-top: 0px;
-}
-#content-panel {
-  float: left;
-}
-#index-panel {
+#transcript-panel, #transcript-panel-alt {
   display: none;
   width: 500px;
   height: 550px;
@@ -171,24 +151,63 @@ h2 {
   background: #ffffff;
   text-align: left;
 }
-#index-panel .speaker {
+#transcript-panel .speaker, #transcript-panel-alt .speaker {
   font-weight: bold;
   display: inline;
 }
-#index-panel a {
+#transcript-panel a, #transcript-panel-alt a {
   color: #000000;
 }
-#index-panel .jumpLink {
+#transcript-panel .jumpLink, #transcript-panel-alt .jumpLink {
   position: absolute;
   left: 50px;
   font-size: 10px;
   color: #0000ff;
   text-decoration: none;
 }
-#index-panel p.first-p {
+
+.footnoteLink {
+	color: #0000ff !important;
+}
+
+#transcript-panel p.first-p, #transcript-panel-alt p.first-p {
   margin-top: 0px;
 }
-#search-toggle {
+#content-panel {
+  float: left;
+}
+#index-panel, #index-panel-alt {
+  display: none;
+  width: 500px;
+  height: 550px;
+  position: absolute;
+  float: left;
+  overflow: auto;
+  outline: 0;
+  margin: auto;
+  padding-left: 80px;
+  padding-right: 20px;
+  background: #ffffff;
+  text-align: left;
+}
+#index-panel .speaker, #index-panel-alt .speaker {
+  font-weight: bold;
+  display: inline;
+}
+#index-panel a, #index-panel-alt a {
+  color: #000000;
+}
+#index-panel .jumpLink, #index-panel-alt .jumpLink {
+  position: absolute;
+  left: 50px;
+  font-size: 10px;
+  color: #0000ff;
+  text-decoration: none;
+}
+#index-panel p.first-p, #index-panel-alt p.first-p {
+  margin-top: 0px;
+}
+#search-toggle, #language-toggle {
   margin-top: 5px;
   margin-bottom: 10px;
 }

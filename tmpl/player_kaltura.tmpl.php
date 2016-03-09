@@ -40,6 +40,15 @@ $matches = array();
 preg_match("/https?\:\/\/[^\/]+/", $embedcode, $matches);
 $kalturaURL = $matches[0];
 
+if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)
+{
+    $kalturaURL = str_replace('http:', 'https:', $kalturaURL);
+}
+else
+{
+    $kalturaURL = str_replace('https:', 'http:', $kalturaURL);
+}
+
 echo <<<KALTURA
 		<div id="youtubePlayer">
 			<div id="kaltura_player_embed" style="width: 500px; height: 279px;"></div>
@@ -65,7 +74,7 @@ echo <<<KALTURA
 				}
 			});
 		</script>
-			
+
 		  <div class="video-spacer"></div>
 
 		  <style>
@@ -81,5 +90,4 @@ echo <<<KALTURA
 			.video-spacer {height: 0px; }
 		  </style>
 KALTURA;
-
 ?>

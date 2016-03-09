@@ -1,20 +1,35 @@
 jQuery(function($) {
   var loaded = false;
 
+  function hideAllPanels() {
+	  $('#index-panel').hide();
+	  $('#index-panel-alt').hide();
+	  $('#transcript-panel').hide();
+	  $('#transcript-panel-alt').hide();
+  }
+  
   function activateContentPanel() {
-	var searchType = $('#search-type').val()
+	var searchType = $('#search-type').val();
+	var langType = $('#language-type').val();
+	
+	if(langType == '')
+	{
+		langType = 'English';
+	}
 	if(searchType == 'Transcript') {
 	  //console.log('Transcript');
 	  $('#search-legend').html('Search this Transcript');
 	  $('#submit-btn').off('click').on('click', getSearchResults);
 	  $('#kw').off('keypress').on('keypress', getSearchResults);
-	  $('#index-panel').fadeOut();
+	  hideAllPanels();
+	  $('#transcript-panel' + (langType != 'English' ? '-alt' : '')).fadeIn();
 	}else if(searchType == 'Index') {
 	  //console.log('Index');
 	  $('#search-legend').html('Search this Index');
 	  $('#submit-btn').off('click').on('click', getIndexResults);
 	  $('#kw').off('keypress').on('keypress', getIndexResults);
-	  $('#index-panel').fadeIn();
+	  hideAllPanels();
+	  $('#index-panel' + (langType != 'English' ? '-alt' : '')).fadeIn();
 	}
   }
 
@@ -24,6 +39,12 @@ jQuery(function($) {
         activateContentPanel();
       }
     }
+  });
+  
+  $('#language-type').toggleSwitch({
+	  change: function(e) {
+		  activateContentPanel();
+	  }
   });
 
   $('#kw').on('focus', function(e) {
@@ -141,6 +162,7 @@ jQuery(function($) {
 	      }
 	      var line = $('#line_' + linenum);
 	      $('#transcript-panel').scrollTo(line, 800, {easing:'easeInSine'});
+		  $('#transcript-panel-alt').scrollTo(line, 800, {easing:'easeInSine'});
 	    });
 	  }
 	});
@@ -213,6 +235,15 @@ jQuery(function($) {
     fillSpace: false,
     change: function(e, ui) {
       $('#index-panel').scrollTo($('.ui-state-active'), 800, {easing:'easeInOutCubic'});
+    }
+  });
+  $('#accordionHolder-alt').accordion({
+	autoHeight: false,
+    collapsible: true,
+    active: false,
+    fillSpace: false,
+    change: function(e, ui) {
+      $('#index-panel-alt').scrollTo($('.ui-state-active'), 800, {easing:'easeInOutCubic'});
     }
   });
 
