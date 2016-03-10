@@ -40,6 +40,7 @@ $matches = array();
 preg_match("/https?\:\/\/[^\/]+/", $embedcode, $matches);
 $kalturaURL = $matches[0];
 
+# XXX: This block requires further attention.
 if((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443)
 {
     $kalturaURL = str_replace('http:', 'https:', $kalturaURL);
