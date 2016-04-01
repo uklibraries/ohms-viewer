@@ -56,6 +56,7 @@ class Version3CacheFile {
 			'series_link' => (string)$ohfile->record->series_link,
 			'transcript_alt_lang' => (string)$ohfile->record->transcript_alt_lang,
 			'translate' => (string)$ohfile->record->translate,
+			'kaudio' => (string)$ohfile->record->kaudio
 		);
 		
 		$collection_link = ($ohfile->record->collection_link != null) ? (string)$ohfile->record->collection_link : '';
