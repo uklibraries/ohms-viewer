@@ -50,9 +50,11 @@ else
     $kalturaURL = str_replace('https:', 'http:', $kalturaURL);
 }
 
+$height = ($cacheFile->kaudio == '1' ? 95 : 279);
+
 echo <<<KALTURA
 		<div id="youtubePlayer">
-			<div id="kaltura_player_embed" style="width: 500px; height: 279px;"></div>
+			<div id="kaltura_player_embed" style="width: 500px; height: {$height}px;"></div>
 		</div>
 		<script src="{$kalturaURL}/p/{$partner_id}/sp/{$partner_id}00/embedIframeJs/uiconf_id/{$uiconf_id}/partner_id/{$partner_id}"></script>
 		<script type="text/javascript">
