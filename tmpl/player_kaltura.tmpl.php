@@ -50,7 +50,7 @@ else
     $kalturaURL = str_replace('https:', 'http:', $kalturaURL);
 }
 
-$height = ($cacheFile->kaudio == '1' ? 95 : 279);
+$height = ($cacheFile->clip_format == 'audio' ? 95 : 279);
 
 echo <<<KALTURA
 		<div id="youtubePlayer">
