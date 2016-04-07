@@ -138,7 +138,6 @@ h2 {
   text-align: left;
 }
 #transcript-panel, #transcript-panel-alt {
-  display: none;
   width: 500px;
   height: 550px;
   position: absolute;

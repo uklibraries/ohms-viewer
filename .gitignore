@@ -3,3 +3,5 @@ viewerfiles
 viewerfiles/*
 .htaccess
 .idea/
+.DS_store
+*/.DS_store

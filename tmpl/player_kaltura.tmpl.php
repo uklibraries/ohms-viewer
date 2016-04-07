@@ -85,7 +85,7 @@ echo <<<KALTURA
 		    #index-panel { height:550px; }
 		    #searchbox-panel { height:544px; }
 		    #search-results { height:177px; }
-		    #audio-panel { height: {$height}; }
+		    #audio-panel { height: {$height}px; }
 		    #header {height: 415px; }
 			#headervid {height: auto; padding-bottom: 1px; }
 		    #main {height: 550px; }

@@ -1,48 +1,43 @@
 jQuery(function($) {
   var loaded = false;
 
-  function activateContentPanel() {
-	var searchType = $('#search-type').val()
-	if(searchType == 'Transcript') {
-	  $('#search-legend').html('Search this Transcript');
-	  $('#submit-btn').off('click').on('click', getSearchResults);
-	  $('#kw').off('keypress').on('keypress', getSearchResults);
-	  $('#index-panel').fadeOut();
-	}else if(searchType == 'Index') {
-	  $('#search-legend').html('Search this Index');
-	  $('#submit-btn').off('click').on('click', getIndexResults);
-	  $('#kw').off('keypress').on('keypress', getIndexResults);
-	  $('#index-panel').fadeIn();
-	}
-  }
-
-  $('#search-type').toggleSwitch({
-    change: function(e) {
-      if(loaded) {
-        activateContentPanel();
-      }
+    function activateContentPanel() {
+        var searchType = $('#search-type').val()
+        if(searchType == 'Transcript') {
+            $('#search-legend').html('Search this Transcript');
+            $('#submit-btn').off('click').on('click', getSearchResults);
+            $('#kw').off('keypress').on('keypress', getSearchResults);
+            $('#index-panel').fadeOut();
+        }else if(searchType == 'Index') {
+            $('#search-legend').html('Search this Index');
+            $('#submit-btn').off('click').on('click', getIndexResults);
+            $('#kw').off('keypress').on('keypress', getIndexResults);
+            $('#index-panel').fadeIn();
+        }
     }
-  });
-  
-  $('#language-type').toggleSwitch({
-	  change: function(e) {
-	  }
-  });
 
-  $('#kw').on('focus', function(e) {
-    if($('#kw').val() == 'Keyword') {
-      $('#kw').toggleClass('kw-entry');
-      $('#kw').val('');
-    }
-  });
-  $('#kw').on('blur', function(e) {
-    if($('#kw').val() == '') {
-      $('#kw').toggleClass('kw-entry');
-      $('#kw').val('Keyword');
-    }
-  });
+    $('#search-type').toggleSwitch({
+        change: function(e) {
+            if(loaded) {
+                activateContentPanel();
+            }
+        }
+    });
 
-  $('#kw').focus();
+    $('#kw').on('focus', function(e) {
+        if($('#kw').val() == 'Keyword') {
+            $('#kw').toggleClass('kw-entry');
+            $('#kw').val('');
+        }
+    });
+    $('#kw').on('blur', function(e) {
+        if($('#kw').val() == '') {
+            $('#kw').toggleClass('kw-entry');
+            $('#kw').val('Keyword');
+        }
+    });
+
+    $('#kw').focus();
 
 	// Bugfix...refresh kaltura links after HTML replacement. Move kaltura link hookups into function so it can be called elsewhere in the program. - SD @ Artifex 2013-01-13
 	function kalturaControl() {
