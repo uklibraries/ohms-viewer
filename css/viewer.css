@@ -397,7 +397,7 @@ h2 {
 
 #search-results {
   overflow-y: auto;
-  height: 430px;
+  height: 80% !important;
 }
 #search-results ol {
   text-align: left;
