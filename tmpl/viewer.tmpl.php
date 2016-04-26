@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/jquery-ui.toggleSwitch.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery-ui-1.8.16.custom.css" type="text/css" />
     <link rel="stylesheet" href="css/font-awesome.css">
+	  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
      <meta property="og:title" content="<?php echo $cacheFile->title; ?>" />
      <meta property="og:url" content="<?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]; ?>" />
 <?php if (isset($config[$cacheFile->repository]['open_graph_image']) && $config[$cacheFile->repository]['open_graph_image'] <> '') { ?>
@@ -125,7 +126,6 @@
 	  </div>
 		<br clear="both" />
       </div>
-      <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
       <script type="text/javascript" src="js/jquery-ui.toggleSwitch.js"></script>
       <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
       <script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
