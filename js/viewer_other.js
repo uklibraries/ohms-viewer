@@ -1,36 +1,19 @@
 jQuery(function($) {
   var loaded = false;
 
-  function hideAllPanels() {
-	  $('#index-panel').hide();
-	  $('#index-panel-alt').hide();
-	  $('#transcript-panel').hide();
-	  $('#transcript-panel-alt').hide();
-  }
-  
-  function activateContentPanel() {
-	var searchType = $('#search-type').val();
-	var langType = $('#language-type').val();
-	
-	if(langType == '')
-	{
-		langType = 'English';
-	}
-	if(searchType == 'Transcript') {
-	  //console.log('Transcript');
-	  $('#search-legend').html('Search this Transcript');
-	  $('#submit-btn').off('click').on('click', getSearchResults);
-	  $('#kw').off('keypress').on('keypress', getSearchResults);
-	  hideAllPanels();
-	  $('#transcript-panel' + (langType != 'English' ? '-alt' : '')).fadeIn();
-	}else if(searchType == 'Index') {
-	  //console.log('Index');
-	  $('#search-legend').html('Search this Index');
-	  $('#submit-btn').off('click').on('click', getIndexResults);
-	  $('#kw').off('keypress').on('keypress', getIndexResults);
-	  hideAllPanels();
-	  $('#index-panel' + (langType != 'English' ? '-alt' : '')).fadeIn();
-	}
+   function activateContentPanel() {
+	   var searchType = $('#search-type').val()
+	   if(searchType == 'Transcript') {
+		   $('#search-legend').html('Search this Transcript');
+		   $('#submit-btn').off('click').on('click', getSearchResults);
+		   $('#kw').off('keypress').on('keypress', getSearchResults);
+		   $('#index-panel').fadeOut();
+	   }else if(searchType == 'Index') {
+		   $('#search-legend').html('Search this Index');
+		   $('#submit-btn').off('click').on('click', getIndexResults);
+		   $('#kw').off('keypress').on('keypress', getIndexResults);
+		   $('#index-panel').fadeIn();
+	   }
   }
 
   $('#search-type').toggleSwitch({
