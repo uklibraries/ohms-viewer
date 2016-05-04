@@ -1,6 +1,14 @@
 <?php
 	$lang = $cacheFile->__get('transcript_alt_lang');
 ?>
+<?php if($cacheFile->translate == '1'): ?>
+    <div id="translate-toggle">
+        <select id="translate-lang">
+            <option id="translate-english">English</option>
+            <option id="translate-alt" <?php if($_GET['translate'] == '1') echo 'selected="selected"' ?>><?php echo $cacheFile->transcript_alt_lang; ?></option>
+        </select>
+    </div>
+<?php endif; ?>
 <div id="search-toggle">
   <select id="search-type">
     <?php if ($cacheFile->hasIndex()) { ?>

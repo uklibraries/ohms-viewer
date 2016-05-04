@@ -41,15 +41,15 @@ class Transcript {
 			$indexHTML = "<div id=\"accordionHolder" . ($translate ? '-alt' : '') . "\">\n";
 			foreach ($this->index->point as $point) {
 				$timePoint = (floor((int)$point->time / 60)) . ':' . str_pad(((int)$point->time % 60), 2, '0', STR_PAD_LEFT);
-				$synopsis = $point->synopsis;
-				$partial_transcript = $point->partial_transcript;
-				$keywords = $point->keywords;
-				$subjects = $point->subjects;
+				$synopsis = $_GET['translate'] == '1' ? $point->synopsis_alt : $point->synopsis;
+				$partial_transcript = $_GET['translate'] == '1' ? $point->partial_transcript_alt : $point->partial_transcript;
+				$keywords = $_GET['translate'] == '1' ? $point->keywords_alt : $point->keywords;
+				$subjects = $_GET['translate'] == '1' ? $point->subjects_alt : $point->subjects;
 				$gps = $point->gps;
 				$zoom = (empty($point->gps_zoom) ? '17' : $point->gps_zoom);
-				$gps_text = $point->gps_text;
+				$gps_text = $_GET['translate'] == '1' ? $point->gps_text_alt : $point->gps_text;
 				$hyperlink = $point->hyperlink;
-				$hyperlink_text = $point->hyperlink_text;
+				$hyperlink_text = $_GET['translate'] == '1' ? $point->hyperlink_text_alt : $point->hyperlink_text;
 
 				$indexHTML .= '<h3><a href="#" id="link' . $point->time . '">' . $timePoint . ' - ' . trim($point->title, ';') . "</a></h3>\n";
 				$indexHTML .= '<div class="point">' . "\n";

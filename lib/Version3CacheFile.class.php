@@ -78,12 +78,17 @@ class Version3CacheFile {
 		$this->data['player_id'] =	(string)$ohfile->record->mediafile->host_player_id;
 		$this->data['clip_id'] =	(string)$ohfile->record->mediafile->host_clip_id;
 		$this->data['clip_format'] =	(string)$ohfile->record->mediafile->clip_format;
-		$this->Transcript = new Transcript($ohfile->record->transcript, $this->data['chunks'], $ohfile->record->index);
-		$this->TranscriptAlt = new Transcript($ohfile->record->transcript_alt, $this->data['chunks_alt'], $ohfile->record->index_alt, true);
-		$this->data['transcript'] = $this->Transcript->getTranscriptHTML();
-		$this->data['transcript_alt'] = $this->TranscriptAlt->getTranscriptHTML();
+		if($_GET['translate'] == '1')
+		{
+			$this->data['chunks'] = (string)$ohfile->record->sync_alt;
+			$this->Transcript = new Transcript($ohfile->record->transcript_alt, $this->data['chunks'], $ohfile->record->index);
+			$this->data['transcript'] = $this->Transcript->getTranscriptHTML();
+		}
+		else {
+			$this->Transcript = new Transcript($ohfile->record->transcript, $this->data['chunks'], $ohfile->record->index);
+			$this->data['transcript'] = $this->Transcript->getTranscriptHTML();
+		}
 		$this->data['index'] = $this->Transcript->getIndexHTML();
-		$this->data['index_alt'] = $this->TranscriptAlt->getIndexHTML();
 
 		// Video or audio-only
 		$fmt_info = explode(":", $this->data['fmt']);

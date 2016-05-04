@@ -25,13 +25,23 @@ jQuery(function($) {
       }
     }
   });
-  
-  $('#language-type').toggleSwitch({
-	  change: function(e) {
-	  }
-  });
 
-  $('#kw').on('focus', function(e) {
+	$('#translate-lang').toggleSwitch({
+		change: function(e) {
+			if(loaded) {
+				if($('#translate-lang').val() == 'English')
+				{
+					location.href = location.href.replace('&translate=1', '');
+				}
+				else
+				{
+					location.href = location.href + '&translate=1';
+				}
+			}
+		}
+	});
+
+	$('#kw').on('focus', function(e) {
     if($('#kw').val() == 'Keyword') {
       $('#kw').toggleClass('kw-entry');
       $('#kw').val('');
