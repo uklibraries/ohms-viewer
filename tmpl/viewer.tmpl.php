@@ -4,9 +4,9 @@
 	$filepath =$cacheFile->media_url;
 	$rights = (string)$cacheFile->rights;
 	$usage = (string)$cacheFile->usage;
-	$contactemail = $config[$cacheFile->repository]['contactemail'];
-	$contactlink = $config[$cacheFile->repository]['contactlink'];
-	$copyrightholder = $config[$cacheFile->repository]['copyrightholder'];
+	$contactemail = (isset($config[$cacheFile->repository])) ? $config[$cacheFile->repository]['contactemail'] : '';
+	$contactlink = (isset($config[$cacheFile->repository])) ? $config[$cacheFile->repository]['contactlink'] : '';
+	$copyrightholder = (isset($config[$cacheFile->repository])) ? $config[$cacheFile->repository]['copyrightholder'] : '';
 	$seriesLink = (string)$cacheFile->series_link;
 	$collectionLink = (string)$cacheFile->collection_link;
 	$lang = (string)$cacheFile->translate;

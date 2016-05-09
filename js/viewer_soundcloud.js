@@ -24,18 +24,15 @@ jQuery(function($) {
         }
     });
 
-    $('#translate-lang').toggleSwitch({
-        change: function(e) {
-            if(loaded) {
-                if($('#translate-lang').val() == 'English')
-                {
-                    location.href = location.href.replace('&translate=1', '');
-                }
-                else
-                {
-                    location.href = location.href + '&translate=1';
-                }
-            }
+    $('#translate-link').click(function(e) {
+        e.preventDefault();
+        if($('#translate-link').attr('data-lang') == 'English')
+        {
+            location.href = location.href.replace('&translate=1', '');
+        }
+        else
+        {
+            location.href = location.href + '&translate=1';
         }
     });
 

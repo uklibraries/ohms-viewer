@@ -38,7 +38,8 @@ class Transcript {
 				$this->indexHTML = '';
 				return;
 			}
-			$indexHTML = "<div id=\"accordionHolder" . ($translate ? '-alt' : '') . "\">\n";
+			$indexHTML = "<div id=\"accordionHolder\">\n";
+			if(!isset($_GET['translate'])) $_GET['translate'] = 0;
 			foreach ($this->index->point as $point) {
 				$timePoint = (floor((int)$point->time / 60)) . ':' . str_pad(((int)$point->time % 60), 2, '0', STR_PAD_LEFT);
 				$synopsis = $_GET['translate'] == '1' ? $point->synopsis_alt : $point->synopsis;
@@ -51,10 +52,11 @@ class Transcript {
 				$hyperlink = $point->hyperlink;
 				$hyperlink_text = $_GET['translate'] == '1' ? $point->hyperlink_text_alt : $point->hyperlink_text;
 
-				$indexHTML .= '<h3><a href="#" id="link' . $point->time . '">' . $timePoint . ' - ' . trim($point->title, ';') . "</a></h3>\n";
+				$title = $_GET['translate'] == '1' ? $point->title_alt : $point->title;
+				$indexHTML .= '<h3><a href="#" id="link' . $point->time . '">' . $timePoint . ' - ' . trim($title, ';') . "</a></h3>\n";
 				$indexHTML .= '<div class="point">' . "\n";
 				$indexHTML .= '<p><a class="indexJumpLink" href="#" data-timestamp="' . $point->time	. '">Play segment</a><a class="indexSegmentLink" href="#" data-timestamp="' . $point->time . '">Segment link</a><br clear="both" /></p>';
-				$indexHTML .= '<p class="segmentLink" id="segmentLink' . $point->time . '"><strong>Direct segment link:</strong><br /><input type="text" readonly="readonly" class="segmentLinkTextBox" value="' . ($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '#segment' . $point->time . '" /></p>';
+				$indexHTML .= '<p class="segmentLink" id="segmentLink' . $point->time . '"><strong>Direct segment link:</strong><br /><input type="text" readonly="readonly" class="segmentLinkTextBox" value="' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '#segment' . $point->time . '" /></p>';
 				$indexHTML .= '<div class="synopsis">';
 				$indexHTML .= '<a name="tp_' . $point->time . '"></a>';
 				$indexHTML .= '<p><strong>Partial Transcript:</strong> <span>' . nl2br($partial_transcript) . '</span></p><p><strong>Segment Synopsis:</strong><span> ' . nl2br($synopsis) . '</span></p><p><strong>Keywords:</strong><span> ' . str_replace(';', '; ', $keywords) . '</span></p><p><strong>Subjects:</strong><span> ' . str_replace(';', ' ', $subjects) . '</span></p>';

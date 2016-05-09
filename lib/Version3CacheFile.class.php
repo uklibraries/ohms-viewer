@@ -8,6 +8,7 @@
  */
 
 require_once 'Transcript.class.php';
+if(!isset($_GET['translate'])) $_GET['translate'] = '0';
 
 class Version3CacheFile {
 	private static $InstanceVersion3 = NULL;
