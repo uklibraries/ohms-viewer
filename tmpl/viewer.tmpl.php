@@ -81,19 +81,9 @@
 	  <div id="transcript-panel" class="transcript-panel">
 	    <?php echo $cacheFile->transcript; ?>
 	  </div>
-	  <?php if($lang == '1'): ?>
-		<div id="transcript-panel-alt" class="transcript-panel">
-			<?php echo $cacheFile->transcript_alt; ?>
-		</div>
-	  <?php endif; ?>
 	  <div id="index-panel" class="index-panel">
 	    <?php echo $cacheFile->index; ?>
 	  </div>
-	  <?php if($lang == '1'): ?>
-		<div id="index-panel-alt" class="index-panel">
-			<?php echo $cacheFile->index_alt; ?>
-		</div>
-	  <?php endif; ?>
 	</div>
 	<div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
       </div>
