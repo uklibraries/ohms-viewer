@@ -55,6 +55,7 @@ class Version3CacheFile {
 			'kembed' => (string)$ohfile->record->kembed,
 			'collection_link' => (string)$ohfile->record->collection_link,
 			'series_link' => (string)$ohfile->record->series_link,
+			'language' => empty($ohfile->record->language) ? 'English' : $ohfile->record->language,
 			'transcript_alt_lang' => (string)$ohfile->record->transcript_alt_lang,
 			'translate' => (string)$ohfile->record->translate,
 		);

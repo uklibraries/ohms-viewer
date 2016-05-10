@@ -14,20 +14,13 @@
 </div>
 <?php if($cacheFile->translate == '1'): ?>
     <div id="translate-toggle">
-        <a href="#" id="translate-link" data-lang="<?php echo ((isset($_GET['translate']) && $_GET['translate'] == '1') ? 'English' : $cacheFile->transcript_alt_lang); ?>">Switch to <?php echo ((isset($_GET['translate']) && $_GET['translate'] == '1') ? 'English' : $cacheFile->transcript_alt_lang); ?></a>
+        <a href="#" id="translate-link" data-lang="<?php echo $cacheFile->language ?>" data-translate="<?php $cacheFile->transcript_alt_lang; ?>" data-linkto="<?php echo ((isset($_GET['translate']) && $_GET['translate'] == '1') ? $cacheFile->language : $cacheFile->transcript_alt_lang); ?>">Switch to <?php echo ((isset($_GET['translate']) && $_GET['translate'] == '1') ? $cacheFile->language : $cacheFile->transcript_alt_lang); ?></a>
     </div>
+    <br />
 <?php endif; ?>
 
 <span id="alert"></span>
 
-<?php if(!empty($lang)): ?>
-	<div id="language-toggle">
-		<select id="language-type">
-			<option id="language-english" selected="selected">English</option>
-			<option id="language-alt"><?php echo $lang; ?></option>
-		</select>
-	</div>
-<?php endif; ?>
 <form id="search-form" onSubmit="return false;" name="search-form">
     <?php if ($cacheFile->hasIndex()) { ?>
   <fieldset><legend id="search-legend">Search This Index</legend>

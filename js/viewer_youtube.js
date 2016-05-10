@@ -26,7 +26,7 @@ jQuery(function($) {
 
 	$('#translate-link').click(function(e) {
 		e.preventDefault();
-		if($('#translate-link').attr('data-lang') == 'English')
+		if($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto'))
 		{
 			location.href = location.href.replace('&translate=1', '');
 		}
