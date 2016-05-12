@@ -1,0 +1,8 @@
+CONTRIBUTORS
+============
+
+Shawn De Cesari
+Taylor Gillespie
+James Howard
+Kathryn Lybarger (original author)
+Michael Slone
