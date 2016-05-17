@@ -102,6 +102,8 @@ jQuery(function ($) {
   };
 
   var getSearchResults = function (e) {
+    var isTranslate = false;
+
     if ((e.type == "keypress" && e.which == 13) || e.type == "click") {
       e.preventDefault();
       var kw = $('#kw').val();
@@ -113,7 +115,11 @@ jQuery(function ($) {
             line.find('.highlight').contents().unwrap();
           });
         }
-        $.getJSON('viewer.php?action=search&cachefile=' + cachefile + '&kw=' + kw, function (data) {
+        if(parent.document.URL.search('translate=1') != -1)
+        {
+          isTranslate = true;
+        }
+        $.getJSON('viewer.php?action=search&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
           var matches = [];
           $('#search-results').empty();
           if (data.matches.length == 0) {
@@ -155,6 +161,8 @@ jQuery(function ($) {
   prevIndex = {keyword: '', matches: []};
 
   var getIndexResults = function (e) {
+    var isTranslate = false;
+
     if ((e.type == "keypress" && e.which == 13) || e.type == "click") {
       e.preventDefault();
       var kw = $('#kw').val();
@@ -168,7 +176,11 @@ jQuery(function ($) {
             synopsis.find('.highlight').contents().unwrap();
           });
         }
-        $.getJSON('viewer.php?action=index&cachefile=' + cachefile + '&kw=' + kw, function (data) {
+        if(parent.document.URL.search('translate=1') != -1)
+        {
+          isTranslate = true;
+        }
+        $.getJSON('viewer.php?action=index&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
           var matches = [];
           $('#search-results').empty();
           if (data.matches.length == 0) {
