@@ -52,6 +52,14 @@ else
 
 $height = ($cacheFile->clip_format == 'audio' ? 95 : 279);
 
+$extraScript = '';
+if(isset($_GET['time']) && is_numeric($_GET['time']))
+{
+    $extraScript = 'kdp.kBind(\'mediaReady\', function(){
+		window.kdp.sendNotification(\'doSeek\', ' . $_GET['time'] . ');
+	})';
+}
+
 echo <<<KALTURA
 		<div id="youtubePlayer">
 			<div id="kaltura_player_embed" style="width: 500px; height: {$height}px;"></div>
@@ -74,6 +82,7 @@ echo <<<KALTURA
 				},
 				readyCallback: function( playerId ){
 				  window.kdp = document.getElementById(playerId);
+				  {$extraScript}
 				}
 			});
 		</script>

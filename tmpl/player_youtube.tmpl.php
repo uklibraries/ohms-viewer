@@ -3,7 +3,13 @@
 		$publisher_id = $cacheFile->account_id;
 		$youtubeId = str_replace('http://youtu.be/', '', $cacheFile->media_url);
 
-		echo <<<YOUTUBE
+		$extraScript = '';
+		if(isset($_GET['time']) && is_numeric($_GET['time']))
+		{
+			$extraScript = 'event.target.seekTo(' . (int)$_GET['time'] . ');';
+		}
+
+echo <<<YOUTUBE
 			<div id="youtubePlayer"></div>
 			
 		  <div class="video-spacer"></div>
@@ -44,6 +50,7 @@
 					function onPlayerReady(event)
 					{
 						event.target.playVideo();
+						{$extraScript}
 					}
 				}
 			</script>

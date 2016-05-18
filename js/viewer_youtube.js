@@ -26,10 +26,15 @@ jQuery(function ($) {
 
   $('#translate-link').click(function (e) {
     e.preventDefault();
-    if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
-      location.href = location.href.replace('&translate=1', '');
-    } else {
-      location.href = location.href + '&translate=1';
+    if($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto'))
+    {
+      var re = /&translate=(.*)/g;
+      location.href = location.href.replace(re, '') + '&time=' + Math.floor(player.getCurrentTime()) + '&panel=' + $('#search-type').val();
+    }
+    else
+    {
+      var re = /&time=(.*)/g;
+      location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(player.getCurrentTime()) + '&panel=' + $('#search-type').val();
     }
   });
 

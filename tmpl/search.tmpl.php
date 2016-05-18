@@ -3,13 +3,13 @@
 ?>
 <div id="search-toggle">
   <select id="search-type">
-    <?php if ($cacheFile->hasIndex()) { ?>
-    <option id="search-transcript">Transcript</option>  
-    <option id="search-index" selected="selected">Index</option>
-    <?php } else { ?>
-    <option id="search-transcript" selected="selected">Transcript</option>  
-    <option id="search-index">Index</option>
-    <?php } ?>
+      <?php if ((isset($_GET['panel']) && $_GET['panel'] == 'Index') || ($cacheFile->hasIndex() && (!isset($_GET['panel']) || $_GET['panel'] != 'Transcript'))) { ?>
+          <option id="search-transcript">Transcript</option>
+          <option id="search-index" selected="selected">Index</option>
+      <?php } else { ?>
+          <option id="search-transcript" selected="selected">Transcript</option>
+          <option id="search-index">Index</option>
+      <?php } ?>
   </select>
 </div>
 <?php if($cacheFile->translate == '1'): ?>

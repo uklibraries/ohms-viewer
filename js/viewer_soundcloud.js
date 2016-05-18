@@ -26,11 +26,18 @@ jQuery(function ($) {
 
   $('#translate-link').click(function (e) {
     e.preventDefault();
-    if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
-      location.href = location.href.replace('&translate=1', '');
-    } else {
-      location.href = location.href + '&translate=1';
-    }
+    parent.widget.getPosition(function(pos) {
+      if($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto'))
+      {
+        var re = /&translate=(.*)/g;
+        location.href = location.href.replace(re, '') + '&time=' + Math.floor(pos / 1000) + '&panel=' + $('#search-type').val();
+      }
+      else
+      {
+        var re = /&time=(.*)/g;
+        location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(pos / 1000) + '&panel=' + $('#search-type').val();
+      }
+    });
   });
 
   $('#kw').on('focus', function (e) {

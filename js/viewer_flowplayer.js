@@ -1,3 +1,14 @@
+var vars = [], hash;
+var q = document.URL.split('?')[1];
+if(q != undefined){
+  q = q.split('&');
+  for(var i = 0; i < q.length; i++){
+    hash = q[i].split('=');
+    vars.push(hash[1]);
+    vars[hash[0]] = hash[1];
+  }
+}
+
 jQuery(function ($) {
   var loaded = false;
 
@@ -26,10 +37,15 @@ jQuery(function ($) {
 
   $('#translate-link').click(function (e) {
     e.preventDefault();
-    if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
-      location.href = location.href.replace('&translate=1', '');
-    } else {
-      location.href = location.href + '&translate=1';
+    if($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto'))
+    {
+      var re = /&translate=(.*)/g;
+      location.href = location.href.replace(re, '') + '&time=' + Math.floor(jQuery('#subjectPlayer').data("jPlayer").status.currentTime) + '&panel=' + $('#search-type').val();
+    }
+    else
+    {
+      var re = /&time=(.*)/g;
+      location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(jQuery('#subjectPlayer').data("jPlayer").status.currentTime) + '&panel=' + $('#search-type').val();
     }
   });
 
@@ -55,7 +71,14 @@ jQuery(function ($) {
         playerData = {};
         playerData['title'] = "Player";
         playerData[jQuery('#subjectPlayer').attr('rel')] = jQuery('#subjectPlayer').attr('href');
-        jQuery(this).jPlayer("setMedia", playerData).jPlayer("play");
+        if('time' in vars)
+        {
+          jQuery(this).jPlayer("setMedia", playerData).jPlayer("play", vars['time'] * 1);
+        }
+        else
+        {
+          jQuery(this).jPlayer("setMedia", playerData).jPlayer("play");
+        }
       },
       loadstart: function () {
         jQuery('#jp-loading-graphic').show();
