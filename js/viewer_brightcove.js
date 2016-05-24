@@ -1,6 +1,6 @@
 var vars = [], hash;
 var q = document.URL.split('?')[1];
-if(q != undefined){
+if (q != undefined) {
   q = q.split('&');
   for(var i = 0; i < q.length; i++){
     hash = q[i].split('=');
@@ -37,13 +37,10 @@ jQuery(function ($) {
 
   $('#translate-link').click(function (e) {
     e.preventDefault();
-    if($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto'))
-    {
+    if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
       var re = /&translate=(.*)/g;
       location.href = location.href.replace(re, '') + '&time=' + Math.floor(modVP.getVideoPosition(false)) + '&panel=' + $('#search-type').val();
-    }
-    else
-    {
+    } else {
       var re = /&time=(.*)/g;
       location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(parent.modVP.getVideoPosition(false)) + '&panel=' + $('#search-type').val();
     }
@@ -112,8 +109,7 @@ jQuery(function ($) {
             line.find('.highlight').contents().unwrap();
           });
         }
-        if(parent.document.URL.search('translate=1') != -1)
-        {
+        if (parent.document.URL.search('translate=1') != -1) {
           isTranslate = true;
         }
         $.getJSON('viewer.php?action=search&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
@@ -173,8 +169,7 @@ jQuery(function ($) {
             synopsis.find('.highlight').contents().unwrap();
           });
         }
-        if(parent.document.URL.search('translate=1') != -1)
-        {
+        if (parent.document.URL.search('translate=1') != -1) {
           isTranslate = true;
         }
         $.getJSON('viewer.php?action=index&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
@@ -258,8 +253,7 @@ function onTemplateReady(evt) {
 function onContentLoad(evt) {
   var currentVideo = modVP.getCurrentVideo();
   modCon.getMediaAsynch(currentVideo.id);
-  if('time' in vars)
-  {
+  if ('time' in vars) {
     goToSecond(vars['time'] * 1);
   }
 }

@@ -26,13 +26,10 @@ jQuery(function ($) {
 
   $('#translate-link').click(function (e) {
     e.preventDefault();
-    if($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto'))
-    {
+    if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
       var re = /&translate=(.*)/g;
       location.href = location.href.replace(re, '') + '&time=' + Math.floor(player.getCurrentTime()) + '&panel=' + $('#search-type').val();
-    }
-    else
-    {
+    } else {
       var re = /&time=(.*)/g;
       location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(player.getCurrentTime()) + '&panel=' + $('#search-type').val();
     }
@@ -107,8 +104,7 @@ jQuery(function ($) {
             line.find('.highlight').contents().unwrap();
           });
         }
-        if(parent.document.URL.search('translate=1') != -1)
-        {
+        if (parent.document.URL.search('translate=1') != -1) {
           isTranslate = true;
         }
         $.getJSON('viewer.php?action=search&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
@@ -168,8 +164,7 @@ jQuery(function ($) {
             synopsis.find('.highlight').contents().unwrap();
           });
         }
-        if(parent.document.URL.search('translate=1') != -1)
-        {
+        if (parent.document.URL.search('translate=1') != -1) {
           isTranslate = true;
         }
         $.getJSON('viewer.php?action=index&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
