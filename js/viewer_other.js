@@ -131,8 +131,7 @@ jQuery(function ($) {
             line.find('.highlight').contents().unwrap();
           });
         }
-        if(parent.document.URL.search('translate=1') != -1)
-        {
+        if(parent.document.URL.search('translate=1') != -1) {
           isTranslate = true;
         }
         $.getJSON('viewer.php?action=search&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function(data) {
@@ -192,8 +191,7 @@ jQuery(function ($) {
             synopsis.find('.highlight').contents().unwrap();
           });
         }
-        if(parent.document.URL.search('translate=1') != -1)
-        {
+        if(parent.document.URL.search('translate=1') != -1) {
           isTranslate = true;
         }
         $.getJSON('viewer.php?action=index&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function(data) {
