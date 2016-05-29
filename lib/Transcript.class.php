@@ -140,7 +140,7 @@ class Transcript {
 			{
 				$line = preg_replace('/\[\[link\]\](.*)\[\[\/link\]\]/', '', $line);
 				$line = str_replace('[[note]]', '<a name="footnote' . ++$noteNum . '"></a><div><a class="footnoteLink" href="#sup' . $noteNum . '">' . $noteNum . '</a>. <a class="footnoteLink" href="' . $matches[1] . '" target="_new">', $line);
-				$line = str_replace('[[/note]]', '</div>', $line);
+				$line = str_replace('[[/note]]', '</a></div>', $line);
 			}
 			else
 			{
