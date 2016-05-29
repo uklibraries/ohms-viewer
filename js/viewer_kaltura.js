@@ -1,3 +1,14 @@
+var vars = [], hash;
+var q = document.URL.split('?')[1];
+if (q != undefined) {
+  q = q.split('&');
+  for(var i = 0; i < q.length; i++){
+    hash = q[i].split('=');
+    vars.push(hash[1]);
+    vars[hash[0]] = hash[1];
+  }
+}
+
 jQuery(function ($) {
   var loaded = false;
 
@@ -25,13 +36,20 @@ jQuery(function ($) {
   });
 
   $('#translate-link').click(function (e) {
+    var urlIndexPiece = '';
     e.preventDefault();
+    if($('#search-type').val() == 'Index') {
+      var activeIndexPanel = $('#accordionHolder').accordion('option', 'active');
+      if(activeIndexPanel !== false) {
+        urlIndexPiece = '&index=' + activeIndexPanel;
+      }
+    }
     if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
       var re = /&translate=(.*)/g;
-      location.href = location.href.replace(re, '') + '&time=' + Math.floor(kdp.evaluate('{video.player.currentTime}')) + '&panel=' + $('#search-type').val();
+      location.href = location.href.replace(re, '') + '&time=' + Math.floor(kdp.evaluate('{video.player.currentTime}')) + '&panel=' + $('#search-type').val() + urlIndexPiece;
     } else {
       var re = /&time=(.*)/g;
-      location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(parent.kdp.evaluate('{video.player.currentTime}')) + '&panel=' + $('#search-type').val();
+      location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(parent.kdp.evaluate('{video.player.currentTime}')) + '&panel=' + $('#search-type').val() + urlIndexPiece;
     }
   });
 
@@ -206,9 +224,18 @@ jQuery(function ($) {
   $('#clear-btn').on('click', clearSearchResults);
   $('#kw').on('keypress', getSearchResults);
 
+  var activeIndex = false;
+
+  if('index' in vars) {
+    activeIndex = parseInt(vars['index']);
+    if(isNaN(activeIndex)) {
+      activeIndex = false;
+    }
+  }
+
   $('#accordionHolder').accordion({
     collapsible: true,
-    active: false,
+    active: activeIndex,
     fillSpace: true,
     change: function (e, ui) {
       $('#index-panel').scrollTo($('.ui-state-active'), 800, {easing:'easeInOutCubic'});
