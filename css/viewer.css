@@ -159,10 +159,11 @@ h2 {
 }
 #transcript-panel .jumpLink, #transcript-panel-alt .jumpLink {
   position: absolute;
-  left: 50px;
+  left: 40px;
   font-size: 10px;
   color: #0000ff;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .footnoteLink {

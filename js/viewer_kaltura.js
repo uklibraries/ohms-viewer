@@ -246,5 +246,8 @@ jQuery(function ($) {
   $(document).ready(function () {
     loaded = true;
     activateContentPanel();
+    if(activeIndex !== false) {
+      $('#index-panel').scrollTo($('.ui-state-active'), 800, {easing: 'easeInOutCubic'});
+    }
   });
 });
