@@ -1,8 +1,9 @@
-var vars = [], hash;
+var vars = [],
+  hash;
 var q = document.URL.split('?')[1];
 if (q != undefined) {
   q = q.split('&');
-  for(var i = 0; i < q.length; i++){
+  for (var i = 0; i < q.length; i++) {
     hash = q[i].split('=');
     vars.push(hash[1]);
     vars[hash[0]] = hash[1];
@@ -38,9 +39,9 @@ jQuery(function ($) {
   $('#translate-link').click(function (e) {
     var urlIndexPiece = '';
     e.preventDefault();
-    if($('#search-type').val() == 'Index') {
+    if ($('#search-type').val() == 'Index') {
       var activeIndexPanel = $('#accordionHolder').accordion('option', 'active');
-      if(activeIndexPanel !== false) {
+      if (activeIndexPanel !== false) {
         urlIndexPiece = '&index=' + activeIndexPanel;
       }
     }
@@ -106,10 +107,13 @@ jQuery(function ($) {
 
   playerControl();
 
-  var prevSearch = {keyword: '', highLines: []};
+  var prevSearch = {
+    keyword: '',
+    highLines: []
+  };
 
   var preg_quote = function (str) {
-    return (str+'').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/gi, "\\$1");
+    return (str + '').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/gi, "\\$1");
   };
 
   var clearSearchResults = function (e) {
@@ -171,8 +175,12 @@ jQuery(function ($) {
                 linenum = $(e.target).data("linenum");
               }
               var line = $('#line_' + linenum);
-              $('#transcript-panel').scrollTo(line, 800, {easing:'easeInSine'});
-              $('#transcript-panel-alt').scrollTo(line, 800, {easing:'easeInSine'});
+              $('#transcript-panel').scrollTo(line, 800, {
+                easing: 'easeInSine'
+              });
+              $('#transcript-panel-alt').scrollTo(line, 800, {
+                easing: 'easeInSine'
+              });
             });
           }
         });
@@ -180,7 +188,10 @@ jQuery(function ($) {
     }
   };
 
-  prevIndex = {keyword: '', matches: []};
+  prevIndex = {
+    keyword: '',
+    matches: []
+  };
 
   var getIndexResults = function (e) {
     var isTranslate = false;
@@ -231,7 +242,9 @@ jQuery(function ($) {
               linenum = lineTarget.data("linenum");
               var line = $('#link' + linenum);
               $('#link' + linenum).click();
-              $('#index-panel').scrollTo(line, 800, {easing:'easeInSine'});
+              $('#index-panel').scrollTo(line, 800, {
+                easing: 'easeInSine'
+              });
             });
           }
         });
@@ -245,9 +258,9 @@ jQuery(function ($) {
 
   var activeIndex = false;
 
-  if('index' in vars) {
+  if ('index' in vars) {
     activeIndex = parseInt(vars['index']);
-    if(isNaN(activeIndex)) {
+    if (isNaN(activeIndex)) {
       activeIndex = false;
     }
   }
@@ -258,15 +271,19 @@ jQuery(function ($) {
     active: activeIndex,
     fillSpace: false,
     change: function (e, ui) {
-      $('#index-panel').scrollTo($('.ui-state-active'), 800, {easing:'easeInOutCubic'});
+      $('#index-panel').scrollTo($('.ui-state-active'), 800, {
+        easing: 'easeInOutCubic'
+      });
     }
   });
 
   $(document).ready(function () {
     loaded = true;
     activateContentPanel();
-    if(activeIndex !== false) {
-      $('#index-panel').scrollTo($('.ui-state-active'), 800, {easing: 'easeInOutCubic'});
+    if (activeIndex !== false) {
+      $('#index-panel').scrollTo($('.ui-state-active'), 800, {
+        easing: 'easeInOutCubic'
+      });
     }
   });
 });
