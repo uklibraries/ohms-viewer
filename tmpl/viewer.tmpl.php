@@ -16,6 +16,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <title><?php echo $cacheFile->title; ?></title>
+    <style type="text/css" media="all">
+    @import url("css/responsive.css");
+    </style>
     <link rel="stylesheet" href="css/viewer.css" type="text/css" />
     <link rel="stylesheet" href="css/<?php echo $config[$cacheFile->repository]['css'];?>" type="text/css" />
     <link rel="stylesheet" href="css/jquery-ui.toggleSwitch.css" type="text/css" />
