@@ -7,3 +7,4 @@ James Howard
 Kathryn Lybarger (original author)
 Jack Schmidt
 Michael Slone
+Eric Weig
