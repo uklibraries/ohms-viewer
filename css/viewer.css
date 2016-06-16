@@ -22,7 +22,14 @@ h1 {
   text-align: center;
   color: white;
 }
-
+h2 {
+  font-size: 12px;
+  padding: 0 0 8px;
+  text-align: center;
+  color: #f5f5f5;
+  font-weight: normal;
+  border-bottom: 3px solid #c2c2c2;
+}
 .linenum {
   font-size: 8px;
 }
@@ -44,14 +51,44 @@ h1 {
   padding-top: 2px;
   padding-bottom: 2px;
 }
-
-
+#main {
+  width: 1024px;
+  height: 550px;
+  margin: auto;
+  border: 1px solid #c2c2c2;
+  border-width: 0 1px;
+  background: #ffffff;
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+#header {
+  width: 955px;
+  height: 240px;
+  margin: 0 auto;
+  padding: 24px 34px 24px 35px;
+  background: #3c3c3c;
+}
+#headervid {
+  width: 955px;
+  height: 450px;
+  margin: 0 auto;
+  padding: 24px 34px 24px 35px;
+  background: #3c3c3c;
+}
 .close_link {
   float: right;
   color: white;
   text-decoration: none;
 }
-
+#footer {
+  width: 955px;
+  height: auto;
+  margin: 0 auto;
+  padding: 20px 34px 20px 35px;
+  background: #3c3c3c;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
 #footer div {
   color: #f5f5f5;
 }
@@ -83,12 +120,36 @@ h1 {
 #footer small span {
   display: block;
 }
-
-
-#transcript-panel p.first-p, #transcript-panel-alt p.first-p {
-  margin-top: 0px;
+#main-panels {
+  margin: 0px auto;
+  width: 90%;
 }
-
+#holder-panel {
+  width: 500px;
+  height: 550px;
+  position: relative;
+  float: left;
+  overflow: auto;
+  outline: 0;
+  margin: auto;
+  padding-left: 80px;
+  padding-right: 20px;
+  background: #ffffff;
+  text-align: left;
+}
+#transcript-panel, #transcript-panel-alt {
+  width: 500px;
+  height: 550px;
+  position: absolute;
+  float: left;
+  overflow: auto;
+  outline: 0;
+  margin: auto;
+  padding-left: 80px;
+  padding-right: 20px;
+  background: #ffffff;
+  text-align: left;
+}
 #transcript-panel .speaker, #transcript-panel-alt .speaker {
   font-weight: bold;
   display: inline;
@@ -96,12 +157,39 @@ h1 {
 #transcript-panel a, #transcript-panel-alt a {
   color: #000000;
 }
-
+#transcript-panel .jumpLink, #transcript-panel-alt .jumpLink {
+  position: absolute;
+  left: 40px;
+  font-size: 10px;
+  color: #0000ff;
+  text-decoration: none;
+  font-weight: bold;
+}
 
 .footnoteLink {
 	color: #0000ff !important;
 }
 
+#transcript-panel p.first-p, #transcript-panel-alt p.first-p {
+  margin-top: 0px;
+}
+#content-panel {
+  float: left;
+}
+#index-panel, #index-panel-alt {
+  display: none;
+  width: 500px;
+  height: 550px;
+  position: absolute;
+  float: left;
+  overflow: auto;
+  outline: 0;
+  margin: auto;
+  padding-left: 80px;
+  padding-right: 20px;
+  background: #ffffff;
+  text-align: left;
+}
 #index-panel .speaker, #index-panel-alt .speaker {
   font-weight: bold;
   display: inline;
@@ -119,7 +207,16 @@ h1 {
 #index-panel p.first-p, #index-panel-alt p.first-p {
   margin-top: 0px;
 }
-
+#search-toggle, #language-toggle {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+#searchbox-panel {
+  width: 310px;
+  height: 550px;
+  float: left;
+  background: #ffffff;
+}
 #searchbox-panel .speaker {
   font-weight: bold;
   display: block;
@@ -135,7 +232,17 @@ h1 {
   color: #ff0000;
   font-weight: bold;
 }
-
+#audio-panel {
+  width: 500px;
+  height: 30px;
+  /*padding-top: 10px;*/
+  padding-bottom: 10px;
+  text-align: center;
+  margin: 0px auto;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  background-color: #3c3c3c;
+}
 #audio-panel a {
   font-size: 9pt;
 }
@@ -288,6 +395,11 @@ h1 {
   top: 1px;
 }
 
+
+#search-results {
+  overflow-y: auto;
+  height: 80% !important;
+}
 #search-results ol {
   text-align: left;
 }
@@ -312,7 +424,10 @@ h1 {
   padding-top: 2px;
   padding-bottom: 2px;
 }
-
+fieldset {
+  width: 80%;
+  margin: 0 auto;
+}
 legend {
   font: 80%/1 sans-serif;
 }
@@ -406,262 +521,3 @@ div.point {
 .segmentLink input {
 	width: 99%;
 }
-
-/***************************
-****************************
-These are the styles that
-control the viewer's 
-Responsive Web Design
-****************************
-***************************/
-
-#header {
-  width: 82%;
-  height: 240px;
-  margin: 0 auto;
-  padding: 0 5% 0 5%;
-  max-width: 900px;
-  border-bottom: 5px solid #337ab7;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  background: #3c3c3c;
-}
-#headervid {
-  width: 82%;
-  height: 450px;
-  margin: 0 auto;
-  padding: 0 5% 0 5%;
-  max-width: 900px;
-  border-bottom: 5px solid #337ab7;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  background: #3c3c3c;
-}
-
-#audio-panel {
-  width: 90%;
-  height: 30px;
-  max-width: 90%;
-  /*padding-top: 10px;*/
-  padding-bottom: 10px;
-  text-align: center;
-  margin: 0px;
-  margin-right: auto;
-  margin-top: 20px;
-  margin-bottom: 15px;
-  background-color: #3c3c3c;
-}
-
-#holder-panel {
-  width: 325px;
-  height: 550px;
-  position: relative;
-  float: left;
-  overflow: auto;
-  outline: 0;
-  margin: auto;
-  padding-left: 80px;
-  padding-right: 20px;
-  background: #ffffff;
-  text-align: left;
-}
-
-
-.center {
-    position: relative !important;
-    padding: 1% 5% 1% !important;
-    width: 100% !important;
-}
-
-#footer {
-  width: 82%;
-  height: auto;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 5px 0 5px;
-  background: #3c3c3c;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  border-top: 5px solid #337ab7;
-}
-
-h2 {
-  font-size: 12px;
-  padding: 0 0 8px;
-  text-align: center;
-  color: #f5f5f5;
-  font-weight: normal;
-  border-bottom: 0px solid #3c3c3c;
-}
-
-#main {
-  width: 82%;
-  height: 550px;
-  padding: 24px 34px 24px 35px;
-  max-width:82%;
-  margin: auto;
-  border: 1px solid #c2c2c2;
-  border-width: 0 1px;
-  background: #ffffff;
-  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-}
-
-#main-panels {
-  margin: 0px;
-  width: 100%;
-}
-
-#content-panel {
-  float: left;
-  width: 60%;
-  margin-right: 7%;
-}
-
-#transcript-panel, #transcript-panel-alt {
-  width: 500px;
-  height: 530px;
-  max-width: 45%;
-  border: 1px solid #dcdcdc;
-  position: absolute;
-  float: left;
-  overflow: auto;
-  outline: 0;
-  margin-top: 10px;
-  margin: auto;
-  padding-left: 10%;
-  padding-right: 10%;
-  background: #ffffff;
-  text-align: left;
-}
-
-#index-panel, #index-panel-alt {
-  display: none;
-  width: 500px;
-  height: 535px;
-  max-width: 45%;
-  margin-top: 10px;
-  border: 1px solid #dcdcdc;
-  position: absolute;
-  float: left;
-  overflow: auto;
-  outline: 0;
-  margin: auto;
-  padding-left: 5%;
-  padding-right: 2%;
-  background: #ffffff;
-  text-align: left;
-}
-
-#searchbox-panel {
-  width: 310px;
-  height: 550px;
-  float: left;
-  background: #ffffff;
-  max-width:28%;
-}
-
-#search-results {
-  overflow-y: auto;
-  height: 80% !important;
-  width: 100%;
-}
-
-#search-toggle, #language-toggle {
-  margin-top: 5px;
-  margin-bottom: 10px;
-  width: 100%;
-}
-
-fieldset {
-  width: 100%;
-  position: relative;
-  display: table-cell;
-  margin: 0 auto;
-}
-
-input {
-	max-width: 180px;
-	width: 80%;
-}
-
-#transcript-panel .jumpLink, #transcript-panel-alt .jumpLink {
-  position: absolute;
-  left: 1px;
-  font-size: 10px;
-  color: #0000ff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-@media only screen and (min-width: 769px) and (max-width: 1000px) {
-	#content-panel {
-	width: 55%;
-	}
-	#index-panel {
-		width: 50%;
-	}
-	#search-toggle {
-		width: 150%;
-	}
-	#searchbox-panel {
-	margin-left: 8%;	
-}
-}
- @media only screen and (max-width: 768px) {
-	#header {
-		padding: 0 1% 0 1%;
-		width: 95%;
-	}
-	#footer {
-		padding: 0 1% 0 1%;
-		width: 95%;
-	}
-	#main {
-		padding: 0 1% 0 1%;
-		width: 95%;
-		height: 820px !important;
-	}
-	#content-panel {
-		width: 95%;
-		margin-right: 1%;
-		float: none;
-		top: 500px;
-		height: 1px;
-	}
-	#index-panel {
-		padding-left: 1%;
-		padding-right: 1%;
-		width: 90%;
-		top:465px;
-		height: 575px !important;
-		
-	}
-	#transcript-panel {
-		padding-left: 5%;
-		padding-right: 1%;
-		top: 230px;
-		width: 95%;
-		float: none;
-	}
-	#searchbox-panel {
-		width: 90%;
-		margin-left: 2%;
-		height: 250px !important;
-		float: left;
-	}
-	#search-results {
-  	height: 100px;
-	border: 1px solid #dcdcdc;
-}
-	h1 {
-		font-size: 20px;
-	}
-	 input {
-	max-width: 500px;
-}
- }
- @media only screen and (min-width: 320px) and (max-width: 480px) {
-	#transcript-panel {
-		padding-left: 10%;
-		width: 90%;
- }
