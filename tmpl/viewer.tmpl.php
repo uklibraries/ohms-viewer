@@ -49,12 +49,12 @@
     <div id="headervid">
 <?php endif; ?>
 		<?php if(isset($config[$cacheFile->repository])): ?>
-		<img width="77" src="<?php echo $config[$cacheFile->repository]['footerimg'];?>" alt="<?php echo $config[$cacheFile->repository]['footerimgalt'];?>" style="float: left;" />
+		<img id="headerimg" src="<?php echo $config[$cacheFile->repository]['footerimg'];?>" alt="<?php echo $config[$cacheFile->repository]['footerimgalt'];?>" />
 		<?php endif; ?>
-      <div class="center" style="width:860px;">
+      <div class="center">
 	<h1><?php echo $cacheFile->title; ?></h1>
 	<h2 id="secondaryMetaData">
-		<div style="margin-left: 80px;">
+		<div>
 			<strong><?php echo $cacheFile->repository; ?></strong><br />
 			<?php echo $cacheFile->interviewer; ?>, Interviewer | <?php echo $cacheFile->accession; ?><br />
 			<?php if(isset($cacheFile->collection_link) && (string)$cacheFile->collection_link != ''): ?>
@@ -77,7 +77,7 @@
     <div id="main">
       <div id="main-panels">
 	<div id="content-panel">
-	  <div id="holder-panel" style="position: relative; width: 500px; height: 550px;"></div>
+	  <div id="holder-panel"></div>
 	  <div id="transcript-panel" class="transcript-panel">
 	    <?php echo $cacheFile->transcript; ?>
 	  </div>
@@ -89,7 +89,7 @@
       </div>
     </div>
     <div id="footer">
-		<div style="float: left; text-align: left; width: 50%; margin-top: -12px;">
+		<div id="footer-metadata">
 			<?php if(!empty($rights)): ?>
 				<p><span><h3><a href="#" id="lnkRights">View Rights Statement</a></h3><div id="rightsStatement"><?php echo $rights; ?></div></span></p>
 			<?php else: ?>
@@ -108,10 +108,10 @@
 			<?php endif; ?>
 			<p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail;?>"><?php echo $contactemail; ?></a> | <a href="<?php echo $contactlink; ?>"><?php echo $contactlink; ?></a></h3></span></p>
 		</div>
-		<div style="float: right; text-align: right; width: 50%;">
+		<div id="footer-copyright">
 			<small id="copyright"><span>&copy; <?php echo Date("Y"); ?></span><?php echo $copyrightholder; ?></small>
 		</div>
-		<div style="float: right; color:white; margin-top: 10px; text-align:right;">
+		<div id="footer-logo">
 			<img alt="Powered by OHMS logo" src="imgs/ohms_logo.png" border="0"/>
 	  </div>
 		<br clear="both" />

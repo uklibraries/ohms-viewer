@@ -1,23 +1,5 @@
 <?php
 //Set style values for Kaltura player and page based on file format
-if ($cacheFile->clip_format == 'audio') {
-    $height = "180";
-    $width  =  "450";
-    $styleheight = "300";
-} else {
-    $height = "270";
-    $width  =  "500";
-    $styleheight = "415";
-}
-echo '<style>';
-echo  '#transcript-panel { height:350px; }';
-echo  '#index-panel { height:350px; }';
-echo  '#searchbox-panel { height:350px; }';
-echo  '#search-results { height:230px; }';
-echo  '#audio-panel { height: ' . $height . 'px; }';
-echo  '#header {height: '.$styleheight.'px; }';
-echo  '#main {height: 350px; }';
-echo  '</style>';
 
 $clipid=$cacheFile->clip_id;
 $PARTNER_ID = $cacheFile->account_id;
@@ -66,7 +48,7 @@ if(!empty($extraScript)) {
 
 echo <<<KALTURA
 		<div id="youtubePlayer">
-			<div id="kaltura_player_embed" style="width: 500px; height: {$height}px;"></div>
+			<div id="kaltura_player_embed"></div>
 		</div>
 		<script src="{$kalturaURL}/p/{$partner_id}/sp/{$partner_id}00/embedIframeJs/uiconf_id/{$uiconf_id}/partner_id/{$partner_id}"></script>
 		<script type="text/javascript">
@@ -93,17 +75,6 @@ echo <<<KALTURA
 
 		  <div class="video-spacer"></div>
 
-		  <style>
-		    #transcript-panel { height:550px; }
-		    #index-panel { height:550px; }
-		    #searchbox-panel { height:544px; }
-		    #search-results { height:177px; }
-		    #audio-panel { height: {$height}px; }
-		    #header {height: 415px; }
-			#headervid {height: auto; padding-bottom: 1px; }
-		    #main {height: 550px; }
-			#youtubePlayer {margin-left: 50px;}
-			.video-spacer {height: 0px; }
-		  </style>
+
 KALTURA;
 ?>

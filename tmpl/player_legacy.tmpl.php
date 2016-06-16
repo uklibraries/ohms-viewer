@@ -40,7 +40,7 @@ BRIGHTCOVE;
 else: ?>
 <div class="centered">
 	<a href="<?php echo $linkToMedia?>" rel="<?php echo $mediaFormat?>" id="subjectPlayer" class="jp-jplayer"></a>
-	<div id="jp_container_1" class="jp-audio" style="margin: auto;">
+	<div id="jp_container_1" class="jp-audio">
 		<div class="jp-type-single">
 			<div class="jp-gui jp-interface">
 				<ul class="jp-controls">
@@ -72,14 +72,4 @@ else: ?>
 	</div>
 </div>
 <?php endif; ?>
-<style>
-	#transcript-panel { height:550px; }
-	#index-panel { height:550px; }
-	#searchbox-panel { height:550px; }
-	#search-results { height:177px; }
-	#audio-panel { height: auto;  padding-top: 0px; padding-bottom: 20px; margin-bottom: 0px; }
-	#header {height: auto; padding-bottom: 0px; }
-	#headervid {height: auto; padding-bottom: 0px; }
-	#main {height: 550px; }
-	div.centered { margin-left: 35px; } 
-</style>
+
