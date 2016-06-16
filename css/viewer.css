@@ -417,10 +417,8 @@ Responsive Web Design
 
 #header {
   width: 82%;
-  height: 240px;
   margin: 0 auto;
   padding: 0 5% 0 5%;
-  max-width: 900px;
   border-bottom: 5px solid #337ab7;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   background: #3c3c3c;
@@ -472,9 +470,8 @@ Responsive Web Design
 }
 
 #footer {
-  width: 82%;
+  width: 91%;
   height: auto;
-  max-width: 900px;
   margin: 0 auto;
   padding: 0 5px 0 5px;
   background: #3c3c3c;
@@ -494,9 +491,7 @@ h2 {
 
 #main {
   width: 82%;
-  height: 550px;
-  padding: 24px 34px 24px 35px;
-  max-width:82%;
+  padding: 24px 34px 24px 98px;
   margin: auto;
   border: 1px solid #c2c2c2;
   border-width: 0 1px;
@@ -518,9 +513,7 @@ h2 {
 }
 
 #transcript-panel, #transcript-panel-alt {
-  width: 500px;
-  height: 530px;
-  max-width: 45%;
+  width: 45%;
   border: 1px solid #dcdcdc;
   position: absolute;
   float: left;
@@ -528,17 +521,13 @@ h2 {
   outline: 0;
   margin-top: 10px;
   margin: auto;
-  padding-left: 10%;
-  padding-right: 10%;
   background: #ffffff;
   text-align: left;
 }
 
 #index-panel, #index-panel-alt {
   display: none;
-  width: 500px;
-  height: 535px;
-  max-width: 45%;
+  width: 45%;
   margin-top: 10px;
   border: 1px solid #dcdcdc;
   position: absolute;
