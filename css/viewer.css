@@ -55,6 +55,37 @@ h1 {
 #footer div {
   color: #f5f5f5;
 }
+
+#footer-metadata {
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 10px;
+  float: left;
+}
+
+#footer-copyright {
+  text-align: right;
+  padding-right: 10px;
+  padding-top: 10px;
+}
+
+#headerimg {
+  float: left;
+  width: 77px;
+  padding-left: 30px;
+}
+
+p {
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-top: 10px;
+}
+
+#footer-logo {
+  text-align: right;
+  padding-top: 30px;
+}
+
 #footer h3 {
   margin: 0 0 6px;
   font-size: 12px;
@@ -87,6 +118,13 @@ h1 {
 
 #transcript-panel p.first-p, #transcript-panel-alt p.first-p {
   margin-top: 0px;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+#transcript-panel p.line-p, #transcript-panel-alt p.line-p {
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 #transcript-panel .speaker, #transcript-panel-alt .speaker {
@@ -145,9 +183,18 @@ h1 {
   width: 500px;
   background-color: #3c3c3c;
 }
+
+
+
 .video-spacer {
   width: 1px;
   height: 250px;
+  float: right;
+}
+
+.video-spacer-kaltura {
+  width: 1px;
+  height: 0px;
   float: right;
 }
 .round-button {
@@ -343,27 +390,22 @@ legend {
   font-family: Arial, Helvetica, Sans-serif !important;
   font-size:12px !important;
 }
-
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
   border: #dddddd 1px solid !important;
   background: #eeeeee url(/img/ui-bg_highlight-soft_100_eeeeee_1x100.png) !important;
 }
-
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
   color: #000000 !important;
   text-decoration: none !important;
 }
-
 .ui-widget-content a.cssbutton {
   color: #ffffff !important;
 }
-
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
   border: #dddddd 1px solid !important;
   background: #eeeeee url(/img/ui-bg_highlight-soft_100_eeeeee_1x100.png) !important;
   color: #000000 !important;
 }
-
 .ui-state-hover a, .ui-state-hover a:hover, .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
   color: #000000 !important;
   text-decoration: none !important;
@@ -415,31 +457,46 @@ Responsive Web Design
 ****************************
 ***************************/
 
+
+
+.centered {
+  margin: auto;
+  width: 602px;
+}
+
+#youtubePlayer {
+}
+
+#kaltura_player_embed {
+  width: 500px;
+  height: 279px;
+  overflow: hidden;
+  margin-left:auto;
+  margin-right:auto;
+  }
+
 #header {
   width: 82%;
-  height: 240px;
+  height: 200px;
   margin: 0 auto;
-  padding: 0 5% 0 5%;
-  max-width: 900px;
   border-bottom: 5px solid #337ab7;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   background: #3c3c3c;
+  padding-top: 10px;
 }
 #headervid {
   width: 82%;
   height: 450px;
   margin: 0 auto;
-  padding: 0 5% 0 5%;
-  max-width: 900px;
   border-bottom: 5px solid #337ab7;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   background: #3c3c3c;
+  padding-top: 10px;
 }
 
 #audio-panel {
-  width: 90%;
+  width: 100%;
   height: 30px;
-  max-width: 90%;
   /*padding-top: 10px;*/
   padding-bottom: 10px;
   text-align: center;
@@ -466,17 +523,16 @@ Responsive Web Design
 
 
 .center {
-    position: relative !important;
-    padding: 1% 5% 1% !important;
     width: 100% !important;
 }
+
+
+
 
 #footer {
   width: 82%;
   height: auto;
-  max-width: 900px;
   margin: 0 auto;
-  padding: 0 5px 0 5px;
   background: #3c3c3c;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -495,8 +551,6 @@ h2 {
 #main {
   width: 82%;
   height: 550px;
-  padding: 24px 34px 24px 35px;
-  max-width:82%;
   margin: auto;
   border: 1px solid #c2c2c2;
   border-width: 0 1px;
@@ -517,28 +571,26 @@ h2 {
   margin-right: 7%;
 }
 
+#secondaryMetaData {
+}
+
 #transcript-panel, #transcript-panel-alt {
-  width: 500px;
-  height: 530px;
-  max-width: 45%;
+  width: 50%;
+  height: 548px;
   border: 1px solid #dcdcdc;
   position: absolute;
   float: left;
   overflow: auto;
   outline: 0;
-  margin-top: 10px;
-  margin: auto;
-  padding-left: 10%;
-  padding-right: 10%;
+  margin-left: 20px;
   background: #ffffff;
   text-align: left;
 }
 
 #index-panel, #index-panel-alt {
   display: none;
-  width: 500px;
-  height: 535px;
-  max-width: 45%;
+  width: 45%;
+  height: 548px;
   margin-top: 10px;
   border: 1px solid #dcdcdc;
   position: absolute;
@@ -553,7 +605,7 @@ h2 {
 }
 
 #searchbox-panel {
-  width: 310px;
+  width: 100%;
   height: 550px;
   float: left;
   background: #ffffff;
@@ -573,7 +625,6 @@ h2 {
 }
 
 fieldset {
-  width: 100%;
   position: relative;
   display: table-cell;
   margin: 0 auto;
