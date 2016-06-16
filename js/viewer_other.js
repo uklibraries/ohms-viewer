@@ -79,7 +79,7 @@ jQuery(function ($) {
         if ('time' in vars) {
           jQuery(this).jPlayer("setMedia", playerData).jPlayer("play", vars['time'] * 1);
         } else {
-          jQuery(this).jPlayer("setMedia", playerData).jPlayer("play");
+          jQuery(this).jPlayer("setMedia", playerData).jPlayer("stop");
         }
       },
       loadstart: function () {

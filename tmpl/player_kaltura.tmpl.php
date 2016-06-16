@@ -53,11 +53,15 @@ else
 $height = ($cacheFile->clip_format == 'audio' ? 95 : 279);
 
 $extraScript = '';
+$autoPlay = 'false';
 if(isset($_GET['time']) && is_numeric($_GET['time']))
 {
     $extraScript = 'kdp.kBind(\'mediaReady\', function(){
 		window.kdp.sendNotification(\'doSeek\', ' . $_GET['time'] . ');
 	})';
+}
+if(!empty($extraScript)) {
+    $autoPlay = 'true';
 }
 
 echo <<<KALTURA
@@ -73,7 +77,7 @@ echo <<<KALTURA
 				'entry_id' : '{$entry_id}',
 				'flashvars':
 				{
-				  'autoPlay': true,
+				  'autoPlay': {$autoPlay},
 				  'externalInterfaceDisabled': false
 				},
 				'params':
