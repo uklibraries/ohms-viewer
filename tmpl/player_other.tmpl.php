@@ -16,13 +16,6 @@ $mediaFormat = 	substr($linkToMedia, -3, 3);
 if($mediaFormat == 'mp4') $mediaFormat = "m4v";
 ?>
 <style type="text/css">
-              #transcript-panel, #transcript-panel-alt { height:550px; }
-              #index-panel, #index-panel-alt { height:550px; }
-              #searchbox-panel { height:550px; }
-              #audio-panel { height: auto;  padding-top: 0px; padding-bottom: 20px; margin-bottom: 0px; }
-              #header {height: auto; padding-bottom: 0px; }
-              #main {height: 550px; }
-			  
 			  <?php if($cacheFile->clip_format == 'video'): ?>
 			  div#jp_container_1 {
 				margin-left: 0px !important;
@@ -38,7 +31,7 @@ if($mediaFormat == 'mp4') $mediaFormat = "m4v";
 <div class="centered">
 	<?php if(($cacheFile->clip_format=='audio' || $cacheFile->clip_format=='audiotrans') || $cacheFile->clip_format == 'video'): ?>
 		<a href="<?php echo $linkToMedia?>" rel="<?php echo $mediaFormat?>" id="subjectPlayer" class="jp-jplayer" onclick="return false;"></a>
-		<div id="jp_container_1" class="jp-audio" style="margin: auto;">
+		<div id="jp_container_1" class="jp-audio">
 			<div class="jp-type-single">
 				<div class="jp-gui jp-interface">
 					<ul class="jp-controls">
