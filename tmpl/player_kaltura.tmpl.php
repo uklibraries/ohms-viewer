@@ -9,15 +9,6 @@ if ($cacheFile->clip_format == 'audio') {
     $width  =  "500";
     $styleheight = "415";
 }
-echo '<style>';
-echo  '#transcript-panel { height:350px; }';
-echo  '#index-panel { height:350px; }';
-echo  '#searchbox-panel { height:350px; }';
-echo  '#search-results { height:230px; }';
-echo  '#audio-panel { height: ' . $height . 'px; }';
-echo  '#header {height: '.$styleheight.'px; }';
-echo  '#main {height: 350px; }';
-echo  '</style>';
 
 $clipid=$cacheFile->clip_id;
 $PARTNER_ID = $cacheFile->account_id;
@@ -93,17 +84,5 @@ echo <<<KALTURA
 
 		  <div class="video-spacer"></div>
 
-		  <style>
-		    #transcript-panel { height:550px; }
-		    #index-panel { height:550px; }
-		    #searchbox-panel { height:544px; }
-		    #search-results { height:177px; }
-		    #audio-panel { height: {$height}px; }
-		    #header {height: 415px; }
-			#headervid {height: auto; padding-bottom: 1px; }
-		    #main {height: 550px; }
-			#youtubePlayer {margin-left: 50px;}
-			.video-spacer {height: 0px; }
-		  </style>
 KALTURA;
 ?>
