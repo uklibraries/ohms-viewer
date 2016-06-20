@@ -21,8 +21,6 @@ if ($cacheFile->clip_format == 'audio') {
 echo <<<YOUTUBE
             <div id="youtubePlayer" style="width: 500px; height: {$height}px;"></div>
             
-          <div class="video-spacer"></div>
-
 
             <script type="text/javascript">
                 var tag = document.createElement('script');

@@ -82,7 +82,5 @@ echo <<<KALTURA
 			});
 		</script>
 
-		  <div class="video-spacer"></div>
-
 KALTURA;
 ?>

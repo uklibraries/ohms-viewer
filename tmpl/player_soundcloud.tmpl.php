@@ -8,6 +8,10 @@ if(isset($_GET['time']) && is_numeric($_GET['time']))
 	$playScript = 'widget.play();';
 	$extraScript = 'widget.seekTo(' . ($_GET['time'] * 1000) . ');';
 }
+else {
+    $playScript = '';
+    $extraScript = '';
+}
 
 echo <<<SOUNDCLOUD
 	<div class="video" style="text-align: center;">
@@ -28,8 +32,6 @@ echo <<<SOUNDCLOUD
 			});
 		</script>
 	</div>
-
-		  <div class="video-spacer"></div>
 
 SOUNDCLOUD;
 
