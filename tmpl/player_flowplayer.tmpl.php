@@ -1,8 +1,6 @@
 <?php
-
 $fileserver = $SERVER . '/audio/oralhist/';
 $filepath = $cacheFile->media_url;
-
 if(strpos($filepath, 'http://') !== false || strpos($filepath, 'https://') !== false)
 {
 	$linkToMedia = $filepath;
@@ -11,21 +9,13 @@ else
 {
 	$linkToMedia = '//' . $config['fileserver'] . $cacheFile->file_name;
 }
-
 $mediaFormat = 	substr($linkToMedia, -3, 3);
 ?>
-<style type="text/css">
-              #transcript-panel { height:550px; }
-              #index-panel { height:550px; }
-              #searchbox-panel { height:550px; }
-              #audio-panel { height: auto;  padding-top: 0px; padding-bottom: 20px; margin-bottom: 0px; }
-              #header {height: auto; padding-bottom: 0px; }
-              #main {height: 550px; }
-</style>
+
 <div class="centered">
 	<?php if($cacheFile->clip_format=='audio' || $cacheFile->clip_format=='audiotrans'): ?>
 		<a href="<?php echo $linkToMedia?>" rel="<?php echo $mediaFormat?>" id="subjectPlayer" class="jp-jplayer"></a>
-		<div id="jp_container_1" class="jp-audio" style="margin: auto;">
+		<div id="jp_container_1" class="jp-audio">
 			<div class="jp-type-single">
 				<div class="jp-gui jp-interface">
 					<ul class="jp-controls">

@@ -1,8 +1,6 @@
 <?php
-
 		$player_id = $cacheFile->player_id;
 		$publisher_id = $cacheFile->account_id;
-
 		echo <<<BRIGHTCOVE
 <script language="JavaScript" type="text/javascript" src="https://sadmin.brightcove.com/js/BrightcoveExperiences_all.js">
 </script>
@@ -18,19 +16,7 @@
      <param name="secureConnections" value="true" />
      <param name="secureHTMLConnections" value="true" />
 		 </object>
-
 		  <div class="video-spacer"></div>
 
-		  <style>
-		    #transcript-panel { height:550px; }
-		    #index-panel { height:550px; }
-		    #searchbox-panel { height:550px; }
-		    #search-results { height:177px; }
-		    #audio-panel { height: 270px; margin-left: 220px; }
-		    #header {height: auto; padding-bottom: 1px; }
-			#headervid {height: auto; padding-bottom: 1px; }
-		    #main {height: 550px; }
-		  </style>
 BRIGHTCOVE;
-
 ?>
