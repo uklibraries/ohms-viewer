@@ -33,9 +33,6 @@ echo <<<SOUNDCLOUD
 		</script>
 	</div>
 
-		  <div class="video-spacer"></div>
-
-
 SOUNDCLOUD;
 
 ?>
