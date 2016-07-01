@@ -1,4 +1,4 @@
-<?php
+<?php namespace Ohms\Interview;
 /*
  *  Model for the XML LegacyCacheFile
  *
@@ -7,9 +7,7 @@
  * @license http://www.uky.edu
  */
 
-require_once 'Transcript.class.php';
-
-class LegacyCacheFile {
+class Legacy {
 	private static $InstanceLegacy = NULL;
 	public $Transcript;
 	private $data;
@@ -111,7 +109,7 @@ class LegacyCacheFile {
 
 	public static function getInstanceLegacy($cachefile = NULL, $tmpDir, $viewerconfig) {
 		if (!self::$InstanceLegacy) {
-			self::$InstanceLegacy = new LegacyCacheFile($cachefile, $tmpDir, $viewerconfig);
+			self::$InstanceLegacy = new Legacy($cachefile, $tmpDir, $viewerconfig);
 		}
 		return self::$InstanceLegacy;
 	}

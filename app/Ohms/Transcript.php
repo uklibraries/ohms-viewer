@@ -1,4 +1,4 @@
-<?php
+<?php namespace Ohms;
 class Transcript {
 	private $transcript;
 	private $chunks;

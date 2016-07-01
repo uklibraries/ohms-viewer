@@ -1,6 +1,8 @@
-<?php
+<?php namespace Ohms;
+
+use Ohms\Interview;
+
 session_start();
-require_once 'lib/CacheFile.class.php';
 
 class ViewerController {
 	private $cacheFile;
@@ -9,7 +11,7 @@ class ViewerController {
 	private $config;
 	public function __construct($cacheFileName) {
 		$this->config = parse_ini_file("config/config.ini",true);
-		$this->cacheFile = CacheFile::getInstance($cacheFileName,$this->config['tmpDir'],$this->config);
+		$this->cacheFile = Interview::getInstance($cacheFileName,$this->config['tmpDir'],$this->config);
 		$this->cacheFileName = $cacheFileName;
 	}
 

@@ -1,7 +1,8 @@
 <?php
 
+use Ohms\ViewerController;
 
-require_once 'lib/ViewerController.class.php';
+require_once 'app/init.php';
 
 if(isset($_REQUEST['cachefile'])) {
   $kw = (isset($_REQUEST['kw'])) ? $_REQUEST['kw'] : NULL;

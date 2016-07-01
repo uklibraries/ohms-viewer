@@ -1,4 +1,4 @@
-<?php
+<?php namespace Ohms\Interview;
 /*
  *  Model for the XML Version3CacheFile
  *
@@ -7,10 +7,11 @@
  * @license http://www.uky.edu
  */
 
-require_once 'Transcript.class.php';
+use Ohms\Transcript;
+
 if(!isset($_GET['translate'])) $_GET['translate'] = '0';
 
-class Version3CacheFile {
+class Version3 {
 	private static $InstanceVersion3 = NULL;
 	public $Transcript;
 	private $data;
@@ -156,7 +157,7 @@ class Version3CacheFile {
 
 	public static function getInstanceVersion3($cachefile = NULL,$tmpDir,$viewerconfig) {
 		if (!self::$InstanceVersion3) {
-			self::$InstanceVersion3 = new Version3CacheFile($cachefile,$tmpDir,$viewerconfig);
+			self::$InstanceVersion3 = new Version3($cachefile,$tmpDir,$viewerconfig);
 		}
 		return self::$InstanceVersion3;
 	}

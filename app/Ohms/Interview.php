@@ -1,4 +1,4 @@
-<?php
+<?php namespace Ohms;
 /*
  *  Model for the XML CacheFile
  *
@@ -7,7 +7,10 @@
  * @license http://www.uky.edu
  */
 
-class CacheFile {
+use Ohms\Interview\Legacy;
+use Ohms\Interview\Version3;
+
+class Interview {
 	public static function getInstance($cachefile = NULL, $configtmpDir, $config) {
 		$viewerconfig = $config;
 		$tmpDir = $configtmpDir;
@@ -34,12 +37,10 @@ class CacheFile {
 
 		$cacheversion = (string)$filecheck->record->version;
 		if ($cacheversion=='') {
-			require_once 'LegacyCacheFile.class.php';
-			return LegacyCacheFile::getInstanceLegacy($cachefile, $tmpDir, $viewerconfig);
+			return Legacy::getInstanceLegacy($cachefile, $tmpDir, $viewerconfig);
 		}
 		else {
-			require_once 'Version3CacheFile.class.php';
-			return Version3CacheFile::getInstanceVersion3($cachefile, $tmpDir, $viewerconfig);
+			return Version3::getInstanceVersion3($cachefile, $tmpDir, $viewerconfig);
 		}
 	}
 }
