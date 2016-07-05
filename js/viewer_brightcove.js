@@ -1,7 +1,7 @@
-var vars = [],
-  hash;
+var vars = [];
+var hash;
 var q = document.URL.split('?')[1];
-if (q != undefined) {
+if (q !== undefined) {
   q = q.split('&');
   for (var i = 0; i < q.length; i++) {
     hash = q[i].split('=');
@@ -38,6 +38,7 @@ jQuery(function ($) {
 
   $('#translate-link').click(function (e) {
     var urlIndexPiece = '';
+    var re;
     e.preventDefault();
     if ($('#search-type').val() == 'Index') {
       var activeIndexPanel = $('#accordionHolder').accordion('option', 'active');
@@ -46,22 +47,22 @@ jQuery(function ($) {
       }
     }
     if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
-      var re = /&translate=(.*)/g;
+      re = /&translate=(.*)/g;
       location.href = location.href.replace(re, '') + '&time=' + Math.floor(modVP.getVideoPosition(false)) + '&panel=' + $('#search-type').val() + urlIndexPiece;
     } else {
-      var re = /&time=(.*)/g;
+      re = /&time=(.*)/g;
       location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(parent.modVP.getVideoPosition(false)) + '&panel=' + $('#search-type').val() + urlIndexPiece;
     }
   });
 
   $('#kw').on('focus', function (e) {
-    if ($('#kw').val() == 'Keyword') {
+    if ($('#kw').val() === 'Keyword') {
       $('#kw').toggleClass('kw-entry');
       $('#kw').val('');
     }
   });
   $('#kw').on('blur', function (e) {
-    if ($('#kw').val() == '') {
+    if ($('#kw').val() === '') {
       $('#kw').toggleClass('kw-entry');
       $('#kw').val('Keyword');
     }
@@ -112,8 +113,8 @@ jQuery(function ($) {
     if ((e.type == "keypress" && e.which == 13) || e.type == "click") {
       e.preventDefault();
       var kw = $('#kw').val();
-      if (kw != '') {
-        if (prevSearch.highLines.length != 0) {
+      if (kw !== '') {
+        if (prevSearch.highLines.length !== 0) {
           $.each(prevSearch.highLines, function (key, val) {
             var line = $('#line_' + val);
             var lineText = line.html();
@@ -126,7 +127,7 @@ jQuery(function ($) {
         $.getJSON('viewer.php?action=search&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
           var matches = [];
           $('#search-results').empty();
-          if (data.matches.length == 0) {
+          if (data.matches.length === 0) {
             $('<ul/>').addClass('error-msg').html('<li>No results found.</li>').appendTo('#search-results');
           } else {
             $("#kw").prop('disabled', true);
@@ -136,7 +137,7 @@ jQuery(function ($) {
             $.each(data.matches, function (key, val) {
               matches.push('<li><a class="search-result" href="#" data-linenum="' + val.linenum + '">' + val.shortline + '</a></li>');
               prevSearch.highLines.push(val.linenum);
-              var line = $('#line_' + val.linenum)
+              var line = $('#line_' + val.linenum);
               var lineText = line.html();
               var re = new RegExp('(' + preg_quote(data.keyword) + ')', 'gi');
               line.html(lineText.replace(re, "<span class=\"highlight\">$1</span>"));
@@ -178,8 +179,8 @@ jQuery(function ($) {
       e.preventDefault();
       var kw = $('#kw').val();
       $('span.highlight').removeClass('highlight');
-      if (kw != '') {
-        if (prevIndex.matches.length != 0) {
+      if (kw !== '') {
+        if (prevIndex.matches.length !== 0) {
           $.each(prevSearch.highLines, function (key, val) {
             var section = $('#link' + val);
             var synopsis = $('#tp_' + val).parent();
@@ -193,7 +194,7 @@ jQuery(function ($) {
         $.getJSON('viewer.php?action=index&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
           var matches = [];
           $('#search-results').empty();
-          if (data.matches.length == 0) {
+          if (data.matches.length === 0) {
             $('<ul/>').addClass('error-msg').html('<li>No results found.</li>').appendTo('#search-results');
           } else {
             $("#kw").prop('disabled', true);
@@ -237,7 +238,7 @@ jQuery(function ($) {
   var activeIndex = false;
 
   if ('index' in vars) {
-    activeIndex = parseInt(vars['index']);
+    activeIndex = parseInt(vars.index);
     if (isNaN(activeIndex)) {
       activeIndex = false;
     }
@@ -290,7 +291,7 @@ function onContentLoad(evt) {
   var currentVideo = modVP.getCurrentVideo();
   modCon.getMediaAsynch(currentVideo.id);
   if ('time' in vars) {
-    goToSecond(vars['time'] * 1);
+    goToSecond(vars.time * 1);
   }
 }
 
