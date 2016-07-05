@@ -23,6 +23,11 @@ class ViewerController
                 echo $this->interview->toJSON();
                 exit();
                 break;
+            case 'xml':
+                header('Content-type: application/xml');
+                echo $this->interview->toXML();
+                exit();
+                break;
             case 'transcript':
                 echo $this->interview->getTranscript();
                 break;

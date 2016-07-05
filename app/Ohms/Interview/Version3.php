@@ -15,13 +15,15 @@ class Version3
     private static $Instance = null;
     public $Transcript;
     private $data;
+    private $xml = null;
 
     private function __construct($viewerconfig, $tmpDir, $cachefile)
     {
         if ($cachefile) {
-            if ($myfile = file_get_contents("{$tmpDir}/$cachefile")) {
+            $this->xml = file_get_contents("{$tmpDir}/$cachefile");
+            if ($this->xml) {
                 libxml_use_internal_errors(true);
-                $ohfile = simplexml_load_string($myfile);
+                $ohfile = simplexml_load_string($this->xml);
 
                 if (!$ohfile) {
                     $error_msg = "Error loading XML.\n<br />\n";
@@ -174,6 +176,11 @@ class Version3
             $pairs[] = "'{$key}':'{$this->data[$key]}'";
         }
         return '{' . implode(',', $pairs) . '}';
+    }
+
+    public function toXML()
+    {
+        return $this->xml;
     }
 
     private function graylink($label, $href)
