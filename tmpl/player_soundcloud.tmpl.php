@@ -15,20 +15,20 @@ echo <<<SOUNDCLOUD
     <div class="video">
         <p>&nbsp;</p>
         {$embedcode}
-        <script src="https://w.soundcloud.com/player/api.js"></script>
-        <script>
-            var widget = null;
-            jQuery(document).ready(function() {
-                widget = SC.Widget(document.getElementById('soundcloud_widget'));
-                widget.bind(SC.Widget.Events.READY, function() {
-                    {$playScript}
-                });
-                widget.bind(SC.Widget.Events.PLAY, function() {
-                    console.log('track loaded!');
-                    {$extraScript}
-                });
-            });
-        </script>
+<script src="https://w.soundcloud.com/player/api.js"></script>
+<script>
+var widget = null;
+jQuery(document).ready(function () {
+    widget = SC.Widget(document.getElementById('soundcloud_widget'));
+    widget.bind(SC.Widget.Events.READY, function () {
+        {$playScript}
+    });
+    widget.bind(SC.Widget.Events.PLAY, function () {
+        console.log('track loaded!');
+        {$extraScript}
+    });
+});
+</script>
     </div>
 
 SOUNDCLOUD;

@@ -68,17 +68,15 @@ GASCRIPT;
 } ?>
   </head>
   <body>
-    <script type="text/javascript">
-        var jumpToTime = null;
-        if(location.href.search('#segment') > -1)
-        {
-            var jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));
-            if(isNaN(jumpToTime))
-            {
-                jumpToTime = 0;
-            }
-        }
-    </script>
+<script type="text/javascript">
+var jumpToTime = null;
+if (location.href.search('#segment') > -1) {
+    var jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));
+    if (isNaN(jumpToTime)) {
+        jumpToTime = 0;
+    }
+}
+</script>
 <?php if (in_array(substr(strtolower($filepath), -4, 4), $audioFormats)) { ?>
     <div id="header">
     <?php

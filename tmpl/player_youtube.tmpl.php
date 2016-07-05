@@ -14,30 +14,29 @@ echo <<<YOUTUBE
           <div class="video-spacer"></div>
 
 
-            <script type="text/javascript">
-                var tag = document.createElement('script');
-                tag.src = "https://www.youtube.com/iframe_api";
-                var firstScriptTag = document.getElementsByTagName('script')[0];
-                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+<script type="text/javascript">
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-                var player;
-                var setTime = 0;
-                function onYouTubeIframeAPIReady() {
-                    player = new YT.Player('youtubePlayer', {
-                        height: '270',
-                        width: '480',
-                        videoId: '{$youtubeId}',
-                        startAt: setTime,
-                        events: {
-                            onReady: onPlayerReady
-                        }
-                    });
+var player;
+var setTime = 0;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtubePlayer', {
+        height: '270',
+        width: '480',
+        videoId: '{$youtubeId}',
+        startAt: setTime,
+        events: {
+            onReady: onPlayerReady
+        }
+    });
 
-                    function onPlayerReady(event)
-                    {
-                        event.target.playVideo();
-                        {$extraScript}
-                    }
-                }
-            </script>
+    function onPlayerReady(event) {
+        event.target.playVideo();
+        {$extraScript}
+    }
+}
+</script>
 YOUTUBE;

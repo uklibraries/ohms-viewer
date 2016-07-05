@@ -46,28 +46,26 @@ echo <<<KALTURA
     <div id="youtubePlayer">
       <div id="kaltura_player_embed" style="width: 500px; height: {$height}px;"></div>
     </div>
-    <script src="{$kalturaJS}"></script>
-    <script type="text/javascript">
-      kWidget.embed({
-        'targetId': 'kaltura_player_embed',
-        'wid': '_{$partner_id}',
-        'uiconf_id' : '{$uiconf_id}',
-        'entry_id' : '{$entry_id}',
-        'flashvars':
-        {
-          'autoPlay': {$autoPlay},
-          'externalInterfaceDisabled': false
-        },
-        'params':
-        {
-          'wmode': 'transparent'
-        },
-        readyCallback: function( playerId ){
+<script src="{$kalturaJS}"></script>
+<script type="text/javascript">
+kWidget.embed({
+    'targetId': 'kaltura_player_embed',
+    'wid': '_{$partner_id}',
+    'uiconf_id' : '{$uiconf_id}',
+    'entry_id' : '{$entry_id}',
+    'flashvars': {
+        'autoPlay': {$autoPlay},
+        'externalInterfaceDisabled': false
+    },
+    'params': {
+        'wmode': 'transparent'
+    },
+    readyCallback: function (playerId) {
           window.kdp = document.getElementById(playerId);
           {$extraScript}
-        }
-      });
-    </script>
+    }
+});
+</script>
 
       <div class="video-spacer-kaltura"></div>
 
