@@ -14,6 +14,7 @@ if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
 $host = $_SERVER['HTTP_HOST'];
 $uri = $_SERVER['REQUEST_URI'];
 $baseurl = "$protocol://$host$uri";
+$extraCss = null;
 if (isset($config[$interview->repository])) {
     $repoConfig = $config[$interview->repository];
     $contactemail = $repoConfig['contactemail'];
@@ -24,6 +25,10 @@ if (isset($config[$interview->repository])) {
     }
     if (isset($repoConfig['open_graph_description']) && $repoConfig['open_graph_description'] <> '') {
         $openGraphDescription = $repoConfig['open_graph_description'];
+    }
+
+    if (isset($repoConfig['css']) && strlen($repoConfig['css']) > 0) {
+        $extraCss = $repoConfig['css'];
     }
 }
 $seriesLink = (string)$interview->series_link;
@@ -51,11 +56,17 @@ GASCRIPT;
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <title><?php echo $interview->title; ?></title>
     <link rel="stylesheet" href="css/viewer.css" type="text/css" />
-    <link rel="stylesheet" href="css/<?php echo $config[$interview->repository]['css'];?>" type="text/css" />
+    <?php if (isset($extraCss)) { ?>
+    <link rel="stylesheet" href="css/<?php echo $extraCss ?>" type="text/css" />
+    <?php
+} ?>
     <link rel="stylesheet" href="css/jquery-ui.toggleSwitch.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery-ui-1.8.16.custom.css" type="text/css" />
     <link rel="stylesheet" href="css/font-awesome.css">
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.toggleSwitch.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/viewer.js"></script>
     <meta property="og:title" content="<?php echo $interview->title; ?>" />
     <meta property="og:url" content="<?php echo $baseurl ?>">
     <?php if (isset($openGraphImage)) { ?>
@@ -171,8 +182,6 @@ endif; ?>
         </div>
         <br clear="both" />
       </div>
-<script type="text/javascript" src="js/jquery-ui.toggleSwitch.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
 <script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
