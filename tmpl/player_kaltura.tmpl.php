@@ -5,26 +5,26 @@ $UICONF_ID = $interview->player_id;
 $embedcode = html_entity_decode($interview->kembed);
 
 $matches = array();
-preg_match("/\/p\/([0-9]+)\//", $embedcode, $matches);
-$partner_id = $matches[1];
+preg_match("{/p/(?<partner_id>\d+)/}", $embedcode, $matches);
+$partner_id = $matches['partner_id']];
 
 $matches = array();
-preg_match("/\/uiconf_id\/([0-9]+)\//", $embedcode, $matches);
-$uiconf_id = $matches[1];
+preg_match("{/uiconf_id/(?<uiconf_id>\d+)/}", $embedcode, $matches);
+$uiconf_id = $matches['uiconf_id'];
 
 $matches = array();
-preg_match("/\&entry_id=(.*?)\&/", $embedcode, $matches);
-$entry_id = $matches[1];
+preg_match("{&entry_id=(?<entry_id>[^&]+)}", $embedcode, $matches);
+$entry_id = $matches['entry_id'];
 
 $matches = array();
-preg_match("/https?\:\/\/[^\/]+/", $embedcode, $matches);
-$kalturaURL = $matches[0];
+preg_match("{https?\://[^/]+}", $embedcode, $matches);
+$kalturaHost = $matches[0];
 
 # XXX: This block requires further attention.
 if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443) {
-    $kalturaURL = str_replace('http:', 'https:', $kalturaURL);
+    $kalturaHost = str_replace('http:', 'https:', $kalturaHost);
 } else {
-    $kalturaURL = str_replace('https:', 'http:', $kalturaURL);
+    $kalturaHost = str_replace('https:', 'http:', $kalturaHost);
 }
 
 $height = ($interview->clip_format == 'audio' ? 95 : 279);
@@ -40,12 +40,12 @@ if (!empty($extraScript)) {
     $autoPlay = 'true';
 }
 
-$kalturaJS = "$kalturaURL/p/$partner_id/sp/{$partner_id}00/embedIframeJs/uiconf_id/$uiconf_id/partner_id/$partner_id";
+$kalturaJS = "$kalturaHost/p/$partner_id/sp/{$partner_id}00/embedIframeJs/uiconf_id/$uiconf_id/partner_id/$partner_id";
 
 echo <<<KALTURA
-    <div id="youtubePlayer">
-      <div id="kaltura_player_embed" style="width: 500px; height: {$height}px;"></div>
-    </div>
+<div id="youtubePlayer">
+    <div id="kaltura_player_embed" style="width: 500px; height: {$height}px;"></div>
+</div>
 <script src="{$kalturaJS}"></script>
 <script type="text/javascript">
 kWidget.embed({
@@ -66,8 +66,5 @@ kWidget.embed({
     }
 });
 </script>
-
-      <div class="video-spacer-kaltura"></div>
-
-
+<div class="video-spacer-kaltura"></div>
 KALTURA;
