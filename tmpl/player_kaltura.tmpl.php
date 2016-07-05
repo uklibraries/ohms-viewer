@@ -6,7 +6,7 @@ $embedcode = html_entity_decode($interview->kembed);
 
 $matches = array();
 preg_match("{/p/(?<partner_id>\d+)/}", $embedcode, $matches);
-$partner_id = $matches['partner_id']];
+$partner_id = $matches['partner_id'];
 
 $matches = array();
 preg_match("{/uiconf_id/(?<uiconf_id>\d+)/}", $embedcode, $matches);
