@@ -112,8 +112,8 @@ class Version3
             $this->data['viewerjs'] = $player;
             $this->data['playername'] = $player;
         } else {
-            $this->data['viewerjs'] = 'flowplayer';
-            $this->data['playername'] = 'flowplayer';
+            $this->data['viewerjs'] = 'other';
+            $this->data['playername'] = 'other';
         }
 
         // Interviewer, Interviewee
