@@ -1,15 +1,15 @@
 <?php
 $fileserver = (isset($config['fileserver']) ? $config['fileserver'] : '');
-$filepath = $cacheFile->media_url;
+$filepath = $interview->media_url;
 
 if (strpos($filepath, 'http://') !== false || strpos($filepath, 'https://') !== false) {
     $linkToMedia = $filepath;
 } else {
-    $linkToMedia = 'http://' . $fileserver . $cacheFile->file_name;
+    $linkToMedia = 'http://' . $fileserver . $interview->file_name;
 }
 
 $validClipFormats = array('audio', 'audiotrans', 'video');
-$clipFormat = $cacheFile->clip_format;
+$clipFormat = $interview->clip_format;
 $mediaFormat = substr($linkToMedia, -3, 3);
 
 if ($mediaFormat == 'mp4') {

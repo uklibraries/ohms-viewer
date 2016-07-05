@@ -1,20 +1,20 @@
 <?php
-$lang = $cacheFile->__get('transcript_alt_lang');
+$lang = $interview->transcript_alt_lang;
 if (isset($_GET['panel'])) {
     $panel = $_GET['panel'];
 }
 $transcript_option = 'selected="selected"';
 $index_option = '';
-if ((isset($panel) && $panel == 'Index') || ($cacheFile->hasIndex() && (!isset($panel) || $panel != 'Transcript'))) {
+if ((isset($panel) && $panel == 'Index') || ($interview->hasIndex() && (!isset($panel) || $panel != 'Transcript'))) {
     $transcript_option = '';
     $index_option = 'selected="selected"';
 }
 if (isset($_GET['translate']) && $_GET['translate'] == '1') {
-    $targetLanguage = $cacheFile->language;
+    $targetLanguage = $interview->language;
 } else {
-    $targetLanguage = $cacheFile->transcript_alt_lang;
+    $targetLanguage = $interview->transcript_alt_lang;
 }
-if ($cacheFile->hasIndex()) {
+if ($interview->hasIndex()) {
     $searchThisLabel = 'Index';
 } else {
     $searchThisLabel = 'Transcript';
@@ -26,10 +26,10 @@ if ($cacheFile->hasIndex()) {
     <option id="search-index" <?php echo $index_option ?>>Index</option>
   </select>
 </div>
-<?php if($cacheFile->translate == '1'): ?>
+<?php if($interview->translate == '1'): ?>
     <div id="translate-toggle">
-        <a href="#" id="translate-link" data-lang="<?php echo $cacheFile->language ?>"
-           data-translate="<?php $cacheFile->transcript_alt_lang; ?>"
+        <a href="#" id="translate-link" data-lang="<?php echo $interview->language ?>"
+           data-translate="<?php $interview->transcript_alt_lang; ?>"
            data-linkto="<?php echo $targetLanguage ?>">Switch to
            <?php echo $targetLanguage ?></a>
     </div>

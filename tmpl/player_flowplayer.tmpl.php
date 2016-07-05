@@ -1,16 +1,16 @@
 <?php
 $fileserver = $SERVER . '/audio/oralhist/';
-$filepath = $cacheFile->media_url;
+$filepath = $interview->media_url;
 if (strpos($filepath, 'http://') !== false || strpos($filepath, 'https://') !== false) {
     $linkToMedia = $filepath;
 } else {
-    $linkToMedia = '//' . $config['fileserver'] . $cacheFile->file_name;
+    $linkToMedia = '//' . $config['fileserver'] . $interview->file_name;
 }
 $mediaFormat = substr($linkToMedia, -3, 3);
 ?>
 
 <div class="centered">
-    <?php if ($cacheFile->clip_format=='audio' || $cacheFile->clip_format=='audiotrans'): ?>
+    <?php if ($interview->clip_format=='audio' || $interview->clip_format=='audiotrans'): ?>
     <a href="<?php echo $linkToMedia?>" rel="<?php echo $mediaFormat?>" id="subjectPlayer" class="jp-jplayer"></a>
     <div id="jp_container_1" class="jp-audio">
         <div class="jp-type-single">

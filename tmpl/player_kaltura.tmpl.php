@@ -1,8 +1,8 @@
 <?php
-$clipid=$cacheFile->clip_id;
-$PARTNER_ID = $cacheFile->account_id;
-$UICONF_ID = $cacheFile->player_id;
-$embedcode = html_entity_decode($cacheFile->kembed);
+$clipid=$interview->clip_id;
+$PARTNER_ID = $interview->account_id;
+$UICONF_ID = $interview->player_id;
+$embedcode = html_entity_decode($interview->kembed);
 
 $matches = array();
 preg_match("/\/p\/([0-9]+)\//", $embedcode, $matches);
@@ -27,7 +27,7 @@ if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERV
     $kalturaURL = str_replace('https:', 'http:', $kalturaURL);
 }
 
-$height = ($cacheFile->clip_format == 'audio' ? 95 : 279);
+$height = ($interview->clip_format == 'audio' ? 95 : 279);
 
 $extraScript = '';
 $autoPlay = 'false';

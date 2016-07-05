@@ -1,17 +1,17 @@
 <?php
 
-$mediaFormat =     substr($cacheFile->file_name, -3, 3);
+$mediaFormat =     substr($interview->file_name, -3, 3);
 if (isset($config['fileserver'])) {
-    $linkToMedia = $cacheFile->file_name;
+    $linkToMedia = $interview->file_name;
     if ($linkToMedia === ".mp3") {
-        $linkToMedia = $cacheFile->media_url;
+        $linkToMedia = $interview->media_url;
     }
     $linkToMedia = '//' . $config['fileserver'] . $linkToMedia;
 } else {
-    $linkToMedia = $cacheFile->media_url;
+    $linkToMedia = $interview->media_url;
 }
 
-if ($cacheFile->hasVideo == 1) {
+if ($interview->hasVideo == 1) {
 
         $player_id = '81922792001';
         $publisher_id = '73755470001';
@@ -26,7 +26,7 @@ if ($cacheFile->hasVideo == 1) {
          <param name="publisherID" value="$publisher_id"/>
          <param name="isVid" value="true" />
          <param name="isUI" value="true" />
-         <param name="@videoPlayer" value="{$cacheFile->videoID}" />
+         <param name="@videoPlayer" value="{$interview->videoID}" />
 <param name="secureConnections" value="true" />
 <param name="secureHTMLConnections" value="true" />
          </object>

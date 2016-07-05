@@ -1,7 +1,7 @@
 <?php
 
-$clipid=$cacheFile->clip_id;
-$embedcode = str_replace('<iframe ', '<iframe id="soundcloud_widget"', $cacheFile->kembed);
+$clipid=$interview->clip_id;
+$embedcode = str_replace('<iframe ', '<iframe id="soundcloud_widget"', $interview->kembed);
 
 if (isset($_GET['time']) && is_numeric($_GET['time'])) {
     $playScript = 'widget.play();';

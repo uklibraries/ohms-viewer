@@ -1,9 +1,9 @@
 <?php
 date_default_timezone_set($config['timezone']);
 $audioFormats = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
-$filepath =$cacheFile->media_url;
-$rights = (string)$cacheFile->rights;
-$usage = (string)$cacheFile->usage;
+$filepath =$interview->media_url;
+$rights = (string)$interview->rights;
+$usage = (string)$interview->usage;
 $contactemail = '';
 $contactlink = '';
 $copyrightholder = '';
@@ -14,8 +14,8 @@ if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
 $host = $_SERVER['HTTP_HOST'];
 $uri = $_SERVER['REQUEST_URI'];
 $baseurl = "$protocol://$host$uri";
-if (isset($config[$cacheFile->repository])) {
-    $repoConfig = $config[$cacheFile->repository];
+if (isset($config[$interview->repository])) {
+    $repoConfig = $config[$interview->repository];
     $contactemail = $repoConfig['contactemail'];
     $contactlink = $repoConfig['contactlink'];
     $copyrightholder = $repoConfig['copyrightholder'];
@@ -26,9 +26,9 @@ if (isset($config[$cacheFile->repository])) {
         $openGraphDescription = $repoConfig['open_graph_description'];
     }
 }
-$seriesLink = (string)$cacheFile->series_link;
-$collectionLink = (string)$cacheFile->collection_link;
-$lang = (string)$cacheFile->translate;
+$seriesLink = (string)$interview->series_link;
+$collectionLink = (string)$interview->collection_link;
+$lang = (string)$interview->translate;
 
 $gaScript = null;
 if (isset($repoConfig['ga_tracking_id'])) {
@@ -49,14 +49,14 @@ GASCRIPT;
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    <title><?php echo $cacheFile->title; ?></title>
+    <title><?php echo $interview->title; ?></title>
     <link rel="stylesheet" href="css/viewer.css" type="text/css" />
-    <link rel="stylesheet" href="css/<?php echo $config[$cacheFile->repository]['css'];?>" type="text/css" />
+    <link rel="stylesheet" href="css/<?php echo $config[$interview->repository]['css'];?>" type="text/css" />
     <link rel="stylesheet" href="css/jquery-ui.toggleSwitch.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery-ui-1.8.16.custom.css" type="text/css" />
     <link rel="stylesheet" href="css/font-awesome.css">
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <meta property="og:title" content="<?php echo $cacheFile->title; ?>" />
+    <meta property="og:title" content="<?php echo $interview->title; ?>" />
     <meta property="og:url" content="<?php echo $baseurl ?>">
     <?php if (isset($openGraphImage)) { ?>
     <meta property="og:image" content="<?php echo "$baseurl/$openGraphImage" ?>">
@@ -84,37 +84,37 @@ if (location.href.search('#segment') > -1) {
     <div id="headervid">
     <?php
 } ?>
-        <?php if(isset($config[$cacheFile->repository])): ?>
+        <?php if(isset($config[$interview->repository])): ?>
         <img id="headerimg"
-             src="<?php echo $config[$cacheFile->repository]['footerimg'];?>"
-             alt="<?php echo $config[$cacheFile->repository]['footerimgalt'];?>" />
+             src="<?php echo $config[$interview->repository]['footerimg'];?>"
+             alt="<?php echo $config[$interview->repository]['footerimgalt'];?>" />
         <?php
 endif; ?>
       <div class="center">
-    <h1><?php echo $cacheFile->title; ?></h1>
+    <h1><?php echo $interview->title; ?></h1>
     <h2 id="secondaryMetaData">
         <div>
-            <strong><?php echo $cacheFile->repository; ?></strong><br />
-            <?php echo $cacheFile->interviewer; ?>, Interviewer |
-            <?php echo $cacheFile->accession; ?><br />
-            <?php if (isset($cacheFile->collection_link) && (string)$cacheFile->collection_link != '') { ?>
-                <a href="<?php echo $cacheFile->collection_link?>"><?php echo $cacheFile->collection?></a> |
+            <strong><?php echo $interview->repository; ?></strong><br />
+            <?php echo $interview->interviewer; ?>, Interviewer |
+            <?php echo $interview->accession; ?><br />
+            <?php if (isset($interview->collection_link) && (string)$interview->collection_link != '') { ?>
+                <a href="<?php echo $interview->collection_link?>"><?php echo $interview->collection?></a> |
             <?php
 } else { ?>
-                <?php echo $cacheFile->collection; ?> |
+                <?php echo $interview->collection; ?> |
             <?php
 } ?>
-            <?php if (isset($cacheFile->series_link) && (string)$cacheFile->series_link != '') { ?>
-                <a href="<?php echo $cacheFile->series_link?>"><?php echo $cacheFile->series?></a>
+            <?php if (isset($interview->series_link) && (string)$interview->series_link != '') { ?>
+                <a href="<?php echo $interview->series_link?>"><?php echo $interview->series?></a>
             <?php
 } else { ?>
-                <?php echo $cacheFile->series; ?>
+                <?php echo $interview->series; ?>
             <?php
 } ?>
         </div>
     </h2>
     <div id="audio-panel">
-      <?php include_once 'tmpl/player_'.$cacheFile->playername.'.tmpl.php'; ?>
+      <?php include_once 'tmpl/player_'.$interview->playername.'.tmpl.php'; ?>
     </div>
       </div>
     </div>
@@ -123,10 +123,10 @@ endif; ?>
     <div id="content-panel">
       <div id="holder-panel"></div>
       <div id="transcript-panel" class="transcript-panel">
-        <?php echo $cacheFile->transcript; ?>
+        <?php echo $interview->transcript; ?>
       </div>
       <div id="index-panel" class="index-panel">
-        <?php echo $cacheFile->index; ?>
+        <?php echo $interview->index; ?>
       </div>
     </div>
     <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
@@ -152,12 +152,12 @@ endif; ?>
 } ?>
             <?php if (!empty($collectionLink)) { ?>
                 <p><span><h3>Collection Link: <a
-                href="<?php echo $cacheFile->collection_link?>"><?php echo $cacheFile->collection?></a></h3></span></p>
+                href="<?php echo $interview->collection_link?>"><?php echo $interview->collection?></a></h3></span></p>
             <?php
 } ?>
             <?php if (!empty($seriesLink)) { ?>
                 <p><span><h3>Series Link: <a
-                href="<?php echo $cacheFile->series_link?>"><?php echo $cacheFile->series?></a></h3></span></p>
+                href="<?php echo $interview->series_link?>"><?php echo $interview->series?></a></h3></span></p>
             <?php
 } ?>
             <p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail ?>"><?php echo $contactemail ?></a> |
@@ -176,7 +176,7 @@ endif; ?>
       <script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
       <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
       <script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
-      <script type="text/javascript" src="js/viewer_<?php echo  $cacheFile->viewerjs;?>.js"></script>
+      <script type="text/javascript" src="js/viewer_<?php echo  $interview->viewerjs;?>.js"></script>
     <link rel="stylesheet" href="js/fancybox_2_1_5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
     <link rel="stylesheet" href="skin/jplayer.blue.monday.css" type="text/css" media="screen" />
     <script type="text/javascript" src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
@@ -216,7 +216,7 @@ $(document).ready(function() {
                 jQuery('#accordionHolder-alt').accordion({active: index});
                 var interval = setInterval(function() {
                 <?php
-switch ($cacheFile->playername) {
+switch ($interview->playername) {
     case 'youtube': ?>
                     if (player !== undefined && 
                         player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime) {
@@ -293,7 +293,7 @@ switch ($cacheFile->playername) {
 });
 </script>
 <script type="text/javascript">
-var cachefile = '<?php echo $cacheFile->cachefile; ?>';
+var cachefile = '<?php echo $interview->cachefile; ?>';
 </script>
 <?php if (isset($gaScript)) {
     echo $gaScript;

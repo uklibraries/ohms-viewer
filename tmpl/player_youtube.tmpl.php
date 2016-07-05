@@ -1,7 +1,7 @@
 <?php
-$player_id = $cacheFile->player_id;
-$publisher_id = $cacheFile->account_id;
-$youtubeId = str_replace('http://youtu.be/', '', $cacheFile->media_url);
+$player_id = $interview->player_id;
+$publisher_id = $interview->account_id;
+$youtubeId = str_replace('http://youtu.be/', '', $interview->media_url);
 
 $extraScript = '';
 if (isset($_GET['time']) && is_numeric($_GET['time'])) {

@@ -4,45 +4,45 @@ use Ohms\Interview;
 
 class ViewerController
 {
-    private $cacheFile;
-    private $cacheFileName;
+    private $interview;
+    private $interviewName;
     private $tmpDir;
     private $config;
-    public function __construct($cacheFileName)
+    public function __construct($interviewName)
     {
         $this->config = parse_ini_file("config/config.ini", true);
-        $this->cacheFile = Interview::getInstance($this->config, $this->config['tmpDir'], $cacheFileName);
-        $this->cacheFileName = $cacheFileName;
+        $this->interview = Interview::getInstance($this->config, $this->config['tmpDir'], $interviewName);
+        $this->interviewName = $interviewName;
     }
 
-    public function route($action, $kw, $cacheFileName)
+    public function route($action, $kw, $interviewName)
     {
         switch($action) {
             case 'metadata':
                 header('Content-type: application/json');
-                echo $this->cacheFile->toJSON();
+                echo $this->interview->toJSON();
                 exit();
                 break;
             case 'transcript':
-                echo $this->cacheFile->getTranscript();
+                echo $this->interview->getTranscript();
                 break;
             case 'search':
                 if (isset($kw)) {
-                    echo $this->cacheFile->Transcript->keywordSearch($kw);
+                    echo $this->interview->Transcript->keywordSearch($kw);
                 }
                 exit();
                 break;
             case 'index':
                 if (isset($kw)) {
-                    echo $this->cacheFile->Transcript->indexSearch($kw);
+                    echo $this->interview->Transcript->indexSearch($kw);
                 }
                 exit();
                 break;
             case 'all':
                 break;
             default:
-                $cacheFile = $this->cacheFile;
-                $cacheFileName = $this->cacheFileName;
+                $interview = $this->interview;
+                $interviewName = $this->interviewName;
                 $config = $this->config;
                 include_once 'tmpl/viewer.tmpl.php';
                 break;

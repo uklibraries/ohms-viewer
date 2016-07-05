@@ -1,6 +1,6 @@
 <?php
-    $player_id = $cacheFile->player_id;
-    $publisher_id = $cacheFile->account_id;
+    $player_id = $interview->player_id;
+    $publisher_id = $interview->account_id;
     echo <<<BRIGHTCOVE
 <script type="text/javascript" src="https://sadmin.brightcove.com/js/BrightcoveExperiences_all.js">
 </script>
@@ -12,7 +12,7 @@
      <param name="publisherID" value="$publisher_id"/>
      <param name="isVid" value="true" />
      <param name="isUI" value="true" />
-     <param name="@videoPlayer" value="{$cacheFile->clip_id}" />
+     <param name="@videoPlayer" value="{$interview->clip_id}" />
      <param name="secureConnections" value="true" />
      <param name="secureHTMLConnections" value="true" />
      </object>
