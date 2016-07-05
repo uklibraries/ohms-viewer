@@ -1,6 +1,5 @@
 <?php
-
-$mediaFormat =     substr($interview->file_name, -3, 3);
+$mediaFormat = substr($interview->file_name, -3, 3);
 if (isset($config['fileserver'])) {
     $linkToMedia = $interview->file_name;
     if ($linkToMedia === ".mp3") {
@@ -12,27 +11,24 @@ if (isset($config['fileserver'])) {
 }
 
 if ($interview->hasVideo == 1) {
-
-        $player_id = '81922792001';
-        $publisher_id = '73755470001';
-        echo <<<BRIGHTCOVE
+    $player_id = '81922792001';
+    $publisher_id = '73755470001';
+    echo <<<BRIGHTCOVE
 <script type="text/javascript" src="https://sadmin.brightcove.com/js/BrightcoveExperiences_all.js">
 </script>
-         <object id="myExperience" class="BrightcoveExperience">
-         <param name="bgcolor" value="#FFFFFF" />
-         <param name="width" value="480" />
-         <param name="height" value="270" />
-         <param name="playerID" value="$player_id" />
-         <param name="publisherID" value="$publisher_id"/>
-         <param name="isVid" value="true" />
-         <param name="isUI" value="true" />
-         <param name="@videoPlayer" value="{$interview->videoID}" />
-<param name="secureConnections" value="true" />
-<param name="secureHTMLConnections" value="true" />
-         </object>
-
-          <div class="video-spacer"></div>
-
+<object id="myExperience" class="BrightcoveExperience">
+    <param name="bgcolor" value="#FFFFFF" />
+    <param name="width" value="480" />
+    <param name="height" value="270" />
+    <param name="playerID" value="$player_id" />
+    <param name="publisherID" value="$publisher_id"/>
+    <param name="isVid" value="true" />
+    <param name="isUI" value="true" />
+    <param name="@videoPlayer" value="{$interview->videoID}" />
+    <param name="secureConnections" value="true" />
+    <param name="secureHTMLConnections" value="true" />
+</object>
+<div class="video-spacer"></div>
 BRIGHTCOVE;
 
 } else { ?>

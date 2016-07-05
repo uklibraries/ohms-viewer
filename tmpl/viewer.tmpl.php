@@ -71,10 +71,10 @@ GASCRIPT;
 <script type="text/javascript">
 var jumpToTime = null;
 if (location.href.search('#segment') > -1) {
-    var jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));
-    if (isNaN(jumpToTime)) {
-        jumpToTime = 0;
-    }
+  var jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));
+  if (isNaN(jumpToTime)) {
+    jumpToTime = 0;
+  }
 }
 </script>
 <?php if (in_array(substr(strtolower($filepath), -4, 4), $audioFormats)) { ?>
@@ -90,33 +90,33 @@ if (location.href.search('#segment') > -1) {
              alt="<?php echo $config[$interview->repository]['footerimgalt'];?>" />
         <?php
 endif; ?>
-      <div class="center">
-    <h1><?php echo $interview->title; ?></h1>
-    <h2 id="secondaryMetaData">
+    <div class="center">
+      <h1><?php echo $interview->title; ?></h1>
+      <h2 id="secondaryMetaData">
         <div>
-            <strong><?php echo $interview->repository; ?></strong><br />
-            <?php echo $interview->interviewer; ?>, Interviewer |
-            <?php echo $interview->accession; ?><br />
-            <?php if (isset($interview->collection_link) && (string)$interview->collection_link != '') { ?>
-                <a href="<?php echo $interview->collection_link?>"><?php echo $interview->collection?></a> |
-            <?php
+          <strong><?php echo $interview->repository; ?></strong><br />
+          <?php echo $interview->interviewer; ?>, Interviewer |
+          <?php echo $interview->accession; ?><br />
+          <?php if (isset($interview->collection_link) && (string)$interview->collection_link != '') { ?>
+          <a href="<?php echo $interview->collection_link?>"><?php echo $interview->collection?></a> |
+          <?php
 } else { ?>
-                <?php echo $interview->collection; ?> |
-            <?php
+          <?php echo $interview->collection; ?> |
+          <?php
 } ?>
-            <?php if (isset($interview->series_link) && (string)$interview->series_link != '') { ?>
-                <a href="<?php echo $interview->series_link?>"><?php echo $interview->series?></a>
-            <?php
+          <?php if (isset($interview->series_link) && (string)$interview->series_link != '') { ?>
+          <a href="<?php echo $interview->series_link?>"><?php echo $interview->series?></a>
+          <?php
 } else { ?>
-                <?php echo $interview->series; ?>
-            <?php
+          <?php echo $interview->series; ?>
+          <?php
 } ?>
         </div>
-    </h2>
-    <div id="audio-panel">
-      <?php include_once 'tmpl/player_'.$interview->playername.'.tmpl.php'; ?>
-    </div>
+      </h2>
+      <div id="audio-panel">
+        <?php include_once 'tmpl/player_'.$interview->playername.'.tmpl.php'; ?>
       </div>
+    </div>
     </div>
     <div id="main">
       <div id="main-panels">
@@ -130,166 +130,161 @@ endif; ?>
       </div>
     </div>
     <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
-      </div>
+    </div>
     </div>
     <div id="footer">
-        <div id="footer-metadata">
-            <?php if (!empty($rights)) { ?>
-                <p><span><h3><a href="#" id="lnkRights">View Rights Statement</a></h3>
-                <div id="rightsStatement"><?php echo $rights; ?></div></span></p>
-            <?php
+      <div id="footer-metadata">
+        <?php if (!empty($rights)) { ?>
+        <p><span><h3><a href="#" id="lnkRights">View Rights Statement</a></h3>
+        <div id="rightsStatement"><?php echo $rights; ?></div></span></p>
+        <?php
 } else { ?>
-                <p><span><h3>View Rights Statement</h3></span></p>
-            <?php
+        <p><span><h3>View Rights Statement</h3></span></p>
+        <?php
 } ?>
-            <?php if (!empty($usage)) { ?>
-                <p><span><h3><a href="#" id="lnkUsage">View Usage Statement</a></h3>
-                <div id="usageStatement"><?php echo $usage; ?></div></span></p>
-            <?php
+        <?php if (!empty($usage)) { ?>
+        <p><span><h3><a href="#" id="lnkUsage">View Usage Statement</a></h3>
+        <div id="usageStatement"><?php echo $usage; ?></div></span></p>
+        <?php
 } else { ?>
-                <p><span><h3>View Usage Statement</h3></span></p>
-            <?php
+        <p><span><h3>View Usage Statement</h3></span></p>
+        <?php
 } ?>
-            <?php if (!empty($collectionLink)) { ?>
-                <p><span><h3>Collection Link: <a
-                href="<?php echo $interview->collection_link?>"><?php echo $interview->collection?></a></h3></span></p>
-            <?php
+        <?php if (!empty($collectionLink)) { ?>
+        <p><span><h3>Collection Link: <a
+          href="<?php echo $interview->collection_link?>"><?php echo $interview->collection?></a></h3></span></p>
+        <?php
 } ?>
-            <?php if (!empty($seriesLink)) { ?>
-                <p><span><h3>Series Link: <a
-                href="<?php echo $interview->series_link?>"><?php echo $interview->series?></a></h3></span></p>
-            <?php
+        <?php if (!empty($seriesLink)) { ?>
+        <p><span><h3>Series Link: <a
+          href="<?php echo $interview->series_link?>"><?php echo $interview->series?></a></h3></span></p>
+        <?php
 } ?>
-            <p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail ?>"><?php echo $contactemail ?></a> |
-            <a href="<?php echo $contactlink ?>"><?php echo $contactlink ?></a></h3></span></p>
+        <p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail ?>"><?php echo $contactemail ?></a> |
+        <a href="<?php echo $contactlink ?>"><?php echo $contactlink ?></a></h3></span></p>
         </div>
         <div id="footer-copyright">
-            <small id="copyright"><span>&copy; <?php echo Date("Y") ?></span><?php echo $copyrightholder ?></small>
+          <small id="copyright"><span>&copy; <?php echo Date("Y") ?></span><?php echo $copyrightholder ?></small>
         </div>
         <div id="footer-logo">
-            <img alt="Powered by OHMS logo" src="imgs/ohms_logo.png" border="0"/>
-      </div>
+          <img alt="Powered by OHMS logo" src="imgs/ohms_logo.png" border="0"/>
+        </div>
         <br clear="both" />
       </div>
-      <script type="text/javascript" src="js/jquery-ui.toggleSwitch.js"></script>
-      <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-      <script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
-      <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-      <script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
-      <script type="text/javascript" src="js/viewer_<?php echo  $interview->viewerjs;?>.js"></script>
-    <link rel="stylesheet" href="js/fancybox_2_1_5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
-    <link rel="stylesheet" href="skin/jplayer.blue.monday.css" type="text/css" media="screen" />
-    <script type="text/javascript" src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-    <link rel="stylesheet"
-          href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
-    <script type="text/javascript" src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
-    <script type="text/javascript" src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
-
-    <link rel="stylesheet"
-          href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
-    <script type="text/javascript" src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
-    <script type="text/javascript">
+<script type="text/javascript" src="js/jquery-ui.toggleSwitch.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
+<script type="text/javascript" src="js/viewer_<?php echo  $interview->viewerjs;?>.js"></script>
+<link rel="stylesheet" href="js/fancybox_2_1_5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+<link rel="stylesheet" href="skin/jplayer.blue.monday.css" type="text/css" media="screen" />
+<script type="text/javascript" src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+<link rel="stylesheet"
+      href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+<script type="text/javascript" src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+<script type="text/javascript" src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
+<link rel="stylesheet"
+      href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+<script type="text/javascript" src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script type="text/javascript">
 $(document).ready(function() {
-    jQuery('a.indexSegmentLink').on('click', function(e) {
-        var linkContainer = '#segmentLink' + jQuery(e.target).data('timestamp');
-
-        e.preventDefault();
-        if (jQuery(linkContainer).css("display") == "none") {
-            jQuery(linkContainer).fadeIn(1000);
-        } else {
-            jQuery(linkContainer).fadeOut();
-        }
-
-        return false;
-    });
-
-    jQuery('.segmentLinkTextBox').on('click', function() {
-        jQuery(this).select();
-    });
-
-    if(jumpToTime !== null) {
-        jQuery('div.point').each(function(index) {
-            if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
-                jumpLink = jQuery(this).find('a.indexJumpLink');
-                jQuery('#accordionHolder').accordion({active: index});
-                jQuery('#accordionHolder-alt').accordion({active: index});
-                var interval = setInterval(function() {
-                <?php
-switch ($interview->playername) {
-    case 'youtube': ?>
-                    if (player !== undefined && 
-                        player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime) {
-                <?php
-        break;
-    case 'brightcove': ?>
-                    if (modVP !== undefined &&
-                        modVP.getVideoPosition !== undefined &&
-                        Math.floor(modVP.getVideoPosition(false)) == jumpToTime) {
-                <?php
-        break;
-    case 'kaltura': ?>
-                    if (kdp !== undefined && kdp.evaluate('{video.player.currentTime}') == jumpToTime) {
-                <?php
-        break;
-    default: ?>
-                    if(Math.floor(jQuery('#subjectPlayer').data('jPlayer').status.currentTime) == jumpToTime) {
-                <?php
-        break;
-} ?>
-                        clearInterval(interval);
-                    } else {
-                        jumpLink.click();
-                    }
-                }, 500);
-                jQuery(this).find('a.indexJumpLink').click();
-            }
-        });
+  jQuery('a.indexSegmentLink').on('click', function (e) {
+    var linkContainer = '#segmentLink' + jQuery(e.target).data('timestamp');
+    e.preventDefault();
+    if (jQuery(linkContainer).css("display") == "none") {
+      jQuery(linkContainer).fadeIn(1000);
+    } else {
+      jQuery(linkContainer).fadeOut();
     }
 
-    $(".fancybox").fancybox();
-    $(".various").fancybox({
-        maxWidth    : 800,
-        maxHeight   : 600,
-        fitToView   : false,
-        width       : '70%',
-        height      : '70%',
-        autoSize    : false,
-        closeClick  : false,
-        openEffect  : 'none',
-        closeEffect : 'none'
-    });
-    $('.fancybox-media').fancybox({
-        openEffect  : 'none',
-        closeEffect : 'none',
-        width       : '80%',
-        height      : '80%',
-        fitToView   : true,
-        helpers     : {
-            media : {}
-        }
-    });
-    $(".fancybox-button").fancybox({
-        prevEffect : 'none',
-        nextEffect : 'none',
-        closeBtn   : false,
-        helpers    : {
-            title   : { type : 'inside' },
-            buttons : {}
-        }
-    });
+    return false;
+  });
 
-    jQuery('#lnkRights').click(function() {
-        jQuery('#rightsStatement').fadeToggle(400);
+  jQuery('.segmentLinkTextBox').on('click', function () {
+    jQuery(this).select();
+  });
 
-        return false;
+  if(jumpToTime !== null) {
+    jQuery('div.point').each(function (index) {
+      if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
+        jumpLink = jQuery(this).find('a.indexJumpLink');
+        jQuery('#accordionHolder').accordion({active: index});
+        jQuery('#accordionHolder-alt').accordion({active: index});
+        var interval = setInterval(function() {
+          <?php
+switch ($interview->playername) {
+    case 'youtube': ?>
+          if (player !== undefined &&
+            player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime) {
+          <?php
+        break;
+    case 'brightcove': ?>
+          if (modVP !== undefined &&
+            modVP.getVideoPosition !== undefined &&
+            Math.floor(modVP.getVideoPosition(false)) == jumpToTime) {
+          <?php
+        break;
+    case 'kaltura': ?>
+          if (kdp !== undefined && kdp.evaluate('{video.player.currentTime}') == jumpToTime) {
+          <?php
+        break;
+    default: ?>
+          if(Math.floor(jQuery('#subjectPlayer').data('jPlayer').status.currentTime) == jumpToTime) {
+          <?php
+        break;
+} ?>
+            clearInterval(interval);
+          } else {
+            jumpLink.click();
+          }
+        }, 500);
+        jQuery(this).find('a.indexJumpLink').click();
+      }
     });
+  }
 
-    jQuery('#lnkUsage').click(function() {
-        jQuery('#usageStatement').fadeToggle(400);
+  $(".fancybox").fancybox();
+  $(".various").fancybox({
+    maxWidth    : 800,
+    maxHeight   : 600,
+    fitToView   : false,
+    width       : '70%',
+    height      : '70%',
+    autoSize    : false,
+    closeClick  : false,
+    openEffect  : 'none',
+    closeEffect : 'none'
+  });
+  $('.fancybox-media').fancybox({
+    openEffect  : 'none',
+    closeEffect : 'none',
+    width       : '80%',
+    height      : '80%',
+    fitToView   : true,
+    helpers     : {
+      media : {}
+    }
+  });
+  $(".fancybox-button").fancybox({
+    prevEffect : 'none',
+    nextEffect : 'none',
+    closeBtn   : false,
+    helpers    : {
+      title   : { type : 'inside' },
+      buttons : {}
+    }
+  });
 
-        return false;
-    });
+  jQuery('#lnkRights').click(function() {
+    jQuery('#rightsStatement').fadeToggle(400);
+    return false;
+  });
+
+  jQuery('#lnkUsage').click(function() {
+    jQuery('#usageStatement').fadeToggle(400);
+    return false;
+  });
 });
 </script>
 <script type="text/javascript">

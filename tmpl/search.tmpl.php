@@ -28,22 +28,21 @@ if ($interview->hasIndex()) {
 </div>
 <?php if($interview->translate == '1'): ?>
     <div id="translate-toggle">
-        <a href="#" id="translate-link" data-lang="<?php echo $interview->language ?>"
-           data-translate="<?php $interview->transcript_alt_lang; ?>"
-           data-linkto="<?php echo $targetLanguage ?>">Switch to
-           <?php echo $targetLanguage ?></a>
+      <a href="#" id="translate-link" data-lang="<?php echo $interview->language ?>"
+         data-translate="<?php $interview->transcript_alt_lang; ?>"
+         data-linkto="<?php echo $targetLanguage ?>">Switch to
+         <?php echo $targetLanguage ?></a>
     </div>
-    <br />
+    <br/>
     <?php
-endif; ?>
-
+endif;
+?>
 <span id="alert"></span>
-
 <form id="search-form" onSubmit="return false;" name="search-form">
-    <fieldset><legend id="search-legend">Search This <?php echo $searchThisLabel ?></legend>
-  <input class="kw-empty" id="kw" name="kw" size="30" value="Keyword" /><br />
-  <a href="#" class="search-button" id="submit-btn">Search</a>
-  <a href="#" class="searchclear-button" id="clear-btn">Clear</a>
-</fieldset>
+  <fieldset><legend id="search-legend">Search This <?php echo $searchThisLabel ?></legend>
+    <input class="kw-empty" id="kw" name="kw" size="30" value="Keyword" /><br />
+    <a href="#" class="search-button" id="submit-btn">Search</a>
+    <a href="#" class="searchclear-button" id="clear-btn">Clear</a>
+  </fieldset>
 </form>
 <div id="search-results"></div>
