@@ -19,7 +19,7 @@ if (isset($config[$cacheFile->repository])) {
     $contactemail = $repoConfig['contactemail'];
     $contactlink = $repoConfig['contactlink'];
     $copyrightholder = $repoConfig['copyrightholder'];
-    if (isset($repoConfig['open_graph_image']) && $repoConfig['open_grpah_image'] <> '') {
+    if (isset($repoConfig['open_graph_image']) && $repoConfig['open_graph_image'] <> '') {
         $openGraphImage = $repoConfig['open_graph_image'];
     }
     if (isset($repoConfig['open_graph_description']) && $repoConfig['open_graph_description'] <> '') {
