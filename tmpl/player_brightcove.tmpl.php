@@ -7,7 +7,7 @@ echo <<<BRIGHTCOVE
    <param name="width" value="480" />
    <param name="height" value="270" />
    <param name="playerID" value="{$interview->player_id}"/>
-   <param name="publisherID" value="{$interview->publisher_id}"/>
+   <param name="publisherID" value="{$interview->account_id}"/>
    <param name="isVid" value="true" />
    <param name="isUI" value="true" />
    <param name="@videoPlayer" value="{$interview->clip_id}"/>
