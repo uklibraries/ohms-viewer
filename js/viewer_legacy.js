@@ -43,21 +43,6 @@ jQuery(function ($) {
     }
   });
 
-  $('#kw').on('focus', function (e) {
-    if ($('#kw').val() === 'Keyword') {
-      $('#kw').toggleClass('kw-entry');
-      $('#kw').val('');
-    }
-  });
-  $('#kw').on('blur', function (e) {
-    if ($('#kw').val() === '') {
-      $('#kw').toggleClass('kw-entry');
-      $('#kw').val('Keyword');
-    }
-  });
-
-  $('#kw').focus();
-
   if ($('#subjectPlayer')[0]) {
     jQuery.jPlayer.timeFormat.showHour = true;
     jQuery("#subjectPlayer").jPlayer({
@@ -95,15 +80,6 @@ jQuery(function ($) {
   }
 
   playerControl();
-
-  var prevSearch = {
-    keyword: '',
-    highLines: []
-  };
-
-  var preg_quote = function (str) {
-    return (str + '').replace(/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:])/gi, "\\$1");
-  };
 
   var clearSearchResults = function (e) {
     if ((e.type == "keypress" && e.which == 13) || e.type == "click") {
@@ -177,11 +153,6 @@ jQuery(function ($) {
     }
   };
 
-  prevIndex = {
-    keyword: '',
-    matches: []
-  };
-
   var getIndexResults = function (e) {
     var isTranslate = false;
 
@@ -244,27 +215,6 @@ jQuery(function ($) {
   $('#submit-btn').on('click', getSearchResults);
   $('#clear-btn').on('click', clearSearchResults);
   $('#kw').on('keypress', getSearchResults);
-
-  var activeIndex = false;
-
-  if ('index' in vars) {
-    activeIndex = parseInt(vars.index);
-    if (isNaN(activeIndex)) {
-      activeIndex = false;
-    }
-  }
-
-  $('#accordionHolder').accordion({
-    autoHeight: false,
-    collapsible: true,
-    active: activeIndex,
-    fillSpace: false,
-    change: function (e, ui) {
-      $('#index-panel').scrollTo($('.ui-state-active'), 800, {
-        easing: 'easeInOutCubic'
-      });
-    }
-  });
 
   $(document).ready(function () {
     loaded = true;
