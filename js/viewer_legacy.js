@@ -66,7 +66,7 @@ jQuery(function ($) {
       supplied: jQuery('#subjectPlayer').attr('rel')
     });
   }
-  
+
   $('body').on('click', 'a.jumpLink', function (e) {
     e.preventDefault();
     jQuery('#subjectPlayer').jPlayer("play", $(e.target).data('timestamp') * 60);
