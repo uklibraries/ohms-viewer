@@ -24,6 +24,18 @@ var prevIndex = {
   matches: []
 };
 
+var clearSearchResults = function (e) {
+  if ((e.type == "keypress" && e.which == 13) || e.type == "click") {
+    e.preventDefault();
+    $('#search-results').empty();
+    $('#kw').val('');
+    $('span.highlight').removeClass('highlight');
+    $("#kw").prop('disabled', false);
+    $("#submit-btn").css("display", "inline-block");
+    $("#clear-btn").css("display", "none");
+  }
+};
+
 var activeIndex = false;
 
 if ('index' in vars) {
