@@ -45,31 +45,26 @@ jQuery(function ($) {
     });
   });
 
-  // Bugfix...refresh player links after HTML replacement. Move player link hookups into function so it can be called elsewhere in the program. - SD @ Artifex 2013-01-13
-  function playerControl() {
-    $('a.jumpLink').on('click', function (e) {
-      e.preventDefault();
-      var target = $(e.target);
-      curPlayPoint = 0;
-      widget.getPosition(function (pos) {
-        curPlayPoint = target.data('timestamp');
-        widget.seekTo(curPlayPoint * 60 * 1000);
-        widget.play();
-      });
+  $('body').on('click', 'a.jumpLink', function (e) {
+    e.preventDefault();
+    var target = $(e.target);
+    curPlayPoint = 0;
+    widget.getPosition(function (pos) {
+      curPlayPoint = target.data('timestamp');
+      widget.seekTo(curPlayPoint * 60 * 1000);
+      widget.play();
     });
-    $('a.indexJumpLink').on('click', function (e) {
-      e.preventDefault();
-      var target = $(e.target);
-      curPlayPoint = 0;
-      widget.getPosition(function (pos) {
-        curPlayPoint = target.data('timestamp');
-        widget.seekTo(curPlayPoint * 1000);
-        widget.play();
-      });
+  });
+  $('body').on('click', 'a.indexJumpLink', function (e) {
+    e.preventDefault();
+    var target = $(e.target);
+    curPlayPoint = 0;
+    widget.getPosition(function (pos) {
+      curPlayPoint = target.data('timestamp');
+      widget.seekTo(curPlayPoint * 1000);
+      widget.play();
     });
-  }
-
-  playerControl();
+  });
 
   var clearSearchResults = function (e) {
     if ((e.type == "keypress" && e.which == 13) || e.type == "click") {
@@ -117,8 +112,6 @@ jQuery(function ($) {
               var lineText = line.html();
               var re = new RegExp('(' + preg_quote(data.keyword) + ')', 'gi');
               line.html(lineText.replace(re, "<span class=\"highlight\">$1</span>"));
-              // Bugfix...refresh player links after HTML replacement. - SD @ Artifex 2013-01-13
-              playerControl();
             });
             $('<ol/>').addClass('nline').html(matches.join('')).appendTo('#search-results');
             $('a.search-result').on('click', function (e) {
