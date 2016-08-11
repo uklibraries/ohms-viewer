@@ -15,7 +15,7 @@ class ViewerController
         $this->interviewName = $interviewName;
     }
 
-    public function route($action, $kw, $interviewName)
+    public function route($action, $kw, $interviewName, $tmpl)
     {
         switch($action) {
             case 'metadata':
@@ -45,7 +45,11 @@ class ViewerController
                 $interview = $this->interview;
                 $interviewName = $this->interviewName;
                 $config = $this->config;
-                include_once 'tmpl/viewer.tmpl.php';
+				if($tmpl === 'viewer') {
+					include_once 'tmpl/viewer.tmpl.php';
+				} else {
+					include_once 'tmpl/parts/' . $tmpl . '.tmpl.php';
+				}
                 break;
         }
     }
