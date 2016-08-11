@@ -1,40 +1,4 @@
-<?php
-date_default_timezone_set($config['timezone']);
-$audioFormats = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
-$filepath = $interview->media_url;
-$rights = (string) $interview->rights;
-$usage = (string) $interview->usage;
-$contactemail = '';
-$contactlink = '';
-$copyrightholder = '';
-$protocol = 'https';
-if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
-	$protocol = 'http';
-}
-$host = $_SERVER['HTTP_HOST'];
-$uri = $_SERVER['REQUEST_URI'];
-$baseurl = "$protocol://$host$uri";
-$extraCss = null;
-if (isset($config[$interview->repository])) {
-	$repoConfig = $config[$interview->repository];
-	$contactemail = $repoConfig['contactemail'];
-	$contactlink = $repoConfig['contactlink'];
-	$copyrightholder = $repoConfig['copyrightholder'];
-	if (isset($repoConfig['open_graph_image']) && $repoConfig['open_graph_image'] <> '') {
-		$openGraphImage = $repoConfig['open_graph_image'];
-	}
-	if (isset($repoConfig['open_graph_description']) && $repoConfig['open_graph_description'] <> '') {
-		$openGraphDescription = $repoConfig['open_graph_description'];
-	}
-
-	if (isset($repoConfig['css']) && strlen($repoConfig['css']) > 0) {
-		$extraCss = $repoConfig['css'];
-	}
-}
-$seriesLink = (string) $interview->series_link;
-$collectionLink = (string) $interview->collection_link;
-$lang = (string) $interview->translate;
-?>
+<?php include 'parts/init.tmpl.php'; ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -72,50 +36,7 @@ $lang = (string) $interview->translate;
 	</head>
 	<body>
 		
-		<?php $class = in_array(substr(strtolower($filepath), -4, 4), $audioFormats) ? "header" : "headervid"; ?>
-		<div id="<?php echo $class; ?>">				
-			<?php if (isset($config[$interview->repository])): ?>
-				<img id="headerimg" src="<?php echo $config[$interview->repository]['footerimg']; ?>" alt="<?php echo $config[$interview->repository]['footerimgalt']; ?>" />
-			<?php endif; ?>
-			<div class="center">
-				<h1><?php echo $interview->title; ?></h1>
-				<h2 id="secondaryMetaData">
-					<div>
-						<strong><?php echo $interview->repository; ?></strong><br />
-						<?php echo $interview->interviewer; ?>, Interviewer | <?php echo $interview->accession; ?><br />
-						<?php if (isset($interview->collection_link) && (string) $interview->collection_link != '') { ?>
-							<a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a> |
-						<?php } else { ?>
-							<?php echo $interview->collection; ?> |
-						<?php } ?>
-
-						<?php if (isset($interview->series_link) && (string) $interview->series_link != '') { ?>
-							<a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
-						<?php } else { ?>
-							<?php echo $interview->series; ?>
-						<?php } ?>
-					</div>
-				</h2>
-				<div id="audio-panel">
-					<?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
-				</div>
-			</div>			
-		</div>
-		
-		<div id="main">
-			<div id="main-panels">
-				<div id="content-panel">
-					<div id="holder-panel"></div>
-					<div id="transcript-panel" class="transcript-panel">
-						<?php echo $interview->transcript; ?>
-					</div>
-					<div id="index-panel" class="index-panel">
-						<?php echo $interview->index; ?>
-					</div>
-				</div>
-				<div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
-			</div>
-		</div>
+		<?php include 'parts/main.tmpl.php'; ?>
 		<?php include 'parts/footer.tmpl.php'; ?>
 		<?php include 'parts/ga.tmpl.php'; ?>
 	</body>
