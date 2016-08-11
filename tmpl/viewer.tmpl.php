@@ -67,16 +67,7 @@ GASCRIPT;
     <script type="text/javascript" src="js/jquery-ui.toggleSwitch.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/viewer.js"></script>
-    <meta property="og:title" content="<?php echo $interview->title; ?>" />
-    <meta property="og:url" content="<?php echo $baseurl ?>">
-    <?php if (isset($openGraphImage)) { ?>
-    <meta property="og:image" content="<?php echo "$baseurl/$openGraphImage" ?>">
-    <?php
-} ?>
-    <?php if (isset($openGraphDescription)) { ?>
-    <meta property="og:description" content="<?php echo "$openGraphDescription" ?>">
-    <?php
-} ?>
+	<?php include 'parts/og.tmpl.php'; ?>
   </head>
   <body>
 <script type="text/javascript">
