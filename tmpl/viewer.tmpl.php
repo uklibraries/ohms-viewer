@@ -34,21 +34,6 @@ if (isset($config[$interview->repository])) {
 $seriesLink = (string)$interview->series_link;
 $collectionLink = (string)$interview->collection_link;
 $lang = (string)$interview->translate;
-
-$gaScript = null;
-if (isset($repoConfig['ga_tracking_id'])) {
-    $gaScript = <<<GASCRIPT
-<script type="text/javascript">
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', '{$repoConfig['ga_tracking_id']}', '{$repoConfig['ga_host']}');
-ga('send', 'pageview');
-</script>
-GASCRIPT;
-}
 ?>
 <!DOCTYPE html>
 <html>
