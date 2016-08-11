@@ -1,7 +1,3 @@
-<?php if (!isset($templateInitialized)) {
-	include 'init.tmpl.php';
-}?>
-
 <?php $class = in_array(substr(strtolower($filepath), -4, 4), $audioFormats) ? "header" : "headervid"; ?>
 <div id="<?php echo $class; ?>">				
 	<?php if (isset($config[$interview->repository])): ?>
