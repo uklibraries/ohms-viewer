@@ -50,11 +50,9 @@ $lang = (string) $interview->translate;
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="js/jquery-ui.toggleSwitch.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="js/viewer.js"></script>
 		<script type="text/javascript" src="js/jquery.jplayer.min.js"></script>
 		<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
 		<script type="text/javascript" src="js/jquery.scrollTo-min.js"></script>
-		<script type="text/javascript" src="js/viewer_<?php echo $interview->viewerjs; ?>.js"></script>
 		<link rel="stylesheet" href="js/fancybox_2_1_5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
 		<link rel="stylesheet" href="skin/jplayer.blue.monday.css" type="text/css" media="screen" />
 		<script type="text/javascript" src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
@@ -63,6 +61,13 @@ $lang = (string) $interview->translate;
 		<script type="text/javascript" src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
 		<link rel="stylesheet" href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
 		<script type="text/javascript" src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+		<script type="text/javascript" src="js/viewer.js"></script>
+		<script type="text/javascript" src="js/viewer_<?php echo $interview->viewerjs; ?>.js"></script>
+		<script type="text/javascript">				
+			var cachefile = '<?php echo $interview->cachefile; ?>';
+			var playerName = '<?php echo $interview->playername; ?>';
+		</script>
+		<script type="text/javascript" src="js/viewer_init.js"></script>
 		<?php include 'parts/og.tmpl.php'; ?>
 	</head>
 	<body>
@@ -146,117 +151,6 @@ $lang = (string) $interview->translate;
 				</div>
 				<br clear="both" />
 			</div>
-			<script type="text/javascript">				
-				var cachefile = '<?php echo $interview->cachefile; ?>';
-				var playerName = '<?php echo $interview->playername; ?>';
-				console.log(playerName);
-				var jumpToTime = null;
-				if (location.href.search('#segment') > -1) {
-					var jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));
-					if (isNaN(jumpToTime)) {
-						jumpToTime = 0;
-					}
-				}
-				
-				$(document).ready(function() {
-
-					jQuery('a.indexSegmentLink').click(function (e) {
-						e.preventDefault();
-						var linkContainer = '#segmentLink' + jQuery(e.target).data('timestamp');
-						if (jQuery(linkContainer).css("display") == "none") {
-							jQuery(linkContainer).fadeIn(1000);
-						} else {
-							jQuery(linkContainer).fadeOut();
-						}
-					});
-					
-					jQuery('.segmentLinkTextBox').on('click', function () {
-						jQuery(this).select();
-					});
-					
-					if (jumpToTime !== null) {
-						jQuery('div.point').each(function (index) {
-							if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
-								jumpLink = jQuery(this).find('a.indexJumpLink');
-								jQuery('#accordionHolder').accordion({active: index});
-								jQuery('#accordionHolder-alt').accordion({active: index});
-								var interval = setInterval(function() {
-									var reset = false;
-									switch(playerName) {
-										case 'youtube': 
-											if (player !== undefined && player.getCurrentTime !== undefined && player.getCurrentTime() == jumpToTime) {
-												reset = true;
-											}
-											break;
-										case 'brightcove': 
-											if (modVP !== undefined && modVP.getVideoPosition !== undefined && Math.floor(modVP.getVideoPosition(false)) == jumpToTime) {
-												reset = true;
-											}
-											break;
-										case 'kaltura': 
-											if (kdp !== undefined && kdp.evaluate('{video.player.currentTime}') == jumpToTime) {
-												reset = true;
-											}
-											break;
-										default: 
-											if (Math.floor(jQuery('#subjectPlayer').data('jPlayer').status.currentTime) == jumpToTime) {
-												reset = true;
-											}
-											break;
-									}
-									if(reset) {
-										clearInterval(interval);
-									} else {
-										jumpLink.click();
-									}
-								}, 500);
-								
-								jQuery(this).find('a.indexJumpLink').click();
-							}
-						});
-					}
-
-					$(".fancybox").fancybox();
-					$(".various").fancybox({
-						maxWidth    : 800,
-						maxHeight   : 600,
-						fitToView   : false,
-						width       : '70%',
-						height      : '70%',
-						autoSize    : false,
-						closeClick  : false,
-						openEffect  : 'none',
-						closeEffect : 'none'
-					});
-					$('.fancybox-media').fancybox({
-						openEffect  : 'none',
-						closeEffect : 'none',
-						width       : '80%',
-						height      : '80%',
-						fitToView   : true,
-						helpers     : {
-							media : {}
-						}
-					});
-					$(".fancybox-button").fancybox({
-						prevEffect : 'none',
-						nextEffect : 'none',
-						closeBtn   : false,
-						helpers    : {
-							title   : { type : 'inside' },
-							buttons : {}
-						}
-					});
-					jQuery('#lnkRights').click(function() {
-					jQuery('#rightsStatement').fadeToggle(400);
-							return false;
-					});
-					jQuery('#lnkUsage').click(function() {
-						jQuery('#usageStatement').fadeToggle(400);
-						return false;
-					});
-				});
-			</script>
 		<?php include 'parts/ga.tmpl.php'; ?>
 	</body>
 </html>
