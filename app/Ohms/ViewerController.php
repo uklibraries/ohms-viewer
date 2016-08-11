@@ -21,12 +21,10 @@ class ViewerController
             case 'metadata':
                 header('Content-type: application/json');
                 echo $this->interview->toJSON();
-                exit();
                 break;
             case 'xml':
                 header('Content-type: application/xml');
                 echo $this->interview->toXML();
-                exit();
                 break;
             case 'transcript':
                 echo $this->interview->getTranscript();
@@ -35,13 +33,11 @@ class ViewerController
                 if (isset($kw)) {
                     echo $this->interview->Transcript->keywordSearch($kw);
                 }
-                exit();
                 break;
             case 'index':
                 if (isset($kw)) {
                     echo $this->interview->Transcript->indexSearch($kw);
                 }
-                exit();
                 break;
             case 'all':
                 break;
