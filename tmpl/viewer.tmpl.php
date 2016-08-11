@@ -71,86 +71,87 @@ $lang = (string) $interview->translate;
 		<?php include 'parts/og.tmpl.php'; ?>
 	</head>
 	<body>
-		<?php if (in_array(substr(strtolower($filepath), -4, 4), $audioFormats)) { ?>
-			<div id="header">
-			<?php } else { ?>
-				<div id="headervid">
-				<?php } ?>
-				<?php if (isset($config[$interview->repository])): ?>
-					<img id="headerimg"
-						 src="<?php echo $config[$interview->repository]['footerimg']; ?>"
-						 alt="<?php echo $config[$interview->repository]['footerimgalt']; ?>" />
-						 <?php endif;
-					 ?>
-				<div class="center">
-					<h1><?php echo $interview->title; ?></h1>
-					<h2 id="secondaryMetaData">
-						<div>
-							<strong><?php echo $interview->repository; ?></strong><br />
-							<?php echo $interview->interviewer; ?>, Interviewer |
-							<?php echo $interview->accession; ?><br />
-							<?php if (isset($interview->collection_link) && (string) $interview->collection_link != '') { ?>
-								<a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a> |
-								<?php } else { ?>
-								<?php echo $interview->collection; ?> |
-								<?php } ?>
-							<?php if (isset($interview->series_link) && (string) $interview->series_link != '') { ?>
-								<a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
-								<?php } else { ?>
-								<?php echo $interview->series; ?>
-								<?php } ?>
-						</div>
-					</h2>
-					<div id="audio-panel">
-						<?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
+		
+		<?php $class = in_array(substr(strtolower($filepath), -4, 4), $audioFormats) ? "header" : "headervid"; ?>
+		<div id="<?php echo $class; ?>">				
+			<?php if (isset($config[$interview->repository])): ?>
+				<img id="headerimg" src="<?php echo $config[$interview->repository]['footerimg']; ?>" alt="<?php echo $config[$interview->repository]['footerimgalt']; ?>" />
+			<?php endif; ?>
+			<div class="center">
+				<h1><?php echo $interview->title; ?></h1>
+				<h2 id="secondaryMetaData">
+					<div>
+						<strong><?php echo $interview->repository; ?></strong><br />
+						<?php echo $interview->interviewer; ?>, Interviewer | <?php echo $interview->accession; ?><br />
+						<?php if (isset($interview->collection_link) && (string) $interview->collection_link != '') { ?>
+							<a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a> |
+						<?php } else { ?>
+							<?php echo $interview->collection; ?> |
+						<?php } ?>
+
+						<?php if (isset($interview->series_link) && (string) $interview->series_link != '') { ?>
+							<a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
+						<?php } else { ?>
+							<?php echo $interview->series; ?>
+						<?php } ?>
+					</div>
+				</h2>
+				<div id="audio-panel">
+					<?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
+				</div>
+			</div>			
+		</div>
+		
+		<div id="main">
+			<div id="main-panels">
+				<div id="content-panel">
+					<div id="holder-panel"></div>
+					<div id="transcript-panel" class="transcript-panel">
+						<?php echo $interview->transcript; ?>
+					</div>
+					<div id="index-panel" class="index-panel">
+						<?php echo $interview->index; ?>
 					</div>
 				</div>
+				<div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
 			</div>
-			<div id="main">
-				<div id="main-panels">
-					<div id="content-panel">
-						<div id="holder-panel"></div>
-						<div id="transcript-panel" class="transcript-panel">
-							<?php echo $interview->transcript; ?>
-						</div>
-						<div id="index-panel" class="index-panel">
-							<?php echo $interview->index; ?>
-						</div>
-					</div>
-					<div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
-				</div>
+		</div>
+		
+		<div id="footer">
+			<div id="footer-metadata">
+				
+				<?php if (!empty($rights)) { ?>
+					<h3><a href="#" id="lnkRights">View Rights Statement</a></h3>
+					<div id="rightsStatement"><p><?php echo $rights; ?></p></div>
+				<?php } else { ?>
+					<h3>No Rights Statement</h3>
+				<?php }	?>
+					
+				<?php if (!empty($usage)) { ?>
+					<h3><a href="#" id="lnkUsage">View Usage Statement</a></h3>
+					<div id="usageStatement"><p><?php echo $usage; ?></p></div>
+				<?php } else { ?>
+					<h3>No Usage Statement</h3>
+				<?php }	?>
+					
+				<?php if (!empty($collectionLink)) { ?>
+					<h3>Collection Link: <a	href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a></h3>
+				<?php }	?>
+					
+				<?php if (!empty($seriesLink)) { ?>
+					<h3>Series Link: <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a></h3>
+				<?php }	?>
+					
+				<h3>Contact Us: <a href="mailto:<?php echo $contactemail ?>"><?php echo $contactemail ?></a> | <a href="<?php echo $contactlink ?>"><?php echo $contactlink ?></a></h3>
 			</div>
-			<div id="footer">
-				<div id="footer-metadata">
-					<?php if (!empty($rights)) { ?>
-						<p><span><h3><a href="#" id="lnkRights">View Rights Statement</a></h3>
-								<div id="rightsStatement"><?php echo $rights; ?></div></span></p>
-						<?php } else { ?>
-						<p><span><h3>View Rights Statement</h3></span></p>
-						<?php }	?>
-					<?php if (!empty($usage)) { ?>
-						<p><span><h3><a href="#" id="lnkUsage">View Usage Statement</a></h3>
-								<div id="usageStatement"><?php echo $usage; ?></div></span></p>
-						<?php } else { ?>
-						<p><span><h3>View Usage Statement</h3></span></p>
-						<?php }	?>
-					<?php if (!empty($collectionLink)) { ?>
-						<p><span><h3> Collection Link: <a	href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a></h3></span></p>
-							<?php }	?>
-						<?php if (!empty($seriesLink)) { ?>
-						<p><span><h3>Series Link: <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a></h3></span></p>
-							<?php }	?>
-					<p><span><h3>Contact Us: <a href="mailto:<?php echo $contactemail ?>"><?php echo $contactemail ?></a> |
-								<a href="<?php echo $contactlink ?>"><?php echo $contactlink ?></a></h3></span></p>
-				</div>
-				<div id="footer-copyright">
-					<small id="copyright"><span>&copy; <?php echo Date("Y") ?></span><?php echo $copyrightholder ?></small>
-				</div>
-				<div id="footer-logo">
-					<img alt="Powered by OHMS logo" src="imgs/ohms_logo.png" border="0"/>
-				</div>
-				<br clear="both" />
+			<div id="footer-copyright">
+				<small id="copyright">&copy; <?php echo Date("Y") ?> <?php echo $copyrightholder ?></small>
 			</div>
+			<div id="footer-logo">
+				<img alt="Powered by OHMS logo" src="imgs/ohms_logo.png" border="0"/>
+			</div>
+			<br clear="both" />
+		</div>
 		<?php include 'parts/ga.tmpl.php'; ?>
 	</body>
 </html>
