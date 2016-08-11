@@ -299,8 +299,6 @@ switch ($interview->playername) {
 <script type="text/javascript">
 var cachefile = '<?php echo $interview->cachefile; ?>';
 </script>
-<?php if (isset($gaScript)) {
-    echo $gaScript;
-} ?>
+<?php include 'parts/ga.tmpl.php'; ?>
   </body>
 </html>
