@@ -8,6 +8,7 @@
  * @license http://www.uky.edu
  */
 
+use Exception;
 use Ohms\Interview\Legacy;
 use Ohms\Interview\Version3;
 
