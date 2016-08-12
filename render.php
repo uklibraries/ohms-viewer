@@ -7,24 +7,24 @@ require_once 'vendor/autoload.php';
 session_start();
 
 if (!isset($_GET['translate'])) {
-	$_GET['translate'] = '0';
+    $_GET['translate'] = '0';
 }
 
 if (!isset($_REQUEST['cachefile']) || empty($_REQUEST['cachefile'])) {
-	header('Content-Type: text/plain', true, 404);
-	echo "Invalid request: missing cache file parameter.\n";
-	exit();
+    header('Content-Type: text/plain', true, 404);
+    echo "Invalid request: missing cache file parameter.\n";
+    exit();
 }
 
 try {
-	$kw = (isset($_REQUEST['kw'])) ? $_REQUEST['kw'] : null;
-	$action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : null;
-	$tmpl = (isset($_REQUEST['view']) ? $_REQUEST['view'] : 'viewer');
-	$vController = new ViewerController($_REQUEST['cachefile']);
-	$vController->route($action, $kw, $_REQUEST['cachefile'], $tmpl);
+    $kw = (isset($_REQUEST['kw'])) ? $_REQUEST['kw'] : null;
+    $action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : null;
+    $tmpl = (isset($_REQUEST['view']) ? $_REQUEST['view'] : 'viewer');
+    $vController = new ViewerController($_REQUEST['cachefile']);
+    $vController->route($action, $kw, $_REQUEST['cachefile'], $tmpl);
 } catch (Exception $e) {
-	header('Content-Type: text/plain', true, 500);
-	echo "Internal error.\n";
-	echo "{$e->getCode()}: {$e->getMessage()}\n";
-	echo $e->getTraceAsString();
+    header('Content-Type: text/plain', true, 500);
+    echo "Internal error.\n";
+    echo "{$e->getCode()}: {$e->getMessage()}\n";
+    echo $e->getTraceAsString();
 }

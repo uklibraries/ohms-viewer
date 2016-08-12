@@ -45,11 +45,11 @@ class ViewerController
                 $interview = $this->interview;
                 $interviewName = $this->interviewName;
                 $config = $this->config;
-				if(file_exists('tmpl/' . $tmpl . '.tmpl.php')) {
-					include_once('tmpl/' . $tmpl . '.tmpl.php');
-				} else {
-					throw new Exception("Cannot display template {$tmpl} - not found.");
-				}
+                if (file_exists('tmpl/' . $tmpl . '.tmpl.php')) {
+                    include_once('tmpl/' . $tmpl . '.tmpl.php');
+                } else {
+                    throw new Exception("Cannot display template {$tmpl} - not found.");
+                }
                 break;
         }
     }
