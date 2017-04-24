@@ -15,16 +15,18 @@ class ViewerController
         $this->interviewName = $interviewName;
     }
 
-    public function route($action, $kw, $interviewName, $tmpl)
+    public function route($action, $kw, $interviewName)
     {
         switch($action) {
             case 'metadata':
                 header('Content-type: application/json');
                 echo $this->interview->toJSON();
+                exit();
                 break;
             case 'xml':
                 header('Content-type: application/xml');
                 echo $this->interview->toXML();
+                exit();
                 break;
             case 'transcript':
                 echo $this->interview->getTranscript();
@@ -33,11 +35,13 @@ class ViewerController
                 if (isset($kw)) {
                     echo $this->interview->Transcript->keywordSearch($kw);
                 }
+                exit();
                 break;
             case 'index':
                 if (isset($kw)) {
                     echo $this->interview->Transcript->indexSearch($kw);
                 }
+                exit();
                 break;
             case 'all':
                 break;
@@ -45,11 +49,7 @@ class ViewerController
                 $interview = $this->interview;
                 $interviewName = $this->interviewName;
                 $config = $this->config;
-                if (file_exists('tmpl/' . $tmpl . '.tmpl.php')) {
-                    include_once('tmpl/' . $tmpl . '.tmpl.php');
-                } else {
-                    throw new Exception("Cannot display template {$tmpl} - not found.");
-                }
+                include_once 'tmpl/viewer.tmpl.php';
                 break;
         }
     }
