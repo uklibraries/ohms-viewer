@@ -39,7 +39,8 @@ class ViewerController
                 break;
             case 'index':
                 if (isset($kw)) {
-                    echo $this->interview->Transcript->indexSearch($kw);
+                    $translate = ($_GET['translate'] == '1' ? 1 : 0);
+                    echo $this->interview->Transcript->indexSearch($kw, $translate);
                 }
                 exit();
                 break;

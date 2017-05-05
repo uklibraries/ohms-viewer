@@ -106,10 +106,11 @@ HYPERLINK;
     <a class="indexSegmentLink" href="#" data-timestamp="{$point->time}">Segment link</a>
     <br clear="both" />
   </p>
-  <p class="segmentLink" id="segmentLink{$point->time}"><strong>Direct segment link:</strong>
+  <div class="segmentLink" id="segmentLink{$point->time}" style="width:100%">
+    <strong>Direct segment link:</strong>
     <br />
-    <input type="text" readonly="readonly" class="segmentLinkTextBox" value="{$directSegmentLink}" />
-  </p>
+    <a href="{$directSegmentLink}">{$directSegmentLink}</a>
+  </div>
   <div class="synopsis"><a name="tp_{$point->time}"></a>
     <p><strong>Partial Transcript:</strong> <span>$nlPartialTranscript</span></p>
     <p><strong>Segment Synopsis:</strong><span> $nlSynopsis</span></p>
@@ -160,7 +161,7 @@ POINT;
         $this->transcriptHTML = preg_replace('/<p>(.+)/U', "<p class=\"first-p\">$1", $this->transcriptHTML, 1);
 
         $chunkarray = explode(":", $this->chunks);
-        $chunksize = $chunkarray[0];
+        $chunksize = (int)$chunkarray[0];
         $chunklines =array();
         if (count($chunkarray)>1) {
             $chunkarray[1] = preg_replace('/\(.*?\)/', "", $chunkarray[1]);
@@ -271,7 +272,7 @@ FOOTNOTE;
         return str_replace("\0", "", $json) . ']}';
     }
 
-    public function indexSearch($keyword)
+    public function indexSearch($keyword, $translate)
     {
         if (!empty($keyword)) {
             $q_kw = $this->quoteWords($keyword);
@@ -281,11 +282,11 @@ FOOTNOTE;
             );
 
             foreach ($this->index->point as $point) {
-                $synopsis = $point->synopsis;
-                $keywords = $point->keywords;
-                $subjects = $point->subjects;
+                $synopsis = $translate ? $point->synopsis_alt : $point->synopsis;
+                $keywords = $translate ? $point->keywords_alt : $point->keywords;
+                $subjects = $translate ? $point->subjects_alt : $point->subjects;
                 $time = $point->time;
-                $title = $point->title;
+                $title = $translate ? $point->title_alt : $point->title;
                 $timePoint = floor($time / 60) . ':' . str_pad($time % 60, 2, '0', STR_PAD_LEFT);
                 $gps = $point->gps;
                 $hyperlink = $point->hyperlink;

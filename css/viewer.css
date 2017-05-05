@@ -452,10 +452,12 @@ div.point {
 
 .indexJumpLink {
     float: left;
+    color: blue !important;
 }
 
 .indexSegmentLink {
     float: right;
+    color: blue !important;
 }
 
 .segmentLink {
