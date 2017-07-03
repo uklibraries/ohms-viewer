@@ -46,6 +46,7 @@ jQuery(function ($) {
                     jQuery(this).jPlayer("setMedia", playerData).jPlayer("stop");
                 }
                 $('#jp_poster_0').on('click', function () {
+                    alert(1);
                     jQuery('#subjectPlayer').jPlayer("play");
                 });
             },

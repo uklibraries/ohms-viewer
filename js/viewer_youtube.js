@@ -46,6 +46,7 @@ jQuery(function ($) {
             player.setSize(width - padding, height);
         } else {
             player.setSize(500, 280);
+
         }
     }
     $(window).resize(function () {

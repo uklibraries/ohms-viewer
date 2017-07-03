@@ -3,8 +3,6 @@ jQuery(function ($) {
 
   
 
-
-
   $('#translate-link').click(function (e) {
     var urlIndexPiece = '';
     var re;
@@ -35,11 +33,6 @@ jQuery(function ($) {
     goToSecond(target.data('timestamp'));
   });
 
-  
-
-  
-
-  
 });
 
 //Brightcove code ======================
