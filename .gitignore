@@ -5,3 +5,5 @@ viewerfiles/*
 .idea/
 .DS_store
 */.DS_store
+.DS_Store
+nbproject

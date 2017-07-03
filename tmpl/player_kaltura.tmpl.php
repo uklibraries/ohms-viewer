@@ -44,7 +44,7 @@ $kalturaJS = "$kalturaHost/p/$partner_id/sp/{$partner_id}00/embedIframeJs/uiconf
 
 echo <<<KALTURA
 <div id="youtubePlayer">
-    <div id="kaltura_player_embed" style="width: 500px; height: {$height}px;"></div>
+    <div id="kaltura_player_embed" style="width: 500px; height: {$height}px;" class="embed-responsive embed-responsive-16by9"></div>
 </div>
 <script src="{$kalturaJS}"></script>
 <script type="text/javascript">

@@ -20,9 +20,17 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 var setTime = 0;
 function onYouTubeIframeAPIReady() {
+        var screenSize = width = $('body').width(); 
+        var padding = 30;
+        var width = 500;
+        var height = 280;
+        if (screenSize < 530) {
+            width = $('body').width()- padding;
+            height = ($('body').width() - padding) * 0.56;
+        } 
   player = new YT.Player('youtubePlayer', {
-    height: '270',
-    width: '480',
+    height: height,
+    width: width, 
     videoId: '{$youtubeId}',
     startAt: setTime,
     events: {
