@@ -1,5 +1,6 @@
 <?php
-$clipid=$interview->clip_id;
+
+$clipid = $interview->clip_id;
 $PARTNER_ID = $interview->account_id;
 $UICONF_ID = $interview->player_id;
 $embedcode = html_entity_decode($interview->kembed);
@@ -55,7 +56,11 @@ kWidget.embed({
     'entry_id' : '{$entry_id}',
     'flashvars': {
         'autoPlay': {$autoPlay},
-        'externalInterfaceDisabled': false
+        'externalInterfaceDisabled': false,
+        'keyboardShortcuts': { 
+	'shortSeekTime' : '15',
+	'longSeekTime' : '15',
+        }
     },
     'params': {
         'wmode': 'transparent'

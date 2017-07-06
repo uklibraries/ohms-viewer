@@ -1,6 +1,8 @@
 config/config.ini
 viewerfiles
+cachefiles
 viewerfiles/*
+cachefiles/*
 .htaccess
 .idea/
 .DS_store

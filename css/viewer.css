@@ -680,8 +680,8 @@ input {
 .toggle-txt-info{vertical-align: top;
                  display: inline-block;
                  margin-top: 10px;
-                 margin-right: 15px;
-                 margin-left: 15px;
+                 margin-right: 3%;
+                 margin-left: 3%;
                  font-weight: bold;
 }
 @media only screen and (min-width: 769px) and (max-width: 1000px) {
@@ -706,7 +706,7 @@ input {
         -moz-box-sizing: border-box;
         box-sizing: border-box;
     }
-    .kw-empty{height: 26px;}
+    .kw-empty{height: 26px;max-width:100% !important }
     #subjectPlayer{width: 100% !important;}
     .show-info{display: inline-block}
     .detail-metadata{display: none;}
@@ -886,4 +886,8 @@ input:checked + .slider:before {
 
 .nline li {
     display: grid;
+}
+
+div.jp-current-time, div.jp-duration {
+    text-align: left;
 }

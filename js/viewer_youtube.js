@@ -37,6 +37,7 @@ jQuery(function ($) {
             player.playVideo();
             player.seekTo(target.data('timestamp'));
         }
+        $('body').animate({scrollTop : 0},800);
     });
     function responsiveYoutubePlayer() {
         padding = 30;

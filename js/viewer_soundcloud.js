@@ -43,6 +43,7 @@ jQuery(function ($) {
       widget.seekTo(curPlayPoint * 1000);
       widget.play();
     });
+    $('body').animate({scrollTop : 0},800);
   });
 
   

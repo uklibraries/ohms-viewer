@@ -73,6 +73,7 @@ jQuery(function ($) {
     $('body').on('click', 'a.indexJumpLink', function (e) {
         e.preventDefault();
         jQuery('#subjectPlayer').jPlayer("play", $(e.target).data('timestamp'));
+        $('body').animate({scrollTop: 0}, 800);
     });
 
 
