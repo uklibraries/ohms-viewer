@@ -680,11 +680,11 @@ input {
 .toggle-txt-info{vertical-align: top;
                  display: inline-block;
                  margin-top: 10px;
-                 margin-right: 3%;
-                 margin-left: 3%;
+                 margin-right: 4px;
+                 margin-left: 4px;
                  font-weight: bold;
 }
-@media only screen and (min-width: 769px) and (max-width: 1000px) {
+@media only screen and (min-width: 801px) and (max-width: 1000px) {
     #content-panel {
         width: 55%;
     }
@@ -695,12 +695,13 @@ input {
         width: 100%;
     }
     #searchbox-panel {
-        width: 24%;
+        width: 28%;
+        margin-right:1%;
     }
-    .kw-empty{height: 26px;}
+    .kw-empty{height: 20px;}
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 800px) {
     * {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
