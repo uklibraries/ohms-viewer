@@ -46,7 +46,6 @@ jQuery(function ($) {
                     jQuery(this).jPlayer("setMedia", playerData).jPlayer("stop");
                 }
                 $('#jp_poster_0').on('click', function () {
-                    alert(1);
                     jQuery('#subjectPlayer').jPlayer("play");
                 });
             },
@@ -59,6 +58,7 @@ jQuery(function ($) {
             swfPath: "../swf/jplayer",
             solution: 'html, flash',
             supplied: jQuery('#subjectPlayer').attr('rel'),
+            
             size: {
                 width: "100%",
                 height: "100%"

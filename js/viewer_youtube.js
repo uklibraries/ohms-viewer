@@ -1,8 +1,5 @@
 jQuery(function ($) {
     var loaded = false;
-    responsiveYoutubePlayer();
-
-
     $('#translate-link').click(function (e) {
         var urlIndexPiece = '';
         var re;
