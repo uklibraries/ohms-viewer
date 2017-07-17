@@ -16,7 +16,26 @@ var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
 var player;
 var setTime = 0;
 function onYouTubeIframeAPIReady() {
@@ -31,6 +50,9 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('youtubePlayer', {
     height: height,
     width: width, 
+    playerVars: {
+            playsinline: 1
+        },
     videoId: '{$youtubeId}',
     startAt: setTime,
     events: {
@@ -39,7 +61,8 @@ function onYouTubeIframeAPIReady() {
   });
 
   function onPlayerReady(event) {
-    event.target.playVideo();
+    if(!isMobile.any())
+        event.target.playVideo();
     {$extraScript}
   }
 }
