@@ -4,6 +4,7 @@ $audioFormats = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
 $filepath = $interview->media_url;
 $rights = (string) $interview->rights;
 $usage = (string) $interview->usage;
+$acknowledgment = (string) $interview->funding;
 $contactemail = '';
 $contactlink = '';
 $copyrightholder = '';
@@ -173,6 +174,15 @@ GASCRIPT;
                         <p><span><h3>View Usage Statement</h3></span></p>
                     <?php }
                     ?>
+
+                    <?php if (!empty($acknowledgment)) { ?>
+                        <p><span><h3><a href="#" id="lnkFunding">Acknowledgment</a></h3>
+                                <div id="fundingStatement"><?php echo $acknowledgment; ?></div></span></p>
+                    <?php } else {
+                        ?>
+                        <p><span><h3>Acknowledgment</h3></span></p>
+                    <?php }
+                    ?>
                     <?php if (!empty($collectionLink)) { ?>
                         <p><span><h3>Collection Link: <a
                                         href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a></h3></span></p>
@@ -305,6 +315,10 @@ switch ($interview->playername) {
                     });
                             jQuery('#lnkUsage').click(function() {
                     jQuery('#usageStatement').fadeToggle(400);
+                            return false;
+                    });
+                            jQuery('#lnkFunding').click(function() {
+                    jQuery('#fundingStatement').fadeToggle(400);
                             return false;
                     });
                     });

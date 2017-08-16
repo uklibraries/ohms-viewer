@@ -444,7 +444,7 @@ div.point {
     padding-bottom: 0px !important;
 }
 
-#rightsStatement {
+#rightsStatement, #fundingStatement {
     display: none;
 }
 
