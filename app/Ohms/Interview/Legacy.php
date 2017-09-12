@@ -49,7 +49,8 @@ class Legacy
             'file_name' => (string)$ohfile->record->file_name,
             'rights' => (string)$ohfile->record->rights,
             'usage' => (string)$ohfile->record->usage,
-            'repository' => (string)$ohfile->record->repository
+            'repository' => (string)$ohfile->record->repository,
+            'funding' => (string)$ohfile->record->funding,
         );
 
         # temp fix for mp3 doubling
