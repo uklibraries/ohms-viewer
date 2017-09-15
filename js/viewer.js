@@ -71,9 +71,11 @@ jQuery(document).ready(function ($) {
         active: activeIndex,
         fillSpace: false,
         change: function (e, ui) {
-            $('#index-panel').scrollTo($('.ui-state-active'), 800, {
-                easing: 'easeInOutCubic'
-            });
+            if (ui.newHeader.length > 0) {
+                $('#index-panel').scrollTo($('.ui-state-active'), 800, {
+                    easing: 'easeInOutCubic'
+                });
+            }     
         }
     });
     $('.show-info').bind('click', function () {

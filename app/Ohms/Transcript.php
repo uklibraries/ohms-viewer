@@ -70,7 +70,7 @@ class Transcript
                 $nlPartialTranscript = nl2br($partial_transcript);
                 $nlSynopsis = nl2br($synopsis);
                 $formattedKeywords = str_replace(';', '; ', $keywords);
-                $formattedSubjects = str_replace(';', ' ', $subjects);
+                $formattedSubjects = str_replace(';', '; ', $subjects);
                 $gpsHTML = '';
                 if ($gps <> '') {
                     # XXX: http

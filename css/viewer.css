@@ -893,3 +893,8 @@ input:checked + .slider:before {
 div.jp-current-time, div.jp-duration {
     text-align: left;
 }
+
+#vimeo_widget{
+    width: 100% ! important;
+    height: 100% ! important;
+}

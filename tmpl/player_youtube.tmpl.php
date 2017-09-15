@@ -1,11 +1,31 @@
 <?php
+
 $player_id = $interview->player_id;
 $publisher_id = $interview->account_id;
-$youtubeId = str_replace('https://youtu.be/', '', str_replace('http://youtu.be/', '', $interview->media_url));
+$youtubeId = "";
+if ($interview->media_url != "") {
+    $youtubeId = str_replace('https://youtu.be/', '', str_replace('http://youtu.be/', '', $interview->media_url));
+} else {
+    $kembed = explode(" ", $interview->kembed);
+    foreach ($kembed as $k) {
 
+        if (strpos($k, "src=") !== FALSE) {
+            $chr_map = array(
+                'src' => "",
+                '=' => "",
+                '"' => "",
+                "'" => "",
+                'https://www.youtube.com/embed/' => "",
+                'http://www.youtube.com/embed/' => ""
+            );
+            $youtubeId = str_replace(array_keys($chr_map), array_values($chr_map), $k);
+            break;
+        }
+    }
+}
 $extraScript = '';
 if (isset($_GET['time']) && is_numeric($_GET['time'])) {
-    $extraScript = 'event.target.seekTo(' . (int)$_GET['time'] . ');';
+    $extraScript = 'event.target.seekTo(' . (int) $_GET['time'] . ');';
 }
 
 echo <<<YOUTUBE
