@@ -593,7 +593,7 @@ h2 {
 
 #content-panel {
     float: left;
-    width: 60%;
+    width: 55%;
     margin-right: 7%;
 }
 
@@ -624,7 +624,7 @@ h2 {
     overflow: auto;
     outline: 0;
     margin: auto;
-    padding-left: 5%;
+    padding-left: 2%; 
     padding-right: 2%;
     background: #ffffff;
     text-align: left;
@@ -635,7 +635,7 @@ h2 {
     height: 550px;
     float: right;
     background: #ffffff;
-    max-width:28%;
+    max-width:30%;
     margin-right: 5%;
 }
 
@@ -897,4 +897,8 @@ div.jp-current-time, div.jp-duration {
 #vimeo_widget{
     width: 100% ! important;
     height: 100% ! important;
+}
+
+#translate-link{
+    font-weight: bold;
 }

@@ -72,6 +72,19 @@ class Transcript
                 $formattedKeywords = str_replace(';', '; ', $keywords);
                 $formattedSubjects = str_replace(';', '; ', $subjects);
                 $gpsHTML = '';
+                $indexText = "";
+                if(!empty($nlPartialTranscript) && trim($nlPartialTranscript) != ""){
+                    $indexText .= '<p><strong>Partial Transcript:</strong> <span>'.$nlPartialTranscript.'</span></p>';
+                }
+                if(!empty($nlSynopsis) && trim($nlSynopsis) != ""){
+                    $indexText .= '<p><strong>Segment Synopsis:</strong> <span>'.$nlSynopsis.'</span></p>';
+                }
+                if(!empty($formattedKeywords) && trim($formattedKeywords) != ""){
+                    $indexText .= '<p><strong>Keywords:</strong> <span>'.$formattedKeywords.'</span></p>';
+                }
+                if(!empty($formattedSubjects) && trim($formattedSubjects) != ""){
+                    $indexText .= '<p><strong>Subjects:</strong> <span>'.$formattedSubjects.'</span></p>';
+                }
                 if ($gps <> '') {
                     # XXX: http
                     $mapUrl = htmlentities(
@@ -112,10 +125,7 @@ HYPERLINK;
     <a href="{$directSegmentLink}">{$directSegmentLink}</a>
   </div>
   <div class="synopsis"><a name="tp_{$point->time}"></a>
-    <p><strong>Partial Transcript:</strong> <span>$nlPartialTranscript</span></p>
-    <p><strong>Segment Synopsis:</strong><span> $nlSynopsis</span></p>
-    <p><strong>Keywords:</strong><span> {$formattedKeywords}</span></p>
-    <p><strong>Subjects:</strong><span> {$formattedSubjects}</span></p>
+    {$indexText}
     {$gpsHTML}
     {$hyperlinkHTML}
   </div>
