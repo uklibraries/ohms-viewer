@@ -894,7 +894,7 @@ div.jp-current-time, div.jp-duration {
     text-align: left;
 }
 
-#vimeo_widget{
+#vimeo_widget,#avalon_widget{
     width: 100% ! important;
     height: 100% ! important;
 }
