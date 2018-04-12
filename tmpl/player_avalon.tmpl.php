@@ -8,8 +8,9 @@ if ($interview->kembed == "" && $interview->media_url != "") {
     $media_url = $match[1];
 }
 
-$parseDomain = parse_url($media_url);
-$domain = "{$parseDomain['scheme']}://{$parseDomain['host']}";
+if (preg_match('/https?:\/\/([^\/]+)\//i', $media_url, $matches)) {
+    $domain = $matches[0];
+}
 $embedcode = '<iframe id="avalon_widget" src="' . $media_url . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 
 if (isset($_GET['time']) && is_numeric($_GET['time'])) {
@@ -41,6 +42,6 @@ echo <<<AVALON
         },500);
     });
   </script>  
-</script>
+
 </div>
 AVALON;
