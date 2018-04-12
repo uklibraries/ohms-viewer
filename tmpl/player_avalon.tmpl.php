@@ -6,6 +6,10 @@ if ($interview->kembed == "" && $interview->media_url != "") {
 } else if ($interview->kembed != "") {
     preg_match('/src="([^"]+)"/', $interview->kembed, $match);
     $media_url = $match[1];
+    if (strstr($media_url, ':443')) {
+        $media_url = str_replace(':443', '', $media_url);
+        $media_url = str_replace('//', 'https://', $media_url);
+    }
 }
 
 if (preg_match('/https?:\/\/([^\/]+)\//i', $media_url, $matches)) {
