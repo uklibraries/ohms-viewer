@@ -19,24 +19,26 @@ function toggleSwitch() {
 
 
     }
-    var TranscriptView = function () {
+     var TranscriptView = function () {
         $('#search-type').val(0);
         $('#index-panel').hide();
         $('#transcript-panel').show();
+        $('.user_notes').show();
         $('#search-legend .search-label').html('Search this Transcript');
         $('#submit-btn').off('click').on('click', getSearchResults);
         $('#kw').off('keypress').on('keypress', getSearchResults);
-        $('#index-panel').fadeOut();
+//        $('#index-panel').fadeOut();
         resetSearch();
     }
     var IndexView = function () {
         $('#search-type').val(1);
+        $('.user_notes').show();
         $('#transcript-panel').hide();
         $('#index-panel').show();
         $('#search-legend .search-label').html('Search this Index');
         $('#submit-btn').off('click').on('click', getIndexResults);
         $('#kw').off('keypress').on('keypress', getIndexResults);
-        $('#index-panel').fadeIn();
+//        $('#index-panel').fadeIn();
         resetSearch();
     }
     var getIndexResults = function (e) {

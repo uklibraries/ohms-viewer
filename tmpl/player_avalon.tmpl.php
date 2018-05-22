@@ -12,9 +12,12 @@ if ($interview->kembed == "" && $interview->media_url != "") {
     }
 }
 
-if (preg_match('/https?:\/\/([^\/]+)\//i', $media_url, $matches)) {
+if (($interview->avalon_target_domain) != '') {
+    $domain = $interview->avalon_target_domain;
+} else if (preg_match('/https?:\/\/([^\/]+)\//i', $media_url, $matches)) {
     $domain = $matches[0];
 }
+
 $embedcode = '<iframe id="avalon_widget" src="' . $media_url . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 
 if (isset($_GET['time']) && is_numeric($_GET['time'])) {

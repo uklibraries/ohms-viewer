@@ -565,7 +565,7 @@ Responsive Web Design
     border-top: 5px solid #337ab7;
 }
 
-h2 {
+h2,#secondaryMetaData {
     font-size: 12px;
     padding: 0 0 8px;
     text-align: center;
@@ -901,4 +901,27 @@ div.jp-current-time, div.jp-duration {
 
 #translate-link{
     font-weight: bold;
+}
+.user_notes {
+   padding: 10px 45px 10px 15px;
+   text-align: left;
+   font-style: italic;
+   font-family: "Arial";
+   position: relative;
+   margin-bottom: 10px;
+   background: -moz-linear-gradient(top, rgba(242,245,246,1) 0%, rgba(227,234,237,1) 37%, rgba(200,215,220,1) 100%);
+   background: -webkit-linear-gradient(top, rgba(242,245,246,1) 0%,rgba(227,234,237,1) 37%,rgba(200,215,220,1) 100%);
+   background: linear-gradient(to bottom, rgba(242,245,246,1) 0%,rgba(227,234,237,1) 37%,rgb(170, 192, 200) 100%);
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', endColorstr='#c8d7dc',GradientType=0 );
+   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.55);
+   height: 40px;
+}
+
+.user_notes img {
+    width: 20px;
+    right: 13px;
+    top: 7px;
+    float: none;
+    position: absolute;
+    cursor: pointer;
 }
