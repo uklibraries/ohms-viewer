@@ -60,7 +60,8 @@ class Version3
             'language' => empty($ohfile->record->language) ? 'English' : $ohfile->record->language,
             'transcript_alt_lang' => (string)$ohfile->record->transcript_alt_lang,
             'translate' => (string)$ohfile->record->translate,
-            'funding' => (string)$ohfile->record->funding,
+            'funding' => (string)$ohfile->record->funding,'avalon_target_domain' => (string)$ohfile->record->mediafile->avalon_target_domain,
+            'user_notes' => (string)$ohfile->record->user_notes
         );
 
         $collection_link = ($ohfile->record->collection_link != null) ? (string)$ohfile->record->collection_link : '';

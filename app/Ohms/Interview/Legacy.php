@@ -51,6 +51,8 @@ class Legacy
             'usage' => (string)$ohfile->record->usage,
             'repository' => (string)$ohfile->record->repository,
             'funding' => (string)$ohfile->record->funding,
+            'avalon_target_domain' => (string)$ohfile->record->mediafile->avalon_target_domain,
+        'user_notes' => (string)$ohfile->record->user_notes
         );
 
         # temp fix for mp3 doubling
