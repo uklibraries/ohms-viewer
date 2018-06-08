@@ -52,10 +52,6 @@ ga('send', 'pageview');
 GASCRIPT;
 }
 
-//echo "<pre>";
-//print_r($interview);
-//echo "</pre>";
-//exit();
 ?>
 
 <!DOCTYPE html>
