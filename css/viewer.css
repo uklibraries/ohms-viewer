@@ -293,7 +293,7 @@ p {
     background-clip: padding-box;
     border: 1px solid #dcdcdc;
     display: inline-block;
-    color: #777777;
+    color: #636363;
     font-family: arial;
     font-size: 11px;
     font-weight: bold;
@@ -342,7 +342,7 @@ p {
     background-clip: padding-box;
     border: 1px solid #dcdcdc;
     display: none;
-    color: #777777;
+    color: #636363;
     font-family: arial;
     font-size: 11px;
     font-weight: bold;
@@ -901,66 +901,6 @@ input {
     }
 }
 
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-}
-
-/* Hide default HTML checkbox */
-.switch input {
-    display: none;
-}
-
-/* The slider */
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: #3c3c3c;
-}
-
-input:focus + .slider {
-    box-shadow: 0 0 1px #3c3c3c;
-}
-
-input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
 #paginate ul {
     float: right;
     padding-top: 10px;
@@ -1079,7 +1019,7 @@ div.jp-current-time, div.jp-duration {
         box-shadow: none;
     }
 
-    #accordionHolder > h3:nth-child(n) {
+    #accordionHolder > span:nth-child(n) {
         border: none;
         background: white;
     }
@@ -1104,4 +1044,80 @@ div.jp-current-time, div.jp-duration {
         display: none;
     }
 
+}
+
+#footer strong {
+    margin: 0 0 6px;
+    font-size: 12px;
+    font-weight: normal;
+    color: #b5b5b5;
+}
+
+/**
+ * Switch Styles
+ */
+/* Variables */
+/* Switch Container */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+/* Hide the checkbox input (only needed for `:checked` property) */
+.switch-input {
+    display: none;
+}
+/* Switch */
+.switch-label {
+    display: block;
+    width: 60px;
+    height: 34px;
+    text-indent: -150%;
+    clip: rect(0 0 0 0);
+    color: transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* Switch Rail & Knob */
+    /* Switch Rail */
+    /* Switch Knob */
+}
+.switch-label:before,
+.switch-label:after {
+    content: "";
+    display: block;
+    position: absolute;
+    cursor: pointer;
+}
+.switch-label:before {
+    height: 26px;
+    width: 58px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #dedede;
+    border-radius: 9999em;
+    transition: background-color 0.25s ease;
+}
+.switch-label:after {
+    top: 4px;
+    left: 4px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.45);
+    transition: left 0.25s ease;
+}
+/* When input is checked */
+.switch-input:checked + .switch-label {
+    /* Switch Rail */
+    /* Switch Knob */
+}
+.switch-input:checked + .switch-label:before {
+    background-color: #636363;
+}
+.switch-input:checked + .switch-label:after {
+    left: 36px;
 }

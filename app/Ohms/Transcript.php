@@ -112,7 +112,7 @@ class Transcript
 HYPERLINK;
                 }
                 $indexHTML .= <<<POINT
-<h3><a href="#" id="link{$point->time}">{$timePoint} - {$formattedTitle}</a></h3>
+<span><a href="#" id="link{$point->time}">{$timePoint} - {$formattedTitle}</a></span>
 <div class="point">
   <p>
     <a class="indexJumpLink" href="#" data-timestamp="{$point->time}">Play segment</a>
