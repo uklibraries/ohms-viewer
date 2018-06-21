@@ -40,7 +40,7 @@ $toggleDisplay = "";
         <option id="search-transcript" value="0" <?php echo $transcript_option ?>>Transcript</option>
         <option id="search-index" value="1" <?php echo $index_option ?>>Index</option>
     </select>
-    <button id="print-pdf" title="Print" class="print-btn"><i class="fa fa-print"></i> Print</button>
+<!--    <button id="print-pdf" title="Print" class="print-btn"><i class="fa fa-print"></i> Print</button>-->
 </div>
 
 <?php if ($interview->translate == '1'): ?>
