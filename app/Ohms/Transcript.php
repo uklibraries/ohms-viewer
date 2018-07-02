@@ -300,13 +300,18 @@ FOOTNOTE;
                 $timePoint = floor($time / 60) . ':' . str_pad($time % 60, 2, '0', STR_PAD_LEFT);
                 $gps = $point->gps;
                 $hyperlink = $point->hyperlink;
+                //                OHMS-88 Fix
+                $partial_transcript = $point->partial_transcript;
 
                 if (preg_match("/{$this->fixAccents($keyword)}/imsU", $this->fixAccents($synopsis)) > 0
                 || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($title)) > 0
                 || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($keywords)) > 0
                 || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($subjects)) > 0
                 || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($gps)) > 0
-                || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($hyperlink)) > 0) {
+                || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($hyperlink)) > 0
+                || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($partial_transcript)) > 0)
+                    //                OHMS-88 Fix ----> END
+                {
                     $metadata['matches'][] = array(
                         'time' => (string)$time,
                         'shortline' => $timePoint . ' - ' . $this->quoteChange($title),
