@@ -257,6 +257,11 @@ FOOTNOTE;
         return $q_kw;
     }
 
+    private function stripQuotes($text) {
+        $unquoted = preg_replace('/^(\'(.*)\'|"(.*)")$/', '$2$3', $text);
+        return $unquoted;
+    }
+
     public function keywordSearch($keyword)
     {
         # quote kw for later
@@ -285,6 +290,7 @@ FOOTNOTE;
     public function indexSearch($keyword, $translate)
     {
         if (!empty($keyword)) {
+            $keyword = $q_kw = $this->stripQuotes($keyword);
             $q_kw = $this->quoteWords($keyword);
             $metadata = array(
                 'keyword' => $q_kw,
