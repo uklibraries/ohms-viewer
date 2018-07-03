@@ -85,7 +85,7 @@ class Transcript
                 if(!empty($formattedSubjects) && trim($formattedSubjects) != ""){
                     $indexText .= '<p><strong>Subjects:</strong> <span>'.$formattedSubjects.'</span></p>';
                 }
-                if ($gps <> '') {
+                if (trim($gps) <> '') {
                     # XXX: http
                     $mapUrl = htmlentities(
                         str_replace(
@@ -95,7 +95,7 @@ class Transcript
                         )
                     );
                     $gpsHTML = '<br/><strong>GPS:</strong> <a    class="fancybox-media" href="' . $mapUrl . '">';
-                    if ($gps_text <> '') {
+                    if (trim($gps_text) <> '') {
                         $gpsHTML .= $gps_text;
                     } else {
                         $gpsHTML .= 'Link to map';
@@ -104,7 +104,7 @@ class Transcript
 
                 }
                 $hyperlinkHTML = '';
-                if ($hyperlink <> '') {
+                if (trim($hyperlink) <> '') {
                     $hyperlinkHTML = <<<HYPERLINK
 <br/>
 <strong>Hyperlink:</strong>

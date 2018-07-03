@@ -2,7 +2,6 @@ jQuery(function ($) {
     var loaded = false;
 
 
-
     $('#translate-link').click(function (e) {
         var urlIndexPiece = '';
         var re;
@@ -34,6 +33,7 @@ jQuery(function ($) {
         jQuery.jPlayer.timeFormat.showHour = true;
         jQuery("#subjectPlayer").jPlayer({
             ready: function () {
+
                 playerData = {};
                 playerData.title = "Player";
                 if (jQuery('#subjectPlayer').attr('clip-format') == 'video'){
@@ -49,7 +49,7 @@ jQuery(function ($) {
                 $('#jp_poster_0').on('click', function () {
                     jQuery('#subjectPlayer').jPlayer("play");
                 });
-                
+
             },
             loadstart: function () {
                 jQuery('#jp-loading-graphic').show();
@@ -66,6 +66,8 @@ jQuery(function ($) {
                 height: "100%"
             }
         });
+        $('#subjectPlayer > img:not([alt])').attr('alt', 'Player');
+
     }
 
     $('body').on('click', 'a.jumpLink', function (e) {
