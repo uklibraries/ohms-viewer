@@ -52,10 +52,6 @@ ga('send', 'pageview');
 GASCRIPT;
 }
 
-//echo "<pre>";
-//print_r($interview);
-//echo "</pre>";
-//exit();
 ?>
 
 <!DOCTYPE html>
@@ -63,7 +59,7 @@ GASCRIPT;
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <title><?php echo $interview->title; ?></title>
-    <link rel="stylesheet" href="css/viewer.css?v1.2" type="text/css"/>
+    <link rel="stylesheet" href="css/viewer.css?v1.3" type="text/css"/>
     <?php if (isset($extraCss)) { ?>
         <link rel="stylesheet" href="css/<?php echo $extraCss ?>" type="text/css"/>
     <?php }
@@ -194,32 +190,32 @@ GASCRIPT;
     <div id="footer">
         <div id="footer-metadata">
             <?php if (!empty($rights)) { ?>
-                <p><span></span></p><h3><a href="#" id="lnkRights">View Rights Statement</a></h3>
+                <p><span></span></p><strong><a href="#" id="lnkRights">View Rights Statement</a></strong>
                 <div id="rightsStatement"><?php echo $rights; ?></div>
             <?php } else {
                 ?>
-                <p><span></span></p><h3>View Rights Statement</h3>
+                <p><span></span></p><strong>View Rights Statement</strong>
             <?php }
             ?>
             <?php if (!empty($usage)) { ?>
-                <p><span></span></p><h3><a href="#" id="lnkUsage">View Usage Statement</a></h3>
+                <p><span></span></p><strong><a href="#" id="lnkUsage">View Usage Statement</a></strong>
                 <div id="usageStatement"><?php echo $usage; ?></div>
             <?php } else {
                 ?>
-                <p><span></span></p><h3>View Usage Statement</h3>
+                <p><span></span></p><strong>View Usage Statement</strong>
             <?php }
             ?>
 
             <?php if (!empty($acknowledgment)) { ?>
-                <p><span></span></p><h3><a href="#" id="lnkFunding">Acknowledgment</a></h3>
+                <p><span></span></p><strong><a href="#" id="lnkFunding">Acknowledgment</a></strong>
                 <div id="fundingStatement"><?php echo $acknowledgment; ?></div>
             <?php } else {
                 ?>
-                <p><span></span></p><h3>Acknowledgment</h3>
+                <p><span></span></p><strong>Acknowledgment</strong>
             <?php }
             ?>
             <?php if (!empty($collectionLink)) { ?>
-                <p><span></span></p><h3>Collection Link:
+                <p><span></span></p><strong>Collection Link:
                     <?php if (isset($interview->collection_link) && (string)$interview->collection_link != '') { ?>
                         <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
                     <?php } else {
@@ -227,12 +223,12 @@ GASCRIPT;
                         <?php echo $interview->collection; ?>
                     <?php }
                     ?>
-                </h3>
+                </strong>
             <?php }
             ?>
             <?php if (!empty($seriesLink)) { ?>
                 <p><span></span></p>
-                <h3>Series Link:
+                <strong>Series Link:
                     <?php if (isset($interview->series_link) && (string)$interview->series_link != '') { ?>
                         <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
                     <?php } else {
@@ -240,14 +236,14 @@ GASCRIPT;
                         <?php echo $interview->series; ?>
                     <?php }
                     ?>
-                </h3>
+                </strong>
             <?php }
             ?>
             <?php if (!empty($contactemail)) { ?>
             <p><span></span></p>
-            <h3>Contact Us: <a href="mailto:<?php echo $contactemail ?>"><?php echo $contactemail ?></a> |
+            <strong>Contact Us: <a href="mailto:<?php echo $contactemail ?>"><?php echo $contactemail ?></a> |
                 <a href="<?php echo $contactlink ?>"><?php echo $contactlink ?></a>
-            </h3>
+            </strong>
             <?php }
             ?>
         </div>

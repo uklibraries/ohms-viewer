@@ -29,16 +29,19 @@ $toggleDisplay = "";
 
 <div id="search-toggle">
     <span class="toggle-txt-info">Transcript</span>
-    <label class="switch" style="<?php echo $toggleDisplay; ?>">
-        <div style="display:none;">Toggle Display Switch.</div>
-        <input type="checkbox" title="Toggle Display Switch" id="toggle_switch" <?php echo $toggleSwitch; ?>>
-        <div class="slider round"></div>
-    </label>
+
+    <div class="switch" style="<?php echo $toggleDisplay; ?>">
+        <div style="display:none;">Toggle Index/Transcript View Switch.</div>
+        <input class="switch-input" type="checkbox" title="Toggle Display Switch" id="toggle_switch" name="toggle_switch" <?php echo $toggleSwitch; ?>>
+        <label for="toggle_switch" class="switch-label">Toggle Index/Transcript View Switch.</label>
+    </div>
     <span class="toggle-txt-info">Index</span>
+    <label for="search-type" style="display:none;">Search Type</label>
     <select id="search-type" title="Search Type" style="display: none;">
         <option id="search-transcript" value="0" <?php echo $transcript_option ?>>Transcript</option>
         <option id="search-index" value="1" <?php echo $index_option ?>>Index</option>
     </select>
+<!--    <button id="print-pdf" title="Print" class="print-btn"><i class="fa fa-print"></i> Print</button>-->
 </div>
 
 <?php if ($interview->translate == '1'): ?>
@@ -60,8 +63,9 @@ endif;
             <span class="search-hide-info"><i class="fa fa-lg fa-caret-down"></i></span>
         </legend>
         <div class="search-content">
+            <label for="kw" style="display:none;">Search keyword field</label>
             <input class="kw-empty" title="Search keyword field" id="kw" name="kw" size="30" value="Keyword"/>
-            <a href="#" class="search-button" id="submit-btn">Go</a>
+            <button class="search-button" id="submit-btn">Go</button>
             <a href="#" class="searchclear-button" id="clear-btn">X</a>
             <div id="search-results"></div>
         </div>
