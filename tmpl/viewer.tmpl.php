@@ -72,7 +72,7 @@ GASCRIPT;
     <script src="js/jquery-ui.toggleSwitch.js"></script>
     <script src="js/toggleSwitch.js?v1"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-    <script src="js/viewer.js?v1.3"></script>
+    <script src="js/viewer.js"></script>
     <script src="js/jquery.simplePagination.js"></script>
     <meta property="og:title" content="<?php echo $interview->title; ?>"/>
     <meta property="og:url" content="<?php echo $baseurl ?>">

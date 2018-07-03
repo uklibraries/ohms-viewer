@@ -29,6 +29,7 @@ $toggleDisplay = "";
 
 <div id="search-toggle">
     <span class="toggle-txt-info">Transcript</span>
+
     <div class="switch" style="<?php echo $toggleDisplay; ?>">
         <div style="display:none;">Toggle Index/Transcript View Switch.</div>
         <input class="switch-input" type="checkbox" title="Toggle Display Switch" id="toggle_switch" name="toggle_switch" <?php echo $toggleSwitch; ?>>
