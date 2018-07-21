@@ -124,7 +124,7 @@ class Legacy
     public static function getInstance($viewerconfig, $tmpDir, $cachefile = null)
     {
         if (!self::$Instance) {
-            self::$Instance = new Legacy($cachefile, $tmpDir, $viewerconfig);
+            self::$Instance = new Legacy($viewerconfig, $tmpDir, $cachefile);
         }
         return self::$Instance;
     }
