@@ -75,7 +75,7 @@ jQuery(document).ready(function ($) {
                 $('#index-panel').scrollTo($('.ui-state-active'), 800, {
                     easing: 'easeInOutCubic'
                 });
-            }     
+            }
         }
     });
     $('.show-info').bind('click', function () {
@@ -120,6 +120,26 @@ jQuery(document).ready(function ($) {
             $("#subjectPlayer").jPlayer("pause", 0);
         } else {
             $("#subjectPlayer").jPlayer("play", futureProgress);
+        }
+    });
+
+    $('#print-pdf').click(function () {
+
+        var to_print = '';
+        if ($('#toggle_switch').is(":checked")) {
+            to_print = 'index'
+        }
+
+        if (!$('#toggle_switch').is(":checked")) {
+            to_print = 'transcript'
+        }
+        if (to_print === "index") {
+            $('.ui-accordion-content').show();
+            $('.ui-state-active').addClass('ui-state-default').removeClass('ui-state-active');
+            window.print();
+            $('.ui-accordion-content').hide();
+        } else {
+            window.print();
         }
     });
 

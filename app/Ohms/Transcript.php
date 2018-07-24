@@ -1,5 +1,4 @@
 <?php namespace Ohms;
-
 class Transcript
 {
     private $transcript;
@@ -7,7 +6,6 @@ class Transcript
     private $transcriptHTML;
     private $index;
     private $indexHTML;
-
     public function __construct($transcript, $timecodes, $index, $translate = false)
     {
         $this->transcript = (string)$transcript;
@@ -16,28 +14,24 @@ class Transcript
         $this->formatTranscript();
         $this->formatIndex($translate);
     }
-
     public function getTranscriptHTML()
     {
         if (isset($this->transcriptHTML)) {
             return $this->transcriptHTML;
         }
     }
-
     public function getTranscript()
     {
         if (isset($this->transcript)) {
             return $this->transcript;
         }
     }
-
     public function getIndexHTML()
     {
         if (isset($this->indexHTML)) {
             return $this->indexHTML;
         }
     }
-
     private function formatIndex($translate)
     {
         if (!empty($this->index)) {
@@ -57,7 +51,6 @@ class Transcript
                 $gps_text = $translate ? $point->gps_text_alt : $point->gps_text;
                 $hyperlink = $point->hyperlink;
                 $hyperlink_text = $translate ? $point->hyperlink_text_alt : $point->hyperlink_text;
-
                 $title = $translate ? $point->title_alt : $point->title;
                 $formattedTitle = trim($title, ';');
                 $protocol = 'https';
@@ -85,7 +78,7 @@ class Transcript
                 if(!empty($formattedSubjects) && trim($formattedSubjects) != ""){
                     $indexText .= '<p><strong>Subjects:</strong> <span>'.$formattedSubjects.'</span></p>';
                 }
-                if ($gps <> '') {
+                if (trim($gps) <> '') {
                     # XXX: http
                     $mapUrl = htmlentities(
                         str_replace(
@@ -95,16 +88,15 @@ class Transcript
                         )
                     );
                     $gpsHTML = '<br/><strong>GPS:</strong> <a    class="fancybox-media" href="' . $mapUrl . '">';
-                    if ($gps_text <> '') {
+                    if (trim($gps_text) <> '') {
                         $gpsHTML .= $gps_text;
                     } else {
                         $gpsHTML .= 'Link to map';
                     }
                     $gpsHTML .= '</a><br/><strong>Map Coordinates:</strong> ' . $gps .'<br/>';
-
                 }
                 $hyperlinkHTML = '';
-                if ($hyperlink <> '') {
+                if (trim($hyperlink) <> '') {
                     $hyperlinkHTML = <<<HYPERLINK
 <br/>
 <strong>Hyperlink:</strong>
@@ -112,7 +104,7 @@ class Transcript
 HYPERLINK;
                 }
                 $indexHTML .= <<<POINT
-<h3><a href="#" id="link{$point->time}">{$timePoint} - {$formattedTitle}</a></h3>
+<span><a href="#" id="link{$point->time}">{$timePoint} - {$formattedTitle}</a></span>
 <div class="point">
   <p>
     <a class="indexJumpLink" href="#" data-timestamp="{$point->time}">Play segment</a>
@@ -131,45 +123,33 @@ HYPERLINK;
   </div>
 </div>
 POINT;
-
             }
             $this->indexHTML = $indexHTML . "</div>\n";
         }
     }
-
     private function formatTranscript()
     {
         $this->transcriptHTML = $this->transcript;
         if (strlen($this->transcriptHTML) == 0) {
             return;
         }
-
         # quotes
         $this->transcriptHTML = preg_replace('/\"/', "&quot;", $this->transcriptHTML);
-
         # paragraphs
         $this->transcriptHTML = preg_replace('/Transcript: */', "", $this->transcriptHTML);
-
         # highlight kw
-
         # take timestamps out of running text
         $this->transcriptHTML = preg_replace("/{[0-9:]*}/", "", $this->transcriptHTML);
-
         $this->transcriptHTML = preg_replace('/(.*)\n/msU', "<p>$1</p>\n", $this->transcriptHTML);
-
         # grab speakers
         $this->transcriptHTML = preg_replace(
             '/<p>[[:space:]]*([A-Z-.\' ]+:)(.*)<\/p>/',
             "<p><span class=\"speaker\">$1</span>$2</p>",
             $this->transcriptHTML
         );
-
         $this->transcriptHTML = preg_replace('/<p>[[:space:]]*<\/p>/', "", $this->transcriptHTML);
-
         $this->transcriptHTML = preg_replace('/<\/p>\n<p>/ms', "\n", $this->transcriptHTML);
-
         $this->transcriptHTML = preg_replace('/<p>(.+)/U', "<p class=\"first-p\">$1", $this->transcriptHTML, 1);
-
         $chunkarray = explode(":", $this->chunks);
         $chunksize = (int)$chunkarray[0];
         $chunklines =array();
@@ -178,7 +158,6 @@ POINT;
             $chunklines = explode("|", $chunkarray[1]);
         }
         (empty($chunklines[0])) ? $chunklines[0] = 0 : array_unshift($chunklines, 0);
-
         # insert ALL anchors
         $itlines = explode("\n", $this->transcriptHTML);
         foreach ($chunklines as $key => $chunkline) {
@@ -188,7 +167,6 @@ POINT;
 ANCHOR;
             $itlines[$chunkline] = $anchor . $itlines[$chunkline];
         }
-
         $this->transcriptHTML = "";
         $noteNum = 0;
         $supNum = 0;
@@ -230,7 +208,6 @@ FOOTNOTE;
             $this->transcriptHTML .= "<span class='transcript-line' id='line_$key'>$line</span>\n";
         }
     }
-
     private function formatShortline($line, $keyword)
     {
         $shortline = preg_replace("/.*?\s*(\S*\s*)($keyword.*)/i", "$1$2", $line);
@@ -238,17 +215,14 @@ FOOTNOTE;
         $shortline = preg_replace("/($keyword.*\S)\s+\S*$/i", "$1", $shortline);
         $shortline = preg_replace("/($keyword)/mis", "<span class='highlight'>$1</span>", $shortline);
         $shortline = preg_replace('/\"/', "&quot;", $shortline);
-
         return $shortline;
     }
-
     private function quoteWords($string)
     {
         $q_kw = preg_replace('/\'/', '\\\'', $string);
         $q_kw = preg_replace('/\"/', "&quot;", $q_kw);
         return $q_kw;
     }
-
     private function quoteChange($string)
     {
         $q_kw = preg_replace('/\'/', "&#39;", $string);
@@ -256,13 +230,15 @@ FOOTNOTE;
         $q_kw = trim($q_kw);
         return $q_kw;
     }
-
+    private function stripQuotes($text) {
+        $unquoted = preg_replace('/^(\'(.*)\'|"(.*)")$/', '$2$3', $text);
+        return $unquoted;
+    }
     public function keywordSearch($keyword)
     {
         # quote kw for later
         $q_kw = $this->quoteWords($keyword);
         $json = "{ \"keyword\":\"$q_kw\", \"matches\":[";
-
         //Actual search
         $lines = explode("\n", $this->transcript);
         $totalLines = sizeof($lines);
@@ -278,19 +254,17 @@ FOOTNOTE;
                 $json .= "{ \"shortline\" : \"$shortline\", \"linenum\": $lineNum }";
             }
         }
-
         return str_replace("\0", "", $json) . ']}';
     }
-
     public function indexSearch($keyword, $translate)
     {
         if (!empty($keyword)) {
+            $keyword = $q_kw = $this->stripQuotes($keyword);
             $q_kw = $this->quoteWords($keyword);
             $metadata = array(
                 'keyword' => $q_kw,
                 'matches' => array(),
             );
-
             foreach ($this->index->point as $point) {
                 $synopsis = $translate ? $point->synopsis_alt : $point->synopsis;
                 $keywords = $translate ? $point->keywords_alt : $point->keywords;
@@ -300,13 +274,17 @@ FOOTNOTE;
                 $timePoint = floor($time / 60) . ':' . str_pad($time % 60, 2, '0', STR_PAD_LEFT);
                 $gps = $point->gps;
                 $hyperlink = $point->hyperlink;
-
+                //                OHMS-88 Fix
+                $partial_transcript = $point->partial_transcript;
                 if (preg_match("/{$this->fixAccents($keyword)}/imsU", $this->fixAccents($synopsis)) > 0
                 || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($title)) > 0
                 || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($keywords)) > 0
                 || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($subjects)) > 0
                 || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($gps)) > 0
-                || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($hyperlink)) > 0) {
+                || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($hyperlink)) > 0
+                || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($partial_transcript)) > 0)
+                    //                OHMS-88 Fix ----> END
+                {
                     $metadata['matches'][] = array(
                         'time' => (string)$time,
                         'shortline' => $timePoint . ' - ' . $this->quoteChange($title),
@@ -314,7 +292,6 @@ FOOTNOTE;
                 }
             }
         }
-
         return json_encode($metadata);
     }
    private function fixAccents($str) {
