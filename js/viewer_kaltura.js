@@ -31,13 +31,15 @@ jQuery(function ($) {
     $('body').on('click', 'a.indexJumpLink', function (e) {
         e.preventDefault();
         var target = $(e.target);
+        try {
+            endAt = $(this).parent().parent().next().next().find('.indexJumpLink').data('timestamp');
+        } catch (e) {
+            endAt = null;
+        }
         kdp.sendNotification("doPlay");
         kdp.sendNotification("doSeek", target.data('timestamp'));
         $('body').animate({scrollTop : 0},800);
     });
-
-
-
 
 
 
