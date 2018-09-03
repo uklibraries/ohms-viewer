@@ -35,18 +35,40 @@ echo <<<AVALON
   {$embedcode}
   <script>
     var widget = null;
+    var offsetTime = 0;
     var target_domain = "{$domain}";
-    widget = function(c, params){
+    widget = function(c, params) {
         var f = $('#avalon_widget');
         var command = params || {};
-        command['command']=c;
-        f.prop('contentWindow').postMessage(command,target_domain);
+        command['command'] = c;
+        f.prop('contentWindow').postMessage(command, target_domain);
     };
-    jQuery(document).ready(function () {
-        setTimeout(function(){
-            {$playScript}
-            {$extraScript}
-        },500);
+    // Receive commands from the server
+    window.addEventListener('message', function(event) {
+        var command = event.data.command;
+        if (command == 'currentTime') {
+            offsetTime = event.data.currentTime;
+            if (exhibitMode) {
+                if (offsetTime > endAt && endAt != null) {
+                    widget('pause');
+                    endAt = null;
+                }
+            }
+        }
+    });
+    jQuery(document).ready(function() {
+        setTimeout(function() {
+            {
+                $playScript
+            } {
+                $extraScript
+            }
+        }, 500);
+    });
+    $(window).load(function() {
+        setInterval(function() {
+            widget('get_offset');
+        }, 500);
     });
   </script>  
 
