@@ -68,6 +68,14 @@ kWidget.embed({
     readyCallback: function (playerId) {
           window.kdp = document.getElementById(playerId);
           {$extraScript}
+          window.kdp.kBind("playerUpdatePlayhead.currentTime", function( data, id ){
+          if (exhibitMode){ 
+		    if (data > endAt && endAt != null){
+		        kdp.sendNotification("doPause");
+                endAt = null;
+            }
+           }
+	});
     }
 });
 </script>

@@ -34,14 +34,16 @@ jQuery(function ($) {
     $('body').on('click', 'a.indexJumpLink', function (e) {
         e.preventDefault();
         var target = $(e.target);
+        try {
+            endAt = $(this).parent().parent().next().next().find('.indexJumpLink').data('timestamp');
+        } catch (e) {
+            endAt = null;
+        }
         curPlayPoint = 0;
         curPlayPoint = target.data('timestamp');
         widget('set_offset',{'offset':curPlayPoint})
         widget('play');
         $('body').animate({scrollTop: 0}, 800);
     });
-
-
-
 
 });

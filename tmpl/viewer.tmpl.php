@@ -17,6 +17,14 @@ $uri = $_SERVER['REQUEST_URI'];
 $baseurl = "$protocol://$host$uri";
 $site_url = "$protocol://$host";
 $extraCss = null;
+$exhibitMode = 0;
+
+if (isset($config['exhibit_mode']) && $config['exhibit_mode'] <> '') {
+    $exhibitMode = $config['exhibit_mode'];
+}else {
+    $exhibitMode = 0;
+}
+
 if (isset($config[$interview->repository])) {
     $repoConfig = $config[$interview->repository];
     $contactemail = $repoConfig['contactemail'];
@@ -31,6 +39,8 @@ if (isset($config[$interview->repository])) {
     if (isset($repoConfig['css']) && strlen($repoConfig['css']) > 0) {
         $extraCss = $repoConfig['css'];
     }
+
+
 }
 $seriesLink = (string)$interview->series_link;
 $collectionLink = (string)$interview->collection_link;
@@ -83,7 +93,10 @@ GASCRIPT;
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <body>
+
 <script>
+    var exhibitMode = <?php echo $exhibitMode; ?>;
+    var endAt = null;
     var jumpToTime = null;
     if (location.href.search('#segment') > -1) {
         var jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));
@@ -236,10 +249,10 @@ GASCRIPT;
             <?php }
             ?>
             <?php if (!empty($contactemail)) { ?>
-            <p><span></span></p>
-            <strong>Contact Us: <a href="mailto:<?php echo $contactemail ?>"><?php echo $contactemail ?></a> |
-                <a href="<?php echo $contactlink ?>"><?php echo $contactlink ?></a>
-            </strong>
+                <p><span></span></p>
+                <strong>Contact Us: <a href="mailto:<?php echo $contactemail ?>"><?php echo $contactemail ?></a> |
+                    <a href="<?php echo $contactlink ?>"><?php echo $contactlink ?></a>
+                </strong>
             <?php }
             ?>
         </div>

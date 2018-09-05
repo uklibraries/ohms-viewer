@@ -36,9 +36,9 @@ jQuery(function ($) {
 
                 playerData = {};
                 playerData.title = "Player";
-                if (jQuery('#subjectPlayer').attr('clip-format') == 'video'){
+                if (jQuery('#subjectPlayer').attr('clip-format') == 'video') {
                     playerData.poster = "/imgs/video_placeholder.jpg";
-                    $('#subjectPlayer video').attr('playsinline',true);
+                    $('#subjectPlayer video').attr('playsinline', true);
                 }
                 playerData[jQuery('#subjectPlayer').attr('rel')] = jQuery('#subjectPlayer').attr('href');
                 if ('time' in vars) {
@@ -57,10 +57,18 @@ jQuery(function ($) {
             playing: function () {
                 jQuery('#jp-loading-graphic').hide();
             },
+            timeupdate: function (event) { // 4Hz
+                if (exhibitMode) {
+                    if (event.jPlayer.status.currentTime > endAt && endAt != null) {
+                        $(this).jPlayer('pause');
+                        endAt = null;
+                    }
+                }
+            },
             swfPath: "../swf/jplayer",
             solution: 'html, flash',
             supplied: jQuery('#subjectPlayer').attr('rel'),
-            
+
             size: {
                 width: "100%",
                 height: "100%"
@@ -76,13 +84,13 @@ jQuery(function ($) {
     });
     $('body').on('click', 'a.indexJumpLink', function (e) {
         e.preventDefault();
+        try {
+            endAt = $(this).parent().parent().next().next().find('.indexJumpLink').data('timestamp');
+        } catch (e) {
+            endAt = null;
+        }
         jQuery('#subjectPlayer').jPlayer("play", $(e.target).data('timestamp'));
         $('body').animate({scrollTop: 0}, 800);
     });
-
-
-
-
-
 
 });

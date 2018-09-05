@@ -37,6 +37,11 @@ jQuery(function ($) {
   $('body').on('click', 'a.indexJumpLink', function (e) {
     e.preventDefault();
     var target = $(e.target);
+      try {
+          endAt = $(this).parent().parent().next().next().find('.indexJumpLink').data('timestamp');
+      } catch (e) {
+          endAt = null;
+      }
     curPlayPoint = 0;
     widget.getPosition(function (pos) {
       curPlayPoint = target.data('timestamp');
