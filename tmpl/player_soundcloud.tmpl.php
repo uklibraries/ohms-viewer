@@ -26,6 +26,14 @@ jQuery(document).ready(function () {
     console.log('track loaded!');
     {$extraScript}
   });
+  if (exhibitMode){ 
+      widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
+        if (data.currentPosition > endAt * 1000 && endAt != null){
+            widget.pause();
+            endAt = null;
+        }
+      });
+  }
 });
 </script>
 </div>

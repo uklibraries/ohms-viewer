@@ -40,6 +40,14 @@ jQuery(function ($) {
             playing: function () {
                 jQuery('#jp-loading-graphic').hide();
             },
+            timeupdate: function (event) { // 4Hz
+                if (exhibitMode) {
+                    if (event.jPlayer.status.currentTime > endAt && endAt != null) {
+                        $(this).jPlayer('pause');
+                        endAt = null;
+                    }
+                }
+            },
             swfPath: "swf",
             supplied: jQuery('#subjectPlayer').attr('rel'),
         });
@@ -51,10 +59,14 @@ jQuery(function ($) {
     });
     $('body').on('click', 'a.indexJumpLink', function (e) {
         e.preventDefault();
+        try {
+            endAt = $(this).parent().parent().next().next().find('.indexJumpLink').data('timestamp');
+        } catch (e) {
+            endAt = null;
+        }
         jQuery('#subjectPlayer').jPlayer("play", $(e.target).data('timestamp'));
         $('body').animate({scrollTop: 0}, 800);
     });
-
 
 });
 

@@ -30,12 +30,20 @@ jQuery(function ($) {
     $('body').on('click', 'a.indexJumpLink', function (e) {
         e.preventDefault();
         var target = $(e.target);
+        try {
+            endAt = $(this).parent().parent().next().next().find('.indexJumpLink').data('timestamp');
+        } catch (e) {
+            endAt = null;
+        }
         if (player !== undefined && player.playVideo !== undefined) {
             player.playVideo();
             player.seekTo(target.data('timestamp'));
         }
+
         $('body').animate({scrollTop : 0},800);
+
     });
+
     function responsiveYoutubePlayer() {
         padding = 30;
         width = $('body').width();
