@@ -80,6 +80,7 @@ GASCRIPT;
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="js/viewer.js"></script>
     <script src="js/jquery.simplePagination.js"></script>
+    <script src="js/iframeSize.contentWindow.min.js"></script>
     <meta property="og:title" content="<?php echo $interview->title; ?>"/>
     <meta property="og:url" content="<?php echo $baseurl ?>">
     <?php if (isset($openGraphImage)) { ?>

@@ -18,7 +18,7 @@ The OHMS Viewer includes:
     Fancybox
     Colorbox
     FlowPlayer
-   
+    iframe-resizer
 
 Use and modifications of these libraries must comply with their respective licenses.
 
@@ -49,7 +49,7 @@ I. Install the Viewer Files
 
 
 II. Set the values for the configuration file
---------------------------------------------
+---------------------------------------------
 
 The next steps will require using a text editing program to create your configuration file for the Viewer. This configuration file allows you to set the background colors, the Usage and Rights statements and images used on the Viewer page. You can refer to the config.example.ini in the Viewer subdirectory "config"as a guide for settings values.
 
@@ -100,14 +100,21 @@ The next steps will require using a text editing program to create your configur
 Please note that the "title" that appears for links in social media sites using Open Graph is set by the "title" data field in the linked interview cache file.
  
 III. Configuring the style values in the CSS file
---------------------------------------------
+-------------------------------------------------
  
  The file css/custom_default.css contains a base set of style elements for the Viewer you can configure (The file css/viewer.css contains the overall CSS values if you wish to further change settings).  You can edit the  "background" attribute for body, #header, #footer, #audio-panel, or   #subjectPlayer to set the background color.  For example, if you want the footer to have a light red background, you can edit #footer to include the line
 
     background: #ff0000;
-    
-IV. Using the Viewer with your interview XML files exported from OHMS
----------------------------------------------------------------------
+
+IV. Use iframe-resizer
+----------------------
+
+If you provide the viewer within an iframe, you can use this convenient script to resize the frame height to the viewet content height.
+See more information at https://github.com/davidjbradshaw/iframe-resizer
+
+
+V. Using the Viewer with your interview XML files exported from OHMS
+--------------------------------------------------------------------
 
 After installing and configuring the Viewer, you can begin testing and using it immediately. You must have your interview files exported from OHMS in the directory you set for the "tmpDir" configuration property. The URL for using the Viewer would be your web site address and the subdirectory for the Viewer along with the page (viewer.php) that processes the interview file. An example is:
 
@@ -127,7 +134,7 @@ Extending OHMS Viewer
 
   
 I. Implementing a different media player for interview files with "Other" as the media file host
---------------------------------------------
+------------------------------------------------------------------------------------------------
 
 You can implement a different media player than the default one for those interviews with "Other" as the media file host.
 This requires some programming ability with PHP and JavaScript and is a more complex customization than what is discussed above.
