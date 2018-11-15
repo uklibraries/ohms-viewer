@@ -106,11 +106,29 @@ III. Configuring the style values in the CSS file
 
     background: #ff0000;
 
+
 IV. Use iframe-resizer
 ----------------------
 
-If you provide the viewer within an iframe, you can use this convenient script to resize the frame height to the viewet content height.
-See more information at https://github.com/davidjbradshaw/iframe-resizer
+If you provide the viewer within an iframe, you can use this convenient script to resize your iframe height to the viewer content height.
+Implementation Example::
+
+    <html>
+      <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/3.6.3/iframeResizer.min.js"></script>
+        <script>
+          $(document).ready(function() {
+            $('#ohms-viewer').iFrameResize();
+          });
+        </script>
+      </head>
+      <body>
+        <iframe id="ohms-viewer" src="http://my-ohms-viewer.com/iframe.html" scrolling="no"></iframe>
+      </body>
+    </html>
+
+For detailed documentation please read at http://davidjbradshaw.github.io/iframe-resizer/
 
 
 V. Using the Viewer with your interview XML files exported from OHMS
