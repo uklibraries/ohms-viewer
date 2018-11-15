@@ -124,7 +124,7 @@ Implementation Example::
         </script>
       </head>
       <body>
-        <iframe id="ohms-viewer" src="http://my-ohms-viewer.com/iframe.html" scrolling="no"></iframe>
+        <iframe id="ohms-viewer" src="http://my-ohms-viewer.com/viewer.php?cachefile=XXX" scrolling="no"></iframe>
       </body>
     </html>
 
