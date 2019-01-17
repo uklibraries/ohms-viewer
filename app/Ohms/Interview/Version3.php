@@ -30,13 +30,13 @@ class Version3
                     foreach (libxml_get_errors() as $error) {
                         $error_msg .= "\t" . $error->message;
                     }
-                    throw new Exception($error_msg);
+                    throw new \Exception($error_msg);
                 }
             } else {
-                throw new Exception("Invalid Version3CacheFile.");
+                throw new \Exception("Invalid Version3CacheFile.");
             }
         } else {
-            throw new Exception("Initialization requires valid Version3CacheFile.");
+            throw new \Exception("Initialization requires valid Version3CacheFile.");
         }
 
         $this->data = array(

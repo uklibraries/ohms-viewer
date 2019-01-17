@@ -27,13 +27,13 @@ class Interview
                     foreach (libxml_get_errors() as $error) {
                         $error_msg .= "\t" . $error->message;
                     }
-                    throw new Exception($error_msg);
+                    throw new \Exception($error_msg);
                 }
             } else {
-                throw new Exception("Invalid CacheFile.");
+                throw new \Exception("Invalid CacheFile.");
             }
         } else {
-            throw new Exception("Initialization requires valid CacheFile.");
+            throw new \Exception("Initialization requires valid CacheFile.");
         }
 
         $cacheversion = (string)$filecheck->record->version;
