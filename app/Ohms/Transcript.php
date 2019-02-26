@@ -168,7 +168,7 @@ POINT;
         foreach ($chunklines as $key => $chunkline) {
             $stamp = $key*$chunksize . ":00";
             $anchor = <<<ANCHOR
-<a href="#" data-timestamp="{$key}" data-chunksize="{$chunksize}" class="jumpLink">{$stamp}</a>
+<a href="#" data-timestamp="{$key}" data-chunksize="{$chunksize}" class="jumpLink">{$this->formatTimePoint($stamp*60)}</a>
 ANCHOR;
             $itlines[$chunkline] = $anchor . $itlines[$chunkline];
         }
