@@ -134,7 +134,7 @@ POINT;
     }
     private function formatTranscript()
     {
-        $this->transcriptHTML = $this->transcript;
+        $this->transcriptHTML = iconv("UTF-8", "ASCII//IGNORE", $this->transcript);
         if (strlen($this->transcriptHTML) == 0) {
             return;
         }
