@@ -62,8 +62,13 @@ class Transcript
                 $directSegmentLink = "$protocol://$host$uri#segment{$point->time}";
                 $nlPartialTranscript = nl2br($partial_transcript);
                 $nlSynopsis = nl2br($synopsis);
-                $formattedKeywords = str_replace(';', '; ', $keywords);
-                $formattedSubjects = str_replace(';', '; ', $subjects);
+                
+                $keywords = explode(';', $keywords);
+                asort($keywords);
+                $subjects = explode(';', $subjects);
+                asort($subjects);
+                $formattedKeywords = implode('; ', $keywords);
+                $formattedSubjects = implode('; ', $subjects); 
                 $gpsHTML = '';
                 $indexText = "";
                 if(!empty($nlPartialTranscript) && trim($nlPartialTranscript) != ""){
@@ -129,7 +134,7 @@ POINT;
     }
     private function formatTranscript()
     {
-        $this->transcriptHTML = $this->transcript;
+        $this->transcriptHTML = iconv("UTF-8", "ASCII//IGNORE", $this->transcript);
         if (strlen($this->transcriptHTML) == 0) {
             return;
         }
@@ -163,7 +168,7 @@ POINT;
         foreach ($chunklines as $key => $chunkline) {
             $stamp = $key*$chunksize . ":00";
             $anchor = <<<ANCHOR
-<a href="#" data-timestamp="{$key}" data-chunksize="{$chunksize}" class="jumpLink">{$stamp}</a>
+<a href="#" data-timestamp="{$key}" data-chunksize="{$chunksize}" class="jumpLink">{$this->formatTimePoint($stamp*60)}</a>
 ANCHOR;
             $itlines[$chunkline] = $anchor . $itlines[$chunkline];
         }
@@ -299,10 +304,16 @@ FOOTNOTE;
         $b = array('A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o', 'Α', 'α', 'Ε', 'ε', 'Ο', 'ο', 'Ω', 'ω', 'Ι', 'ι', 'ι', 'ι', 'Υ', 'υ', 'υ', 'υ', 'Η', 'η');
         return str_replace($a, $b, $str);
 }
-    private function formatTimePoint($timePoint)
+    private function formatTimePoint($time)
     {
-        $minutes = floor((int)$timePoint / 60);
-        $seconds = (int)$timePoint % 60;
-        return sprintf("%d:%02d", $minutes, $seconds);
+        $hours = floor($time / 3600);
+        $minutes = floor(($time - ($hours * 3600)) / 60);
+        $seconds = $time - (($hours * 3600) + ($minutes * 60));
+
+        $hours = str_pad($hours, 2, '0', STR_PAD_LEFT);
+        $minutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+        $seconds = str_pad($seconds, 2, '0', STR_PAD_LEFT);
+
+        return "{$hours}:{$minutes}:{$seconds}";
     }
 }
