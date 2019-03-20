@@ -115,7 +115,9 @@ function onProgress(currentTime) {
     if (currentTime > endAt && endAt != null) {
         player.pauseVideo();
         clearInterval(timeupdater);
+        exhibitIndex.trigger('click');
         endAt = null;
+        exhibitIndex = null;
     }
 }
 </script>

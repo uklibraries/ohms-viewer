@@ -97,6 +97,7 @@ GASCRIPT;
 <script>
     var exhibitMode = <?php echo $exhibitMode; ?>;
     var endAt = null;
+    var exhibitIndex = null;
     var jumpToTime = null;
     if (location.href.search('#segment') > -1) {
         var jumpToTime = parseInt(location.href.replace(/(.*)#segment/i, ""));

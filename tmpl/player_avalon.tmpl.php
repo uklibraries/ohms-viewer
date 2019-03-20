@@ -51,7 +51,9 @@ echo <<<AVALON
             if (exhibitMode) {
                 if (offsetTime > endAt && endAt != null) {
                     widget('pause');
+                    exhibitIndex.trigger('click');
                     endAt = null;
+                    exhibitIndex = null;
                 }
             }
         }

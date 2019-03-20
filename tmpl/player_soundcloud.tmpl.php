@@ -30,7 +30,9 @@ jQuery(document).ready(function () {
       widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(data) {
         if (data.currentPosition > endAt * 1000 && endAt != null){
             widget.pause();
+            exhibitIndex.trigger('click');
             endAt = null;
+            exhibitIndex = null;
         }
       });
   }

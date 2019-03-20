@@ -204,10 +204,10 @@ FOOTNOTE;
                     $prefix = <<<FOOTNOTE
 <a name="footnote$noteNum"></a>
 <div>
-  <a class="footnoteLink" href="#sup$noteNum">$noteNum</a>.
+  <a class="footnoteLink" href="#sup$noteNum">$noteNum</a>.</div>
 FOOTNOTE;
                     $line = str_replace('[[note]]', $prefix, $line);
-                    $line = str_replace('[[/note]]', '</div>', $line);
+                    $line = str_replace('[[/note]]', '', $line);
                 }
             }
             $this->transcriptHTML .= "<span class='transcript-line' id='line_$key'>$line</span>\n";

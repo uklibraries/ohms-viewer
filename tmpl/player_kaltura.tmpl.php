@@ -72,7 +72,9 @@ kWidget.embed({
           if (exhibitMode){ 
 		    if (data > endAt && endAt != null){
 		        kdp.sendNotification("doPause");
-                endAt = null;
+                        exhibitIndex.trigger('click');
+                        endAt = null;
+                        exhibitIndex = null;
             }
            }
 	});

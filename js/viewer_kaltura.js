@@ -33,6 +33,7 @@ jQuery(function ($) {
         var target = $(e.target);
         try {
             endAt = $(this).parent().parent().next().next().find('.indexJumpLink').data('timestamp');
+            exhibitIndex = $(this).parents('div').prev();
         } catch (e) {
             endAt = null;
         }

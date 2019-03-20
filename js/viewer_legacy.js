@@ -44,7 +44,9 @@ jQuery(function ($) {
                 if (exhibitMode) {
                     if (event.jPlayer.status.currentTime > endAt && endAt != null) {
                         $(this).jPlayer('pause');
+                        exhibitIndex.trigger('click');
                         endAt = null;
+                        exhibitIndex = null;
                     }
                 }
             },
@@ -61,6 +63,7 @@ jQuery(function ($) {
         e.preventDefault();
         try {
             endAt = $(this).parent().parent().next().next().find('.indexJumpLink').data('timestamp');
+            exhibitIndex = $(this).parents('div').prev();
         } catch (e) {
             endAt = null;
         }

@@ -37,6 +37,9 @@ widget.on('timeupdate', function(data) {
     if (data.seconds > endAt && endAt != null){
         widget.pause();
         endAt = null;
+        exhibitIndex.trigger('click');
+        endAt = null;
+        exhibitIndex = null;
     }
     
   });
