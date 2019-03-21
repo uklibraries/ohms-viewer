@@ -65,7 +65,7 @@ GASCRIPT;
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <title><?php echo $interview->title; ?></title>
-    <link rel="stylesheet" href="css/viewer.css?v1.3" type="text/css"/>
+    <link rel="stylesheet" href="css/viewer.css?v1.3.6" type="text/css"/>
     <?php if (isset($extraCss)) { ?>
         <link rel="stylesheet" href="css/<?php echo $extraCss ?>" type="text/css"/>
     <?php }
@@ -281,6 +281,12 @@ GASCRIPT;
     <script src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
     <script>
         $(document).ready(function () {
+            
+            $('.footnoteTooltip').each(function(index,element){
+                footnoteID = $(element).data('index');
+                footnoteHtml = $('#'+footnoteID).parent().children('span').html();
+                $(element).next().html(footnoteHtml);
+            });
             jQuery('a.indexSegmentLink').on('click', function (e) {
                 var linkContainer = '#segmentLink' + jQuery(e.target).data('timestamp');
                 e.preventDefault();

@@ -1,39 +1,42 @@
-<?php namespace Ohms;
-class Transcript
-{
+<?php
+
+namespace Ohms;
+
+class Transcript {
+
     private $transcript;
     private $chunks;
     private $transcriptHTML;
     private $index;
     private $indexHTML;
-    public function __construct($transcript, $timecodes, $index, $translate = false)
-    {
-        $this->transcript = (string)$transcript;
+
+    public function __construct($transcript, $timecodes, $index, $translate = false) {
+        $this->transcript = (string) $transcript;
         $this->index = $index;
         $this->chunks = $timecodes;
         $this->formatTranscript();
         $this->formatIndex($translate);
     }
-    public function getTranscriptHTML()
-    {
+
+    public function getTranscriptHTML() {
         if (isset($this->transcriptHTML)) {
             return $this->transcriptHTML;
         }
     }
-    public function getTranscript()
-    {
+
+    public function getTranscript() {
         if (isset($this->transcript)) {
             return $this->transcript;
         }
     }
-    public function getIndexHTML()
-    {
+
+    public function getIndexHTML() {
         if (isset($this->indexHTML)) {
             return $this->indexHTML;
         }
     }
-    private function formatIndex($translate)
-    {
+
+    private function formatIndex($translate) {
         if (!empty($this->index)) {
             if (count($this->index->point) == 0) {
                 $this->indexHTML = '';
@@ -62,35 +65,33 @@ class Transcript
                 $directSegmentLink = "$protocol://$host$uri#segment{$point->time}";
                 $nlPartialTranscript = nl2br($partial_transcript);
                 $nlSynopsis = nl2br($synopsis);
-                
+
                 $keywords = explode(';', $keywords);
                 asort($keywords);
                 $subjects = explode(';', $subjects);
                 asort($subjects);
                 $formattedKeywords = implode('; ', $keywords);
-                $formattedSubjects = implode('; ', $subjects); 
+                $formattedSubjects = implode('; ', $subjects);
                 $gpsHTML = '';
                 $indexText = "";
-                if(!empty($nlPartialTranscript) && trim($nlPartialTranscript) != ""){
-                    $indexText .= '<p><strong>Partial Transcript:</strong> <span>'.$nlPartialTranscript.'</span></p>';
+                if (!empty($nlPartialTranscript) && trim($nlPartialTranscript) != "") {
+                    $indexText .= '<p><strong>Partial Transcript:</strong> <span>' . $nlPartialTranscript . '</span></p>';
                 }
-                if(!empty($nlSynopsis) && trim($nlSynopsis) != ""){
-                    $indexText .= '<p><strong>Segment Synopsis:</strong> <span>'.$nlSynopsis.'</span></p>';
+                if (!empty($nlSynopsis) && trim($nlSynopsis) != "") {
+                    $indexText .= '<p><strong>Segment Synopsis:</strong> <span>' . $nlSynopsis . '</span></p>';
                 }
-                if(!empty($formattedKeywords) && trim($formattedKeywords) != ""){
-                    $indexText .= '<p><strong>Keywords:</strong> <span>'.$formattedKeywords.'</span></p>';
+                if (!empty($formattedKeywords) && trim($formattedKeywords) != "") {
+                    $indexText .= '<p><strong>Keywords:</strong> <span>' . $formattedKeywords . '</span></p>';
                 }
-                if(!empty($formattedSubjects) && trim($formattedSubjects) != ""){
-                    $indexText .= '<p><strong>Subjects:</strong> <span>'.$formattedSubjects.'</span></p>';
+                if (!empty($formattedSubjects) && trim($formattedSubjects) != "") {
+                    $indexText .= '<p><strong>Subjects:</strong> <span>' . $formattedSubjects . '</span></p>';
                 }
                 if (trim($gps) <> '') {
                     # XXX: http
                     $mapUrl = htmlentities(
-                        str_replace(
-                            ' ',
-                            '',
-                            'http://maps.google.com/maps?ll='.$gps.'&t=m&z=' . $zoom . '&output=embed'
-                        )
+                            str_replace(
+                                    ' ', '', 'http://maps.google.com/maps?ll=' . $gps . '&t=m&z=' . $zoom . '&output=embed'
+                            )
                     );
                     $gpsHTML = '<br/><strong>GPS:</strong> <a    class="fancybox-media" href="' . $mapUrl . '">';
                     if (trim($gps_text) <> '') {
@@ -98,7 +99,7 @@ class Transcript
                     } else {
                         $gpsHTML .= 'Link to map';
                     }
-                    $gpsHTML .= '</a><br/><strong>Map Coordinates:</strong> ' . $gps .'<br/>';
+                    $gpsHTML .= '</a><br/><strong>Map Coordinates:</strong> ' . $gps . '<br/>';
                 }
                 $hyperlinkHTML = '';
                 if (trim($hyperlink) <> '') {
@@ -132,8 +133,8 @@ POINT;
             $this->indexHTML = $indexHTML . "</div>\n";
         }
     }
-    private function formatTranscript()
-    {
+
+    private function formatTranscript() {
         $this->transcriptHTML = iconv("UTF-8", "ASCII//IGNORE", $this->transcript);
         if (strlen($this->transcriptHTML) == 0) {
             return;
@@ -148,27 +149,28 @@ POINT;
         $this->transcriptHTML = preg_replace('/(.*)\n/msU', "<p>$1</p>\n", $this->transcriptHTML);
         # grab speakers
         $this->transcriptHTML = preg_replace(
-            '/<p>[[:space:]]*([A-Z-.\' ]+:)(.*)<\/p>/',
-            "<p><span class=\"speaker\">$1</span>$2</p>",
-            $this->transcriptHTML
+                '/<p>[[:space:]]*([A-Z-.\' ]+:)(.*)<\/p>/', "<p><span class=\"speaker\">$1</span>$2</p>", $this->transcriptHTML
         );
         $this->transcriptHTML = preg_replace('/<p>[[:space:]]*<\/p>/', "", $this->transcriptHTML);
         $this->transcriptHTML = preg_replace('/<\/p>\n<p>/ms', "\n", $this->transcriptHTML);
         $this->transcriptHTML = preg_replace('/<p>(.+)/U', "<p class=\"first-p\">$1", $this->transcriptHTML, 1);
         $chunkarray = explode(":", $this->chunks);
-        $chunksize = (int)$chunkarray[0];
-        $chunklines =array();
-        if (count($chunkarray)>1) {
+        $chunksize = (int) $chunkarray[0];
+        $chunklines = array();
+        if (count($chunkarray) > 1) {
             $chunkarray[1] = preg_replace('/\(.*?\)/', "", $chunkarray[1]);
             $chunklines = explode("|", $chunkarray[1]);
         }
         (empty($chunklines[0])) ? $chunklines[0] = 0 : array_unshift($chunklines, 0);
         # insert ALL anchors
-        $itlines = explode("\n", $this->transcriptHTML);
+        $this->transcriptHTML = str_replace(array('[[footnotes]]', '[[/footnotes]]'), '', $this->transcriptHTML);
+        $transcript = explode('[[note]]', $this->transcriptHTML);
+        $itlines = explode("\n", $transcript[0]);
+        unset($transcript[0]);
         foreach ($chunklines as $key => $chunkline) {
-            $stamp = $key*$chunksize . ":00";
+            $stamp = $key * $chunksize . ":00";
             $anchor = <<<ANCHOR
-<a href="#" data-timestamp="{$key}" data-chunksize="{$chunksize}" class="jumpLink">{$this->formatTimePoint($stamp*60)}</a>
+<a href="#" data-timestamp="{$key}" data-chunksize="{$chunksize}" class="jumpLink">{$this->formatTimePoint($stamp * 60)}</a>
 ANCHOR;
             $itlines[$chunkline] = $anchor . $itlines[$chunkline];
         }
@@ -178,43 +180,35 @@ ANCHOR;
         foreach ($itlines as $key => $line) {
             if (strstr($line, '[[footnote]]') !== false) {
                 $line = preg_replace(
-                    '/\[\[footnote\]\]([0-9]+)\[\[\/footnote\]\]/',
-                    '<a name="sup' . ++$supNum . '"></a><a href="#footnote$1" class="footnoteLink">[$1]</a>',
-                    $line
+                        '/\[\[footnote\]\]([0-9]+)\[\[\/footnote\]\]/', '<span class="footnote-ref"><a name="sup' . ++$supNum . '"></a><a href="#footnote$1" data-index="footnote$1" class="footnoteLink footnoteTooltip">[$1]</a><span></span></span>', $line
                 );
-            }
-            $line = str_replace('[[footnotes]]', '', $line);
-            $line = str_replace('[[/footnotes]]', '', $line);
-            $matches = array();
-            preg_match('/\[\[link\]\](.*)\[\[\/link\]\]/', $line, $matches);
-            if (isset($matches[1])) {
-                $footnoteLink = $matches[1];
-                $line = preg_replace('/\[\[link\]\](.*)\[\[\/link\]\]/', '', $line);
-                $noteNum += 1;
-                $prefix = <<<FOOTNOTE
-<a name="footnote$noteNum"></a>
-<div>
-  <a class="footnoteLink" href="#sup$noteNum">$noteNum</a>. <a class="footnoteLink" href="$footnoteLink" target="_new">
-FOOTNOTE;
-                $line = str_replace('[[note]]', $prefix, $line);
-                $line = str_replace('[[/note]]', '</a></div>', $line);
-            } else {
-                if (strstr($line, '[[note]]') !== false) {
-                    $noteNum += 1;
-                    $prefix = <<<FOOTNOTE
-<a name="footnote$noteNum"></a>
-<div>
-  <a class="footnoteLink" href="#sup$noteNum">$noteNum</a>.</div>
-FOOTNOTE;
-                    $line = str_replace('[[note]]', $prefix, $line);
-                    $line = str_replace('[[/note]]', '', $line);
-                }
             }
             $this->transcriptHTML .= "<span class='transcript-line' id='line_$key'>$line</span>\n";
         }
+        if (count($transcript) > 0) {
+            $footnotesContainer = '<div class="footnotes-container">';
+            foreach ($transcript as $note):
+                $noteNum += 1;
+                $note = str_replace('[[/note]]', '', $note);
+                $matches = array();
+                preg_match('/\[\[link\]\](.*)\[\[\/link\]\]/', $note, $matches);
+                $footnoteContent = "<span class='content'>$note</span>";
+                if (isset($matches[1])) {
+                    $footnoteLink = $matches[1];
+                    $footnoteText = preg_replace('/\[\[link\]\](.*)\[\[\/link\]\]/', '', $note);
+                    $footnoteContent = '<span class="content"><a class="footnoteLink" href="' . $footnoteLink . '" target="_blank">' . $footnoteText . '</a></span>';
+                }
+
+                $note = '<div><a name="footnote' . $noteNum . '" id="footnote' . $noteNum . '"></a>
+                    <a class="footnoteLink" href="#sup' . $noteNum . '">' . $noteNum . '.</a> ' . $footnoteContent . '</div>';
+                $footnotesContainer .= $note;
+
+            endforeach;
+            $this->transcriptHTML .= "$footnotesContainer</div>";
+        }
     }
-    private function formatShortline($line, $keyword)
-    {
+
+    private function formatShortline($line, $keyword) {
         $shortline = preg_replace("/.*?\s*(\S*\s*)($keyword.*)/i", "$1$2", $line);
         $shortline = preg_replace("/($keyword.{30,}?).*/i", "$1", $shortline);
         $shortline = preg_replace("/($keyword.*\S)\s+\S*$/i", "$1", $shortline);
@@ -222,25 +216,26 @@ FOOTNOTE;
         $shortline = preg_replace('/\"/', "&quot;", $shortline);
         return $shortline;
     }
-    private function quoteWords($string)
-    {
+
+    private function quoteWords($string) {
         $q_kw = preg_replace('/\'/', '\\\'', $string);
         $q_kw = preg_replace('/\"/', "&quot;", $q_kw);
         return $q_kw;
     }
-    private function quoteChange($string)
-    {
+
+    private function quoteChange($string) {
         $q_kw = preg_replace('/\'/', "&#39;", $string);
         $q_kw = preg_replace('/\"/', "&quot;", $string);
         $q_kw = trim($q_kw);
         return $q_kw;
     }
+
     private function stripQuotes($text) {
         $unquoted = preg_replace('/^(\'(.*)\'|"(.*)")$/', '$2$3', $text);
         return $unquoted;
     }
-    public function keywordSearch($keyword)
-    {
+
+    public function keywordSearch($keyword) {
         # quote kw for later
         $q_kw = $this->quoteWords($keyword);
         $json = "{ \"keyword\":\"$q_kw\", \"matches\":[";
@@ -249,7 +244,7 @@ FOOTNOTE;
         $totalLines = sizeof($lines);
         foreach ($lines as $lineNum => $line) {
             if (preg_match("/{$this->fixAccents($keyword)}/i", $this->fixAccents($line), $matches)) {
-                if ($lineNum < $totalLines-1) {
+                if ($lineNum < $totalLines - 1) {
                     $line .= ' ' . $lines[$lineNum + 1];
                 }
                 $shortline = $this->formatShortline($line, $keyword);
@@ -261,8 +256,8 @@ FOOTNOTE;
         }
         return str_replace("\0", "", $json) . ']}';
     }
-    public function indexSearch($keyword, $translate)
-    {
+
+    public function indexSearch($keyword, $translate) {
         if (!empty($keyword)) {
             $keyword = $q_kw = $this->stripQuotes($keyword);
             $q_kw = $this->quoteWords($keyword);
@@ -281,17 +276,10 @@ FOOTNOTE;
                 $hyperlink = $point->hyperlink;
                 //                OHMS-88 Fix
                 $partial_transcript = $point->partial_transcript;
-                if (preg_match("/{$this->fixAccents($keyword)}/imsU", $this->fixAccents($synopsis)) > 0
-                || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($title)) > 0
-                || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($keywords)) > 0
-                || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($subjects)) > 0
-                || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($gps)) > 0
-                || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($hyperlink)) > 0
-                || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($partial_transcript)) > 0)
+                if (preg_match("/{$this->fixAccents($keyword)}/imsU", $this->fixAccents($synopsis)) > 0 || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($title)) > 0 || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($keywords)) > 0 || preg_match("/{$this->fixAccents($keyword)}/ismU", $this->fixAccents($subjects)) > 0 || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($gps)) > 0 || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($hyperlink)) > 0 || preg_match("/{$this->fixAccents($keyword)}/ismu", $this->fixAccents($partial_transcript)) > 0) {
                     //                OHMS-88 Fix ----> END
-                {
                     $metadata['matches'][] = array(
-                        'time' => (string)$time,
+                        'time' => (string) $time,
                         'shortline' => $timePoint . ' - ' . $this->quoteChange($title),
                     );
                 }
@@ -299,13 +287,14 @@ FOOTNOTE;
         }
         return json_encode($metadata);
     }
-   private function fixAccents($str) {
+
+    private function fixAccents($str) {
         $a = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'ß', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ', 'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď', 'Đ', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě', 'Ĝ', 'ĝ', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į', 'į', 'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', 'Ł', 'ł', 'Ń', 'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', 'ō', 'Ŏ', 'ŏ', 'Ő', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ', 'Ř', 'ř', 'Ś', 'ś', 'Ŝ', 'ŝ', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū', 'ū', 'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž', 'ž', 'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ǎ', 'ǎ', 'Ǐ', 'ǐ', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ', 'Ǚ', 'ǚ', 'Ǜ', 'ǜ', 'Ǻ', 'ǻ', 'Ǽ', 'ǽ', 'Ǿ', 'ǿ', 'Ά', 'ά', 'Έ', 'έ', 'Ό', 'ό', 'Ώ', 'ώ', 'Ί', 'ί', 'ϊ', 'ΐ', 'Ύ', 'ύ', 'ϋ', 'ΰ', 'Ή', 'ή');
         $b = array('A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o', 'Α', 'α', 'Ε', 'ε', 'Ο', 'ο', 'Ω', 'ω', 'Ι', 'ι', 'ι', 'ι', 'Υ', 'υ', 'υ', 'υ', 'Η', 'η');
         return str_replace($a, $b, $str);
-}
-    private function formatTimePoint($time)
-    {
+    }
+
+    private function formatTimePoint($time) {
         $hours = floor($time / 3600);
         $minutes = floor(($time - ($hours * 3600)) / 60);
         $seconds = $time - (($hours * 3600) + ($minutes * 60));
@@ -316,4 +305,5 @@ FOOTNOTE;
 
         return "{$hours}:{$minutes}:{$seconds}";
     }
+
 }

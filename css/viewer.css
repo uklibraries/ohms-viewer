@@ -1121,3 +1121,60 @@ div.jp-current-time, div.jp-duration {
 .switch-input:checked + .switch-label:after {
     left: 36px;
 }
+.footnotes-container{
+    border-top: 1px solid #DDD;
+    padding: 20px;
+}
+.footnotes-container div{
+    margin-bottom: 10px;
+}
+.footnote-ref{
+    display: inline;
+    position: relative;
+}
+.footnote-ref span {
+  opacity: 0;
+  visibility: hidden;
+  background: #fff;
+  padding: 10px;
+  position: absolute;
+  min-width: 130px;
+  max-width: 300px;
+  left: 50%;
+  border: 1px solid #ccc;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  bottom: 150%;
+  top: auto;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 6px;
+}
+.footnote-ref span:after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 10px 10px 0 10px;
+  border-color: #fff transparent transparent transparent;
+  top: 95%;
+  bottom: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+}
+.footnote-ref span:before {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 10px 10px 0 10px;
+  border-color: #ccc transparent transparent transparent;
+  top: 100%;
+  bottom: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+}
+.footnote-ref:hover span {
+  opacity: 1;
+  visibility: visible;
+}
