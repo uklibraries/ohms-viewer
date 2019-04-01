@@ -1146,7 +1146,6 @@ div.jp-current-time, div.jp-duration {
   -webkit-transform: translateX(-50%);
   bottom: 150%;
   top: auto;
-  text-align: center;
   font-size: 14px;
   border-radius: 6px;
 }
@@ -1174,6 +1173,30 @@ div.jp-current-time, div.jp-duration {
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
 }
+
+.footnote-ref-d span:after{
+    border-width: 0 10px 10px 10px !important;
+    border-color: transparent transparent #fff transparent !important;
+      top: auto !important;
+    bottom: 98% !important;
+}
+.footnote-ref-d span:before{
+    border-width: 0 10px 10px 10px !important;
+    border-color: transparent transparent #ccc transparent !important;
+    top: auto !important;
+    bottom: 100% !important;
+}
+.footnote-ref-d span{
+    bottom: auto !important;  
+    top: 179% !important;
+}
+.label-ft{
+    padding-bottom: 10px;
+    padding-left: 15px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
 .footnote-ref:hover span {
   opacity: 1;
   visibility: visible;

@@ -186,7 +186,7 @@ ANCHOR;
             $this->transcriptHTML .= "<span class='transcript-line' id='line_$key'>$line</span>\n";
         }
         if (count($transcript) > 0) {
-            $footnotesContainer = '<div class="footnotes-container">';
+            $footnotesContainer = '<div class="footnotes-container"><div class="label-ft">FOOTNOTES</div>';
             foreach ($transcript as $note):
                 $noteNum += 1;
                 $note = str_replace('[[/note]]', '', $note);
