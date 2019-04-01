@@ -287,6 +287,22 @@ GASCRIPT;
                 footnoteHtml = $('#'+footnoteID).parent().children('span').html();
                 $(element).next().html(footnoteHtml);
             });
+            
+             
+            $( ".footnote-ref" ).hover(
+                function() {
+                    var x = $(this).position();
+                    var halfHeight = $('#main').height()/2;
+                    if(halfHeight>x.top){
+                          $(this).addClass("footnote-ref-d");
+                    }else{
+                          $(this).removeClass("footnote-ref-d");
+                    
+                    }
+                }, function() {
+                    $(this).removeClass("footnote-ref-d");
+                }
+              );
             jQuery('a.indexSegmentLink').on('click', function (e) {
                 var linkContainer = '#segmentLink' + jQuery(e.target).data('timestamp');
                 e.preventDefault();

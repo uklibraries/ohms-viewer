@@ -10,3 +10,4 @@ cachefiles/*
 .DS_Store
 nbproject
 imgs/avpreserve.png
+/vendor/
