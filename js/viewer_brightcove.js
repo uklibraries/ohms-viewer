@@ -7,6 +7,10 @@ jQuery(function ($) {
     var urlIndexPiece = '';
     var re;
     e.preventDefault();
+    var toggleAvailability = "";
+    if ($('#translate-link').attr('data-toggleAvailable') == 'hide') {
+        toggleAvailability = "&t_available=1";
+    }
     if ($('#search-type').val() == 'Index') {
       var activeIndexPanel = $('#accordionHolder').accordion('option', 'active');
       if (activeIndexPanel !== false) {
@@ -15,10 +19,10 @@ jQuery(function ($) {
     }
     if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
       re = /&translate=(.*)/g;
-      location.href = location.href.replace(re, '') + '&time=' + Math.floor(modVP.getVideoPosition(false)) + '&panel=' + $('#search-type').val() + urlIndexPiece;
+      location.href = location.href.replace(re, '') + '&time=' + Math.floor(modVP.getVideoPosition(false)) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
     } else {
       re = /&time=(.*)/g;
-      location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(parent.modVP.getVideoPosition(false)) + '&panel=' + $('#search-type').val() + urlIndexPiece;
+      location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(parent.modVP.getVideoPosition(false)) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
     }
   });
 
