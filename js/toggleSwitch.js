@@ -132,8 +132,28 @@ function toggleSwitch() {
                             prevSearch.highLines.push(val.linenum);
                             var line = $('#line_' + val.linenum);
                             var lineText = line.html();
-                            var re = new RegExp('(' + preg_quote(data.keyword) + ')', 'gi');
-                            line.html(lineText.replace(re, "<span class=\"highlight\">$1</span>"));
+                            if ( /^((?!chrome|android).)*safari/i.test(navigator.userAgent) || navigator.userAgent.search("Firefox")) {
+                                var re = new RegExp("(?![^<>]*(([\/\"']|]]|\b)>))(" + preg_quote(data.keyword) + ')', 'gi');
+                            }else{
+                                var re = new RegExp('(?<!</?[^>]*|&[^;]*)(' + preg_quote(data.keyword) + ')', 'gi');
+                            }
+                            
+                            var htmlArray = [];
+                            line.find(".footnote-ref").each(function(index){
+                                htmlArray.push($(this).html());
+                                $(this).html("["+index+"]");
+                            });
+                            
+                            lineText = $('#line_' + val.linenum).html();
+                            line.html(lineText.replace(re, function(str){
+                                return "<span class=\"highlight\">"+str+"</span>";
+                            }));
+                            line.find(".footnote-ref").each(function(index){
+                                $(this).html(htmlArray[index]);
+                                activatePopper($(this).find(".footnoteTooltip").attr("id"));
+                            });
+                            footnoteHover("unbind");
+                            footnoteHover("bind");
                         });
                         $('<ul/>').addClass('nline').html(matches.join('')).appendTo('#search-results');
                         $('a.search-result').on('click', function (e) {
@@ -176,6 +196,10 @@ function toggleSwitch() {
             e.preventDefault();
             $('#search-results').empty();
             $('#kw').val('');
+            $('span.highlight').each(function(){
+                var txt = $(this).text();
+                $(this).replaceWith(txt);
+            });
             $('span.highlight').removeClass('highlight');
             $("#kw").prop('disabled', false);
             $("#submit-btn").css("display", "inline-block");

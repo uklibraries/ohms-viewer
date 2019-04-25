@@ -6,6 +6,10 @@ jQuery(function ($) {
         var urlIndexPiece = '';
         var re;
         e.preventDefault();
+        var toggleAvailability = "";
+        if ($('#translate-link').attr('data-toggleAvailable') == 'hide') {
+            toggleAvailability = "&t_available=1";
+        }
         if ($('#search-type').val() == 'Index') {
             var activeIndexPanel = $('#accordionHolder').accordion('option', 'active');
             if (activeIndexPanel !== false) {
@@ -14,10 +18,10 @@ jQuery(function ($) {
         }
         if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
             re = /&translate=(.*)/g;
-            location.href = location.href.replace(re, '') + '&time=' + Math.floor(jQuery('#subjectPlayer').data("jPlayer").status.currentTime) + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            location.href = location.href.replace(re, '') + '&time=' + Math.floor(jQuery('#subjectPlayer').data("jPlayer").status.currentTime) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
         } else {
             re = /&time=(.*)/g;
-            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(jQuery('#subjectPlayer').data("jPlayer").status.currentTime) + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(jQuery('#subjectPlayer').data("jPlayer").status.currentTime) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
         }
     });
 
@@ -52,6 +56,7 @@ jQuery(function ($) {
 
             },
             loadstart: function () {
+                jQuery('#jp_container_1').show();
                 jQuery('#jp-loading-graphic').show();
             },
             playing: function () {
