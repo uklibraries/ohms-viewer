@@ -65,7 +65,7 @@ GASCRIPT;
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <title><?php echo $interview->title; ?></title>
-    <link rel="stylesheet" href="css/viewer.css?v1.3.6" type="text/css"/>
+    <link rel="stylesheet" href="css/viewer.css?v1.3.5" type="text/css"/>
     <?php if (isset($extraCss)) { ?>
         <link rel="stylesheet" href="css/<?php echo $extraCss ?>" type="text/css"/>
     <?php }
@@ -76,7 +76,7 @@ GASCRIPT;
     <link rel="stylesheet" href="css/simplePagination.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="js/jquery-ui.toggleSwitch.js"></script>
-    <script src="js/toggleSwitch.js?v1"></script>
+    <script src="js/toggleSwitch.js?v1.14"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="js/viewer.js"></script>
     <script src="js/jquery.simplePagination.js"></script>
@@ -106,13 +106,13 @@ GASCRIPT;
         }
     }
 </script>
-<?php if (in_array(substr(strtolower($filepath), -4, 4), $audioFormats)) { ?>
+<?php if (in_array(substr(strtolower($filepath), -4, 4), $audioFormats)) { ?> 
 <div id="header">
     <?php } else {
     ?>
-    <div id="headervid">
+    <div id="headervid">  
         <?php }
-        ?>
+        ?> 
         <?php if (isset($config[$interview->repository])): ?>
             <img id="headerimg"
                  src="<?php echo $config[$interview->repository]['footerimg']; ?>"
@@ -268,7 +268,7 @@ GASCRIPT;
     <script src="js/jquery.jplayer.min.js"></script>
     <script src="js/jquery.easing.1.3.js"></script>
     <script src="js/jquery.scrollTo-min.js"></script>
-    <script src="js/viewer_<?php echo $interview->viewerjs; ?>.js?v=12"></script>
+    <script src="js/viewer_<?php echo $interview->viewerjs; ?>.js?v=0.2"></script>
     <link rel="stylesheet" href="js/fancybox_2_1_5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>
     <link rel="stylesheet" href="skin/skin-dark/jplayer.dark.css" type="text/css" media="screen"/>
     <script src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
@@ -279,30 +279,37 @@ GASCRIPT;
     <link rel="stylesheet"
           href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen"/>
     <script src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/tooltip.js"></script>
     <script>
+        var allToolTipInstances = {};
         $(document).ready(function () {
+             setTimeout(function(){
+               var htmlTranscript = $('#transcript-panel').html().trim();
+               var htmlIndex = $('#index-panel').html().trim();
+               var isTranslate = $('#is_translate').val().trim();
+               
+               if((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0"){
+                   $('#toggle_switch').attr("disabled","disabled");
+                   $('.slider.round').css("background-color","#ccc");
+               }else if(htmlIndex == "" && htmlTranscript != ""  && isTranslate == "0"){
+                   $('#toggle_switch').attr("disabled","disabled");
+                   $('.slider.round').css("background-color","#ccc");
+               }else if(htmlIndex == "" && htmlTranscript == "" && isTranslate == "0"){
+                   $('#toggle_switch').attr("disabled","disabled");
+                   $('.slider.round').css("background-color","#ccc");
+               }
+            },300);
             
             $('.footnoteTooltip').each(function(index,element){
                 footnoteID = $(element).data('index');
+                footnoteAttrId = $(element).attr("id");
                 footnoteHtml = $('#'+footnoteID).parent().children('span').html();
-                $(element).next().html(footnoteHtml);
-            });
-            
-             
-            $( ".footnote-ref" ).hover(
-                function() {
-                    var x = $(this).position();
-                    var halfHeight = $('#main').height()/2;
-                    if(halfHeight>x.top){
-                          $(this).addClass("footnote-ref-d");
-                    }else{
-                          $(this).removeClass("footnote-ref-d");
-                    
-                    }
-                }, function() {
-                    $(this).removeClass("footnote-ref-d");
-                }
-              );
+                $(element).attr("data-tooltip",footnoteHtml);
+                activatePopper(footnoteAttrId);
+            });  
+           
+            footnoteHover("bind");
             jQuery('a.indexSegmentLink').on('click', function (e) {
                 var linkContainer = '#segmentLink' + jQuery(e.target).data('timestamp');
                 e.preventDefault();
@@ -406,6 +413,44 @@ GASCRIPT;
                 return false;
             });
         });
+        function footnoteHover(state){
+            if(state== "bind"){
+                $( ".footnote-ref" ).bind("hover",
+                function() {
+                    var footnoteHtmlLength = $(this).find('.footnoteTooltip').attr("data-tooltip").length;
+                    width = footnoteHtmlLength * 50 / 100;
+                    if(footnoteHtmlLength > 130){
+                        $('head').append("<style>.tooltip{ width: " + width + "px }</style>");
+                    }else{
+                        $('head').append("<style>.tooltip{ width: 130px; }</style>");
+                    }
+                }
+            );
+            }else if (state == "unbind"){
+                $( ".footnote-ref" ).unbind("hover");
+            }
+        }
+        function activatePopper(element) {
+ 
+            var footnoteHtml = $("#" + element).data("tooltip");
+            allToolTipInstances[footnoteAttrId] = new Tooltip($("#" + element), {
+                title: footnoteHtml,
+                trigger: "hover",
+                placement: "bottom",
+                html: true,
+                eventsEnabled: true,
+                modifiers: {
+                    flip: {
+                        behavior: ['left', 'right', 'top']
+                    },
+                    preventOverflow: {
+                        boundariesElement: $('#transcript-panel'),
+                    },
+                },
+
+            });
+
+        }
     </script>
     <script>
         var cachefile = '<?php echo $interview->cachefile; ?>';

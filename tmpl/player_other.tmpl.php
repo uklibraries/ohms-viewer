@@ -26,7 +26,7 @@ if ($mediaFormat == 'mp4') {
     <?php if (in_array($clipFormat, $validClipFormats)): ?>
         <a href="<?php echo $linkToMedia ?>" rel="<?php echo $mediaFormat ?>" clip-format="<?php echo $clipFormat; ?>"
            id="subjectPlayer" class="jp-jplayer" onclick="return false;"></a>
-        <div id="jp_container_1" class="<?php echo $class; ?>">
+        <div id="jp_container_1" class="<?php echo $class; ?>" style="display:none;">
             <div class="jp-type-playlist">
                 <div class="jp-gui jp-interface">
                     <ul class="jp-controls">
