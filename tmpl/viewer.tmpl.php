@@ -65,7 +65,7 @@ GASCRIPT;
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <title><?php echo $interview->title; ?></title>
-    <link rel="stylesheet" href="css/viewer.css?v1.3.5" type="text/css"/>
+    <link rel="stylesheet" href="css/viewer.css?v1.4.6" type="text/css"/>
     <?php if (isset($extraCss)) { ?>
         <link rel="stylesheet" href="css/<?php echo $extraCss ?>" type="text/css"/>
     <?php }
@@ -76,9 +76,11 @@ GASCRIPT;
     <link rel="stylesheet" href="css/simplePagination.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="js/jquery-ui.toggleSwitch.js"></script>
-    <script src="js/toggleSwitch.js?v1.14"></script>
+    <script src="js/toggleSwitch.js?v1.16"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="js/viewer.js"></script>
+    <script type="text/javascript" src="js/tipped/tipped.js"></script>
+    <link rel="stylesheet" href="css/tipped/tipped.css" type="text/css"/>
     <script src="js/jquery.simplePagination.js"></script>
     <meta property="og:title" content="<?php echo $interview->title; ?>"/>
     <meta property="og:url" content="<?php echo $baseurl ?>">
@@ -266,9 +268,9 @@ GASCRIPT;
         <br clear="both"/>
     </div>
     <script src="js/jquery.jplayer.min.js"></script>
-    <script src="js/jquery.easing.1.3.js"></script>
+    <script src="js/jquery.easing.1.4.js"></script>
     <script src="js/jquery.scrollTo-min.js"></script>
-    <script src="js/viewer_<?php echo $interview->viewerjs; ?>.js?v=0.5"></script>
+    <script src="js/viewer_<?php echo $interview->viewerjs; ?>.js?v=0.6"></script>
     <link rel="stylesheet" href="js/fancybox_2_1_5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>
     <link rel="stylesheet" href="skin/skin-dark/jplayer.dark.css" type="text/css" media="screen"/>
     <script src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
@@ -288,17 +290,21 @@ GASCRIPT;
                var htmlTranscript = $('#transcript-panel').html().trim();
                var htmlIndex = $('#index-panel').html().trim();
                var isTranslate = $('#is_translate').val().trim();
-               
-               if((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0"){
-                   $('#toggle_switch').attr("disabled","disabled");
-                   $('.slider.round').css("background-color","#ccc");
-               }else if(htmlIndex == "" && htmlTranscript != ""  && isTranslate == "0"){
-                   $('#toggle_switch').attr("disabled","disabled");
-                   $('.slider.round').css("background-color","#ccc");
-               }else if(htmlIndex == "" && htmlTranscript == "" && isTranslate == "0"){
-                   $('#toggle_switch').attr("disabled","disabled");
-                   $('.slider.round').css("background-color","#ccc");
-               }
+                if ((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0"){
+                        $('.alpha-circle').hide();
+                        $('#toggle_switch').attr("disabled", "disabled");
+                        $('.slider.round').css("background-color", "#ccc");
+                } else if (htmlIndex == "" && htmlTranscript != "" && isTranslate == "0"){
+                        $('.alpha-circle').hide();
+                        $('#toggle_switch').attr("disabled", "disabled");
+                        $('.slider.round').css("background-color", "#ccc");
+                } else if (htmlIndex == "" && htmlTranscript == "" && isTranslate == "0"){
+                        $('.alpha-circle').hide();
+                        $('#toggle_switch').attr("disabled", "disabled");
+                        $('.slider.round').css("background-color", "#ccc");
+                }else if ((htmlIndex == "" || htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "1"){
+                    $('.alpha-circle').hide();
+                }
             },300);
             
             $('.footnoteTooltip').each(function(index,element){
@@ -308,10 +314,12 @@ GASCRIPT;
                 $(element).attr("data-tooltip",footnoteHtml);
                 activatePopper(footnoteAttrId);
             });  
-           
+            $('.info-circle').each(function(index, element){
+                activatePopperIndexTranscript(element.id,'i');
+            });
             footnoteHover("bind");
             jQuery('a.indexSegmentLink').on('click', function (e) {
-                var linkContainer = '#segmentLink' + jQuery(e.target).data('timestamp');
+                var linkContainer = '#segmentLink' + jQuery(this).data('timestamp');
                 e.preventDefault();
                 if (jQuery(linkContainer).css("display") == "none") {
                     jQuery(linkContainer).fadeIn(1000);
@@ -323,6 +331,11 @@ GASCRIPT;
             jQuery('.segmentLinkTextBox').on('click', function () {
                 jQuery(this).select();
             });
+              jQuery('.copyButtonViewer').on('click', function () {
+                                var text = jQuery(this).prev().val();
+                                copyToClipboard(text);
+                                
+                        });
             if (jumpToTime !== null) {
                 jQuery('div.point').each(function (index) {
                     if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
@@ -431,7 +444,6 @@ GASCRIPT;
             }
         }
         function activatePopper(element) {
- 
             var footnoteHtml = $("#" + element).data("tooltip");
             allToolTipInstances[footnoteAttrId] = new Tooltip($("#" + element), {
                 title: footnoteHtml,
@@ -447,9 +459,58 @@ GASCRIPT;
                         boundariesElement: $('#transcript-panel'),
                     },
                 },
-
             });
+        }
 
+        function activatePopperIndexTranscript(element,type) {
+            if(type == 'i'){
+                var timePoint = $("#" + element).data("time-point");
+                var id = $("#" + element).data("marker-counter");
+                var indexTitle = $("#" + element).data("index-title");
+                var anchorHtml = "<div class='info-toggle' onclick=\"toggleRedirectTranscriptIndex(" + id + ",'transcript-to-index')\" >Segment: <b>" + indexTitle + "</b> " + timePoint + " </div>";
+                Tipped.create('#' + element, anchorHtml, {
+                size: 'large',
+                    radius: true,
+                    position: 'right'
+                });
+            }
+        }
+        function toggleRedirectTranscriptIndex(id, type){
+            if(type == 'transcript-to-index'){
+                $('#toggle_switch').trigger('click');
+                setTimeout(function(){
+                    $('.tpd-tooltip').hide();
+                    $('#transcript-panel').hide();
+                    $('#index-panel').show();
+                    var currentIndex = $('#accordionHolder').accordion('option', 'active');
+                    if(currentIndex != id || currentIndex ===  false){
+                        console.log(id);
+                        console.log(currentIndex);
+                        jQuery('#accordionHolder').accordion({active: id});
+                        jQuery('#accordionHolder-alt').accordion({active: id});
+                    }
+                },250);
+            }else if(type == 'index-to-transcript'){
+                $('#toggle_switch').trigger('click');
+                setTimeout(function(){
+                    $('.tpd-tooltip').hide();
+                    $('#index-panel').hide();
+                    $('#transcript-panel').show();
+                    var container = $('#transcript-panel'),
+                    scrollTo = $("#info_trans_"+id);
+                    container.animate({
+                        scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                    });
+                },250);
+            }
+        }
+        function copyToClipboard(val){
+            var dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = val;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
         }
     </script>
     <script>
@@ -460,5 +521,5 @@ GASCRIPT;
         echo $gaScript;
     }
     ?>
-</body>
+</body> 
 </html>

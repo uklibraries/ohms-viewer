@@ -49,11 +49,7 @@ class Transcript {
                 $partial_transcript = $translate ? $point->partial_transcript_alt : $point->partial_transcript;
                 $keywords = $translate ? $point->keywords_alt : $point->keywords;
                 $subjects = $translate ? $point->subjects_alt : $point->subjects;
-                $gps = $point->gps;
-                $zoom = (empty($point->gps_zoom) ? '17' : $point->gps_zoom);
-                $gps_text = $translate ? $point->gps_text_alt : $point->gps_text;
-                $hyperlink = $point->hyperlink;
-                $hyperlink_text = $translate ? $point->hyperlink_text_alt : $point->hyperlink_text;
+
                 $title = $translate ? $point->title_alt : $point->title;
                 $formattedTitle = trim($title, ';');
                 $protocol = 'https';
@@ -72,7 +68,8 @@ class Transcript {
                 asort($subjects);
                 $formattedKeywords = implode('; ', $keywords);
                 $formattedSubjects = implode('; ', $subjects);
-                $gpsHTML = '';
+                $time = (int) $point->time;
+                
                 $indexText = "";
                 if (!empty($nlPartialTranscript) && trim($nlPartialTranscript) != "") {
                     $indexText .= '<p><strong>Partial Transcript:</strong> <span>' . $nlPartialTranscript . '</span></p>';
@@ -86,41 +83,96 @@ class Transcript {
                 if (!empty($formattedSubjects) && trim($formattedSubjects) != "") {
                     $indexText .= '<p><strong>Subjects:</strong> <span>' . $formattedSubjects . '</span></p>';
                 }
-                if (trim($gps) <> '') {
-                    # XXX: http
-                    $mapUrl = htmlentities(
-                            str_replace(
-                                    ' ', '', 'http://maps.google.com/maps?ll=' . $gps . '&t=m&z=' . $zoom . '&output=embed'
-                            )
-                    );
-                    $gpsHTML = '<br/><strong>GPS:</strong> <a    class="fancybox-media" href="' . $mapUrl . '">';
-                    if (trim($gps_text) <> '') {
-                        $gpsHTML .= $gps_text;
-                    } else {
-                        $gpsHTML .= 'Link to map';
+
+
+                /**
+                 * MultiValued Fields. GPS Points
+                 */
+                $gpsHTML = '';
+                $gpsPoints = $point->gpspoints;
+                if(empty($gpsPoints)){
+                    $point->gpspoints[0]->gps = $point->gps; 
+                    $point->gpspoints[0]->gps_zoom = (empty($point->gps_zoom) ? '17' : $point->gps_zoom);
+                    $point->gpspoints[0]->gps_text = $translate ? $point->gps_text_alt : $point->gps_text;
+                }
+                $gpsPoints = $point->gpspoints;
+                $gpsCounter = 0;
+                foreach ($gpsPoints as $singleGpsPoint) {
+
+                    $gps = $singleGpsPoint->gps;
+                    $zoom = (empty($singleGpsPoint->gps_zoom) ? '17' : $singleGpsPoint->gps_zoom);
+                    $gps_text = $_GET['translate'] == '1' ? $singleGpsPoint->gps_text_alt : $singleGpsPoint->gps_text;
+
+                    if ($gps <> '') {
+                        if ($gpsCounter <= 0)
+                            $gpsHTML .= ""
+                                    . '<div style=" clear: both; "></div>'
+                                    . "<div class='multiGPSSection'>";
+
+                        $gpsHTML .= '<strong>GPS:</strong> <a class="fancybox-media nblu" href="' . htmlentities(str_replace(' ', '', 'http://maps.google.com/maps?ll=' . $gps . '&t=m&z=' . $zoom . '&output=embed')) . '">';
+                        if ($gps_text <> '') {
+                            $gpsHTML .= $gps_text;
+                        } else {
+                            $gpsHTML .= 'Link to map';
+                        }
+                        $gpsHTML .= '</a><br/><strong>Map Coordinates:</strong> ' . $gps . '<br/>';
+
+                        if (count($gpsPoints) > 1 && $gpsCounter < (count($gpsPoints) - 1)) {
+                            $gpsHTML .= '<div class="separator"></div>';
+                        }
+                        if ($gpsCounter == count($gpsPoints) - 1)
+                            $gpsHTML .= "</div>";
                     }
-                    $gpsHTML .= '</a><br/><strong>Map Coordinates:</strong> ' . $gps . '<br/>';
+                    $gpsCounter++;
                 }
+
+
+                /**
+                 * MultiValued Fields. Hyper links.
+                 */
                 $hyperlinkHTML = '';
-                if (trim($hyperlink) <> '') {
-                    $hyperlinkHTML = <<<HYPERLINK
-<br/>
-<strong>Hyperlink:</strong>
-<a class="fancybox" rel="group" target="_new" href="{$hyperlink}">{$hyperlink_text}</a><br/>
-HYPERLINK;
+                $hyperlinks = $point->hyperlinks;
+                if(empty($hyperlinks)){
+                    $point->hyperlinks[0]->hyperlink = $point->hyperlink; 
+                    $point->hyperlinks[0]->hyperlink_text = $translate ? $point->hyperlink_text_alt : $point->hyperlink_text;
                 }
+                $hyperlinks = $point->hyperlinks;
+                $hyperlinkCounter = 0;
+                foreach ($hyperlinks as $singleHyperlinks) {
+
+                    $hyperlink = $singleHyperlinks->hyperlink;
+                    $hyperlink_text = $translate ? $singleHyperlinks->hyperlink_text_alt : $singleHyperlinks->hyperlink_text;
+                    if ($hyperlink <> '') {
+                        if ($hyperlinkCounter <= 0)
+                            $hyperlinkHTML .= ""
+                                    . '<div style=" clear: both; "></div>'
+                                    . "<div class='multiGPSSection'>";
+
+                        $hyperlinkHTML .= '<strong>Hyperlink:</strong> <a class="fancybox nblu" rel="group" target="_new" href="' . $hyperlink . '">' . $hyperlink_text . '</a><br/>';
+
+                        if (count($hyperlinks) > 1 && $hyperlinkCounter < (count($hyperlinks) - 1)) {
+                            $hyperlinkHTML .= '<div class="separator"></div>';
+                        }
+                        if ($hyperlinkCounter == count($hyperlinks) - 1)
+                            $hyperlinkHTML .= "</div>";
+                    }
+
+                    $hyperlinkCounter++;
+                }
+
                 $indexHTML .= <<<POINT
 <span><a href="#" id="link{$point->time}">{$timePoint} - {$formattedTitle}</a></span>
 <div class="point">
-  <p>
-    <a class="indexJumpLink" href="#" data-timestamp="{$point->time}">Play segment</a>
-    <a class="indexSegmentLink" href="#" data-timestamp="{$point->time}">Segment link</a>
-    <br clear="both" />
+  <p style="margin-bottom:1.2em;">
+   <a class="indexJumpLink" href="#" data-timestamp="{$point->time}">Play segment</a>
+   <span title="View transcript" id="info_index_{$time}" data-index-time="{$time}" onclick="toggleRedirectTranscriptIndex({$time}, 'index-to-transcript');" class="alpha-circle index-circle"></span>
+   <a title="Share Segment" class="indexSegmentLink" href="javascript:void(0);" data-timestamp="{$point->time}"><span class="segm-circle segment-circle"></span></a>
+   <br clear="both" />
   </p>
   <div class="segmentLink" id="segmentLink{$point->time}" style="width:100%">
     <strong>Direct segment link:</strong>
     <br />
-    <a href="{$directSegmentLink}">{$directSegmentLink}</a>
+    <a href="{$directSegmentLink}">{$directSegmentLink}</a><input type="hidden" class="hiddenLink" value="{$directSegmentLink}"><input type="button" value="Copy" class="copyButtonViewer" />
   </div>
   <div class="synopsis"><a name="tp_{$point->time}"></a>
     {$indexText}
@@ -130,6 +182,7 @@ HYPERLINK;
 </div>
 POINT;
             }
+            
             $this->indexHTML = $indexHTML . "</div>\n";
         }
     }
@@ -165,12 +218,13 @@ POINT;
         # insert ALL anchors
         $this->transcriptHTML = str_replace(array('[[footnotes]]', '[[/footnotes]]'), '', $this->transcriptHTML);
         $transcript = explode('[[note]]', $this->transcriptHTML);
+        $transcriptOnly = $transcript[0];
         $itlines = explode("\n", $transcript[0]);
         unset($transcript[0]);
         foreach ($chunklines as $key => $chunkline) {
             $stamp = $key * $chunksize . ":00";
             $anchor = <<<ANCHOR
-<a href="#" data-timestamp="{$key}" data-chunksize="{$chunksize}" class="jumpLink">{$this->formatTimePoint($stamp * 60)}</a>
+<a href="#" data-timestamp="{$key}" data-chunksize="{$chunksize}" class="jumpLink nblu">{$this->formatTimePoint($stamp * 60)}</a>
 ANCHOR;
             $itlines[$chunkline] = $anchor . $itlines[$chunkline];
         }
@@ -178,16 +232,85 @@ ANCHOR;
         $noteNum = 0;
         $supNum = 0;
         $lastKey = 0;
+
+        /**
+         * Steps for Formulation.
+         */
+        $totalWords = str_word_count(strip_tags($transcriptOnly));
+        $lKeyChunkLines = count($chunklines) - 1;
+        $approxDurationSecs = $lKeyChunkLines * (60 * $chunksize);
+
+        /**
+         * Approximate words per seconds. 
+         */
+        $approxWordsPerSec = round(($totalWords / ($approxDurationSecs + (700 * $chunksize))), 2);
+
+        $wordCountPerLine = 0;
+        $currentSyncSlotSecs = 0;
+        $nextSyncSlotSecs = 60 * $chunksize;
+        $placedMarkers = array();
+        $currentMarkerTimeSecs = 0;
+        $currentMarkerTitle = "";
+        $markerCounter = 0;
+        $foundkey = 0;
         foreach ($itlines as $key => $line) {
+
+            $markerHtml = "";
             if (strstr($line, '[[footnote]]') !== false) {
                 $line = preg_replace(
-                        '/\[\[footnote\]\]([0-9]+)\[\[\/footnote\]\]/', '<span class="footnote-ref"><a name="sup$1"></a><a href="#footnote$1" data-index="footnote$1" id="footnote_$1" class="footnoteLink footnoteTooltip">[$1]</a><span></span></span>', $line
+                        '/\[\[footnote\]\]([0-9]+)\[\[\/footnote\]\]/', '<span class="footnote-ref"><a name="sup$1"></a><a href="#footnote$1" data-index="footnote$1" id="footnote_$1" class="footnoteLink footnoteTooltip nblu bbold">[$1]</a><span></span></span>', $line
                 );
             }
-            if(trim($line) == "" && $key == count($itlines) - 1 ){
+
+
+            $indexisChanging = false;
+            if (in_array($key, $chunklines)) {
+                $foundkey = array_search($key, $chunklines);
+                $currentSyncSlot = $foundkey * $chunksize;
+                $currentSyncSlotSecs = $currentSyncSlot * (60 * $chunksize);
+                $nextSyncSlotSecs = $currentSyncSlotSecs + (60 * $chunksize);
+                $wordCountPerLine = 0;
+            } else {
+                if (in_array($key + 1, $chunklines)) {
+                    $indexisChanging = true;
+                }
+            }
+
+            foreach ($this->index->point as $singlePoint) {
+                $time = (int) $singlePoint->time;
+                if ($time >= $currentSyncSlotSecs && $time < $nextSyncSlotSecs && !in_array($time, $placedMarkers) && !$placeIndexMarker) {
+                    $timeDiffSyncAndIndexSecs = $time - $currentSyncSlotSecs;
+                    $wordsToMove = round($approxWordsPerSec * $timeDiffSyncAndIndexSecs);
+
+                    $placeIndexMarker = true;
+                    $placedMarkers[] = $time;
+                    $currentMarkerTimeSecs = $time;
+//                    echo $approxWordsPerSec. " - $timeDiffSyncAndIndexSecs - ".$currentMarkerTimeSecs / 60 . " <br>";
+                    $currentMarkerTitle = (string) $singlePoint->title;
+                    $placed = false;
+                    break;
+                }
+            }
+
+            $wordCountPerLine = str_word_count(strip_tags($line)) + $wordCountPerLine;
+            if ($placeIndexMarker && !$placed) {
+                $timeinm = $currentMarkerTimeSecs / 60;
+//                echo "$timeinm - $wordCountPerLine - $wordsToMove <br>";
+                if ($wordsToMove <= $wordCountPerLine || $indexisChanging) {
+                    $placed = true;
+                    $placeIndexMarker = false;
+                    $wordsToMove = 0;
+
+                    $timePoint = $this->formatTimePoint($currentMarkerTimeSecs);
+                    $markerHtml = '<span id="info_trans_' . $currentMarkerTimeSecs . '" data-time-point="' . $timePoint . '" data-marker-counter="' . $markerCounter . '" data-marker-id="' . $currentMarkerTimeSecs . '" data-index-title="' . $currentMarkerTitle . '" onclick="toggleRedirectTranscriptIndex(' . $markerCounter . ', \'transcript-to-index\');" class="alpha-circle info-circle"></span>';
+                    $markerCounter++;
+                }
+            }
+
+            if (trim($line) == "" && $key == count($itlines) - 1) {
                 $this->transcriptHTML .= "";
-            }else{
-                $this->transcriptHTML .= "<span class='transcript-line' id='line_$key'>$line</span>\n";
+            } else {
+                $this->transcriptHTML .= "$markerHtml<span class='transcript-line' id='line_$key'>$line</span>\n";
             }
             $lastKey = $key;
         }
@@ -198,15 +321,15 @@ ANCHOR;
                 $note = str_replace('[[/note]]', '', $note);
                 $matches = array();
                 preg_match('/\[\[link\]\](.*)\[\[\/link\]\]/', $note, $matches);
-                $footnoteContent = '<span id="line_'.$lastKey.'" class="content">'.$note.'</span>';
+                $footnoteContent = '<span id="line_' . $lastKey . '" class="content">' . $note . '</span>';
                 if (isset($matches[1])) {
                     $footnoteLink = $matches[1];
                     $footnoteText = preg_replace('/\[\[link\]\](.*)\[\[\/link\]\]/', '', $note);
-                    $footnoteContent = '<span id="line_'.$lastKey.'" class="content"><a class="footnoteLink" href="' . $footnoteLink . '" target="_blank">' . $footnoteText . '</a></span>';
+                    $footnoteContent = '<span id="line_' . $lastKey . '" class="content"><a class="footnoteLink nblu" href="' . $footnoteLink . '" target="_blank">' . $footnoteText . '</a></span>';
                 }
                 $lastKey++;
                 $note = '<div><a name="footnote' . $noteNum . '" id="footnote' . $noteNum . '"></a>
-                    <a class="footnoteLink" href="#sup' . $noteNum . '">' . $noteNum . '.</a> ' . $footnoteContent . '</div>';
+                    <a class="footnoteLink nblu" href="#sup' . $noteNum . '">' . $noteNum . '.</a> ' . $footnoteContent . '</div>';
                 $footnotesContainer .= $note;
 
             endforeach;
@@ -248,8 +371,8 @@ ANCHOR;
 
         //Actual search
         $lines = explode("\n", $this->transcript);
-        
-        
+
+
         $startedFootNotes = 0;
         $startedFootNotesCount = 0;
 
@@ -258,46 +381,46 @@ ANCHOR;
                 $startedFootNotes = 1;
             }
             if ($startedFootNotes) {
-                if ($startedFootNotesCount > 0  && (trim($line) == "[[footnotes]]" || trim($line) == "[[/footnotes]]" || trim($line) == "" || strpos($line, "[[note]]") === false)) {
+                if ($startedFootNotesCount > 0 && (trim($line) == "[[footnotes]]" || trim($line) == "[[/footnotes]]" || trim($line) == "" || strpos($line, "[[note]]") === false)) {
                     unset($lines[$lineNum]);
                 }
                 $startedFootNotesCount++;
             }
         }
-        
+
         $lines = array_values($lines);
         $totalLines = sizeof($lines);
-        
+
         foreach ($lines as $lineNum => $line) {
             preg_match_all('/\[\[footnote\]\](.*?)\[\[\/footnote\]\]/', $line, $footnoteMatches);
             $lineMatched = preg_replace('/\[\[footnote\]\](.*?)\[\[\/footnote\]\]/', "", $line);
-            if(isset($footnoteMatches[0]) && !empty($footnoteMatches)){
+            if (isset($footnoteMatches[0]) && !empty($footnoteMatches)) {
                 $line = $lineMatched;
             }
             preg_match_all('/\[\[link\]\](.*?)\[\[\/link\]\]/', $line, $linkMatches);
             $linkMatched = preg_replace('/\[\[link\]\](.*?)\[\[\/link\]\]/', "", $line);
-            if(isset($linkMatches[0]) && !empty($linkMatches)){
+            if (isset($linkMatches[0]) && !empty($linkMatches)) {
                 $line = $linkMatched;
             }
-            
-            $line  = str_replace(array("[[/link]]","[[link]]","[[/note]]","[[note]]","[[footnotes]]"), " ", $line);
-            
+
+            $line = str_replace(array("[[/link]]", "[[link]]", "[[/note]]", "[[note]]", "[[footnotes]]"), " ", $line);
+
             if (preg_match("/{$this->fixAccents($keyword)}/i", $this->fixAccents($line), $matches)) {
-                
+
                 $shortline = $this->formatShortline($line, $keyword);
-                
-                
-                    if (strstr($json, 'shortline')) {
-                        $json .= ',';
-                    }
-                    $shortline = str_replace(array("[[footnote]]","[[/footnote]]","[[note]]","[[footnotes]]","[[/footnotes]]","[[/note]]","[[link]]","[[/link]]"), " ", $shortline);
-                    $json .= "{ \"shortline\" : \"$shortline\", \"linenum\": $lineNum }";
+
+
+                if (strstr($json, 'shortline')) {
+                    $json .= ',';
+                }
+                $shortline = str_replace(array("[[footnote]]", "[[/footnote]]", "[[note]]", "[[footnotes]]", "[[/footnotes]]", "[[/note]]", "[[link]]", "[[/link]]"), " ", $shortline);
+                $json .= "{ \"shortline\" : \"$shortline\", \"linenum\": $lineNum }";
             }
-            
         }
 
         return str_replace("\0", "", $json) . ']}';
     }
+
     public function indexSearch($keyword, $translate) {
         if (!empty($keyword)) {
             $keyword = $q_kw = $this->stripQuotes($keyword);

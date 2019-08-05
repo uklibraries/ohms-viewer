@@ -44,7 +44,7 @@ if ('index' in vars) {
         activeIndex = false;
     }
 }
-
+var firstTogglePerformed = false;
 jQuery(document).ready(function ($) {
     // Added by AVPreserve - Start
     ts = new toggleSwitch();
