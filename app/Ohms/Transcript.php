@@ -103,7 +103,7 @@ class Transcript {
                     $zoom = (empty($singleGpsPoint->gps_zoom) ? '17' : $singleGpsPoint->gps_zoom);
                     $gps_text = $_GET['translate'] == '1' ? $singleGpsPoint->gps_text_alt : $singleGpsPoint->gps_text;
 
-                    if ($gps <> '') {
+                    if (trim($gps) <> '') {
                         if ($gpsCounter <= 0)
                             $gpsHTML .= ""
                                     . '<div style=" clear: both; "></div>'
@@ -142,7 +142,7 @@ class Transcript {
 
                     $hyperlink = $singleHyperlinks->hyperlink;
                     $hyperlink_text = $translate ? $singleHyperlinks->hyperlink_text_alt : $singleHyperlinks->hyperlink_text;
-                    if ($hyperlink <> '') {
+                    if (trim($hyperlink) <> '') {
                         if ($hyperlinkCounter <= 0)
                             $hyperlinkHTML .= ""
                                     . '<div style=" clear: both; "></div>'
