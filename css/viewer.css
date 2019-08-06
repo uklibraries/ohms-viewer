@@ -138,7 +138,7 @@ p {
 
 #transcript-panel p.first-p, #transcript-panel-alt p.first-p {
     margin-top: 0px;
-    margin-left: 50px;
+    margin-left: 65px;
     margin-right: 50px;
 }
 
@@ -454,9 +454,14 @@ div.point {
 
 .indexJumpLink {
     float: left;
-    color: blue !important;
+    color: #366999 !important;
+    font-size: 10.5pt;
+    font-weight: bold;
 }
 
+.nblu {
+    color: #366999 !important;
+}
 .indexSegmentLink {
     float: right;
     color: blue !important;
@@ -596,7 +601,7 @@ h2, #secondaryMetaData {
 }
 
 #transcript-panel, #transcript-panel-alt {
-    width: 50%;
+    width: 52%;
     height: 548px;
     border: 1px solid #dcdcdc;
     position: absolute;
@@ -610,7 +615,7 @@ h2, #secondaryMetaData {
 
 #index-panel, #index-panel-alt {
     display: none;
-    width: 45%;
+    width: 48%;
     height: 548px;
     margin-top: 10px;
     border: 1px solid #dcdcdc;
@@ -630,8 +635,8 @@ h2, #secondaryMetaData {
     height: 550px;
     float: right;
     background: #ffffff;
-    max-width: 30%;
-    margin-right: 5%;
+    max-width: 28%;
+    margin-right: 4%;
 }
 
 #search-results {
@@ -659,7 +664,7 @@ input {
 #transcript-panel .jumpLink, #transcript-panel-alt .jumpLink {
     position: absolute;
     left: 1px;
-    font-size: 10px;
+    font-size: 10pt;
     color: #0000ff;
     text-decoration: none;
     font-weight: bold;
@@ -683,8 +688,35 @@ input {
     margin-left: 4px;
     font-weight: bold;
 }
-
+@media only screen and (min-width: 1470px) and (max-width: 1570px) {
+    .index-circle{
+        margin-left: 79.8% !important;
+    }
+}
+@media only screen and (min-width: 1370px) and (max-width: 1469px) {
+    .index-circle{
+        margin-left: 79.5% !important;
+    }
+}
+@media only screen and (min-width: 1250px) and (max-width: 1370px) {
+    .index-circle{
+        margin-left: 79.2% !important;
+    }
+}
+@media only screen and (max-width: 1249px) {
+    .index-circle{
+        margin-left: 78.8% !important;
+    }
+}
+@media only screen and (max-width: 650px) {
+    .index-circle{
+        margin-left: 76% !important;
+    }
+}
 @media only screen and (min-width: 801px) and (max-width: 1000px) {
+    .index-circle{
+        margin-left: 77.0% !important;
+    }
     #content-panel {
         width: 55%;
     }
@@ -708,6 +740,9 @@ input {
 }
 
 @media only screen and (max-width: 800px) {
+    .multiGPSSection{
+        margin: 4px 0px 4px 0px !important;
+    }
     * {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
@@ -1157,17 +1192,17 @@ div.jp-current-time, div.jp-duration {
 
 
 .link-anchor {
-  position: relative;
-  width: 0;
-  font-size: .8em;
-  opacity: 0;
-  transition: opacity .2s ease-in-out;
+    position: relative;
+    width: 0;
+    font-size: .8em;
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
 }
 .anchor-wrapper {
-  border: none;
+    border: none;
 }
 .anchor-wrapper:hover .link-anchor {
-  opacity: 1;
+    opacity: 1;
 }
 
 section h1[id]:focus,
@@ -1175,7 +1210,7 @@ section h2[id]:focus,
 section h3[id]:focus,
 section h4[id]:focus,
 section h5[id]:focus {
-  outline: 0;
+    outline: 0;
 }
 
 p.thin {
@@ -1299,3 +1334,85 @@ p.bold {
     margin-left: 0;
     margin-right: 0;
 }
+.segm-circle {
+    font-size: 14px;
+    font-family: none;
+    position: absolute;
+    left: 25px;
+    cursor: pointer !important;
+
+}
+.alpha-circle {
+    font-size: 14px;
+    font-family: none;
+    position: absolute;
+    left: 25px;
+    cursor: pointer !important;
+
+}
+.info-circle{
+    background-image: url(../imgs/i_icon_sm_dark.png);
+    background-repeat: no-repeat;
+    left: 57px;
+    width: 20px;
+    height: 20px;
+    background-size: 20px 20px;
+    filter: contrast(0%);
+    margin-top: -3px !important;
+}
+.info-toggle{
+    font-size: 17px;
+    cursor: pointer !important;
+}
+.index-circle{
+    background-image: url(../imgs/t_icon.png);
+    background-repeat: no-repeat;
+    margin-left: 79%;
+    width: 21px;
+    height: 24px;
+    background-size: 21px 24px;
+}
+.transcript-line p{
+    margin-left: 80px !important;
+}
+.segment-circle
+{
+    background-image: url(../imgs/share_segment_dark.png);
+    background-repeat: no-repeat;
+    margin-left: 84%;
+    width: 22px;
+    height: 24px;
+    background-size: 22px 24px;
+    filter: contrast(25%);
+}
+
+.multiGPSSection{
+    padding: 7px 0px 7px 10px;
+    border: 1px solid #c3c3c3;
+    margin: 4px 0px 15px 50px;
+    background-color: #f7f7f7;
+    border-radius: 4px;
+}
+.separator{
+    width: 98%;
+    border-bottom: 1px dotted #aba8a8;
+    margin: 10px 0px 15px 0px;
+}
+.heading-multi {
+    width: 100%;
+    /*border-bottom: 1px dotted #aba8a8;*/
+    line-height: 0.1em;
+    margin: 20px 0px 10px 0px;
+} 
+
+.heading-multi  span { 
+    background: #eee;
+    font-weight: bold;
+}
+.copyButtonViewer{
+    margin-left: 8px;
+    max-width: 58px;
+}
+.bbold{
+   font-weight: bold; 
+} 
