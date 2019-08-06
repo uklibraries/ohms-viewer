@@ -16,10 +16,8 @@ function toggleSwitch() {
             }
 
         });
-
-
     }
-     var TranscriptView = function () {
+    var TranscriptView = function () {
         $('#search-type').val(0);
         $('#index-panel').hide();
         $('#transcript-panel').show();
@@ -27,7 +25,29 @@ function toggleSwitch() {
         $('#search-legend .search-label').html('Search this Transcript');
         $('#submit-btn').off('click').on('click', getSearchResults);
         $('#kw').off('keypress').on('keypress', getSearchResults);
-//        $('#index-panel').fadeOut();
+        if (!firstTogglePerformed) {
+            $(".index-circle").each(function () {
+                var indexTime = $(this).data("index-time");
+                if ($("#info_trans_" + indexTime).length <= 0) {
+                    $(this).hide();
+                }
+            });
+            $(".info-circle").each(function () {
+                var outerTop = $(this).offset().top;
+                var outerId = this.id;
+                $(".info-circle").each(function () {
+                    var innerTop = $(this).offset().top;
+                    var innerId = this.id;
+                    if (innerId != outerId) {
+                        if (outerTop == innerTop) {
+                            $("#" + innerId).css("margin-top", "18px");
+                        }
+                    }
+                });
+
+            });
+        }
+        firstTogglePerformed = true;
         resetSearch();
     }
     var IndexView = function () {
@@ -132,23 +152,23 @@ function toggleSwitch() {
                             prevSearch.highLines.push(val.linenum);
                             var line = $('#line_' + val.linenum);
                             var lineText = line.html();
-                            if ( /^((?!chrome|android).)*safari/i.test(navigator.userAgent) || navigator.userAgent.search("Firefox")) {
+                            if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent) || navigator.userAgent.search("Firefox")) {
                                 var re = new RegExp("(?![^<>]*(([\/\"']|]]|\b)>))(" + preg_quote(data.keyword) + ')', 'gi');
-                            }else{
+                            } else {
                                 var re = new RegExp('(?<!</?[^>]*|&[^;]*)(' + preg_quote(data.keyword) + ')', 'gi');
                             }
-                            
+
                             var htmlArray = [];
-                            line.find(".footnote-ref").each(function(index){
+                            line.find(".footnote-ref").each(function (index) {
                                 htmlArray.push($(this).html());
-                                $(this).html("["+index+"]");
+                                $(this).html("[" + index + "]");
                             });
-                            
+
                             lineText = $('#line_' + val.linenum).html();
-                            line.html(lineText.replace(re, function(str){
-                                return "<span class=\"highlight\">"+str+"</span>";
+                            line.html(lineText.replace(re, function (str) {
+                                return "<span class=\"highlight\">" + str + "</span>";
                             }));
-                            line.find(".footnote-ref").each(function(index){
+                            line.find(".footnote-ref").each(function (index) {
                                 $(this).html(htmlArray[index]);
                                 activatePopper($(this).find(".footnoteTooltip").attr("id"));
                             });
@@ -196,7 +216,7 @@ function toggleSwitch() {
             e.preventDefault();
             $('#search-results').empty();
             $('#kw').val('');
-            $('span.highlight').each(function(){
+            $('span.highlight').each(function () {
                 var txt = $(this).text();
                 $(this).replaceWith(txt);
             });
