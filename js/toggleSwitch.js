@@ -25,7 +25,6 @@ function toggleSwitch() {
         $('#search-legend .search-label').html('Search this Transcript');
         $('#submit-btn').off('click').on('click', getSearchResults);
         $('#kw').off('keypress').on('keypress', getSearchResults);
-//        $('#index-panel').fadeOut();
         if (!firstTogglePerformed) {
             $(".index-circle").each(function () {
                 var indexTime = $(this).data("index-time");

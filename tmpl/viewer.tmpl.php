@@ -484,8 +484,6 @@ GASCRIPT;
                     $('#index-panel').show();
                     var currentIndex = $('#accordionHolder').accordion('option', 'active');
                     if(currentIndex != id || currentIndex ===  false){
-                        console.log(id);
-                        console.log(currentIndex);
                         jQuery('#accordionHolder').accordion({active: id});
                         jQuery('#accordionHolder-alt').accordion({active: id});
                     }
