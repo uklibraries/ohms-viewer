@@ -48,6 +48,7 @@ class Version3
             'time_length' => (string)$ohfile->record->duration,
             'collection' => (string)$ohfile->record->collection_name,
             'series' => (string)$ohfile->record->series_name,
+            'series_link' => (string)$ohfile->record->series_link,
             'fmt' => (string)$ohfile->record->fmt,
             'media_url' => (string)$ohfile->record->media_url,
             'file_name' => (string)$ohfile->record->file_name,
@@ -61,7 +62,11 @@ class Version3
             'transcript_alt_lang' => (string)$ohfile->record->transcript_alt_lang,
             'translate' => (string)$ohfile->record->translate,
             'funding' => (string)$ohfile->record->funding,'avalon_target_domain' => (string)$ohfile->record->mediafile->avalon_target_domain,
-            'user_notes' => (string)$ohfile->record->user_notes
+            'user_notes' => (string)$ohfile->record->user_notes,
+            'collection_link' => (string)$ohfile->record->collection_link,
+            'transcript_alt_raw' => (string)$ohfile->record->transcript_alt,
+            'transcript_raw' => (string)$ohfile->record->transcript,
+            
         );
 
         $collection_link = ($ohfile->record->collection_link != null) ? (string)$ohfile->record->collection_link : '';
@@ -93,6 +98,7 @@ class Version3
         $this->Transcript = new Transcript($transcript, $this->data['chunks'], $ohfile->record->index, $translate);
         $this->data['transcript'] = $this->Transcript->getTranscriptHTML();
         $this->data['index'] = $this->Transcript->getIndexHTML();
+        $this->data['index_points'] = $ohfile->record->index;
 
         // Video or audio-only
         $fmt_info = explode(":", $this->data['fmt']);
@@ -127,7 +133,13 @@ class Version3
             $pieces[] = $part;
         }
         $this->data['interviewer'] = implode($pieces, '');
-
+        
+        $interviewee_info = $ohfile->record->interviewee;
+        $piecese = array();
+        foreach($interviewee_info as $parte) {
+              $piecese[] = $parte;
+        }
+        $this->data['interviewee'] = implode($piecese, '');
         unset($this->cacheFile);
     }
 
