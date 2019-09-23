@@ -18,11 +18,16 @@ $baseurl = "$protocol://$host$uri";
 $site_url = "$protocol://$host";
 $extraCss = null;
 $exhibitMode = 0;
-
+$printMode = 0;
 if (isset($config['exhibit_mode']) && $config['exhibit_mode'] <> '') {
     $exhibitMode = $config['exhibit_mode'];
 }else {
     $exhibitMode = 0;
+}
+if (isset($config['print_mode']) && $config['print_mode'] <> '') {
+    $printMode = $config['print_mode'];
+}else {
+    $printMode = 0;
 }
 
 if (isset($config[$interview->repository])) {
@@ -114,8 +119,10 @@ GASCRIPT;
     ?>
     <div id="headervid">  
         <?php }
+        if($printMode){
         ?> 
-        <?php if (isset($config[$interview->repository])): ?>
+        <a href="#" class="printCustom" ></a>
+        <?php } if (isset($config[$interview->repository])): ?>
             <img id="headerimg"
                  src="<?php echo $config[$interview->repository]['footerimg']; ?>"
                  alt="<?php echo $config[$interview->repository]['footerimgalt']; ?>"/>
@@ -143,7 +150,7 @@ GASCRIPT;
                         ?>
                         <?php echo $interview->accession; ?><br/>
 
-                        <?php if (isset($interview->collection_link) && (string)$interview->collection_link != '') { ?>
+                        <?php if ((string)$interview->collection_link != '') { ?>
                             <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
                         <?php } else {
                             ?>
@@ -155,7 +162,7 @@ GASCRIPT;
                             echo " | ";
                         }
                         ?>
-                        <?php if (isset($interview->series_link) && (string)$interview->series_link != '') { ?>
+                        <?php if ((string)$interview->series_link != '') { ?>
                             <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
                         <?php } else {
                             ?>
@@ -171,7 +178,9 @@ GASCRIPT;
         </div>
     </div>
     <div id="main">
-        <?php if (!empty(trim($interview->user_notes))): ?>
+        <?php  if($printMode){ ?>
+        <a href="#" class="printCustomMobile" ></a>
+        <?php } $userNotes = trim($interview->user_notes); if (!empty($userNotes)): ?>
             <div class="user_notes"><?php echo $interview->user_notes ?>
                 <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
             </div>
@@ -286,6 +295,23 @@ GASCRIPT;
     <script>
         var allToolTipInstances = {};
         $(document).ready(function () {
+            $(".printCustom").click(function(){
+                window.location.href="viewer.php?action=pdf&cachefile=" + cachefile + "";
+            });
+            $(".transcript-line").each(function(){
+                var jumplinkElm = $(this).find('.jumpLink');
+                var numberOfIntervalsInLine = jumplinkElm.length;
+                if(numberOfIntervalsInLine > 1){
+                    var marginToAdd = 13;
+                    var totalMargin = 13 * numberOfIntervalsInLine;
+                    jumplinkElm.each(function(index){
+                        var currentMargin = totalMargin - (marginToAdd*(index+1));
+                        $(this).css('margin-top',currentMargin);
+                    });
+                }
+            });
+
+        
              setTimeout(function(){
                var htmlTranscript = $('#transcript-panel').html().trim();
                var htmlIndex = $('#index-panel').html().trim();
