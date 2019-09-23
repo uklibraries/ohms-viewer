@@ -509,6 +509,7 @@ Responsive Web Design
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
     background: #3c3c3c;
     padding-top: 10px;
+    position:relative;
 }
 
 #headervid {
@@ -522,6 +523,7 @@ Responsive Web Design
     padding-top: 10px;
     display: inline-block;
     padding-bottom: 12px;
+    position:relative;
 }
 
 #audio-panel {
@@ -1416,3 +1418,31 @@ p.bold {
 .bbold{
    font-weight: bold; 
 } 
+.printCustom{
+    background-image: url(../imgs/print_full.png);
+    background-repeat: no-repeat;
+    width: 38px;
+    height: 37px;
+    background-size: 38px 37px;
+    position: absolute;
+    right: 1%;
+}
+.printCustomMobile{
+    display:none;
+    background-image: url(../imgs/print_mobile.png);
+    background-repeat: no-repeat;
+    width: 27px;
+    height: 27px;
+    background-size: 27px 27px;
+    position: absolute;
+    right: 4%;
+    margin-top: 5px;
+}
+@media only screen and (max-width: 800px) {
+    .printCustomMobile{
+        display:block;
+    }
+    .printCustom{
+        display:none;
+    }
+}

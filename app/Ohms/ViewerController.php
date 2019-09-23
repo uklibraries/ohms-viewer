@@ -1,6 +1,7 @@
 <?php namespace Ohms;
 
 use Ohms\Interview;
+use Ohms\CustomPdf;
 
 class ViewerController
 {
@@ -18,6 +19,10 @@ class ViewerController
     public function route($action, $kw, $interviewName)
     {
         switch($action) {
+            case 'pdf':
+                CustomPdf::__prepare($this->interview,$this->config);
+                exit();
+            break;
             case 'metadata':
                 header('Content-type: application/json');
                 echo $this->interview->toJSON();

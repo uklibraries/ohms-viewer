@@ -69,7 +69,7 @@ class Transcript {
                 $formattedKeywords = implode('; ', $keywords);
                 $formattedSubjects = implode('; ', $subjects);
                 $time = (int) $point->time;
-                
+
                 $indexText = "";
                 if (!empty($nlPartialTranscript) && trim($nlPartialTranscript) != "") {
                     $indexText .= '<p><strong>Partial Transcript:</strong> <span>' . $nlPartialTranscript . '</span></p>';
@@ -90,10 +90,11 @@ class Transcript {
                  */
                 $gpsHTML = '';
                 $gpsPoints = $point->gpspoints;
-                if(empty($gpsPoints)){
-                    $point->gpspoints[0]->gps = $point->gps; 
+                if (empty($gpsPoints)) {
+                    $point->gpspoints[0]->gps = $point->gps;
                     $point->gpspoints[0]->gps_zoom = (empty($point->gps_zoom) ? '17' : $point->gps_zoom);
-                    $point->gpspoints[0]->gps_text = $translate ? $point->gps_text_alt : $point->gps_text;
+                    $point->gpspoints[0]->gps_text = $point->gps_text;
+                    $point->gpspoints[0]->gps_text_alt = $point->gps_text_alt;
                 }
                 $gpsPoints = $point->gpspoints;
                 $gpsCounter = 0;
@@ -132,9 +133,10 @@ class Transcript {
                  */
                 $hyperlinkHTML = '';
                 $hyperlinks = $point->hyperlinks;
-                if(empty($hyperlinks)){
-                    $point->hyperlinks[0]->hyperlink = $point->hyperlink; 
-                    $point->hyperlinks[0]->hyperlink_text = $translate ? $point->hyperlink_text_alt : $point->hyperlink_text;
+                if (empty($hyperlinks)) {
+                    $point->hyperlinks[0]->hyperlink = $point->hyperlink;
+                    $point->hyperlinks[0]->hyperlink_text = $point->hyperlink_text;
+                    $point->hyperlinks[0]->hyperlink_text_alt = $point->hyperlink_text_alt;
                 }
                 $hyperlinks = $point->hyperlinks;
                 $hyperlinkCounter = 0;
@@ -182,7 +184,7 @@ class Transcript {
 </div>
 POINT;
             }
-            
+
             $this->indexHTML = $indexHTML . "</div>\n";
         }
     }
@@ -267,7 +269,11 @@ ANCHOR;
             if (in_array($key, $chunklines)) {
                 $foundkey = array_search($key, $chunklines);
                 $currentSyncSlot = $foundkey * $chunksize;
-                $currentSyncSlotSecs = $currentSyncSlot * (60 * $chunksize);
+                if ($chunksize != 1) {
+                    $currentSyncSlotSecs = $currentSyncSlot * (60);
+                } else {
+                    $currentSyncSlotSecs = $currentSyncSlot * (60 * $chunksize);
+                }
                 $nextSyncSlotSecs = $currentSyncSlotSecs + (60 * $chunksize);
                 $wordCountPerLine = 0;
             } else {
