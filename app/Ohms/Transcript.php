@@ -9,11 +9,13 @@ class Transcript {
     private $transcriptHTML;
     private $index;
     private $indexHTML;
+    private $language;
 
-    public function __construct($transcript, $timecodes, $index, $translate = false) {
+    public function __construct($transcript, $timecodes, $index, $translate = false, $lang = '') {
         $this->transcript = (string) $transcript;
         $this->index = $index;
         $this->chunks = $timecodes;
+        $this->language = $lang;
         $this->formatTranscript();
         $this->formatIndex($translate);
     }
@@ -112,7 +114,7 @@ class Transcript {
 
                         $gpsHTML .= '<strong>GPS:</strong> <a class="fancybox-media nblu" href="' . htmlentities(str_replace(' ', '', 'http://maps.google.com/maps?ll=' . $gps . '&t=m&z=' . $zoom . '&output=embed')) . '">';
                         if ($gps_text <> '') {
-                            $gpsHTML .= $gps_text;
+                            $gpsHTML .= nl2br($gps_text);
                         } else {
                             $gpsHTML .= 'Link to map';
                         }
@@ -150,7 +152,7 @@ class Transcript {
                                     . '<div style=" clear: both; "></div>'
                                     . "<div class='multiGPSSection'>";
 
-                        $hyperlinkHTML .= '<strong>Hyperlink:</strong> <a class="fancybox nblu" rel="group" target="_new" href="' . $hyperlink . '">' . $hyperlink_text . '</a><br/>';
+                        $hyperlinkHTML .= '<strong>Hyperlink:</strong> <a class="fancybox nblu" rel="group" target="_new" href="' . $hyperlink . '">' . nl2br($hyperlink_text) . '</a><br/>';
 
                         if (count($hyperlinks) > 1 && $hyperlinkCounter < (count($hyperlinks) - 1)) {
                             $hyperlinkHTML .= '<div class="separator"></div>';
@@ -190,7 +192,12 @@ POINT;
     }
 
     private function formatTranscript() {
-        $this->transcriptHTML = iconv("UTF-8", "ASCII//IGNORE", $this->transcript);
+        
+        if (strtolower($this->language) == 'arabic')
+            $this->transcriptHTML = $this->transcript;
+        else
+            $this->transcriptHTML = iconv("UTF-8", "ASCII//IGNORE", $this->transcript);
+        
         if (strlen($this->transcriptHTML) == 0) {
             return;
         }
