@@ -95,7 +95,7 @@ class Version3
             $this->data['chunks'] = (string)$ohfile->record->sync;
             $transcript = $ohfile->record->transcript;
         }
-        $this->Transcript = new Transcript($transcript, $this->data['chunks'], $ohfile->record->index, $translate);
+        $this->Transcript = new Transcript($transcript, $this->data['chunks'], $ohfile->record->index, $translate, $this->data['language']);
         $this->data['transcript'] = $this->Transcript->getTranscriptHTML();
         $this->data['index'] = $this->Transcript->getIndexHTML();
         $this->data['index_points'] = $ohfile->record->index;
