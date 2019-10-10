@@ -3,9 +3,5 @@
         "psr-4": {
             "Ohms\\": "app/Ohms"
         }
-    },
-    "require": {
-        "tecnickcom/tcpdf": "^6.2"
     }
-    
 }

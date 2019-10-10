@@ -262,6 +262,7 @@ ANCHOR;
         $currentMarkerTitle = "";
         $markerCounter = 0;
         $foundkey = 0;
+        $placeIndexMarker = false;
         foreach ($itlines as $key => $line) {
 
             $markerHtml = "";
@@ -288,7 +289,7 @@ ANCHOR;
                     $indexisChanging = true;
                 }
             }
-
+            
             foreach ($this->index->point as $singlePoint) {
                 $time = (int) $singlePoint->time;
                 if ($time >= $currentSyncSlotSecs && $time < $nextSyncSlotSecs && !in_array($time, $placedMarkers) && !$placeIndexMarker) {
@@ -298,7 +299,6 @@ ANCHOR;
                     $placeIndexMarker = true;
                     $placedMarkers[] = $time;
                     $currentMarkerTimeSecs = $time;
-//                    echo $approxWordsPerSec. " - $timeDiffSyncAndIndexSecs - ".$currentMarkerTimeSecs / 60 . " <br>";
                     $currentMarkerTitle = (string) $singlePoint->title;
                     $placed = false;
                     break;
@@ -308,7 +308,6 @@ ANCHOR;
             $wordCountPerLine = str_word_count(strip_tags($line)) + $wordCountPerLine;
             if ($placeIndexMarker && !$placed) {
                 $timeinm = $currentMarkerTimeSecs / 60;
-//                echo "$timeinm - $wordCountPerLine - $wordsToMove <br>";
                 if ($wordsToMove <= $wordCountPerLine || $indexisChanging) {
                     $placed = true;
                     $placeIndexMarker = false;
