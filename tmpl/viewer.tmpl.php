@@ -295,7 +295,7 @@ GASCRIPT;
     <script>
         var allToolTipInstances = {};
         $(document).ready(function () {
-            $(".printCustom").click(function(){
+            $(".printCustom, .printCustomMobile").click(function(){
                 window.location.href="viewer.php?action=pdf&cachefile=" + cachefile + "";
             });
             $(".transcript-line").each(function(){
