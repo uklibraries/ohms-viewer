@@ -295,8 +295,11 @@ GASCRIPT;
     <script>
         var allToolTipInstances = {};
         $(document).ready(function () {
-            $(".printCustom, .printCustomMobile").click(function(){
+            $(".printCustom").click(function(){
                 window.location.href="viewer.php?action=pdf&cachefile=" + cachefile + "";
+            });
+            $(".printCustomMobile").click(function(){
+                window.open("viewer.php?action=pdf&cachefile=" + cachefile + "",'_blank');
             });
             $(".transcript-line").each(function(){
                 var jumplinkElm = $(this).find('.jumpLink');
