@@ -2,6 +2,7 @@
 date_default_timezone_set($config['timezone']);
 $audioFormats = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
 $filepath = $interview->media_url;
+
 $rights = (string)$interview->rights;
 $usage = (string)$interview->usage;
 $acknowledgment = (string)$interview->funding;
@@ -51,6 +52,11 @@ $seriesLink = (string)$interview->series_link;
 $collectionLink = (string)$interview->collection_link;
 $lang = (string)$interview->translate;
 $gaScript = null;
+$userNotes = trim($interview->user_notes); 
+$heightAdjustmentClass= "";
+if (!empty($userNotes)):
+    $heightAdjustmentClass= "adjust_height";
+endif;
 if (isset($repoConfig['ga_tracking_id'])) {
     $gaScript = <<<GASCRIPT
 <script type="text/javascript">
@@ -177,10 +183,10 @@ GASCRIPT;
             </div>
         </div>
     </div>
-    <div id="main">
+    <div id="main" class="<?php echo  $heightAdjustmentClass; ?>">
         <?php  if($printMode){ ?>
         <a href="#" class="printCustomMobile" ></a>
-        <?php } $userNotes = trim($interview->user_notes); if (!empty($userNotes)): ?>
+        <?php } if (!empty($userNotes)): ?>
             <div class="user_notes"><?php echo $interview->user_notes ?>
                 <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
             </div>
