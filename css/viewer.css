@@ -1446,3 +1446,6 @@ p.bold {
         display:none;
     }
 }
+.adjust_height{
+    height: 620px !important ;
+}

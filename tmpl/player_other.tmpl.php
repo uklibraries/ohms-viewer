@@ -1,7 +1,7 @@
 <?php
 $fileserver = (isset($config['fileserver']) ? $config['fileserver'] : '');
-$filepath = $interview->media_url;
 
+$filepath = $interview->media_url;
 if (strpos($filepath, 'http://') !== false || strpos($filepath, 'https://') !== false) {
     $linkToMedia = $filepath;
 } else {
