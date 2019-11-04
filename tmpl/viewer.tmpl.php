@@ -2,7 +2,7 @@
 date_default_timezone_set($config['timezone']);
 $audioFormats = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
 $filepath = $interview->media_url;
-
+$mediaFormat = (strtolower($interview->clipsource) == "aviary")? $interview->aviaryMediaFormat :substr($filepath,-4, 4);
 $rights = (string)$interview->rights;
 $usage = (string)$interview->usage;
 $acknowledgment = (string)$interview->funding;
@@ -119,7 +119,7 @@ GASCRIPT;
         }
     }
 </script>
-<?php if (in_array(substr(strtolower($filepath), -4, 4), $audioFormats)) { ?> 
+<?php if (in_array($mediaFormat, $audioFormats)) { ?> 
 <div id="header">
     <?php } else {
     ?>

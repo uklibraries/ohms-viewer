@@ -25,12 +25,23 @@ class Utils {
             if ($source) {
 
                 if ($source->src) {
-                    $parsedUrl = parse_url($source->src);
-                    $mediaURL = $parsedUrl['scheme'] . "://" . $parsedUrl['host'] . "" . $parsedUrl['path'];
+                    $mediaURL = $source->src;
                 }
             }
         }
         return $mediaURL;
+    }
+    /**
+     * Get Aviary Media Format From URL.
+     * @param string $aviaryUrl
+     * @return string
+     */
+    public static function getAviaryMediaFormat($aviaryUrl) {
+        $parsedUrl = parse_url($aviaryUrl);
+        $mediaURL = $parsedUrl['scheme'] . "://" . $parsedUrl['host'] . "" . $parsedUrl['path'];
+        $mediaFormat = substr(strtolower($mediaURL), -3, 3);
+        
+        return $mediaFormat;
     }
 
 }

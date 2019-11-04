@@ -122,6 +122,7 @@ class Version3
         
         if($player == 'aviary'){
             $this->data['media_url'] = Utils::getAviaryUrl($ohfile->record->media_url);
+            $this->data['aviaryMediaFormat'] = Utils::getAviaryMediaFormat($this->data['media_url']);
             $player = 'other';
         }else{
             $this->data['media_url'] = $ohfile->record->media_url;
