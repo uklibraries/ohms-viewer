@@ -79,7 +79,7 @@ class CustomPdf {
      * @param array $config
      */
     public function __prepare($cacheFile, $config) {
-
+        
         $repository = $cacheFile->repository;
         $copyRights = "";
         $tmpDir = $config['tmpDir'];
@@ -232,7 +232,7 @@ EOD;
         $syncPoints = $cacheFile->chunks;
 
         parse_str($_SERVER['QUERY_STRING']);
-        $url = ($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . "/viewer.php?cachefile=$cachefile";
+        $url = ($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']. "?cachefile=$cachefile";
 
         if (isset($sections) && count($sections) > 0) {
 
@@ -291,7 +291,7 @@ EOD;
             $time = (int) $point->time;
             $indexHTML .= '<div style="line-height: 0px;" nobr="true">';
             $title = $_GET['translate'] == '1' ? $point->title_alt : $point->title;
-            $indexHTML .= '<div style="text-align:justify;font-size:10px; line-height: 5px;font-weight:bold;text-align:left;"><a  style="line-height: 15px;font-size:12px;font-weight:bold;" href="' . ($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . "/viewer.php?cachefile=$cachefile" . '#segment' . $point->time . '" id="link' . $point->time . '"><b>' . $timePoint . ' - ' . trim($title, ';') . "</b></a></div>";
+            $indexHTML .= '<div style="text-align:justify;font-size:10px; line-height: 5px;font-weight:bold;text-align:left;"><a  style="line-height: 15px;font-size:12px;font-weight:bold;" href="' . ($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?cachefile=$cachefile" . '#segment' . $point->time . '" id="link' . $point->time . '"><b>' . $timePoint . ' - ' . trim($title, ';') . "</b></a></div>";
             $indexHTML .= '<div style="line-height: 10px;"> </div>';
             if (!empty($partial_transcript) && trim($partial_transcript) != "")
                 $indexHTML .= '<div style=" line-height: 8px;" ><span style="line-height: 15px;font-size:10px;font-weight:bold;">Partial Transcript:</span> <span style="line-height: 15px;font-size:10px;">' . nl2br($partial_transcript) . '</span></div>';
