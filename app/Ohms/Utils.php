@@ -31,16 +31,16 @@ class Utils {
         }
         return $mediaURL;
     }
-    /**
-     * Get Aviary Media Format From URL.
-     * @param string $aviaryUrl
-     * @return string
+     /**
+     * Get Aviary MediaFormat
+     * @param type $aviaryUrl
+     * @return type
      */
     public static function getAviaryMediaFormat($aviaryUrl) {
         $parsedUrl = parse_url($aviaryUrl);
-        $mediaURL = $parsedUrl['scheme'] . "://" . $parsedUrl['host'] . "" . $parsedUrl['path'];
-        $mediaFormat = substr(strtolower($mediaURL), -3, 3);
-        
+        $mediaFormat = pathinfo($parsedUrl['path'], PATHINFO_EXTENSION);
+        $mediaFormat = (strtolower($mediaFormat) == 'mp4v') ? "mp4" : $mediaFormat;
+       
         return $mediaFormat;
     }
 
