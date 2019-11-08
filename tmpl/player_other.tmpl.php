@@ -1,7 +1,7 @@
 <?php
 $fileserver = (isset($config['fileserver']) ? $config['fileserver'] : '');
-$filepath = $interview->media_url;
 
+$filepath = $interview->media_url;
 if (strpos($filepath, 'http://') !== false || strpos($filepath, 'https://') !== false) {
     $linkToMedia = $filepath;
 } else {
@@ -10,7 +10,7 @@ if (strpos($filepath, 'http://') !== false || strpos($filepath, 'https://') !== 
 
 $validClipFormats = array('audio', 'audiotrans', 'video');
 $clipFormat = $interview->clip_format;
-$mediaFormat = substr($linkToMedia, -3, 3);
+$mediaFormat = (strtolower($interview->clipsource) == "aviary")? $interview->aviaryMediaFormat :substr($linkToMedia, -3, 3);
 
 $class = 'jp-video jp-video-270p';
 $customWidth = '';

@@ -231,9 +231,10 @@ POINT;
         $itlines = explode("\n", $transcript[0]);
         unset($transcript[0]);
         foreach ($chunklines as $key => $chunkline) {
-            $stamp = $key * $chunksize . ":00";
+            $intervalChunksize = $key * $chunksize;
+            $stamp =  $intervalChunksize . ":00";
             $anchor = <<<ANCHOR
-<a href="#" data-timestamp="{$key}" data-chunksize="{$chunksize}" class="jumpLink nblu">{$this->formatTimePoint($stamp * 60)}</a>
+<a href="#" data-timestamp="{$intervalChunksize}" data-chunksize="{$chunksize}" class="jumpLink nblu">{$this->formatTimePoint($stamp * 60)}</a>
 ANCHOR;
             $itlines[$chunkline] = $anchor . $itlines[$chunkline];
         }

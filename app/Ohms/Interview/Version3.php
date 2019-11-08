@@ -9,6 +9,7 @@
  */
 
 use Ohms\Transcript;
+use Ohms\Utils;
 
 class Version3
 {
@@ -38,7 +39,7 @@ class Version3
         } else {
             throw new Exception("Initialization requires valid Version3CacheFile.");
         }
-
+        
         $this->data = array(
             'cachefile' => $cachefile,
             'title' => (string)$ohfile->record->title,
@@ -118,6 +119,15 @@ class Version3
 
         $players = explode(',', $viewerconfig['players']);
         $player = strtolower($this->data['clipsource']);
+        
+        if($player == 'aviary'){
+            $this->data['media_url'] = Utils::getAviaryUrl($ohfile->record->media_url);
+            $this->data['aviaryMediaFormat'] = Utils::getAviaryMediaFormat($this->data['media_url']);
+            $player = 'other';
+        }else{
+            $this->data['media_url'] = $ohfile->record->media_url;
+        }
+       
         if (in_array($player, $players)) {
             $this->data['viewerjs'] = $player;
             $this->data['playername'] = $player;
