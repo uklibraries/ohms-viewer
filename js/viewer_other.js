@@ -41,7 +41,7 @@ jQuery(function ($) {
                 playerData = {};
                 playerData.title = "Player";
                 if (jQuery('#subjectPlayer').attr('clip-format') == 'video') {
-                    playerData.poster = "/imgs/video_placeholder.jpg";
+                    playerData.poster = "imgs/video_placeholder.jpg";
                     $('#subjectPlayer video').attr('playsinline', true);
                 }
                 playerData[jQuery('#subjectPlayer').attr('rel')] = jQuery('#subjectPlayer').attr('href');
