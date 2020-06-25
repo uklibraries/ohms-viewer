@@ -20,6 +20,10 @@ if ($clipFormat != 'video') {
 if ($mediaFormat == 'mp4') {
     $mediaFormat = "m4v";
 }
+else if($mediaFormat =='mpga'){
+    $mediaFormat = "mp3";
+}
+
 ?>
 
 <div class="centered" style="<?php echo $customWidth; ?>">
