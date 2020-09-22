@@ -17,7 +17,7 @@ $customWidth = '';
 if ($clipFormat != 'video') {
     $class = 'jp-audio';
 }
-if ($mediaFormat == 'mp4') {
+if ($mediaFormat == 'mp4' || $mediaFormat == 'mov') {
     $mediaFormat = "m4v";
 }
 else if($mediaFormat =='mpga'){
