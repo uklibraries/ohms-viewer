@@ -196,7 +196,7 @@ POINT;
         if (strtolower($this->language) == 'arabic')
             $this->transcriptHTML = $this->transcript;
         else
-            $this->transcriptHTML = iconv("UTF-8", "ASCII//IGNORE", $this->transcript);
+            $this->transcriptHTML = iconv("UTF-8", "UTF-8//IGNORE", $this->transcript);
         
         if (strlen($this->transcriptHTML) == 0) {
             return;
