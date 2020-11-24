@@ -30,7 +30,7 @@ else if($mediaFormat =='mpga'){
     <?php if (in_array($clipFormat, $validClipFormats)): ?>
         <a href="<?php echo $linkToMedia ?>" rel="<?php echo $mediaFormat ?>" clip-format="<?php echo $clipFormat; ?>"
            id="subjectPlayer" class="jp-jplayer" onclick="return false;"></a>
-        <div id="jp_container_1" class="<?php echo $class; ?>" style="display:none;">
+        <div id="jp_container_1" class="<?php echo $class; ?>" style="display:none;" oncontextmenu="return false;">
             <div class="jp-type-playlist">
                 <div class="jp-gui jp-interface">
                     <ul class="jp-controls">
