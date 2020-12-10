@@ -26,7 +26,7 @@ else if($mediaFormat =='mpga'){
 
 ?>
 
-<div class="centered" style="<?php echo $customWidth; ?>">
+<div class="centered" style="<?php echo $customWidth; ?>" oncontextmenu="return false;">
     <?php if (in_array($clipFormat, $validClipFormats)): ?>
         <a href="<?php echo $linkToMedia ?>" rel="<?php echo $mediaFormat ?>" clip-format="<?php echo $clipFormat; ?>"
            id="subjectPlayer" class="jp-jplayer" onclick="return false;"></a>
