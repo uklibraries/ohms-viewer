@@ -192,11 +192,11 @@ POINT;
     }
 
     private function formatTranscript() {
-        
+        // iconv("UTF-8", "ASCII//IGNORE", $this->transcript);
         if (strtolower($this->language) == 'arabic')
             $this->transcriptHTML = $this->transcript;
         else
-            $this->transcriptHTML = iconv("UTF-8", "ASCII//IGNORE", $this->transcript);
+            $this->transcriptHTML = $this->transcript;
         
         if (strlen($this->transcriptHTML) == 0) {
             return;
