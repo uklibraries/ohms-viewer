@@ -217,7 +217,7 @@ POINT;
         $this->transcriptHTML = preg_replace('/<\/p>\n<p>/ms', "\n", $this->transcriptHTML);
         $this->transcriptHTML = preg_replace('/<p>(.+)/U', "<p class=\"first-p\">$1", $this->transcriptHTML, 1);
         $chunkarray = explode(":", $this->chunks);
-        $chunksize = (int) $chunkarray[0];
+        $chunksize = $chunkarray[0];
         $chunklines = array();
         if (count($chunkarray) > 1) {
             $chunkarray[1] = preg_replace('/\(.*?\)/', "", $chunkarray[1]);
