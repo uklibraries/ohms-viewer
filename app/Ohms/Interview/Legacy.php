@@ -14,10 +14,11 @@ class Legacy
     public $Transcript;
     private $data;
 
-    private function __construct($viewerconfig, $tmpDir, $cachefile)
+    private function __construct($is_external, $viewerconfig, $tmpDir, $cachefile)
     {
         if ($cachefile) {
-            if ($myfile = file_get_contents("{$tmpDir}/$cachefile")) {
+            $path = $is_external ? $cachefile : "{$tmpDir}/$cachefile";
+            if ($myfile = file_get_contents($path)) {
 
                 libxml_use_internal_errors(true);
                 $ohfile = simplexml_load_string($myfile);
@@ -121,10 +122,10 @@ class Legacy
         return array_keys($this->data);
     }
 
-    public static function getInstance($viewerconfig, $tmpDir, $cachefile = null)
+    public static function getInstance($is_external,$viewerconfig, $tmpDir, $cachefile = null)
     {
         if (!self::$Instance) {
-            self::$Instance = new Legacy($cachefile, $tmpDir, $viewerconfig);
+            self::$Instance = new Legacy($is_external,$cachefile, $tmpDir, $viewerconfig);
         }
         return self::$Instance;
     }

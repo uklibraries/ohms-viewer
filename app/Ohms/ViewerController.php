@@ -9,10 +9,10 @@ class ViewerController
     private $interviewName;
     private $tmpDir;
     private $config;
-    public function __construct($interviewName)
+    public function __construct($interviewName,$is_external)
     {
         $this->config = parse_ini_file("config/config.ini", true);
-        $this->interview = Interview::getInstance($this->config, $this->config['tmpDir'], $interviewName);
+        $this->interview = Interview::getInstance($is_external, $this->config, $this->config['tmpDir'], $interviewName);
         $this->interviewName = $interviewName;
     }
 
