@@ -25,7 +25,7 @@ $kalturaHost = $matches[0];
 if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 || !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
     $kalturaHost = str_replace('http:', 'https:', $kalturaHost);
 } else {
-i #   $kalturaHost = str_replace('https:', 'http:', $kalturaHost); # No need for this to be modified actually. 
+ #   $kalturaHost = str_replace('https:', 'http:', $kalturaHost); # No need for this to be modified actually. 
 }
 
 $height = ($interview->clip_format == 'audio' ? 95 : 279);
