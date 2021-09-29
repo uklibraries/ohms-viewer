@@ -22,10 +22,10 @@ preg_match("{https?\://[^/]+}", $embedcode, $matches);
 $kalturaHost = $matches[0];
 
 # XXX: This block requires further attention.
+# XXX: Detect if HTTPS either behind proxy or not. Only change if OHMS-Viewer is HTTPS
+# XXX:  Browsers don't care if you make an HTTPS request from an HTTP page
 if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 || !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
     $kalturaHost = str_replace('http:', 'https:', $kalturaHost);
-} else {
- #   $kalturaHost = str_replace('https:', 'http:', $kalturaHost); # No need for this to be modified actually. 
 }
 
 $height = ($interview->clip_format == 'audio' ? 95 : 279);
