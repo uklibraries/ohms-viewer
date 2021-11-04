@@ -3,5 +3,9 @@
         "psr-4": {
             "Ohms\\": "app/Ohms"
         }
+    },
+    "require": {
+        "ext-libxml": "*",
+        "ext-simplexml": "*"
     }
 }
