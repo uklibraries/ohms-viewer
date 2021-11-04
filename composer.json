@@ -6,6 +6,7 @@
     },
     "require": {
         "ext-libxml": "*",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+        "ext-json": "*"
     }
 }
