@@ -82,7 +82,11 @@ class ViewerController
                 $interview     = $this->interview;
                 $interviewName = $this->interviewName;
                 $config        = $this->config;
-                include_once 'tmpl/viewer.tmpl.php';
+                $template      = 'tmpl/viewer.tmpl.php';
+                if (!empty($this->config['template']) && is_readable('tmpl/'.basename($this->config['template']))) {
+                    $template = 'tmpl/'.$this->config['template'];
+                }
+                include_once $template;
             break;
         }
     }
