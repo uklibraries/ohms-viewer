@@ -1,46 +1,34 @@
-<?php namespace Ohms;
+<?php
+namespace Ohms;
 
-/*
- *  Model for the XML CacheFile
- *
- * @copyright Copyright &copy; 2012 Louie B. Nunn Center, University of Kentucky
- * @link http://www.uky.edu
- * @license http://www.uky.edu
- */
-
+use Exception;
 use Ohms\Interview\Legacy;
 use Ohms\Interview\Version3;
+use Ohms\Interview\AbstractInterview;
 
+/**
+ * Model for the XML CacheFile
+ *
+ * @copyright Copyright &copy; 2012 Louie B. Nunn Center, University of Kentucky
+ * @link      http://www.uky.edu
+ * @license   https://www.gnu.org/licenses/gpl-3.0.txt GPLv3
+ */
 class Interview
 {
-    public static function getInstance($config, $configtmpDir, $cachefile = null)
+    /**
+     * @param array       $config
+     * @param string      $tmpDir
+     * @param string|null $cacheFile
+     * @return AbstractInterview
+     * @throws Exception
+     */
+    public static function getInstance(array $config, string $tmpDir, ?string $cacheFile = null): AbstractInterview
     {
-        $viewerconfig = $config;
-        $tmpDir = $configtmpDir;
-        if ($cachefile) {
-            if ($myxmlfile = file_get_contents("{$tmpDir}/$cachefile")) {
-                libxml_use_internal_errors(true);
-                $filecheck = simplexml_load_string($myxmlfile);
+        $xml = Utils::loadXMLFile($tmpDir, $cacheFile);
 
-                if (!$myxmlfile) {
-                    $error_msg = "Error loading XML.\n<br />\n";
-                    foreach (libxml_get_errors() as $error) {
-                        $error_msg .= "\t" . $error->message;
-                    }
-                    throw new Exception($error_msg);
-                }
-            } else {
-                throw new Exception("Invalid CacheFile.");
-            }
-        } else {
-            throw new Exception("Initialization requires valid CacheFile.");
+        if (!empty($xml->record->version)) {
+            return Version3::getInstance($config, $tmpDir, $cacheFile);
         }
-
-        $cacheversion = (string)$filecheck->record->version;
-        if ($cacheversion=='') {
-            return Legacy::getInstance($viewerconfig, $tmpDir, $cachefile);
-        } else {
-            return Version3::getInstance($viewerconfig, $tmpDir, $cachefile);
-        }
+        return Legacy::getInstance($config, $tmpDir, $cacheFile);
     }
 }
