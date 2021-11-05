@@ -6,7 +6,7 @@ namespace Ohms;
  *
  * @copyright Copyright &copy; 2012 Louie B. Nunn Center, University of Kentucky
  * @link      http://www.uky.edu
- * @license   http://www.uky.edu
+ * @license   https://www.gnu.org/licenses/gpl-3.0.txt GPLv3
  */
 class CustomPdf
 {
