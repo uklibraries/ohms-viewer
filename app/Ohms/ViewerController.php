@@ -79,15 +79,28 @@ class ViewerController
             case 'all':
             break;
             default:
-                $interview     = $this->interview;
-                $interviewName = $this->interviewName;
-                $config        = $this->config;
-                $template      = 'tmpl/viewer.tmpl.php';
-                if (!empty($this->config['template']) && is_readable('tmpl/'.basename($this->config['template']))) {
-                    $template = 'tmpl/'.$this->config['template'];
-                }
+                $interview      = $this->interview;
+                $interviewName  = $this->interviewName;
+                $config         = $this->config;
+                $template       = $this->useTemplate('template', 'viewer.tmpl.php');
+                $searchTemplate = $this->useTemplate('search_template', 'search.tmpl.php');
                 include_once $template;
             break;
         }
+    }
+
+    /**
+     * Select a template to use, if it exists, otherwise use the default.
+     *
+     * @param string|null $config_template
+     * @param string      $default
+     * @return string
+     */
+    protected function useTemplate(?string $config_template, string $default): string
+    {
+        if (!empty($this->config[$config_template]) && is_readable('tmpl/'.basename($this->config[$config_template]))) {
+            return 'tmpl/'.$this->config[$config_template];
+        }
+        return "tmpl/$default";
     }
 }

@@ -194,7 +194,7 @@ GASCRIPT;
             </div>
         <?php } ?>
         <div id="main-panels">
-            <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
+            <div id="searchbox-panel"><?php include_once $searchTemplate; ?></div>
             <div id="content-panel">
                 <div id="holder-panel"></div>
                 <?php

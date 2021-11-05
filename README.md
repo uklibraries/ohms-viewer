@@ -90,13 +90,13 @@ The next steps will require using a text editing program to create your configur
 
 9) Set the text for the copyright holder information for the "copyrightholder" config property. If this text will list an entry such as a department or division of an organization (for example "History Department, University of State"), then each entity should be inside the HTML `<span></span>` tags such as:
 
-`<span>History Department</span><span>University of State</span>`
+    `<span>History Department</span><span>University of State</span>`
 
 10) Set the Open Graph "description" value for the "open_graph_description" config property. The Open Graph protocol provides a way for links placed in social media sites to display thumbnail images, descriptions and titles. The "description" is what will always appear as the description (such as "Our Repository") for every link to interviews hosted by your OHMS Viewer.
 
 11) Set the Open Graph image to use for links placed in social media sites ("open_graph_image" config property). This will be the image seen with links placed in social media site postings (it does not appear on the Viewer page). The image must reside in the root directory of your web site. An example is that if the image is "ourimage.jpg" in the "images" subdirectory of your site, you would enter: images/ourimage.jpg .
 
-12) You may optionally set the "template" config property to use a different file in the "tmpl" directory. If nothing is specified, or the one specified does not exist, "viewer.tmpl.php" is assumed. Any custom template must be in the "tmpl" directory.
+12) You may optionally set the "template" and "search_template" config properties to use different files in the "tmpl" directory than what is provided by default. If nothing is specified, or the one specified does not exist, "viewer.tmpl.php" is used for "template" and "search.tmpl.php" is used for "search_template". Any custom template files must be placed in the "tmpl" directory.
 
 Please note that the "title" that appears for links in social media sites using Open Graph is set by the "title" data field in the linked interview cache file.
 
