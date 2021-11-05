@@ -89,26 +89,26 @@ class CustomPdf
         $series        = "";
         $seriesTop     = "";
 
-        if ((string)$cacheFile->collection_link != '' && (string)$cacheFile->collection != ''):
+        if ((string)$cacheFile->collection_link != '' && (string)$cacheFile->collection != '') {
             $collection = $templateDiv.'Collection Title: <a href="'.$cacheFile->collection_link.'"><b>'.$cacheFile->collection.'</b></a>'.$templateDivCl;
-        elseif ((string)$cacheFile->collection != ''):
+        } elseif ((string)$cacheFile->collection != '') {
             $collection = $templateDiv."Collection Title: ".$cacheFile->collection.$templateDivCl;
-        endif;
+        }
 
-        if ((string)$cacheFile->series_link != '' && (string)$cacheFile->series != ''):
+        if ((string)$cacheFile->series_link != '' && (string)$cacheFile->series != '') {
             $series = $templateDiv.'Series Title: <a href="'.$cacheFile->series_link.'"><b>'.$cacheFile->series.'</b></a>'.$templateDivCl;
-        elseif ((string)$cacheFile->series != ''):
+        } elseif ((string)$cacheFile->series != '') {
             $series = $templateDiv."Series Title: ".$cacheFile->series.$templateDivCl;
-        endif;
+        }
 
-        if ((string)$cacheFile->series_link != '' && (string)$cacheFile->series != ''):
+        if ((string)$cacheFile->series_link != '' && (string)$cacheFile->series != '') {
             $seriesTop = '<div style="text-align:justify;font-size:11px; line-height: 10px;font-weight:bold;text-align:left;">Series Link: <span style="font-weight:normal;font-size:10px;line-height: 16px;">'."<a style='font-weight:bold;'  href='$cacheFile->series_link'><b>$cacheFile->series</b></a></span></div>";
-        elseif ((string)$cacheFile->series != ''):
+        } elseif ((string)$cacheFile->series != '') {
             $seriesTop = '<div style="text-align:justify;font-size:11px; line-height: 10px;font-weight:bold;text-align:left;">Series : <span style="font-weight:normal;font-size:10px;line-height: 16px;">'.$cacheFile->series."</span></div>";
-        endif;
+        }
 
         $contactUs = "";
-        if ($contactLink != "" || $contactEmail != "") :
+        if ($contactLink != "" || $contactEmail != "") {
             $contactUs = <<<EOD
                 <div style="text-align:justify;font-size:11px; line-height: 10px;font-weight:bold;text-align:left;">Contact us:
                     $contactEmail
@@ -116,7 +116,7 @@ class CustomPdf
                     $contactLink
                 </div>
 EOD;
-        endif;
+        }
 
         $rights    = ((string)$cacheFile->rights != '') ? $templateDivL.'Rights Statement: <span style="font-weight:normal;line-height: 16px;">'.((string)$cacheFile->rights).'</span></div>' : "";
         $usage     = ((string)$cacheFile->usage != '') ? $templateDivL.'Usage Statement: <span style="font-weight:normal;line-height: 16px;">'.((string)$cacheFile->usage).'</span></div>' : "";
@@ -305,7 +305,7 @@ EOD;
         $seconds              = "00";
         $timestampCounter     = 1;
 
-        foreach ($syncArray as $points):
+        foreach ($syncArray as $points) {
 
             $lineNo = $points[0];
             $wordNo = $points[1] - 1;
@@ -315,7 +315,7 @@ EOD;
             $stamp         = "[00:00:00]";
             if ($intervalIncrement == 0.50) {
                 [$hours, $mins] = self::convertToHoursMins($tempMinForSecCounter);
-                $stamp  = "[$hours:$mins:$seconds]";
+                $stamp = "[$hours:$mins:$seconds]";
 
                 if ($seconds == "00") {
                     $seconds = '30';
@@ -333,7 +333,7 @@ EOD;
             }
             $sections[$lineNo] = "<p><span><a id='replaceStamp'><b>".$stamp.'</b></a></span></p>'.$sections[$lineNo];
 
-        endforeach;
+        }
 
         $formattedTranscriptHtml = implode("\n", $sections);
 
@@ -368,7 +368,7 @@ EOD;
         $noteNum = 0;
         if (count($transcript) > 0) {
             $footnotesContainer = '<div class="footnotes-container"><div class="label-ft"><b>NOTES</b></div>';
-            foreach ($transcript as $note):
+            foreach ($transcript as $note) {
                 $noteNum += 1;
                 $note    = str_replace('[[/note]]', '', $note);
                 $matches = array();
@@ -383,7 +383,7 @@ EOD;
                 $note               = '<div><a id="footnote'.$noteNum.'" class="footnoteLink nblu" href="#sup'.$noteNum.'" style="color:black;">'.$noteNum.'.</a> '.$footnoteContent.'</div>';
                 $footnotesContainer .= $note;
 
-            endforeach;
+            }
             $formattedTranscriptHtml .= "$footnotesContainer</div>";
         }
 

@@ -16,7 +16,7 @@ if (isset($_GET['translate']) && $_GET['translate'] == '1') {
     $targetLanguage = $interview->language;
     $isTranslate = "1";
 } else {
-    $targetLanguage = $interview->transcript_alt_lang;  
+    $targetLanguage = $interview->transcript_alt_lang;
 }
 $tAvailable = "";
 if (isset($_GET['t_available']) && $_GET['t_available'] == '1') {
@@ -28,7 +28,7 @@ $toggleAvailable = "";
 $toggleAttr = "";
 $toggleLanguageSwitch = "";
 
-if((($interview->index == '' && ($interview->transcript != '' || strpos($interview->transcript, 'No transcript') === false)) 
+if((($interview->index == '' && ($interview->transcript != '' || strpos($interview->transcript, 'No transcript') === false))
         || ($interview->index != '' && ($interview->transcript == '' || strpos($interview->transcript, 'No transcript') !== false))) && $isTranslate == "0" || $tAvailable == "1"){
     $toggleClass = "greyed_out";
     $toggleAttr = 'disabled="diabled"';
@@ -64,7 +64,7 @@ $toggleDisplay = "";
 <!--    <button id="print-pdf" title="Print" class="print-btn"><i class="fa fa-print"></i> Print</button>-->
 </div>
 
-<?php if ($interview->translate == '1'): ?>
+<?php if ($interview->translate == '1') { ?>
     <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
         <a href="#" id="translate-link" data-lang="<?php echo $interview->language ?>"
            data-translate="<?php $interview->transcript_alt_lang; ?>"
@@ -74,7 +74,7 @@ $toggleDisplay = "";
     </div>
     <br/>
 <?php
-endif;
+}
 ?>
 <span id="alert"></span>
 <form id="search-form" onSubmit="return false;" name="search-form" class="preview-search-form">

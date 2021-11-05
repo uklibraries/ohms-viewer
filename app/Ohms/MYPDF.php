@@ -47,14 +47,14 @@ EOD;
             $contactEmail = CONTACT_EMAIL;
             $contactLink  = CONTACT_LINK;
 
-            if (CONTACT_EMAIL != "" || CONTACT_LINK != "") :
+            if (CONTACT_EMAIL != "" || CONTACT_LINK != "") {
                 $contactUs = <<<EOD
                     $contactEmail
                     <br>
                     $contactLink
 
 EOD;
-            endif;
+            }
 
             $transcriptHtml = <<<EOD
                 <div style="text-align:center;color:#797979;">

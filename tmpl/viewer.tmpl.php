@@ -1,40 +1,40 @@
 <?php
 date_default_timezone_set($config['timezone']);
-$audioFormats = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
-$filepath = $interview->media_url;
-$mediaFormat = (strtolower($interview->clipsource) == "aviary")? $interview->aviaryMediaFormat :substr($filepath,-4, 4);
-$rights = (string)$interview->rights;
-$usage = (string)$interview->usage;
-$acknowledgment = (string)$interview->funding;
-$contactemail = '';
-$contactlink = '';
+$audioFormats    = array('.mp3', '.wav', '.ogg', '.flac', '.m4a');
+$filepath        = $interview->media_url;
+$mediaFormat     = (strtolower($interview->clipsource) == "aviary") ? $interview->aviaryMediaFormat : substr($filepath, -4, 4);
+$rights          = (string)$interview->rights;
+$usage           = (string)$interview->usage;
+$acknowledgment  = (string)$interview->funding;
+$contactemail    = '';
+$contactlink     = '';
 $copyrightholder = '';
-$protocol = 'https';
+$protocol        = 'https';
 if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
     $protocol = 'http';
 }
-$host = $_SERVER['HTTP_HOST'];
-$uri = $_SERVER['REQUEST_URI'];
-$baseurl = "$protocol://$host$uri";
-$site_url = "$protocol://$host";
-$extraCss = null;
+$host        = $_SERVER['HTTP_HOST'];
+$uri         = $_SERVER['REQUEST_URI'];
+$baseurl     = "$protocol://$host$uri";
+$site_url    = "$protocol://$host";
+$extraCss    = null;
 $exhibitMode = 0;
-$printMode = 0;
+$printMode   = 0;
 if (isset($config['exhibit_mode']) && $config['exhibit_mode'] <> '') {
     $exhibitMode = $config['exhibit_mode'];
-}else {
+} else {
     $exhibitMode = 0;
 }
 if (isset($config['print_mode']) && $config['print_mode'] <> '') {
     $printMode = $config['print_mode'];
-}else {
+} else {
     $printMode = 0;
 }
 
 if (isset($config[$interview->repository])) {
-    $repoConfig = $config[$interview->repository];
-    $contactemail = $repoConfig['contactemail'];
-    $contactlink = $repoConfig['contactlink'];
+    $repoConfig      = $config[$interview->repository];
+    $contactemail    = $repoConfig['contactemail'];
+    $contactlink     = $repoConfig['contactlink'];
     $copyrightholder = $repoConfig['copyrightholder'];
     if (isset($repoConfig['open_graph_image']) && $repoConfig['open_graph_image'] <> '') {
         $openGraphImage = $repoConfig['open_graph_image'];
@@ -48,15 +48,15 @@ if (isset($config[$interview->repository])) {
 
 
 }
-$seriesLink = (string)$interview->series_link;
-$collectionLink = (string)$interview->collection_link;
-$lang = (string)$interview->translate;
-$gaScript = null;
-$userNotes = trim($interview->user_notes); 
-$heightAdjustmentClass= "";
-if (!empty($userNotes)):
-    $heightAdjustmentClass= "adjust_height";
-endif;
+$seriesLink            = (string)$interview->series_link;
+$collectionLink        = (string)$interview->collection_link;
+$lang                  = (string)$interview->translate;
+$gaScript              = null;
+$userNotes             = trim($interview->user_notes);
+$heightAdjustmentClass = "";
+if (!empty($userNotes)) {
+    $heightAdjustmentClass = "adjust_height";
+}
 if (isset($repoConfig['ga_tracking_id'])) {
     $gaScript = <<<GASCRIPT
 <script type="text/javascript">
@@ -70,7 +70,6 @@ ga('send', 'pageview');
 GASCRIPT;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,20 +118,22 @@ GASCRIPT;
         }
     }
 </script>
-<?php if (in_array($mediaFormat, $audioFormats)) { ?> 
+<?php if (in_array($mediaFormat, $audioFormats)) { ?>
 <div id="header">
     <?php } else {
     ?>
-    <div id="headervid">  
+    <div id="headervid">
         <?php }
-        if($printMode){
-        ?> 
-        <a href="#" class="printCustom" ></a>
-        <?php } if (isset($config[$interview->repository])): ?>
+        if ($printMode) {
+            ?>
+            <a href="#" class="printCustom"></a>
+        <?php }
+        if (isset($config[$interview->repository])) { ?>
             <img id="headerimg"
-                 src="<?php echo $config[$interview->repository]['footerimg']; ?>"
-                 alt="<?php echo $config[$interview->repository]['footerimgalt']; ?>"/>
-        <?php endif;
+                src="<?php echo $config[$interview->repository]['footerimg']; ?>"
+                alt="<?php echo $config[$interview->repository]['footerimgalt']; ?>"/>
+        <?php
+        }
         ?>
         <div class="center">
             <h1><?php echo $interview->title; ?></h1>
@@ -179,27 +180,28 @@ GASCRIPT;
                 </div>
             </div>
             <div id="audio-panel">
-                <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
+                <?php include_once 'tmpl/player_'.$interview->playername.'.tmpl.php'; ?>
             </div>
         </div>
     </div>
-    <div id="main" class="<?php echo  $heightAdjustmentClass; ?>">
-        <?php  if($printMode){ ?>
-        <a href="#" class="printCustomMobile" ></a>
-        <?php } if (!empty($userNotes)): ?>
+    <div id="main" class="<?php echo $heightAdjustmentClass; ?>">
+        <?php if ($printMode) { ?>
+            <a href="#" class="printCustomMobile"></a>
+        <?php }
+        if (!empty($userNotes)) { ?>
             <div class="user_notes"><?php echo $interview->user_notes ?>
                 <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
             </div>
-        <?php endif; ?>
+        <?php } ?>
         <div id="main-panels">
             <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
             <div id="content-panel">
                 <div id="holder-panel"></div>
                 <?php
-                $indexDisplay = 'display:none';
+                $indexDisplay      = 'display:none';
                 $transcriptDisplay = 'display:block';
                 if ((isset($panel) && $panel == '1') || ($interview->hasIndex() && (!isset($panel) || $panel != '0'))) {
-                    $indexDisplay = 'display:block';
+                    $indexDisplay      = 'display:block';
                     $transcriptDisplay = 'display:none';
                 }
                 ?>
@@ -290,67 +292,67 @@ GASCRIPT;
     <link rel="stylesheet" href="skin/skin-dark/jplayer.dark.css" type="text/css" media="screen"/>
     <script src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
     <link rel="stylesheet"
-          href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen"/>
+        href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen"/>
     <script src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
     <script src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
     <link rel="stylesheet"
-          href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen"/>
+        href="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen"/>
     <script src="js/fancybox_2_1_5/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
     <script src="js/popper.js"></script>
     <script src="js/tooltip.js"></script>
     <script>
         var allToolTipInstances = {};
         $(document).ready(function () {
-            $(".printCustom").click(function(){
-                window.location.href="viewer.php?action=pdf&cachefile=" + cachefile + "";
+            $(".printCustom").click(function () {
+                window.location.href = "viewer.php?action=pdf&cachefile=" + cachefile + "";
             });
-            $(".printCustomMobile").click(function(){
-                window.open("viewer.php?action=pdf&cachefile=" + cachefile + "",'_blank');
+            $(".printCustomMobile").click(function () {
+                window.open("viewer.php?action=pdf&cachefile=" + cachefile + "", '_blank');
             });
-            $(".transcript-line").each(function(){
+            $(".transcript-line").each(function () {
                 var jumplinkElm = $(this).find('.jumpLink');
                 var numberOfIntervalsInLine = jumplinkElm.length;
-                if(numberOfIntervalsInLine > 1){
+                if (numberOfIntervalsInLine > 1) {
                     var marginToAdd = 13;
                     var totalMargin = 13 * numberOfIntervalsInLine;
-                    jumplinkElm.each(function(index){
-                        var currentMargin = totalMargin - (marginToAdd*(index+1));
-                        $(this).css('margin-top',currentMargin);
+                    jumplinkElm.each(function (index) {
+                        var currentMargin = totalMargin - (marginToAdd * (index + 1));
+                        $(this).css('margin-top', currentMargin);
                     });
                 }
             });
 
-        
-             setTimeout(function(){
-               var htmlTranscript = $('#transcript-panel').html().trim();
-               var htmlIndex = $('#index-panel').html().trim();
-               var isTranslate = $('#is_translate').val().trim();
-                if ((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0"){
-                        $('.alpha-circle').hide();
-                        $('#toggle_switch').attr("disabled", "disabled");
-                        $('.slider.round').css("background-color", "#ccc");
-                } else if (htmlIndex == "" && htmlTranscript != "" && isTranslate == "0"){
-                        $('.alpha-circle').hide();
-                        $('#toggle_switch').attr("disabled", "disabled");
-                        $('.slider.round').css("background-color", "#ccc");
-                } else if (htmlIndex == "" && htmlTranscript == "" && isTranslate == "0"){
-                        $('.alpha-circle').hide();
-                        $('#toggle_switch').attr("disabled", "disabled");
-                        $('.slider.round').css("background-color", "#ccc");
-                }else if ((htmlIndex == "" || htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "1"){
+
+            setTimeout(function () {
+                var htmlTranscript = $('#transcript-panel').html().trim();
+                var htmlIndex = $('#index-panel').html().trim();
+                var isTranslate = $('#is_translate').val().trim();
+                if ((htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "0") {
+                    $('.alpha-circle').hide();
+                    $('#toggle_switch').attr("disabled", "disabled");
+                    $('.slider.round').css("background-color", "#ccc");
+                } else if (htmlIndex == "" && htmlTranscript != "" && isTranslate == "0") {
+                    $('.alpha-circle').hide();
+                    $('#toggle_switch').attr("disabled", "disabled");
+                    $('.slider.round').css("background-color", "#ccc");
+                } else if (htmlIndex == "" && htmlTranscript == "" && isTranslate == "0") {
+                    $('.alpha-circle').hide();
+                    $('#toggle_switch').attr("disabled", "disabled");
+                    $('.slider.round').css("background-color", "#ccc");
+                } else if ((htmlIndex == "" || htmlTranscript == "" || htmlTranscript.includes("No transcript")) && isTranslate == "1") {
                     $('.alpha-circle').hide();
                 }
-            },300);
-            
-            $('.footnoteTooltip').each(function(index,element){
+            }, 300);
+
+            $('.footnoteTooltip').each(function (index, element) {
                 footnoteID = $(element).data('index');
                 footnoteAttrId = $(element).attr("id");
-                footnoteHtml = $('#'+footnoteID).parent().children('span').html();
-                $(element).attr("data-tooltip",footnoteHtml);
+                footnoteHtml = $('#' + footnoteID).parent().children('span').html();
+                $(element).attr("data-tooltip", footnoteHtml);
                 activatePopper(footnoteAttrId);
-            });  
-            $('.info-circle').each(function(index, element){
-                activatePopperIndexTranscript(element.id,'i');
+            });
+            $('.info-circle').each(function (index, element) {
+                activatePopperIndexTranscript(element.id, 'i');
             });
             footnoteHover("bind");
             jQuery('a.indexSegmentLink').on('click', function (e) {
@@ -366,11 +368,11 @@ GASCRIPT;
             jQuery('.segmentLinkTextBox').on('click', function () {
                 jQuery(this).select();
             });
-              jQuery('.copyButtonViewer').on('click', function () {
-                                var text = jQuery(this).prev().val();
-                                copyToClipboard(text);
-                                
-                        });
+            jQuery('.copyButtonViewer').on('click', function () {
+                var text = jQuery(this).prev().val();
+                copyToClipboard(text);
+
+            });
             if (jumpToTime !== null) {
                 jQuery('div.point').each(function (index) {
                     if (parseInt(jQuery(this).find('a.indexJumpLink').data('timestamp')) == jumpToTime) {
@@ -412,139 +414,148 @@ GASCRIPT;
                                     }
                                 ,
                                     500
-                                );
-                        jQuery(this).find('a.indexJumpLink').click();
+                                )
+                                    ;
+                                    jQuery(this).find('a.indexJumpLink').click();
+                                }
+                            }
+                        )
+                            ;
+                        }
+                        $(".fancybox").fancybox();
+                        $(".various").fancybox({
+                            maxWidth: 800,
+                            maxHeight: 600,
+                            fitToView: false,
+                            width: '70%',
+                            height: '70%',
+                            autoSize: false,
+                            closeClick: false,
+                            openEffect: 'none',
+                            closeEffect: 'none'
+                        });
+                        $('.fancybox-media').fancybox({
+                            openEffect: 'none',
+                            closeEffect: 'none',
+                            width: '80%',
+                            height: '80%',
+                            fitToView: true,
+                            helpers: {
+                                media: {}
+                            }
+                        });
+                        $(".fancybox-button").fancybox({
+                            prevEffect: 'none',
+                            nextEffect: 'none',
+                            closeBtn: false,
+                            helpers: {
+                                title: {type: 'inside'},
+                                buttons: {}
+                            }
+                        });
+                        jQuery('#lnkRights').click(function () {
+                            jQuery('#rightsStatement').fadeToggle(400);
+                            return false;
+                        });
+                        jQuery('#lnkUsage').click(function () {
+                            jQuery('#usageStatement').fadeToggle(400);
+                            return false;
+                        });
+                        jQuery('#lnkFunding').click(function () {
+                            jQuery('#fundingStatement').fadeToggle(400);
+                            return false;
+                        });
                     }
-                });
-            }
-            $(".fancybox").fancybox();
-            $(".various").fancybox({
-                maxWidth: 800,
-                maxHeight: 600,
-                fitToView: false,
-                width: '70%',
-                height: '70%',
-                autoSize: false,
-                closeClick: false,
-                openEffect: 'none',
-                closeEffect: 'none'
-            });
-            $('.fancybox-media').fancybox({
-                openEffect: 'none',
-                closeEffect: 'none',
-                width: '80%',
-                height: '80%',
-                fitToView: true,
-                helpers: {
-                    media: {}
-                }
-            });
-            $(".fancybox-button").fancybox({
-                prevEffect: 'none',
-                nextEffect: 'none',
-                closeBtn: false,
-                helpers: {
-                    title: {type: 'inside'},
-                    buttons: {}
-                }
-            });
-            jQuery('#lnkRights').click(function () {
-                jQuery('#rightsStatement').fadeToggle(400);
-                return false;
-            });
-            jQuery('#lnkUsage').click(function () {
-                jQuery('#usageStatement').fadeToggle(400);
-                return false;
-            });
-            jQuery('#lnkFunding').click(function () {
-                jQuery('#fundingStatement').fadeToggle(400);
-                return false;
-            });
-        });
-        function footnoteHover(state){
-            if(state== "bind"){
-                $( ".footnote-ref" ).bind("hover",
-                function() {
-                    var footnoteHtmlLength = $(this).find('.footnoteTooltip').attr("data-tooltip").length;
-                    width = footnoteHtmlLength * 50 / 100;
-                    if(footnoteHtmlLength > 130){
-                        $('head').append("<style>.tooltip{ width: " + width + "px }</style>");
-                    }else{
-                        $('head').append("<style>.tooltip{ width: 130px; }</style>");
-                    }
-                }
-            );
-            }else if (state == "unbind"){
-                $( ".footnote-ref" ).unbind("hover");
-            }
-        }
-        function activatePopper(element) {
-            var footnoteHtml = $("#" + element).data("tooltip");
-            allToolTipInstances[footnoteAttrId] = new Tooltip($("#" + element), {
-                title: footnoteHtml,
-                trigger: "hover",
-                placement: "bottom",
-                html: true,
-                eventsEnabled: true,
-                modifiers: {
-                    flip: {
-                        behavior: ['left', 'right', 'top']
-                    },
-                    preventOverflow: {
-                        boundariesElement: $('#transcript-panel'),
-                    },
-                },
-            });
-        }
+                )
+                    ;
 
-        function activatePopperIndexTranscript(element,type) {
-            if(type == 'i'){
-                var timePoint = $("#" + element).data("time-point");
-                var id = $("#" + element).data("marker-counter");
-                var indexTitle = $("#" + element).data("index-title");
-                var anchorHtml = "<div class='info-toggle' onclick=\"toggleRedirectTranscriptIndex(" + id + ",'transcript-to-index')\" >Segment: <b>" + indexTitle + "</b> " + timePoint + " </div>";
-                Tipped.create('#' + element, anchorHtml, {
-                size: 'large',
-                    radius: true,
-                    position: 'right'
-                });
-            }
-        }
-        function toggleRedirectTranscriptIndex(id, type){
-            if(type == 'transcript-to-index'){
-                $('#toggle_switch').trigger('click');
-                setTimeout(function(){
-                    $('.tpd-tooltip').hide();
-                    $('#transcript-panel').hide();
-                    $('#index-panel').show();
-                    var currentIndex = $('#accordionHolder').accordion('option', 'active');
-                    if(currentIndex != id || currentIndex ===  false){
-                        jQuery('#accordionHolder').accordion({active: id});
-                        jQuery('#accordionHolder-alt').accordion({active: id});
+                    function footnoteHover(state) {
+                        if (state == "bind") {
+                            $(".footnote-ref").bind("hover",
+                                function () {
+                                    var footnoteHtmlLength = $(this).find('.footnoteTooltip').attr("data-tooltip").length;
+                                    width = footnoteHtmlLength * 50 / 100;
+                                    if (footnoteHtmlLength > 130) {
+                                        $('head').append("<style>.tooltip{ width: " + width + "px }</style>");
+                                    } else {
+                                        $('head').append("<style>.tooltip{ width: 130px; }</style>");
+                                    }
+                                }
+                            );
+                        } else if (state == "unbind") {
+                            $(".footnote-ref").unbind("hover");
+                        }
                     }
-                },250);
-            }else if(type == 'index-to-transcript'){
-                $('#toggle_switch').trigger('click');
-                setTimeout(function(){
-                    $('.tpd-tooltip').hide();
-                    $('#index-panel').hide();
-                    $('#transcript-panel').show();
-                    var container = $('#transcript-panel'),
-                    scrollTo = $("#info_trans_"+id);
-                    container.animate({
-                        scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
-                    });
-                },250);
-            }
-        }
-        function copyToClipboard(val){
-            var dummy = document.createElement("textarea");
-            document.body.appendChild(dummy);
-            dummy.value = val;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-        }
+
+                    function activatePopper(element) {
+                        var footnoteHtml = $("#" + element).data("tooltip");
+                        allToolTipInstances[footnoteAttrId] = new Tooltip($("#" + element), {
+                            title: footnoteHtml,
+                            trigger: "hover",
+                            placement: "bottom",
+                            html: true,
+                            eventsEnabled: true,
+                            modifiers: {
+                                flip: {
+                                    behavior: ['left', 'right', 'top']
+                                },
+                                preventOverflow: {
+                                    boundariesElement: $('#transcript-panel'),
+                                },
+                            },
+                        });
+                    }
+
+                    function activatePopperIndexTranscript(element, type) {
+                        if (type == 'i') {
+                            var timePoint = $("#" + element).data("time-point");
+                            var id = $("#" + element).data("marker-counter");
+                            var indexTitle = $("#" + element).data("index-title");
+                            var anchorHtml = "<div class='info-toggle' onclick=\"toggleRedirectTranscriptIndex(" + id + ",'transcript-to-index')\" >Segment: <b>" + indexTitle + "</b> " + timePoint + " </div>";
+                            Tipped.create('#' + element, anchorHtml, {
+                                size: 'large',
+                                radius: true,
+                                position: 'right'
+                            });
+                        }
+                    }
+
+                    function toggleRedirectTranscriptIndex(id, type) {
+                        if (type == 'transcript-to-index') {
+                            $('#toggle_switch').trigger('click');
+                            setTimeout(function () {
+                                $('.tpd-tooltip').hide();
+                                $('#transcript-panel').hide();
+                                $('#index-panel').show();
+                                var currentIndex = $('#accordionHolder').accordion('option', 'active');
+                                if (currentIndex != id || currentIndex === false) {
+                                    jQuery('#accordionHolder').accordion({active: id});
+                                    jQuery('#accordionHolder-alt').accordion({active: id});
+                                }
+                            }, 250);
+                        } else if (type == 'index-to-transcript') {
+                            $('#toggle_switch').trigger('click');
+                            setTimeout(function () {
+                                $('.tpd-tooltip').hide();
+                                $('#index-panel').hide();
+                                $('#transcript-panel').show();
+                                var container = $('#transcript-panel'),
+                                    scrollTo = $("#info_trans_" + id);
+                                container.animate({
+                                    scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+                                });
+                            }, 250);
+                        }
+                    }
+
+                    function copyToClipboard(val) {
+                        var dummy = document.createElement("textarea");
+                        document.body.appendChild(dummy);
+                        dummy.value = val;
+                        dummy.select();
+                        document.execCommand("copy");
+                        document.body.removeChild(dummy);
+                    }
     </script>
     <script>
         var cachefile = '<?php echo $interview->cachefile; ?>';
@@ -554,5 +565,5 @@ GASCRIPT;
         echo $gaScript;
     }
     ?>
-</body> 
+</body>
 </html>

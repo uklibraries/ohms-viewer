@@ -27,7 +27,7 @@ else if($mediaFormat =='mpga'){
 ?>
 
 <div class="centered" style="<?php echo $customWidth; ?>" oncontextmenu="return false;">
-    <?php if (in_array($clipFormat, $validClipFormats)): ?>
+    <?php if (in_array($clipFormat, $validClipFormats)) { ?>
         <a href="<?php echo $linkToMedia ?>" rel="<?php echo $mediaFormat ?>" clip-format="<?php echo $clipFormat; ?>"
            id="subjectPlayer" class="jp-jplayer" onclick="return false;"></a>
         <div id="jp_container_1" class="<?php echo $class; ?>" style="display:none;" oncontextmenu="return false;">
@@ -38,7 +38,7 @@ else if($mediaFormat =='mpga'){
                         <li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
                         <li><a href="javascript:;" class="jp-next" tabindex="1">next</a></li>
                         <li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
-                        <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>                        
+                        <li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
                         <li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
                         <li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
                     </ul>
@@ -62,6 +62,6 @@ else if($mediaFormat =='mpga'){
             </div>
         </div>
         <?php
-    endif;
+    }
     ?>
 </div>
