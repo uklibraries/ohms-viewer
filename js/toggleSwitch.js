@@ -1,7 +1,7 @@
-
-
 function toggleSwitch() {
     var viewName = ['Transcript', 'Index'];
+    var highlightClass = 'highlight';
+    var viewController = 'viewer.php';
     this.initialize = function () {
         var view = $('#search-type').val();
         if (typeof viewName[view] != 'undefined') {
@@ -67,20 +67,20 @@ function toggleSwitch() {
         if ((e.type == "keypress" && e.which == 13) || e.type == "click") {
             e.preventDefault();
             var kw = $('#kw').val();
-            $('span.highlight').removeClass('highlight');
+            $('span.' + highlightClass).removeClass(highlightClass);
             if (kw !== '') {
                 if (prevIndex.matches.length !== 0) {
                     $.each(prevSearch.highLines, function (key, val) {
                         var section = $('#link' + val);
                         var synopsis = $('#tp_' + val).parent();
-                        section.find('.highlight').contents().unwrap();
-                        synopsis.find('.highlight').contents().unwrap();
+                        section.find(highlightClass).contents().unwrap();
+                        synopsis.find(highlightClass).contents().unwrap();
                     });
                 }
                 if (document.URL.search('translate=1') != -1) {
                     isTranslate = true;
                 }
-                $.getJSON('viewer.php?action=index&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
+                $.getJSON(viewController + '?action=index&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
                     var matches = [];
                     $('#search-results').empty();
                     if (data.matches.length === 0) {
@@ -96,9 +96,9 @@ function toggleSwitch() {
                             var section = $('#link' + val.time);
                             var synopsis = $('a[name="tp_' + val.time + '"]').parent();
                             var re = new RegExp('(' + preg_quote(data.keyword) + ')', 'gi');
-                            section.html(section.text().replace(re, "<span class=\"highlight\">$1</span>"));
+                            section.html(section.text().replace(re, "<span class=\"" + highlightClass + "\">$1</span>"));
                             synopsis.find('span').each(function () {
-                                $(this).html($(this).text().replace(re, "<span class=\"highlight\">$1</span>"));
+                                $(this).html($(this).text().replace(re, "<span class=\"" + highlightClass + "\">$1</span>"));
                             });
                         });
                         $('<ul/>').addClass('nline').html(matches.join('')).appendTo('#search-results');
@@ -109,7 +109,7 @@ function toggleSwitch() {
                             lineTarget = $(e.target);
                             linenum = lineTarget.data("linenum");
                             var line = $('#link' + linenum);
-                            $('#link' + linenum).click();
+                            line.click();
                             $('#index-panel').scrollTo(line, 800, {
                                 easing: 'easeInSine'
                             });
@@ -130,14 +130,13 @@ function toggleSwitch() {
                 if (prevSearch.highLines.length !== 0) {
                     $.each(prevSearch.highLines, function (key, val) {
                         var line = $('#line_' + val);
-                        var lineText = line.html();
-                        line.find('.highlight').contents().unwrap();
+                        line.find('.' + highlightClass).contents().unwrap();
                     });
                 }
                 if (document.URL.search('translate=1') != -1) {
                     isTranslate = true;
                 }
-                $.getJSON('viewer.php?action=search&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
+                $.getJSON(viewController + '?action=search&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
                     var matches = [];
                     $('#search-results').empty();
                     if (data.matches.length === 0) {
@@ -151,7 +150,6 @@ function toggleSwitch() {
                             matches.push('<li><a class="search-result" href="#" data-linenum="' + val.linenum + '">' + (key + 1) + ". " + val.shortline + '</a></li>');
                             prevSearch.highLines.push(val.linenum);
                             var line = $('#line_' + val.linenum);
-                            var lineText = line.html();
                             if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent) || navigator.userAgent.search("Firefox")) {
                                 var re = new RegExp("(?![^<>]*(([\/\"']|]]|\b)>))(" + preg_quote(data.keyword) + ')', 'gi');
                             } else {
@@ -164,9 +162,8 @@ function toggleSwitch() {
                                 $(this).html("[" + index + "]");
                             });
 
-                            lineText = $('#line_' + val.linenum).html();
-                            line.html(lineText.replace(re, function (str) {
-                                return "<span class=\"highlight\">" + str + "</span>";
+                            line.html(line.html().replace(re, function (str) {
+                                return "<span class=\"" + highlightClass + "\">" + str + "</span>";
                             }));
                             line.find(".footnote-ref").each(function (index) {
                                 $(this).html(htmlArray[index]);
@@ -199,13 +196,13 @@ function toggleSwitch() {
         }
     };
     var resetSearch = function () {
-        kwval = $('#kw').val();
+        var kwval = $('#kw').val();
         if (kwval != 'Keyword' && kwval != '') {
 
             $('#search-results').empty();
 
             $("#kw").prop('disabled', false);
-            $('span.highlight').removeClass('highlight');
+            $('span.' + highlightClass).removeClass(highlightClass);
             $("#submit-btn").css("display", "inline-block");
             $("#clear-btn").css("display", "none");
         }
@@ -213,14 +210,15 @@ function toggleSwitch() {
     }
     var clearSearchResults = function (e) {
         if ((e.type == "keypress" && e.which == 13) || e.type == "click") {
+            var highlights = $('span.' + highlightClass);
             e.preventDefault();
             $('#search-results').empty();
             $('#kw').val('');
-            $('span.highlight').each(function () {
+            highlights.each(function () {
                 var txt = $(this).text();
                 $(this).replaceWith(txt);
             });
-            $('span.highlight').removeClass('highlight');
+            highlights.removeClass(highlightClass);
             $("#kw").prop('disabled', false);
             $("#submit-btn").css("display", "inline-block");
             $("#clear-btn").css("display", "none");
@@ -228,8 +226,9 @@ function toggleSwitch() {
     };
 
     var pagination = function () {
-        $("#search-results").prepend("<div id=\"paginate\"></div>");
-        $("#search-results").prepend("<span id=\"paginate_info\"></span>");
+        var results = $("#search-results");
+        results.prepend("<div id=\"paginate\"></div>");
+        results.prepend("<span id=\"paginate_info\"></span>");
         var pageParts = $(".nline li");
         var numPages = pageParts.length;
         var perPage = 5;
