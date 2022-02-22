@@ -143,14 +143,14 @@ class Version3
         foreach ($interviewer_info as $part) {
             $pieces[] = $part;
         }
-        $this->data['interviewer'] = implode($pieces, '');
+        $this->data['interviewer'] = implode('', $pieces);
         
         $interviewee_info = $ohfile->record->interviewee;
         $piecese = array();
         foreach($interviewee_info as $parte) {
               $piecese[] = $parte;
         }
-        $this->data['interviewee'] = implode($piecese, '');
+        $this->data['interviewee'] = implode('', $piecese);
         unset($this->cacheFile);
     }
 
