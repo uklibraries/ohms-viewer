@@ -80,7 +80,7 @@ function toggleSwitch() {
                 if (document.URL.search('translate=1') != -1) {
                     isTranslate = true;
                 }
-                $.getJSON('viewer.php?action=index&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
+                $.getJSON('viewer.php?action=index&external=true&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
                     var matches = [];
                     $('#search-results').empty();
                     if (data.matches.length === 0) {
