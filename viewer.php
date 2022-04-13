@@ -12,7 +12,7 @@ if (!isset($_GET['translate'])) {
 if (isset($_REQUEST['cachefile'])) {
     $kw = (isset($_REQUEST['kw'])) ? $_REQUEST['kw'] : null;
     $action = (isset($_REQUEST['action'])) ? $_REQUEST['action'] : null;
-    $vController = new ViewerController($_REQUEST['cachefile']);
+    $vController = new ViewerController($_REQUEST['cachefile'],$_REQUEST['external']);
     $vController->route($action, $kw, $_REQUEST['cachefile']);
 } else {
     header('HTTP/1.0 404 Not Found');
