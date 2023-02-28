@@ -18,10 +18,11 @@ class Version3
     private $data;
     private $xml = null;
 
-    private function __construct($viewerconfig, $tmpDir, $cachefile)
+    private function __construct($is_external, $viewerconfig, $tmpDir, $cachefile)
     {
         if ($cachefile) {
-            $this->xml = file_get_contents("{$tmpDir}/$cachefile");
+            $path = $is_external ? $cachefile : "{$tmpDir}/$cachefile";
+            $this->xml = file_get_contents($path);
             if ($this->xml) {
                 libxml_use_internal_errors(true);
                 $ohfile = simplexml_load_string($this->xml);
@@ -184,10 +185,10 @@ class Version3
         return array_keys($this->data);
     }
 
-    public static function getInstance($viewerconfig, $tmpDir, $cachefile = null)
+    public static function getInstance($is_external,$viewerconfig, $tmpDir, $cachefile = null)
     {
         if (!self::$Instance) {
-            self::$Instance = new Version3($viewerconfig, $tmpDir, $cachefile);
+            self::$Instance = new Version3($is_external,$viewerconfig, $tmpDir, $cachefile);
         }
         return self::$Instance;
     }

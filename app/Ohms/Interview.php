@@ -13,12 +13,13 @@ use Ohms\Interview\Version3;
 
 class Interview
 {
-    public static function getInstance($config, $configtmpDir, $cachefile = null)
+    public static function getInstance($is_external, $config, $configtmpDir, $cachefile = null)
     {
         $viewerconfig = $config;
         $tmpDir = $configtmpDir;
         if ($cachefile) {
-            if ($myxmlfile = file_get_contents("{$tmpDir}/$cachefile")) {
+            $path = $is_external ? $cachefile : "{$tmpDir}/$cachefile";
+            if ($myxmlfile = file_get_contents($path)) {
                 libxml_use_internal_errors(true);
                 $filecheck = simplexml_load_string($myxmlfile);
 
@@ -38,9 +39,9 @@ class Interview
 
         $cacheversion = (string)$filecheck->record->version;
         if ($cacheversion=='') {
-            return Legacy::getInstance($viewerconfig, $tmpDir, $cachefile);
+            return Legacy::getInstance($is_external, $viewerconfig, $tmpDir, $cachefile);
         } else {
-            return Version3::getInstance($viewerconfig, $tmpDir, $cachefile);
+            return Version3::getInstance($is_external, $viewerconfig, $tmpDir, $cachefile);
         }
     }
 }
