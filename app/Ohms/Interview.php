@@ -1,4 +1,6 @@
-<?php namespace Ohms;
+<?php
+
+namespace Ohms;
 
 /*
  *  Model for the XML CacheFile
@@ -11,14 +13,13 @@
 use Ohms\Interview\Legacy;
 use Ohms\Interview\Version3;
 
-class Interview
-{
-    public static function getInstance($is_external, $config, $configtmpDir, $cachefile = null)
-    {
+class Interview {
+
+    public static function getInstance($translate, $external, $config, $configtmpDir, $cachefile = null) {
         $viewerconfig = $config;
         $tmpDir = $configtmpDir;
         if ($cachefile) {
-            $path = $is_external ? $cachefile : "{$tmpDir}/$cachefile";
+            $path = $external ? $cachefile : "{$tmpDir}/$cachefile";
             if ($myxmlfile = file_get_contents($path)) {
                 libxml_use_internal_errors(true);
                 $filecheck = simplexml_load_string($myxmlfile);
@@ -37,11 +38,13 @@ class Interview
             throw new Exception("Initialization requires valid CacheFile.");
         }
 
-        $cacheversion = (string)$filecheck->record->version;
-        if ($cacheversion=='') {
-            return Legacy::getInstance($is_external, $viewerconfig, $tmpDir, $cachefile);
+        $cacheversion = (string) $filecheck->record->version;
+        if ($cacheversion == '') {
+            return Legacy::getInstance($translate, $external, $viewerconfig, $tmpDir, $cachefile);
         } else {
-            return Version3::getInstance($is_external, $viewerconfig, $tmpDir, $cachefile);
+            return Version3::getInstance($translate, $external, $viewerconfig, $tmpDir, $cachefile);
         }
     }
+
 }
+/* Location: ./app/Ohms/Interview.php */

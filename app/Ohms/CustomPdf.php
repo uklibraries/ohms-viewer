@@ -78,8 +78,8 @@ class CustomPdf {
      * @param object $cacheFile
      * @param array $config
      */
-    public function __prepare($cacheFile, $config) {
-        
+    public static function __prepare($cacheFile, $config, $translate) {
+
         $repository = $cacheFile->repository;
         $copyRights = "";
         $tmpDir = $config['tmpDir'];
@@ -116,7 +116,6 @@ class CustomPdf {
         $pdf->SetHeaderMargin(10);
         $pdf->SetFooterMargin(20);
 
-
         $pdf->SetPrintHeader(false);
         $pdf->SetPrintFooter(false);
 
@@ -125,7 +124,6 @@ class CustomPdf {
 
         $pdf->SetFont('Helvetica', '', 12, '', true);
         $pdf->setTextShadow(array('enabled' => false, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
-
 
         $pdf->AddPage();
         $interviewee = (!empty((string) $cacheFile->interviewee)) ? "$cacheFile->interviewee" : "";
@@ -214,7 +212,7 @@ EOD;
          */
         if (isset($cacheFile->index_points->point) && count($cacheFile->index_points->point) > 0) {
 
-            $indexs = self::getIndexHtml($cacheFile->index_points);
+            $indexs = self::getIndexHtml($cacheFile->index_points, $translate);
             $pdf->AddPage();
             $indexHtml = <<<EOD
                 $spacer15
@@ -228,11 +226,14 @@ EOD;
         /**
          * Transcript.
          */
-        $sections = explode("\n", ((isset($_GET['translate']) && $_GET['translate'] == '1') ? $cacheFile->transcript_alt_raw : $cacheFile->transcript_raw));
+        $sections = explode("\n", (($translate == 1) ? $cacheFile->transcript_alt_raw : $cacheFile->transcript_raw));
         $syncPoints = $cacheFile->chunks;
-
-        parse_str($_SERVER['QUERY_STRING']);
-        $url = ($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']. "?cachefile=$cachefile";
+        $serverQueryString = filter_input(INPUT_SERVER, 'QUERY_STRING');
+        $serverHttps = filter_input(INPUT_SERVER, 'HTTPS');
+        $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST');
+        $serverPhpSelf = filter_input(INPUT_SERVER, 'PHP_SELF');
+        parse_str($serverQueryString, $params);
+        $url = ($serverHttps == 'on' ? 'https' : 'http') . '://' . $serverHttpHost . $serverPhpSelf . "?cachefile={$params['cachefile']}";
 
         if (isset($sections) && count($sections) > 0) {
 
@@ -244,7 +245,6 @@ EOD;
                href="$url"
 EOD;
             $formattedTranscriptHtml = str_replace("id='replaceStamp'", $transcriptHtml1, $formattedTranscriptHtml);
-
 
             $transcriptHtml = <<<EOD
                 $spacer15
@@ -275,23 +275,27 @@ EOD;
      * @param array $indexPoints
      * @return string
      */
-    public function getIndexHtml($indexPoints) {
+    public static function getIndexHtml($indexPoints, $translate) {
 
+        $serverQueryString = filter_input(INPUT_SERVER, 'QUERY_STRING');
+        $serverHttps = filter_input(INPUT_SERVER, 'HTTPS');
+        $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST');
+        $serverPhpSelf = filter_input(INPUT_SERVER, 'PHP_SELF');
+        parse_str($serverQueryString, $params);
 
-        parse_str($_SERVER['QUERY_STRING']);
         $indexHTML = "";
         foreach ($indexPoints->point as $point) {
 
             $timePoint = self::getTimestamp($point->time);
-            $synopsis = (isset($_GET['translate']) && $_GET['translate'] == '1') ? $point->synopsis_alt : $point->synopsis;
-            $partial_transcript = (isset($_GET['translate']) && $_GET['translate'] == '1') ? $point->partial_transcript_alt : $point->partial_transcript;
-            $keywords = (isset($_GET['translate']) && $_GET['translate'] == '1') ? $point->keywords_alt : $point->keywords;
-            $subjects = (isset($_GET['translate']) && $_GET['translate'] == '1') ? $point->subjects_alt : $point->subjects;
+            $synopsis = ($translate == 1) ? $point->synopsis_alt : $point->synopsis;
+            $partial_transcript = ($translate == 1) ? $point->partial_transcript_alt : $point->partial_transcript;
+            $keywords = ($translate == 1) ? $point->keywords_alt : $point->keywords;
+            $subjects = ($translate == 1) ? $point->subjects_alt : $point->subjects;
 
             $time = (int) $point->time;
             $indexHTML .= '<div style="line-height: 0px;" nobr="true">';
-            $title = $_GET['translate'] == '1' ? $point->title_alt : $point->title;
-            $indexHTML .= '<div style="text-align:justify;font-size:10px; line-height: 5px;font-weight:bold;text-align:left;"><a  style="line-height: 15px;font-size:12px;font-weight:bold;" href="' . ($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . "?cachefile=$cachefile" . '#segment' . $point->time . '" id="link' . $point->time . '"><b>' . $timePoint . ' - ' . trim($title, ';') . "</b></a></div>";
+            $title = ($translate == 1) ? $point->title_alt : $point->title;
+            $indexHTML .= '<div style="text-align:justify;font-size:10px; line-height: 5px;font-weight:bold;text-align:left;"><a  style="line-height: 15px;font-size:12px;font-weight:bold;" href="' . ($serverHttps == 'on' ? 'https' : 'http') . '://' . $serverHttpHost . $serverPhpSelf . "?cachefile={$params['cachefile']}" . '#segment' . $point->time . '" id="link' . $point->time . '"><b>' . $timePoint . ' - ' . trim($title, ';') . "</b></a></div>";
             $indexHTML .= '<div style="line-height: 10px;"> </div>';
             if (!empty($partial_transcript) && trim($partial_transcript) != "")
                 $indexHTML .= '<div style=" line-height: 8px;" ><span style="line-height: 15px;font-size:10px;font-weight:bold;">Partial Transcript:</span> <span style="line-height: 15px;font-size:10px;">' . nl2br($partial_transcript) . '</span></div>';
@@ -381,7 +385,6 @@ EOD;
             $lineNo = $points[0];
             $wordNo = $points[1] - 1;
 
-
             $splittedWords = explode(' ', $sections[$lineNo]);
             $stamp = "[00:00:00]";
             if ($intervalIncrement == 0.50) {
@@ -433,14 +436,10 @@ EOD;
 
         $formattedTranscriptHtml = preg_replace('/<p>(.+)/U', "<p class=\"first-p\">$1", $formattedTranscriptHtml, 1);
 
-
-
         $formattedTranscriptHtml = str_replace(array('[[footnotes]]', '[[/footnotes]]'), '', $formattedTranscriptHtml);
         $transcript = explode('[[note]]', $formattedTranscriptHtml);
         $formattedTranscriptHtml = $transcript[0];
         unset($transcript[0]);
-
-
 
         if (count($transcript) > 0) {
             $footnotesContainer = '<div class="footnotes-container"><div class="label-ft"><b>NOTES</b></div>';
@@ -472,3 +471,5 @@ EOD;
     }
 
 }
+
+/* Location: ./app/Ohms/CustomPdf.php */

@@ -86,7 +86,7 @@ function toggleSwitch() {
                     external = '&external=true'
                 }
 
-                $.getJSON('viewer.php?action=index'+ external + '&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
+                $.getJSON('viewer.php?action=index' + external + '&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
                     var matches = [];
                     $('#search-results').empty();
                     if (data.matches.length === 0) {
@@ -143,13 +143,14 @@ function toggleSwitch() {
                 if (document.URL.search('translate=1') != -1) {
                     isTranslate = true;
                 }
+                url = new URL(window.location.href);
                 let external = '';
                 if (url.searchParams.has('external')) {
-                    external = '&external=true'
+                    external = '&external=true';
                 }
 
-                
-                $.getJSON('viewer.php?action=search'+ external + '&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
+
+                $.getJSON('viewer.php?action=search' + external + '&cachefile=' + cachefile + '&kw=' + kw + (isTranslate ? '&translate=1' : ''), function (data) {
                     var matches = [];
                     $('#search-results').empty();
                     if (data.matches.length === 0) {

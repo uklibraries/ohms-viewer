@@ -87,7 +87,7 @@ GASCRIPT;
     <link rel="stylesheet" href="css/simplePagination.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="js/jquery-ui.toggleSwitch.js"></script>
-    <script src="js/toggleSwitch.js?v1.16"></script>
+    <script src="js/toggleSwitch.js?v1.17"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="js/viewer.js"></script>
     <script type="text/javascript" src="js/tipped/tipped.js"></script>

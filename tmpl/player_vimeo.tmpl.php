@@ -6,8 +6,8 @@ if ($interview->kembed == "" && $interview->media_url != "") {
     $video_id = str_replace('https://vimeo.com/', '', str_replace('http://vimeo.com/', '', $interview->media_url));
     $embedcode = '<iframe id="vimeo_widget" src="https://player.vimeo.com/video/' . $video_id . '?color=ffffff&badge=0&portrait=false&title=false&byline=false" width="100%" maxwidth="100%" height="' . $height . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 } elseif ($interview->kembed != "") {
-        $interview->kembed = preg_replace('/(width|height)=["\']\d*["\']\s?/', "", $interview->kembed);
-        $embedcode = str_replace('<iframe ', '<iframe title="Video Player" id="vimeo_widget"', $interview->kembed);
+        $embedcode = preg_replace('/(width|height)=["\']\d*["\']\s?/', "", $interview->kembed);
+        $embedcode = str_replace('<iframe ', '<iframe title="Video Player" id="vimeo_widget"', $embedcode);
 }
 
 if (isset($_GET['time']) && is_numeric($_GET['time'])) {

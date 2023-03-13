@@ -1,4 +1,6 @@
-<?php namespace Ohms\Interview;
+<?php
+
+namespace Ohms\Interview;
 
 /*
  *  Model for the XML LegacyCacheFile
@@ -8,14 +10,13 @@
  * @license http://www.uky.edu
  */
 
-class Legacy
-{
+class Legacy {
+
     private static $Instance = null;
     public $Transcript;
     private $data;
 
-    private function __construct($is_external, $viewerconfig, $tmpDir, $cachefile)
-    {
+    private function __construct($translate, $is_external, $viewerconfig, $tmpDir, $cachefile) {
         if ($cachefile) {
             $path = $is_external ? $cachefile : "{$tmpDir}/$cachefile";
             if ($myfile = file_get_contents($path)) {
@@ -39,21 +40,21 @@ class Legacy
 
         $this->data = array(
             'cachefile' => $cachefile,
-            'title' => (string)$ohfile->record->title,
-            'accession' => (string)$ohfile->record->accession,
-            'chunks' => (string)$ohfile->record->sync,
-            'time_length' => (string)$ohfile->record->duration,
-            'collection' => (string)$ohfile->record->collection_name,
-            'series' => (string)$ohfile->record->series_name,
-            'fmt' => (string)$ohfile->record->fmt,
-            'media_url' => (string)$ohfile->record->media_url,
-            'file_name' => (string)$ohfile->record->file_name,
-            'rights' => (string)$ohfile->record->rights,
-            'usage' => (string)$ohfile->record->usage,
-            'repository' => (string)$ohfile->record->repository,
-            'funding' => (string)$ohfile->record->funding,
-            'avalon_target_domain' => (string)$ohfile->record->mediafile->avalon_target_domain,
-        'user_notes' => (string)$ohfile->record->user_notes
+            'title' => (string) $ohfile->record->title,
+            'accession' => (string) $ohfile->record->accession,
+            'chunks' => (string) $ohfile->record->sync,
+            'time_length' => (string) $ohfile->record->duration,
+            'collection' => (string) $ohfile->record->collection_name,
+            'series' => (string) $ohfile->record->series_name,
+            'fmt' => (string) $ohfile->record->fmt,
+            'media_url' => (string) $ohfile->record->media_url,
+            'file_name' => (string) $ohfile->record->file_name,
+            'rights' => (string) $ohfile->record->rights,
+            'usage' => (string) $ohfile->record->usage,
+            'repository' => (string) $ohfile->record->repository,
+            'funding' => (string) $ohfile->record->funding,
+            'avalon_target_domain' => (string) $ohfile->record->mediafile->avalon_target_domain,
+            'user_notes' => (string) $ohfile->record->user_notes
         );
 
         # temp fix for mp3 doubling
@@ -91,47 +92,41 @@ class Legacy
         unset($this->cacheFile);
     }
 
-    private function __clone()
-    {
+    private function __clone() {
         //empty
     }
 
-    public function __get($name)
-    {
+    public function __get($name) {
         if (array_key_exists($name, $this->data)) {
             return $this->data[$name];
         } else {
             $trace = debug_backtrace();
             trigger_error(
-                'Undefined property ' .
-                $name . ' in ' . $trace[0]['file'] .
-                ' on line ' . $trace[0]['line'],
-                E_USER_NOTICE
+                    'Undefined property ' .
+                    $name . ' in ' . $trace[0]['file'] .
+                    ' on line ' . $trace[0]['line'],
+                    E_USER_NOTICE
             );
             return null;
         }
     }
 
-    public function hasIndex()
-    {
+    public function hasIndex() {
         return strlen($this->index) > 0;
     }
 
-    public function getFields()
-    {
+    public function getFields() {
         return array_keys($this->data);
     }
 
-    public static function getInstance($is_external,$viewerconfig, $tmpDir, $cachefile = null)
-    {
+    public static function getInstance($translate, $is_external, $viewerconfig, $tmpDir, $cachefile = null) {
         if (!self::$Instance) {
-            self::$Instance = new Legacy($is_external,$cachefile, $tmpDir, $viewerconfig);
+            self::$Instance = new Legacy($translate, $is_external, $cachefile, $tmpDir, $viewerconfig);
         }
         return self::$Instance;
     }
 
-    public function toJSON()
-    {
+    public function toJSON() {
         $keys = array_keys($this->data);
         $pairs = array();
         foreach ($keys as $key) {
@@ -139,4 +134,7 @@ class Legacy
         }
         return '{' . implode(',', $pairs) . '}';
     }
+
 }
+
+/* Location: ./app/Ohms/Interview/Legacy.php */
