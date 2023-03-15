@@ -39,10 +39,10 @@ class Transcript {
     }
 
     private function formatIndex($translate) {
-        $serverHttps = filter_input(INPUT_SERVER, 'HTTPS');
-        $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST');
-        $serverRequestUri = filter_input(INPUT_SERVER, 'REQUEST_URI');
-
+        $serverHttps = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTPS'])));
+        $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTP_HOST'])));
+        $serverRequestUri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['REQUEST_URI'])));
+        
         if (!empty($this->index)) {
             if (count($this->index->point) == 0) {
                 $this->indexHTML = '';

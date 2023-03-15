@@ -228,10 +228,12 @@ EOD;
          */
         $sections = explode("\n", (($translate == 1) ? $cacheFile->transcript_alt_raw : $cacheFile->transcript_raw));
         $syncPoints = $cacheFile->chunks;
-        $serverQueryString = filter_input(INPUT_SERVER, 'QUERY_STRING');
-        $serverHttps = filter_input(INPUT_SERVER, 'HTTPS');
-        $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST');
-        $serverPhpSelf = filter_input(INPUT_SERVER, 'PHP_SELF');
+
+        $serverQueryString = filter_input(INPUT_SERVER, 'QUERY_STRING', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['QUERY_STRING'])));
+        $serverHttps = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTPS'])));
+        $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTP_HOST'])));
+        $serverPhpSelf = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['PHP_SELF'])));
+
         parse_str($serverQueryString, $params);
         $url = ($serverHttps == 'on' ? 'https' : 'http') . '://' . $serverHttpHost . $serverPhpSelf . "?cachefile={$params['cachefile']}";
 
@@ -277,10 +279,10 @@ EOD;
      */
     public static function getIndexHtml($indexPoints, $translate) {
 
-        $serverQueryString = filter_input(INPUT_SERVER, 'QUERY_STRING');
-        $serverHttps = filter_input(INPUT_SERVER, 'HTTPS');
-        $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST');
-        $serverPhpSelf = filter_input(INPUT_SERVER, 'PHP_SELF');
+        $serverQueryString = filter_input(INPUT_SERVER, 'QUERY_STRING', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['QUERY_STRING'])));
+        $serverHttps = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTPS'])));
+        $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTP_HOST'])));
+        $serverPhpSelf = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['PHP_SELF'])));
         parse_str($serverQueryString, $params);
 
         $indexHTML = "";
