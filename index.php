@@ -14,8 +14,8 @@ require_once 'app/init.php';
 session_start();
 
 $translate = (int) filter_input(INPUT_GET, 'translate', FILTER_VALIDATE_INT, array('options' => array('default' => 0)));
-$file = filter_input(INPUT_GET, 'cachefile', FILTER_SANITIZE_ENCODED);
-$keyword = filter_input(INPUT_GET, 'kw', FILTER_SANITIZE_ENCODED);
+$file = filter_input(INPUT_GET, 'cachefile');
+$keyword = filter_input(INPUT_GET, 'kw');
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_ENCODED);
 $external = filter_input(INPUT_GET, 'external', FILTER_VALIDATE_BOOLEAN, array('options' => array('default' => false)));
 
