@@ -17,7 +17,7 @@ class MYPDF extends TCPDF {
 
     //Page header
     public function Header() {
-        $this->SetFont('helvetica', '', 10);
+        $this->SetFont('dejavusans', '', 10);
         $inTitle = INTERVIEW_TITLE;
         $inRepo = INTERVIEW_REPO;
         $transcriptHtml = <<<EOD
@@ -33,7 +33,7 @@ EOD;
 
     // Page footer
     public function Footer() {
-        $this->SetFont('helvetica', '', 10);
+        $this->SetFont('dejavusans', '', 10);
         $inRepo = INTERVIEW_REPO_FOOTER;
         $pageNum = $this->PageNo();
         $transcriptHtml = "  ";
@@ -122,7 +122,7 @@ class CustomPdf {
         $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         $pdf->setFontSubsetting(true);
 
-        $pdf->SetFont('Helvetica', '', 12, '', true);
+        $pdf->SetFont('dejavusans', '', 12, '', true);
         $pdf->setTextShadow(array('enabled' => false, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
 
         $pdf->AddPage();
@@ -229,7 +229,7 @@ EOD;
         $sections = explode("\n", (($translate == 1) ? $cacheFile->transcript_alt_raw : $cacheFile->transcript_raw));
         $syncPoints = $cacheFile->chunks;
 
-        $serverQueryString = filter_input(INPUT_SERVER, 'QUERY_STRING', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['QUERY_STRING'])));
+        $serverQueryString = $_SERVER['QUERY_STRING'];
         $serverHttps = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTPS'])));
         $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTP_HOST'])));
         $serverPhpSelf = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['PHP_SELF'])));
@@ -279,7 +279,7 @@ EOD;
      */
     public static function getIndexHtml($indexPoints, $translate) {
 
-        $serverQueryString = filter_input(INPUT_SERVER, 'QUERY_STRING', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['QUERY_STRING'])));
+        $serverQueryString = $_SERVER['QUERY_STRING'];
         $serverHttps = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTPS'])));
         $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTP_HOST'])));
         $serverPhpSelf = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['PHP_SELF'])));
