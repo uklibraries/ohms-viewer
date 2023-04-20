@@ -31,7 +31,8 @@ class Utils {
         }
         return $mediaURL;
     }
-     /**
+
+    /**
      * Get Aviary MediaFormat
      * @param type $aviaryUrl
      * @return type
@@ -40,10 +41,9 @@ class Utils {
         $parsedUrl = parse_url($aviaryUrl);
         $mediaFormat = pathinfo($parsedUrl['path'], PATHINFO_EXTENSION);
         $mediaFormat = (strtolower($mediaFormat) == 'mp4v') ? "mp4" : $mediaFormat;
-       
+
         return $mediaFormat;
     }
 
 }
-
-?>
+/* Location: ./app/Ohms/Utils.php */

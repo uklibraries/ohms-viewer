@@ -39,6 +39,10 @@ class Transcript {
     }
 
     private function formatIndex($translate) {
+        $serverHttps = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTPS'])));
+        $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTP_HOST'])));
+        $serverRequestUri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['REQUEST_URI'])));
+        
         if (!empty($this->index)) {
             if (count($this->index->point) == 0) {
                 $this->indexHTML = '';
@@ -55,11 +59,11 @@ class Transcript {
                 $title = $translate ? $point->title_alt : $point->title;
                 $formattedTitle = trim($title, ';');
                 $protocol = 'https';
-                if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
+                if (!isset($serverHttps) || $serverHttps != 'on') {
                     $protocol = 'http';
                 }
-                $host = $_SERVER['HTTP_HOST'];
-                $uri = $_SERVER['REQUEST_URI'];
+                $host = $serverHttpHost;
+                $uri = $serverRequestUri;
                 $directSegmentLink = "$protocol://$host$uri#segment{$point->time}";
                 $nlPartialTranscript = nl2br($partial_transcript);
                 $nlSynopsis = nl2br($synopsis);
@@ -104,7 +108,7 @@ class Transcript {
 
                     $gps = $singleGpsPoint->gps;
                     $zoom = (empty($singleGpsPoint->gps_zoom) ? '17' : $singleGpsPoint->gps_zoom);
-                    $gps_text = $_GET['translate'] == '1' ? $singleGpsPoint->gps_text_alt : $singleGpsPoint->gps_text;
+                    $gps_text = $translate == 1 ? $singleGpsPoint->gps_text_alt : $singleGpsPoint->gps_text;
 
                     if (trim($gps) <> '') {
                         if ($gpsCounter <= 0)
@@ -197,7 +201,7 @@ POINT;
             $this->transcriptHTML = $this->transcript;
         else
             $this->transcriptHTML = $this->transcript;
-        
+
         if (strlen($this->transcriptHTML) == 0) {
             return;
         }
@@ -217,7 +221,7 @@ POINT;
         $this->transcriptHTML = preg_replace('/<\/p>\n<p>/ms', "\n", $this->transcriptHTML);
         $this->transcriptHTML = preg_replace('/<p>(.+)/U', "<p class=\"first-p\">$1", $this->transcriptHTML, 1);
         $chunkarray = explode(":", $this->chunks);
-        $chunksize = $chunkarray[0];
+        $chunksize = empty($chunkarray[0]) ? 1 : $chunkarray[0];
         $chunklines = array();
         if (count($chunkarray) > 1) {
             $chunkarray[1] = preg_replace('/\(.*?\)/', "", $chunkarray[1]);
@@ -230,9 +234,10 @@ POINT;
         $transcriptOnly = $transcript[0];
         $itlines = explode("\n", $transcript[0]);
         unset($transcript[0]);
+        
         foreach ($chunklines as $key => $chunkline) {
             $intervalChunksize = $key * $chunksize;
-            $stamp =  $intervalChunksize . ":00";
+            $stamp = $intervalChunksize; // . ":00";
             $anchor = <<<ANCHOR
 <a href="#" data-timestamp="{$intervalChunksize}" data-chunksize="{$chunksize}" class="jumpLink nblu">{$this->formatTimePoint($stamp * 60)}</a>
 ANCHOR;
@@ -290,7 +295,7 @@ ANCHOR;
                     $indexisChanging = true;
                 }
             }
-            
+
             foreach ($this->index->point as $singlePoint) {
                 $time = (int) $singlePoint->time;
                 if ($time >= $currentSyncSlotSecs && $time < $nextSyncSlotSecs && !in_array($time, $placedMarkers) && !$placeIndexMarker) {
@@ -385,7 +390,6 @@ ANCHOR;
         //Actual search
         $lines = explode("\n", $this->transcript);
 
-
         $startedFootNotes = 0;
         $startedFootNotesCount = 0;
 
@@ -421,7 +425,6 @@ ANCHOR;
             if (preg_match("/{$this->fixAccents($keyword)}/i", $this->fixAccents($line), $matches)) {
 
                 $shortline = $this->formatShortline($line, $keyword);
-
 
                 if (strstr($json, 'shortline')) {
                     $json .= ',';
@@ -484,3 +487,5 @@ ANCHOR;
     }
 
 }
+
+/* Location: ./app/Ohms/Transcript.php */

@@ -503,7 +503,7 @@ Responsive Web Design
 
 #header {
     width: 82%;
-    height: 200px;
+    height: auto;
     margin: 0 auto;
     border-bottom: 5px solid #337ab7;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);

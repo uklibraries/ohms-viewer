@@ -1,28 +1,31 @@
-<?php namespace Ohms;
+<?php
+
+namespace Ohms;
 
 use Ohms\Interview;
 use Ohms\CustomPdf;
 
-class ViewerController
-{
+class ViewerController {
+
     private $interview;
     private $interviewName;
     private $tmpDir;
     private $config;
-    public function __construct($interviewName)
-    {
+    private $enable_translation;
+
+    public function __construct($interviewName, $external, $translate) {
         $this->config = parse_ini_file("config/config.ini", true);
-        $this->interview = Interview::getInstance($this->config, $this->config['tmpDir'], $interviewName);
+        $this->interview = Interview::getInstance($translate, $external, $this->config, $this->config['tmpDir'], $interviewName);
         $this->interviewName = $interviewName;
+        $this->enable_translation = $translate;
     }
 
-    public function route($action, $kw, $interviewName)
-    {
-        switch($action) {
+    public function route($action, $kw, $interviewName) {
+        switch ($action) {
             case 'pdf':
-                CustomPdf::__prepare($this->interview,$this->config);
+                CustomPdf::__prepare($this->interview, $this->config,$this->enable_translation);
                 exit();
-            break;
+                break;
             case 'metadata':
                 header('Content-type: application/json');
                 echo $this->interview->toJSON();
@@ -44,8 +47,7 @@ class ViewerController
                 break;
             case 'index':
                 if (isset($kw)) {
-                    $translate = ($_GET['translate'] == '1' ? 1 : 0);
-                    echo $this->interview->Transcript->indexSearch($kw, $translate);
+                    echo $this->interview->Transcript->indexSearch($kw, $this->enable_translation);
                 }
                 exit();
                 break;
@@ -59,4 +61,7 @@ class ViewerController
                 break;
         }
     }
+
 }
+
+/* Location: ./app/Ohms/ViewerController.php */
