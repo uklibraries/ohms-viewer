@@ -301,11 +301,16 @@ GASCRIPT;
     <script>
         var allToolTipInstances = {};
         $(document).ready(function () {
+            let url = new URL(window.location.href);
+            let external = '';
+            if (url.searchParams.has('external')) {
+                external = '&external=true'
+            }
             $(".printCustom").click(function(){
-                window.location.href="viewer.php?action=pdf&cachefile=" + cachefile + "";
+                window.location.href="viewer.php?action=pdf&cachefile=" + cachefile + external +"";
             });
             $(".printCustomMobile").click(function(){
-                window.open("viewer.php?action=pdf&cachefile=" + cachefile + "",'_blank');
+                window.open("viewer.php?action=pdf&cachefile=" + cachefile + external + "",'_blank');
             });
             $(".transcript-line").each(function(){
                 var jumplinkElm = $(this).find('.jumpLink');
