@@ -315,7 +315,8 @@ GASCRIPT;
             $(".transcript-line").each(function(){
                 var jumplinkElm = $(this).find('.jumpLink');
                 var numberOfIntervalsInLine = jumplinkElm.length;
-                if(numberOfIntervalsInLine > 1){
+                var isNestedElm = $(this).find('.transcript-line');
+                if(numberOfIntervalsInLine > 1 && isNestedElm.length < 1){
                     var marginToAdd = 13;
                     var totalMargin = 13 * numberOfIntervalsInLine;
                     jumplinkElm.each(function(index){
