@@ -132,8 +132,8 @@ p {
 
 #line_0 {
     margin-top: 0px;
-    margin-left: 50px;
-    margin-right: 50px;
+/*  margin-left: 50px;
+    margin-right: 50px; */
 }
 
 #transcript-panel p.first-p, #transcript-panel-alt p.first-p {
