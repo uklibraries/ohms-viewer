@@ -21,7 +21,7 @@ if (isset($_GET['time']) && is_numeric($_GET['time'])) {
 $height = ($interview->clip_format == 'audio' ? 95 : 350);
 
 echo <<<VIMEO
-<div class="video embed-responsive embed-responsive-16by9" style="width: auto; height: {$height}px;margin-left: auto; margin-right: auto;">
+<div class="video embed-responsive embed-responsive-16by9" style="position:relative;width: auto; height: {$height}px;margin-left: auto; margin-right: auto;">
   <p>&nbsp;</p>
   {$embedcode}
   <script src="https://player.vimeo.com/api/player.js"></script>
