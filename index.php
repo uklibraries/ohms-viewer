@@ -7,8 +7,6 @@
  * @license    http://www.gnu.org/licenses/ GNU GENERAL PUBLIC LICENSE
  * @link       https://ams.americanarchive.org
  */
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
 
 use Ohms\ViewerController;
 
