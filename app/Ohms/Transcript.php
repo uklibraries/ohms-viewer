@@ -2,6 +2,8 @@
 
 namespace Ohms;
 
+use Laracasts\Transcriptions\Transcription;
+
 class Transcript {
 
     private $transcript;
@@ -11,12 +13,12 @@ class Transcript {
     private $indexHTML;
     private $language;
 
-    public function __construct($transcript, $timecodes, $index, $translate = false, $lang = '') {
+    public function __construct($transcript, $timecodes, $index, $translate = false, $lang = '', $vtt = false) {
         $this->transcript = (string) $transcript;
         $this->index = $index;
         $this->chunks = $timecodes;
         $this->language = $lang;
-        $this->formatTranscript();
+        $vtt == true ? $this->formatTranscriptVtt() : $this->formatTranscript();
         $this->formatIndex($translate);
     }
 
@@ -42,7 +44,7 @@ class Transcript {
         $serverHttps = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTPS'])));
         $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTP_HOST'])));
         $serverRequestUri = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['REQUEST_URI'])));
-        
+
         if (!empty($this->index)) {
             if (count($this->index->point) == 0) {
                 $this->indexHTML = '';
@@ -195,6 +197,26 @@ POINT;
         }
     }
 
+    private function formatTranscriptVtt() {
+        $transcription = Transcription::load($this->transcript);
+        foreach ($transcription->lines() as $line) {
+            $search_field_pattern = "/<v(?: (.*?))?>|<v(?: (.*?))?>((?:.*?)<\/v>)/";
+            $html = '<span class="transcript-line"><p>';
+            $to_minutes = $line->timestamp->beginSeconds() / 60;
+            $display_time = $this->formatTimePoint($line->timestamp->beginSeconds());
+            $html .= "<a href=\"#\" data-timestamp=\"{$to_minutes}\" data-chunksize=\"1\" class=\"jumpLink nblu\">{$display_time}</a>";
+            if (preg_match($search_field_pattern, $line->body, $m)) {
+                $html .= "<span class=\"speaker\">{$m[1]}: </span>";
+            }
+            $body = preg_replace($search_field_pattern, '', $line->body);
+            $html .= $body;
+            $html .= "</p></span>";
+            $this->transcriptHTML .= $html;
+        }
+
+//        $this->transcriptHTML = $this->transcript;
+    }
+
     private function formatTranscript() {
         // iconv("UTF-8", "ASCII//IGNORE", $this->transcript);
         if (strtolower($this->language) == 'arabic')
@@ -234,7 +256,7 @@ POINT;
         $transcriptOnly = $transcript[0];
         $itlines = explode("\n", $transcript[0]);
         unset($transcript[0]);
-        
+
         foreach ($chunklines as $key => $chunkline) {
             $intervalChunksize = $key * $chunksize;
             $stamp = $intervalChunksize; // . ":00";
@@ -485,7 +507,6 @@ ANCHOR;
 
         return "{$hours}:{$minutes}:{$seconds}";
     }
-
 }
 
 /* Location: ./app/Ohms/Transcript.php */

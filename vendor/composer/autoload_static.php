@@ -11,6 +11,10 @@ class ComposerStaticInit9387792ad7c03b8c2bde1beda1e24982
         array (
             'Ohms\\' => 5,
         ),
+        'L' => 
+        array (
+            'Laracasts\\Transcriptions\\' => 25,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -18,14 +22,14 @@ class ComposerStaticInit9387792ad7c03b8c2bde1beda1e24982
         array (
             0 => __DIR__ . '/../..' . '/app/Ohms',
         ),
+        'Laracasts\\Transcriptions\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laracasts/transcriptions/src',
+        ),
     );
 
     public static $classMap = array (
-        'Ohms\\Interview' => __DIR__ . '/../..' . '/app/Ohms/Interview.php',
-        'Ohms\\Interview\\Legacy' => __DIR__ . '/../..' . '/app/Ohms/Interview/Legacy.php',
-        'Ohms\\Interview\\Version3' => __DIR__ . '/../..' . '/app/Ohms/Interview/Version3.php',
-        'Ohms\\Transcript' => __DIR__ . '/../..' . '/app/Ohms/Transcript.php',
-        'Ohms\\ViewerController' => __DIR__ . '/../..' . '/app/Ohms/ViewerController.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

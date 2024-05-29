@@ -665,7 +665,7 @@ input {
 
 #transcript-panel .jumpLink, #transcript-panel-alt .jumpLink {
     position: absolute;
-    left: 1px;
+    left: 5px;
     font-size: 10pt;
     color: #0000ff;
     text-decoration: none;

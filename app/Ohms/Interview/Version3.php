@@ -68,7 +68,9 @@ class Version3 {
             'user_notes' => (string) $ohfile->record->user_notes,
             'collection_link' => (string) $ohfile->record->collection_link,
             'transcript_alt_raw' => (string) $ohfile->record->transcript_alt,
-            'transcript_raw' => (string) $ohfile->record->transcript
+            'transcript_raw' => (string) $ohfile->record->transcript,
+            'vtt_transcript' => (string) $ohfile->record->vtt_transcript,
+            'vtt_transcript_alt' => (string) $ohfile->record->vtt_transcript_alt,
         );
 
         $collection_link = ($ohfile->record->collection_link != null) ? (string) $ohfile->record->collection_link : '';
@@ -93,11 +95,17 @@ class Version3 {
         if ($translate == 1) {
             $this->data['chunks'] = (string) $ohfile->record->sync_alt;
             $transcript = $ohfile->record->transcript_alt;
+            $transcript_vtt = $this->data['vtt_transcript_alt'];
         } else {
             $this->data['chunks'] = (string) $ohfile->record->sync;
             $transcript = $ohfile->record->transcript;
+            $transcript_vtt = $this->data['vtt_transcript'];
         }
-        $this->Transcript = new Transcript($transcript, $this->data['chunks'], $ohfile->record->index, $translate, $this->data['language']);
+        if (empty($transcript_vtt)) {
+            $this->Transcript = new Transcript($transcript, $this->data['chunks'], $ohfile->record->index, $translate, $this->data['language']);
+        } else {
+            $this->Transcript = new Transcript($transcript_vtt, '', $ohfile->record->index, $translate, $this->data['language'], true);
+        }
         $this->data['transcript'] = $this->Transcript->getTranscriptHTML();
         $this->data['index'] = $this->Transcript->getIndexHTML();
         $this->data['index_points'] = $ohfile->record->index;
@@ -199,7 +207,6 @@ class Version3 {
     private function graylink($label, $href) {
         return "<a href=\"{$href}\" target=\"_new\" class=\"graylink\">{$label}</a>";
     }
-
 }
 
 /* Location: ./app/Ohms/Interview/Version3.php */

@@ -65,7 +65,7 @@ endif;
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <title><?php echo $interview->title; ?></title>
-    <link rel="stylesheet" href="css/viewer.css?v1.4.6" type="text/css"/>
+    <link rel="stylesheet" href="css/viewer.css?v1.4.9" type="text/css"/>
     <?php if (isset($extraCss)) { ?>
         <link rel="stylesheet" href="css/<?php echo $extraCss ?>" type="text/css"/>
     <?php }
