@@ -10,7 +10,11 @@ if (strpos($filepath, 'http://') !== false || strpos($filepath, 'https://') !== 
 
 $validClipFormats = array('audio', 'audiotrans', 'video');
 $clipFormat = $interview->clip_format;
-$mediaFormat = (strtolower($interview->clipsource) == "aviary")? $interview->aviaryMediaFormat :substr($linkToMedia, -3, 3);
+if (strtolower($interview->clipsource) == "aviary")
+    $mediaFormat = $clipFormat == 'video' ? 'm4v' : 'mp3';
+else
+   $mediaFormat =  substr($linkToMedia, -3, 3);
+
 
 $class = 'jp-video jp-video-270p';
 $customWidth = '';
