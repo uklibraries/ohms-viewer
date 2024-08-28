@@ -15,9 +15,13 @@ class Utils {
      * @return string
      */
     public static function getAviaryUrl($embed) {
-
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $embed);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
         // Create DOM from URL or file
-        $content = file_get_html($embed);
+        $content = str_get_html($response);
         $mediaURL = "";
         if ($content != "") {
 
