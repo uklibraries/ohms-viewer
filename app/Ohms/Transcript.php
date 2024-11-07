@@ -199,6 +199,7 @@ POINT;
 
     private function formatTranscriptVtt() {
         $transcription = Transcription::load($this->transcript);
+        $foot_notes_text = '';
         foreach ($transcription->lines() as $line) {
             $search_field_pattern = "/<v(?: (.*?))?>|<v(?: (.*?))?>((?:.*?)<\/v>)/";
             $html = '<span class="transcript-line"><p>';
@@ -208,13 +209,30 @@ POINT;
             if (preg_match($search_field_pattern, $line->body, $m)) {
                 $html .= "<span class=\"speaker\">{$m[1]}: </span>";
             }
-            $body = preg_replace($search_field_pattern, '', $line->body);
+            $body = $line->body;
+            if (str_contains($body, 'NOTE TRANSCRIPTION END')) {
+                $last_point = explode('NOTE TRANSCRIPTION END NOTE ANNOTATIONS BEGIN NOTE', $body);
+                $body = $last_point[0];
+                $foot_notes_text = str_replace('NOTE ANNOTATIONS END', '', $last_point[1]);
+            }
+
+            $body = preg_replace($search_field_pattern, '', $body);
+            $body = preg_replace(
+                    '/<c\.(\d+)>(.*?)<\/c>/', '$2<span class="footnote-ref"><a name="sup$1"></a><a href="#footnote$1" data-index="footnote$1" id="footnote_$1" class="footnoteLink footnoteTooltip nblu bbold">[$1]</a><span></span></span>', $body
+            );
             $html .= $body;
             $html .= "</p></span>";
             $this->transcriptHTML .= $html;
         }
-
-//        $this->transcriptHTML = $this->transcript;
+        if (!empty($foot_notes_text)) {
+            $foot_notes = '<div class="footnotes-container"><div class="label-ft">NOTES</div>';
+            $pattern = '/<annotation ref="(\d+)">(.*?)<\/annotation>/';
+            $replacement = '<div><a name="footnote$1" id="footnote$1"></a>
+                    <a class="footnoteLink nblu" href="#sup$1">$1.</a> <span class="content">$2<p></p><p></p></span></div>';
+            $foot_notes .= preg_replace($pattern, $replacement, $foot_notes_text);
+            $foot_notes .= '</div>';
+            $this->transcriptHTML .= $foot_notes;
+        }
     }
 
     private function formatTranscript() {
