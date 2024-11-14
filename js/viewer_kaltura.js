@@ -29,10 +29,10 @@ jQuery(function ($) {
         } else {
             re = /&time=(.*)/g;
             let time = 0;
-            if (typeof parent.kdp !== 'undefined') {
-                time = parent.kdp.evaluate('{video.player.currentTime}');
+            if (typeof kdp !== 'undefined') {
+                time = kdp.evaluate('{video.player.currentTime}');
             } else {
-                time = parent.kalturaPlayer.currentTime;
+                time = kalturaPlayer.currentTime;
             }
             location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(time) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
         }
