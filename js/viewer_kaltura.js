@@ -19,18 +19,36 @@ jQuery(function ($) {
         }
         if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
             re = /&translate=(.*)/g;
-            location.href = location.href.replace(re, '') + '&time=' + Math.floor(kdp.evaluate('{video.player.currentTime}')) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            let time = 0;
+            if (typeof kdp !== 'undefined') {
+                time = kdp.evaluate('{video.player.currentTime}');
+            } else {
+                time = kalturaPlayer.currentTime;
+            }
+            location.href = location.href.replace(re, '') + '&time=' + Math.floor(time) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
         } else {
             re = /&time=(.*)/g;
-            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(parent.kdp.evaluate('{video.player.currentTime}')) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
+            let time = 0;
+            if (typeof parent.kdp !== 'undefined') {
+                time = parent.kdp.evaluate('{video.player.currentTime}');
+            } else {
+                time = parent.kalturaPlayer.currentTime;
+            }
+            location.href = location.href.replace(re, '') + '&translate=1&time=' + Math.floor(time) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
         }
     });
 
     $('body').on('click', 'a.jumpLink', function (e) {
         e.preventDefault();
         var target = $(e.target);
-        kdp.sendNotification("doPlay");
-        kdp.sendNotification("doSeek", target.data('timestamp') * 60);
+        if (typeof kdp !== 'undefined') {
+            kdp.sendNotification("doPlay");
+            kdp.sendNotification("doSeek", target.data('timestamp') * 60);
+        } else {
+            kalturaPlayer.currentTime = target.data('timestamp') * 60;
+            kalturaPlayer.play();
+        }
+
     });
     $('body').on('click', 'a.indexJumpLink', function (e) {
         e.preventDefault();
@@ -41,9 +59,14 @@ jQuery(function ($) {
         } catch (e) {
             endAt = null;
         }
-        kdp.sendNotification("doPlay");
-        kdp.sendNotification("doSeek", target.data('timestamp'));
-        $('body').animate({scrollTop : 0},800);
+        if (typeof kdp !== 'undefined') {
+            kdp.sendNotification("doPlay");
+            kdp.sendNotification("doSeek", target.data('timestamp'));
+        } else {
+            kalturaPlayer.currentTime = target.data('timestamp');
+            kalturaPlayer.play();
+        }
+        $('body').animate({scrollTop: 0}, 800);
     });
 
 
