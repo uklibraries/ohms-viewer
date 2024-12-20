@@ -201,10 +201,12 @@ POINT;
         $transcription = Transcription::load($this->transcript);
         $foot_notes_text = '';
         foreach ($transcription->lines() as $line) {
+            $time_data = $this->split_and_convert_time($line->timestamp->__toString());
+
             $search_field_pattern = "/<v(?: (.*?))?>|<v(?: (.*?))?>((?:.*?)<\/v>)/";
             $html = '<span class="transcript-line"><p>';
-            $to_minutes = $line->timestamp->beginSeconds() / 60;
-            $display_time = $this->formatTimePoint($line->timestamp->beginSeconds());
+            $to_minutes = $time_data['start_time_seconds'] / 60;
+            $display_time = $this->formatTimePoint($time_data['start_time_seconds']);
             $html .= "<a href=\"#\" data-timestamp=\"{$to_minutes}\" data-chunksize=\"1\" class=\"jumpLink nblu\">{$display_time}</a>";
             if (preg_match($search_field_pattern, $line->body, $m)) {
                 $html .= "<span class=\"speaker\">{$m[1]}: </span>";
@@ -224,6 +226,7 @@ POINT;
             $html .= "</p></span>";
             $this->transcriptHTML .= $html;
         }
+
         if (!empty($foot_notes_text)) {
             $foot_notes = '<div class="footnotes-container"><div class="label-ft">NOTES</div>';
             $pattern = '/<annotation ref="(\d+)">(.*?)<\/annotation>/';
@@ -524,6 +527,22 @@ ANCHOR;
         $seconds = str_pad($seconds, 2, '0', STR_PAD_LEFT);
 
         return "{$hours}:{$minutes}:{$seconds}";
+    }
+
+    private function split_and_convert_time($time_str) {
+        // Split the input string into start and end times
+        list($start_time, $end_time) = explode(" --> ", $time_str);
+
+        // Convert start time to seconds
+        list($hours, $minutes, $seconds_ms) = explode(":", $start_time);
+        list($seconds, $milliseconds) = explode(".", $seconds_ms);
+        $start_time_seconds = ($hours * 3600) + ($minutes * 60) + intval($seconds); //+ (intval($milliseconds) / 1000);
+
+        return array(
+            "start_time" => $start_time,
+            "end_time" => $end_time,
+            "start_time_seconds" => $start_time_seconds
+        );
     }
 }
 
