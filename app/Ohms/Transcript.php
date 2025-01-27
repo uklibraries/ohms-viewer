@@ -12,12 +12,14 @@ class Transcript {
     private $index;
     private $indexHTML;
     private $language;
+    private $vtt;
 
     public function __construct($transcript, $timecodes, $index, $translate = false, $lang = '', $vtt = false) {
         $this->transcript = (string) $transcript;
         $this->index = $index;
         $this->chunks = $timecodes;
         $this->language = $lang;
+        $this->vtt = $vtt;
         $vtt == true ? $this->formatTranscriptVtt() : $this->formatTranscript();
         $this->formatIndex($translate);
     }
@@ -200,9 +202,10 @@ POINT;
     private function formatTranscriptVtt() {
         $transcription = Transcription::load($this->transcript);
         $foot_notes_text = '';
+        $line_key = 0;
         foreach ($transcription->lines() as $line) {
+            $line_key += 1;
             $time_data = $this->split_and_convert_time($line->timestamp->__toString());
-
             $search_field_pattern = "/<v(?: (.*?))?>|<v(?: (.*?))?>((?:.*?)<\/v>)/";
             $html = '<span class="transcript-line"><p>';
             $to_minutes = $time_data['start_time_seconds'] / 60;
@@ -211,6 +214,7 @@ POINT;
             if (preg_match($search_field_pattern, $line->body, $m)) {
                 $html .= "<span class=\"speaker\">{$m[1]}: </span>";
             }
+
             $body = $line->body;
             if (str_contains($body, 'NOTE TRANSCRIPTION END')) {
                 $last_point = explode('NOTE TRANSCRIPTION END NOTE ANNOTATIONS BEGIN NOTE', $body);
@@ -222,7 +226,8 @@ POINT;
             $body = preg_replace(
                     '/<c\.(\d+)>(.*?)<\/c>/', '$2<span class="footnote-ref"><a name="sup$1"></a><a href="#footnote$1" data-index="footnote$1" id="footnote_$1" class="footnoteLink footnoteTooltip nblu bbold">[$1]</a><span></span></span>', $body
             );
-            $html .= $body;
+            $html .= "<span id='line_{$line_key}'>{$body}</span>";
+
             $html .= "</p></span>";
             $this->transcriptHTML .= $html;
         }
@@ -232,7 +237,30 @@ POINT;
             $pattern = '/<annotation ref="(\d+)">(.*?)<\/annotation>/';
             $replacement = '<div><a name="footnote$1" id="footnote$1"></a>
                     <a class="footnoteLink nblu" href="#sup$1">$1.</a> <span class="content">$2<p></p><p></p></span></div>';
-            $foot_notes .= preg_replace($pattern, $replacement, $foot_notes_text);
+
+            $foot_notes .= preg_replace_callback(
+                    $pattern,
+                    function ($matches) use (&$line_key) {
+
+                        $footnote_number = $matches[1];
+                        $line_number = $line_key; // Increment the captured number
+                        $line_key += 1;
+                        $pattern = '/(.*?)\[\[link\]\](.*?)\[\[\/link\]\]/';
+                        if (preg_match($pattern, $matches[2], $matches1)) {
+                            $output = '<a href="' . $matches1[2] . '">' . $matches1[1] . '</a>';
+                        } else {
+                            $output = $matches[2];
+                        }
+
+
+                        return '<div><a name="footnote' . $footnote_number . '" id="footnote' . $footnote_number . '"></a> 
+                <a class="footnoteLink nblu" href="#sup' . $footnote_number . '">' . $footnote_number . '.</a> 
+                <span class="content" id="line_' . $line_key . '">' . $output . '<p></p><p></p></span></div>';
+                    },
+                    $foot_notes_text
+            );
+
+//            $foot_notes .= preg_replace($pattern, $replacement, $foot_notes_text);
             $foot_notes .= '</div>';
             $this->transcriptHTML .= $foot_notes;
         }
@@ -426,58 +454,102 @@ ANCHOR;
     }
 
     public function keywordSearch($keyword) {
+
+
         # quote kw for later
         $q_kw = $this->quoteWords($keyword);
-        $json = "{ \"keyword\":\"$q_kw\", \"matches\":[";
 
-        //Actual search
-        $lines = explode("\n", $this->transcript);
-
-        $startedFootNotes = 0;
-        $startedFootNotesCount = 0;
-
-        foreach ($lines as $lineNum => $line) {
-            if (trim($line) == "[[footnotes]]") {
-                $startedFootNotes = 1;
-            }
-            if ($startedFootNotes) {
-                if ($startedFootNotesCount > 0 && (trim($line) == "[[footnotes]]" || trim($line) == "[[/footnotes]]" || trim($line) == "" || strpos($line, "[[note]]") === false)) {
-                    unset($lines[$lineNum]);
+        if ($this->vtt) {
+            $foot_notes_text = '';
+            $json = array('keyword' => $q_kw, 'matches' => []);
+            $transcription = Transcription::load($this->transcript);
+            $line_key = 0;
+            foreach ($transcription->lines() as $line) {
+                $line_key += 1;
+                $body = $line->body;
+                if (str_contains($body, 'NOTE TRANSCRIPTION END')) {
+                    $last_point = explode('NOTE TRANSCRIPTION END NOTE ANNOTATIONS BEGIN NOTE', $body);
+                    $body = $last_point[0];
+                    $foot_notes_text = str_replace('NOTE ANNOTATIONS END', '', $last_point[1]);
                 }
-                $startedFootNotesCount++;
-            }
-        }
 
-        $lines = array_values($lines);
-        $totalLines = sizeof($lines);
 
-        foreach ($lines as $lineNum => $line) {
-            preg_match_all('/\[\[footnote\]\](.*?)\[\[\/footnote\]\]/', $line, $footnoteMatches);
-            $lineMatched = preg_replace('/\[\[footnote\]\](.*?)\[\[\/footnote\]\]/', "", $line);
-            if (isset($footnoteMatches[0]) && !empty($footnoteMatches)) {
-                $line = $lineMatched;
-            }
-            preg_match_all('/\[\[link\]\](.*?)\[\[\/link\]\]/', $line, $linkMatches);
-            $linkMatched = preg_replace('/\[\[link\]\](.*?)\[\[\/link\]\]/', "", $line);
-            if (isset($linkMatches[0]) && !empty($linkMatches)) {
-                $line = $linkMatched;
-            }
+                if (preg_match("/{$this->fixAccents($keyword)}/i", $this->fixAccents($body), $matches)) {
 
-            $line = str_replace(array("[[/link]]", "[[link]]", "[[/note]]", "[[note]]", "[[footnotes]]"), " ", $line);
+                    $shortline = $this->formatShortline($body, $keyword);
 
-            if (preg_match("/{$this->fixAccents($keyword)}/i", $this->fixAccents($line), $matches)) {
-
-                $shortline = $this->formatShortline($line, $keyword);
-
-                if (strstr($json, 'shortline')) {
-                    $json .= ',';
+                    $json['matches'][] = array('shortline' => $shortline, 'linenum' => $line_key);
                 }
-                $shortline = str_replace(array("[[footnote]]", "[[/footnote]]", "[[note]]", "[[footnotes]]", "[[/footnotes]]", "[[/note]]", "[[link]]", "[[/link]]"), " ", $shortline);
-                $json .= "{ \"shortline\" : \"$shortline\", \"linenum\": $lineNum }";
             }
-        }
+            if (!empty($foot_notes_text)) {
 
-        return str_replace("\0", "", $json) . ']}';
+                $pattern = '/<annotation ref="\d+">(.*?)<\/annotation>/';
+                preg_match_all($pattern, $foot_notes_text, $matches);
+                $extracted_text = $matches[1];
+                foreach ($extracted_text as $line) {
+                    $line_key += 1;
+                    if (preg_match("/{$this->fixAccents($keyword)}/i", $this->fixAccents($line), $matches)) {
+
+                        $shortline = $this->formatShortline($line, $keyword);
+
+                        $json['matches'][] = array('shortline' => $shortline, 'linenum' => $line_key);
+                    }
+                }
+            }
+
+            return json_encode($json);
+        } else {
+            $json = "{ \"keyword\":\"$q_kw\", \"matches\":[";
+
+            //Actual search
+            $lines = explode("\n", $this->transcript);
+
+            $startedFootNotes = 0;
+            $startedFootNotesCount = 0;
+
+            foreach ($lines as $lineNum => $line) {
+                if (trim($line) == "[[footnotes]]") {
+                    $startedFootNotes = 1;
+                }
+                if ($startedFootNotes) {
+                    if ($startedFootNotesCount > 0 && (trim($line) == "[[footnotes]]" || trim($line) == "[[/footnotes]]" || trim($line) == "" || strpos($line, "[[note]]") === false)) {
+                        unset($lines[$lineNum]);
+                    }
+                    $startedFootNotesCount++;
+                }
+            }
+
+            $lines = array_values($lines);
+            $totalLines = sizeof($lines);
+
+            foreach ($lines as $lineNum => $line) {
+                preg_match_all('/\[\[footnote\]\](.*?)\[\[\/footnote\]\]/', $line, $footnoteMatches);
+                $lineMatched = preg_replace('/\[\[footnote\]\](.*?)\[\[\/footnote\]\]/', "", $line);
+                if (isset($footnoteMatches[0]) && !empty($footnoteMatches)) {
+                    $line = $lineMatched;
+                }
+                preg_match_all('/\[\[link\]\](.*?)\[\[\/link\]\]/', $line, $linkMatches);
+                $linkMatched = preg_replace('/\[\[link\]\](.*?)\[\[\/link\]\]/', "", $line);
+                if (isset($linkMatches[0]) && !empty($linkMatches)) {
+                    $line = $linkMatched;
+                }
+
+                $line = str_replace(array("[[/link]]", "[[link]]", "[[/note]]", "[[note]]", "[[footnotes]]"), " ", $line);
+
+                if (preg_match("/{$this->fixAccents($keyword)}/i", $this->fixAccents($line), $matches)) {
+
+                    $shortline = $this->formatShortline($line, $keyword);
+
+                    if (strstr($json, 'shortline')) {
+                        $json .= ',';
+                    }
+                    $shortline = str_replace(array("[[footnote]]", "[[/footnote]]", "[[note]]", "[[footnotes]]", "[[/footnotes]]", "[[/note]]", "[[link]]", "[[/link]]"), " ", $shortline);
+                    $json .= "{ \"shortline\" : \"$shortline\", \"linenum\": $lineNum }";
+                }
+            }
+
+            return str_replace("\0", "", $json) . ']}';
+        }
     }
 
     public function indexSearch($keyword, $translate) {
