@@ -11,6 +11,7 @@
 namespace Ohms;
 
 use TCPDF;
+use Laracasts\Transcriptions\Transcription;
 
 // Extend the TCPDF class to create custom Header and Footer
 class MYPDF extends TCPDF {
@@ -62,7 +63,6 @@ EOD;
         }
         $this->writeHTML($transcriptHtml, true, false, true, false, '');
     }
-
 }
 
 class CustomPdf {
@@ -226,27 +226,14 @@ EOD;
         /**
          * Transcript.
          */
-        $sections = explode("\n", (($translate == 1) ? $cacheFile->transcript_alt_raw : $cacheFile->transcript_raw));
-        $syncPoints = $cacheFile->chunks;
+//        vtt_transcript vtt_transcript_alt
 
-        $serverQueryString = $_SERVER['QUERY_STRING'];
-        $serverHttps = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTPS'])));
-        $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTP_HOST'])));
-        $serverPhpSelf = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['PHP_SELF'])));
+        $isVtt = ($translate == 1) ? $cacheFile->vtt_transcript_alt : $cacheFile->vtt_transcript;
 
-        parse_str($serverQueryString, $params);
-        $url = ($serverHttps == 'on' ? 'https' : 'http') . '://' . $serverHttpHost . $serverPhpSelf . "?cachefile={$params['cachefile']}";
-
-        if (isset($sections) && count($sections) > 0) {
-
-            $formattedTranscriptHtml = self::getFormattedTranscript($sections, $syncPoints, $url);
-
+        if (!empty($isVtt)):
+            $section = ($translate == 1) ? $cacheFile->vtt_transcript_alt : $cacheFile->vtt_transcript;
+            $formattedTranscriptHtml = self::formatTranscriptVtt($section);
             $pdf->AddPage();
-
-            $transcriptHtml1 = <<<EOD
-               href="$url"
-EOD;
-            $formattedTranscriptHtml = str_replace("id='replaceStamp'", $transcriptHtml1, $formattedTranscriptHtml);
 
             $transcriptHtml = <<<EOD
                 $spacer15
@@ -256,7 +243,41 @@ EOD;
                     </div>
 EOD;
             $pdf->writeHTMLCell(0, 0, '', '', $transcriptHtml, 0, 1, 0, true, '', true);
-        }
+
+        else:
+            $sections = explode("\n", (($translate == 1) ? $cacheFile->transcript_alt_raw : $cacheFile->transcript_raw));
+            $syncPoints = $cacheFile->chunks;
+
+            $serverQueryString = $_SERVER['QUERY_STRING'];
+            $serverHttps = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTPS'])));
+            $serverHttpHost = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['HTTP_HOST'])));
+            $serverPhpSelf = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_ENCODED, array('options' => array('default' => $_SERVER['PHP_SELF'])));
+
+            parse_str($serverQueryString, $params);
+            $url = ($serverHttps == 'on' ? 'https' : 'http') . '://' . $serverHttpHost . $serverPhpSelf . "?cachefile={$params['cachefile']}";
+
+            if (isset($sections) && count($sections) > 0) {
+
+                $formattedTranscriptHtml = self::getFormattedTranscript($sections, $syncPoints, $url);
+
+                $pdf->AddPage();
+
+                $transcriptHtml1 = <<<EOD
+               href="$url"
+EOD;
+                $formattedTranscriptHtml = str_replace("id='replaceStamp'", $transcriptHtml1, $formattedTranscriptHtml);
+
+                $transcriptHtml = <<<EOD
+                $spacer15
+                <div style="font-size:12px; font-weight:bold; text-align:center;">TRANSCRIPT</div>
+                    <div style="font-size:10;">
+                $formattedTranscriptHtml
+                    </div>
+EOD;
+                $pdf->writeHTMLCell(0, 0, '', '', $transcriptHtml, 0, 1, 0, true, '', true);
+            }
+        endif;
+
         $cwdir = getcwd() . '/pdfs/';
         if (!is_dir($cwdir)) {
             @mkdir($cwdir);
@@ -472,6 +493,73 @@ EOD;
         return $formattedTranscriptHtml;
     }
 
+    private static function formatTranscriptVtt($transcript) {
+        $transcription = Transcription::load($transcript);
+        $foot_notes_text = '';
+        $line_key = 0;
+        $html = '';
+        foreach ($transcription->lines() as $line) {
+            $line_key += 1;
+            $time_data = Utils::splitAndConvertTime($line->timestamp->__toString());
+            $search_field_pattern = "/<v(?: (.*?))?>|<v(?: (.*?))?>((?:.*?)<\/v>)/";
+            $html .= '<span class="transcript-line"><p>';
+            $to_minutes = $time_data['start_time_seconds'] / 60;
+            $display_time = Utils::formatTimePoint($time_data['start_time_seconds']);
+            $html .= "<a href=\"#\" data-timestamp=\"{$to_minutes}\" data-chunksize=\"1\" class=\"jumpLink nblu\">{$display_time}</a>";
+            if (preg_match($search_field_pattern, $line->body, $m)) {
+                $html .= "<span class=\"speaker\"> {$m[1]}: </span>";
+            }
+
+            $body = $line->body;
+            if (str_contains($body, 'NOTE TRANSCRIPTION END')) {
+                $last_point = explode('NOTE TRANSCRIPTION END NOTE ANNOTATIONS BEGIN NOTE', $body);
+                $body = $last_point[0];
+                $foot_notes_text = str_replace('NOTE ANNOTATIONS END', '', $last_point[1]);
+            }
+
+            $body = preg_replace($search_field_pattern, '', $body);
+            $body = preg_replace(
+                    '/<c\.(\d+)>(.*?)<\/c>/', '$2<span class="footnote-ref"><a name="sup$1"></a><a href="#footnote$1" data-index="footnote$1" id="footnote_$1" class="footnoteLink footnoteTooltip nblu bbold">[$1]</a><span></span></span>', $body
+            );
+            $html .= "<span id='line_{$line_key}'>{$body}</span>";
+
+            $html .= "</p></span>";
+        }
+
+        if (!empty($foot_notes_text)) {
+            $foot_notes = '<div class="footnotes-container"><div class="label-ft">NOTES</div>';
+            $pattern = '/<annotation ref="(\d+)">(.*?)<\/annotation>/';
+            $replacement = '<div><a name="footnote$1" id="footnote$1"></a>
+                    <a class="footnoteLink nblu" href="#sup$1">$1.</a> <span class="content">$2<p></p><p></p></span></div>';
+
+            $foot_notes .= preg_replace_callback(
+                    $pattern,
+                    function ($matches) use (&$line_key) {
+
+                        $footnote_number = $matches[1];
+                        $line_number = $line_key; // Increment the captured number
+                        $line_key += 1;
+                        $pattern = '/(.*?)\[\[link\]\](.*?)\[\[\/link\]\]/';
+                        if (preg_match($pattern, $matches[2], $matches1)) {
+                            $output = '<a href="' . $matches1[2] . '">' . $matches1[1] . '</a>';
+                        } else {
+                            $output = $matches[2];
+                        }
+
+
+                        return '<div><a name="footnote' . $footnote_number . '" id="footnote' . $footnote_number . '"></a> 
+                <a class="footnoteLink nblu" href="#sup' . $footnote_number . '">' . $footnote_number . '.</a> 
+                <span class="content" id="line_' . $line_key . '">' . $output . '<p></p><p></p></span></div>';
+                    },
+                    $foot_notes_text
+            );
+
+//            $foot_notes .= preg_replace($pattern, $replacement, $foot_notes_text);
+            $foot_notes .= '</div>';
+            $html .= $foot_notes;
+        }
+        return $html;
+    }
 }
 
 /* Location: ./app/Ohms/CustomPdf.php */
