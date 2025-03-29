@@ -6,6 +6,7 @@ $UICONF_ID = $interview->player_id;
 $embedcode = html_entity_decode($interview->kembed);
 $height = ($interview->clip_format == 'audio' ? 95 : 279);
 if (str_contains($embedcode, 'embedPlaykitJs')) { // new kaltura embed code found
+    $height = ($interview->clip_format == 'audio' ? 140 : 279);
     include_once 'tmpl/player_' . $interview->playername . '_v2.tmpl.php';
 } else { // old kaltura embed code found
     $matches = array();
