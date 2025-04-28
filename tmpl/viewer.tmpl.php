@@ -287,7 +287,7 @@ endif;
     <script src="js/jquery.jplayer.min.js"></script>
     <script src="js/jquery.easing.1.4.js"></script>
     <script src="js/jquery.scrollTo-min.js"></script>
-    <script src="js/viewer_<?php echo $interview->viewerjs; ?>.js?v=0.9"></script>
+    <script src="js/viewer_<?php echo $interview->viewerjs; ?>.js?v=0.10"></script>
     <link rel="stylesheet" href="js/fancybox_2_1_5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>
     <link rel="stylesheet" href="skin/skin-dark/jplayer.dark.css" type="text/css" media="screen"/>
     <script src="js/fancybox_2_1_5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
