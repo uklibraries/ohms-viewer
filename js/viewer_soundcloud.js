@@ -17,7 +17,7 @@ jQuery(function ($) {
         urlIndexPiece = '&index=' + activeIndexPanel;
       }
     }
-    parent.widget.getPosition(function (pos) {
+    widget.getPosition(function (pos) {
       if ($('#translate-link').attr('data-lang') == $('#translate-link').attr('data-linkto')) {
         re = /&translate=(.*)/g;
         location.href = location.href.replace(re, '') + '&time=' + Math.floor(pos / 1000) + toggleAvailability + '&panel=' + $('#search-type').val() + urlIndexPiece;
