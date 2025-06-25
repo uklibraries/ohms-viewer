@@ -218,8 +218,8 @@ POINT;
             $body = $line->body;
             if (str_contains($body, 'NOTE TRANSCRIPTION END')) {
                 $last_point = explode('NOTE TRANSCRIPTION END NOTE ANNOTATIONS BEGIN NOTE', $body);
-                $body = $last_point[0];
-                $foot_notes_text = str_replace('NOTE ANNOTATIONS END', '', $last_point[1]);
+                $body = str_replace('NOTE TRANSCRIPTION END', '', $last_point[0]);
+                $foot_notes_text = @str_replace('NOTE ANNOTATIONS END', '', $last_point[1]);
             }
 
             $body = preg_replace($search_field_pattern, '', $body);

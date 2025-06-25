@@ -80,19 +80,33 @@ class CustomPdf {
      */
     public static function __prepare($cacheFile, $config, $translate) {
 
-        $repository = $cacheFile->repository;
+
+
+        if (isset($config[$cacheFile->repository])) {
+            $repoConfig = $config[$cacheFile->repository];
+        } else {
+            // Fallback: Find the first nested array
+            foreach ($config as $key => $value) {
+                if (is_array($value)) {
+                    $repoConfig = $value;
+                    break;
+                }
+            }
+        }
+
+
         $copyRights = "";
         $tmpDir = $config['tmpDir'];
-        if (isset($config[$repository]['copyrightholder']) && !empty($config[$repository]['copyrightholder'])) {
-            $copyRights = "© " . $config[$repository]['copyrightholder'];
+        if (isset($repoConfig['copyrightholder']) && !empty($repoConfig['copyrightholder'])) {
+            $copyRights = "© " . $repoConfig['copyrightholder'];
         }
         $contactEmail = "";
-        if (isset($config[$repository]['contactemail']) && !empty($config[$repository]['contactemail'])) {
-            $contactEmail = '<a style="font-size:10px;" href="mailto:' . $config[$repository]['contactemail'] . '"><b>' . $config[$repository]['contactemail'] . '</b></a>';
+        if (isset($repoConfig['contactemail']) && !empty($repoConfig['contactemail'])) {
+            $contactEmail = '<a style="font-size:10px;" href="mailto:' . $repoConfig['contactemail'] . '"><b>' . $repoConfig['contactemail'] . '</b></a>';
         }
         $contactLink = "";
-        if (isset($config[$repository]['contactlink']) && !empty($config[$repository]['contactlink'])) {
-            $contactLink = '<a style="font-size:10px;" href="' . $config[$repository]['contactlink'] . '"><b>' . $config[$repository]['contactlink'] . '</b></a>';
+        if (isset($repoConfig['contactlink']) && !empty($repoConfig['contactlink'])) {
+            $contactLink = '<a style="font-size:10px;" href="' . $repoConfig['contactlink'] . '"><b>' . $repoConfig['contactlink'] . '</b></a>';
         }
 
 
