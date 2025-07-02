@@ -127,11 +127,11 @@ jQuery(document).ready(function ($) {
 
         var to_print = '';
         if ($('#toggle_switch').is(":checked")) {
-            to_print = 'index'
+            to_print = 'index';
         }
 
         if (!$('#toggle_switch').is(":checked")) {
-            to_print = 'transcript'
+            to_print = 'transcript';
         }
         if (to_print === "index") {
             $('.ui-accordion-content').show();

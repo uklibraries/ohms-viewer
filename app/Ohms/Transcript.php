@@ -199,17 +199,45 @@ POINT;
         }
     }
 
+    private function mapIndexSegmentWithTranscript($time_data, $counter) {
+        $markerHtml = '';
+        foreach ($this->index->point as $singlePoint) {
+            $time = (int) $singlePoint->time;
+            if ($time >= $time_data['start_time_seconds'] && $time < $time_data['end_time_seconds']) {
+                $display_time = $this->formatTimePoint($time);
+                $indexMarkerTitle = (string) $singlePoint->title;
+                // Generate marker HTML
+                $markerHtml = sprintf(
+                        '<span id="info_trans_%s" data-time-point="%s" data-marker-counter="%d" data-marker-id="%s" data-index-title="%s" onclick="toggleRedirectTranscriptIndex(%s, \'transcript-to-index\');" class="alpha-circle info-circle"></span>',
+                        $time,
+                        $display_time,
+                        $counter,
+                        $time,
+                        htmlspecialchars($indexMarkerTitle, ENT_QUOTES),
+                        $counter
+                );
+                $counter++;
+                break;
+            }
+        }
+        return [$markerHtml, $counter];
+    }
+
     private function formatTranscriptVtt() {
         $transcription = Transcription::load($this->transcript);
         $foot_notes_text = '';
         $line_key = 0;
+        $counter = 0;
         foreach ($transcription->lines() as $line) {
             $line_key += 1;
             $time_data = $this->split_and_convert_time($line->timestamp->__toString());
             $search_field_pattern = "/<v(?: (.*?))?>|<v(?: (.*?))?>((?:.*?)<\/v>)/";
-            $html = '<span class="transcript-line"><p>';
+
+            [$markerHtml, $counter] = $this->mapIndexSegmentWithTranscript($time_data, $counter);
             $to_minutes = $time_data['start_time_seconds'] / 60;
             $display_time = $this->formatTimePoint($time_data['start_time_seconds']);
+
+            $html = $markerHtml . '<span class="transcript-line"><p>';
             $html .= "<a href=\"#\" data-timestamp=\"{$to_minutes}\" data-chunksize=\"1\" class=\"jumpLink nblu\">{$display_time}</a>";
             if (preg_match($search_field_pattern, $line->body, $m)) {
                 $html .= "<span class=\"speaker\">{$m[1]}: </span>";
@@ -602,19 +630,30 @@ ANCHOR;
     }
 
     private function split_and_convert_time($time_str) {
-        // Split the input string into start and end times
+        // Ensure input contains the expected delimiter
+        if (strpos($time_str, ' --> ') === false) {
+            throw new InvalidArgumentException("Invalid time string format.");
+        }
+
         list($start_time, $end_time) = explode(" --> ", $time_str);
 
-        // Convert start time to seconds
-        list($hours, $minutes, $seconds_ms) = explode(":", $start_time);
-        list($seconds, $milliseconds) = explode(".", $seconds_ms);
-        $start_time_seconds = ($hours * 3600) + ($minutes * 60) + intval($seconds); //+ (intval($milliseconds) / 1000);
+        // Convert start time to seconds (with milliseconds)
+        list($start_hours, $start_minutes, $start_seconds_ms) = explode(":", $start_time);
+        list($start_seconds, $start_milliseconds) = explode(".", $start_seconds_ms);
 
-        return array(
+        $start_time_seconds = ((int) $start_hours * 3600) + ((int) $start_minutes * 60) + (int) $start_seconds; // + ((int)$start_milliseconds / 1000);
+        // Convert end time to seconds (with milliseconds)
+        list($end_hours, $end_minutes, $end_seconds_ms) = explode(":", $end_time);
+        list($end_seconds, $end_milliseconds) = explode(".", $end_seconds_ms);
+
+        $end_time_seconds = ((int) $end_hours * 3600) + ((int) $end_minutes * 60) + (int) $end_seconds; // + ((int)$end_milliseconds / 1000);
+
+        return [
             "start_time" => $start_time,
             "end_time" => $end_time,
-            "start_time_seconds" => $start_time_seconds
-        );
+            "start_time_seconds" => $start_time_seconds,
+            "end_time_seconds" => $end_time_seconds,
+        ];
     }
 }
 

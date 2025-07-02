@@ -75,7 +75,7 @@ endif;
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
         <title><?php echo $interview->title; ?></title>
         <link rel="stylesheet" href="css/viewer.css?v1.4.9" type="text/css"/>
-<?php if (isset($extraCss)) { ?>
+        <?php if (isset($extraCss)) { ?>
             <link rel="stylesheet" href="css/<?php echo $extraCss ?>" type="text/css"/>
         <?php }
         ?>
@@ -93,7 +93,7 @@ endif;
         <script src="js/jquery.simplePagination.js"></script>
         <meta property="og:title" content="<?php echo $interview->title; ?>"/>
         <meta property="og:url" content="<?php echo $baseurl ?>">
-<?php if (isset($openGraphImage)) { ?>
+        <?php if (isset($openGraphImage)) { ?>
             <meta property="og:image" content="<?php echo "$site_url/$openGraphImage" ?>">
         <?php }
         ?>
@@ -113,7 +113,7 @@ endif;
 
                 gtag('config', '<?php echo $repoConfig['ga_tracking_id']; ?>');
             </script>
-<?php } ?>
+        <?php } ?>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     </head>
     <body>
@@ -130,22 +130,22 @@ endif;
                 }
             }
         </script>
-<?php if (in_array($mediaFormat, $audioFormats)) { ?> 
+        <?php if (in_array($mediaFormat, $audioFormats)) { ?> 
             <div id="header">
-        <?php } else {
-            ?>
+            <?php } else {
+                ?>
                 <div id="headervid">  
-            <?php
-            }
-            if ($printMode) {
-                ?> 
+                    <?php
+                }
+                if ($printMode) {
+                    ?> 
                     <a href="#" class="printCustom" ></a>
                 <?php } if (isset($repoConfig)): ?>
                     <img id="headerimg"
                          src="<?php echo $repoConfig['footerimg']; ?>"
                          alt="<?php echo $repoConfig['footerimgalt']; ?>"/>
-<?php endif;
-?>
+                     <?php endif;
+                     ?>
                 <div class="center">
                     <h1><?php echo $interview->title; ?></h1>
                     <div id="secondaryMetaData">
@@ -156,11 +156,11 @@ endif;
                             <br/>
                             <span class="detail-metadata">
 
-<?php
-if (trim($interview->interviewer)) {
-    echo "{$interview->interviewer}, Interviewer";
-}
-?>
+                                <?php
+                                if (trim($interview->interviewer)) {
+                                    echo "{$interview->interviewer}, Interviewer";
+                                }
+                                ?>
                                 <?php
                                 if (trim($interview->interviewer) && trim($interview->accession)) {
                                     echo " | ";
@@ -191,35 +191,35 @@ if (trim($interview->interviewer)) {
                         </div>
                     </div>
                     <div id="audio-panel">
-<?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
+                        <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
                     </div>
                 </div>
             </div>
             <div id="main" class="<?php echo $heightAdjustmentClass; ?>">
-<?php if ($printMode) { ?>
+                <?php if ($printMode) { ?>
                     <a href="#" class="printCustomMobile" ></a>
                 <?php } if (!empty($userNotes)): ?>
                     <div class="user_notes"><?php echo $interview->user_notes ?>
                         <img src="imgs/button_close.png" onclick="$('.user_notes').slideToggle();"/>
                     </div>
-<?php endif; ?>
+                <?php endif; ?>
                 <div id="main-panels">
                     <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
                     <div id="content-panel">
                         <div id="holder-panel"></div>
-<?php
-$indexDisplay = 'display:none';
-$transcriptDisplay = 'display:block';
-if ((isset($panel) && $panel == '1') || ($interview->hasIndex() && (!isset($panel) || $panel != '0'))) {
-    $indexDisplay = 'display:block';
-    $transcriptDisplay = 'display:none';
-}
-?>
+                        <?php
+                        $indexDisplay = 'display:none';
+                        $transcriptDisplay = 'display:block';
+                        if ((isset($panel) && $panel == '1') || ($interview->hasIndex() && (!isset($panel) || $panel != '0'))) {
+                            $indexDisplay = 'display:block';
+                            $transcriptDisplay = 'display:none';
+                        }
+                        ?>
                         <div id="index-panel" class="index-panel" style="<?php echo $indexDisplay; ?>">
-                        <?php echo $interview->index; ?>
+                            <?php echo $interview->index; ?>
                         </div>
                         <div id="transcript-panel" class="transcript-panel" style="<?php echo $transcriptDisplay; ?>">
-<?php echo $interview->transcript; ?>
+                            <?php echo $interview->transcript; ?>
                         </div>
 
                     </div>
@@ -228,19 +228,19 @@ if ((isset($panel) && $panel == '1') || ($interview->hasIndex() && (!isset($pane
             </div>
             <div id="footer">
                 <div id="footer-metadata">
-<?php if (!empty($rights)) { ?>
+                    <?php if (!empty($rights)) { ?>
                         <p><span></span></p><strong><a href="#" id="lnkRights">View Rights Statement</a></strong>
                         <div id="rightsStatement"><?php echo $rights; ?></div>
-<?php } else {
-    ?>
+                    <?php } else {
+                        ?>
                         <p><span></span></p><strong>View Rights Statement</strong>
                     <?php }
                     ?>
                     <?php if (!empty($usage)) { ?>
                         <p><span></span></p><strong><a href="#" id="lnkUsage">View Usage Statement</a></strong>
                         <div id="usageStatement"><?php echo $usage; ?></div>
-<?php } else {
-    ?>
+                    <?php } else {
+                        ?>
                         <p><span></span></p><strong>View Usage Statement</strong>
                     <?php }
                     ?>
@@ -248,14 +248,14 @@ if ((isset($panel) && $panel == '1') || ($interview->hasIndex() && (!isset($pane
                     <?php if (!empty($acknowledgment)) { ?>
                         <p><span></span></p><strong><a href="#" id="lnkFunding">Acknowledgment</a></strong>
                         <div id="fundingStatement"><?php echo $acknowledgment; ?></div>
-<?php } else {
-    ?>
+                    <?php } else {
+                        ?>
                         <p><span></span></p><strong>Acknowledgment</strong>
                     <?php }
                     ?>
                     <?php if (!empty($collectionLink)) { ?>
                         <p><span></span></p><strong>Collection Link:
-                        <?php if (isset($interview->collection_link) && (string) $interview->collection_link != '') { ?>
+                            <?php if (isset($interview->collection_link) && (string) $interview->collection_link != '') { ?>
                                 <a href="<?php echo $interview->collection_link ?>"><?php echo $interview->collection ?></a>
                             <?php } else {
                                 ?>
@@ -263,12 +263,12 @@ if ((isset($panel) && $panel == '1') || ($interview->hasIndex() && (!isset($pane
                             <?php }
                             ?>
                         </strong>
-                        <?php }
-                        ?>
+                    <?php }
+                    ?>
                     <?php if (!empty($seriesLink)) { ?>
                         <p><span></span></p>
                         <strong>Series Link:
-    <?php if (isset($interview->series_link) && (string) $interview->series_link != '') { ?>
+                            <?php if (isset($interview->series_link) && (string) $interview->series_link != '') { ?>
                                 <a href="<?php echo $interview->series_link ?>"><?php echo $interview->series ?></a>
                             <?php } else {
                                 ?>
@@ -276,15 +276,15 @@ if ((isset($panel) && $panel == '1') || ($interview->hasIndex() && (!isset($pane
                             <?php }
                             ?>
                         </strong>
-                        <?php }
-                        ?>
+                    <?php }
+                    ?>
                     <?php if (!empty($contactemail)) { ?>
                         <p><span></span></p>
                         <strong>Contact Us: <a href="mailto:<?php echo $contactemail ?>"><?php echo $contactemail ?></a> |
                             <a href="<?php echo $contactlink ?>"><?php echo $contactlink ?></a>
                         </strong>
-<?php }
-?>
+                    <?php }
+                    ?>
                 </div>
                 <div id="footer-copyright">
                     <small id="copyright"><span>&copy; <?php echo Date("Y") ?></span><?php echo $copyrightholder ?></small>
@@ -528,7 +528,7 @@ switch ($interview->playername) {
                             if (type == 'transcript-to-index'){
                             $('#toggle_switch').trigger('click');
                                     setTimeout(function(){
-                                    $('.tpd-tooltip').hide();
+                                            $('.tpd-tooltip').hide();
                                             $('#transcript-panel').hide();
                                             $('#index-panel').show();
                                             var currentIndex = $('#accordionHolder').accordion('option', 'active');
