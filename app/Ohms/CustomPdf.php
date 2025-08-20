@@ -398,7 +398,7 @@ EOD;
     private static function getFormattedTranscript($sections, $syncPoints, $url) {
 
         $intervalIncrement = 1;
-        if (!empty($syncPoints)) {
+        if (!empty($syncPoints) && $syncPoints != '1.0') {
             $syncSplit = explode(':|', $syncPoints);
             $intervalIncrement = $syncSplit[0];
             $syncing = str_replace($intervalIncrement . ':|', '', $syncPoints);
