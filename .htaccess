@@ -1,3 +1,5 @@
 RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+
+RewriteRule ^cache(?:/|$) - [R=404,NC,L]

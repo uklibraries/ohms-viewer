@@ -113,6 +113,21 @@ After installing and configuring the Viewer, you can begin testing and using it 
 
   http://www.myviewerexamplesite.edu/viewer/viewer.php?cachefile=name_of_file.xml
   
+V. Securing the XML folder
+-----------------------------
+To prevent direct downloads of files from `cache/` (or any folder you use for
+xmlfiles), add the rule for your web server:
+
+- **Apache**: `.htaccess` block request in line #5.
+- **Nginx**: include `nginx.cache.conf` in your server block.
+
+Change `cache` to your actual folder name if different.
+
+These rules only block **HTTP** access.  
+Your PHP code can still read/write normally
+
+-----------------------------
+
 If this URL does not load properly or you receive an error message about not finding the interview file, check the following:
 
   * The subdirectory name where the Viewer is located is correct.
