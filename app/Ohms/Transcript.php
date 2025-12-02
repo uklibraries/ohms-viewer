@@ -225,6 +225,7 @@ POINT;
 
     private function formatTranscriptVtt() {
         $transcription = Transcription::load($this->transcript);
+
         $foot_notes_text = '';
         $line_key = 0;
         $counter = 0;
@@ -248,11 +249,12 @@ POINT;
                 $last_point = explode('NOTE TRANSCRIPTION END NOTE ANNOTATIONS BEGIN NOTE', $body);
                 $body = str_replace('NOTE TRANSCRIPTION END', '', $last_point[0]);
                 $foot_notes_text = @str_replace('NOTE ANNOTATIONS END', '', $last_point[1]);
+//                echo '<pre>';var_dump($foot_notes_text);exit;
             }
 
             $body = preg_replace($search_field_pattern, '', $body);
             $body = preg_replace(
-                    '/<c\.(\d+)>(.*?)<\/c>/', '$2<span class="footnote-ref"><a name="sup$1"></a><a href="#footnote$1" data-index="footnote$1" id="footnote_$1" class="footnoteLink footnoteTooltip nblu bbold">[$1]</a><span></span></span>', $body
+                    '/<c\.(\d+)>(.*?)<\/c>/s', '$2<span class="footnote-ref"><a name="sup$1"></a><a href="#footnote$1" data-index="footnote$1" id="footnote_$1" class="footnoteLink footnoteTooltip nblu bbold">[$1]</a><span></span></span>', $body
             );
             $html .= "<span id='line_{$line_key}'>{$body}</span>";
 
@@ -262,33 +264,37 @@ POINT;
 
         if (!empty($foot_notes_text)) {
             $foot_notes = '<div class="footnotes-container"><div class="label-ft">NOTES</div>';
-            $pattern = '/<annotation ref="(\d+)">(.*?)<\/annotation>/';
-            $replacement = '<div><a name="footnote$1" id="footnote$1"></a>
-                    <a class="footnoteLink nblu" href="#sup$1">$1.</a> <span class="content">$2<p></p><p></p></span></div>';
+
+            $pattern = '/<annotation\b[^>]*ref="(\d+)"[^>]*target_sub_id_text="([^"]*)"[^>]*>\s*<\/annotation>/';
 
             $foot_notes .= preg_replace_callback(
                     $pattern,
                     function ($matches) use (&$line_key) {
-
                         $footnote_number = $matches[1];
-                        $line_number = $line_key; // Increment the captured number
+                        $line_number = $line_key;
                         $line_key += 1;
-                        $pattern = '/(.*?)\[\[link\]\](.*?)\[\[\/link\]\]/';
-                        if (preg_match($pattern, $matches[2], $matches1)) {
-                            $output = '<a href="' . $matches1[2] . '">' . $matches1[1] . '</a>';
+
+                        // text from target_sub_id_text attribute
+                        $text = $matches[2];
+
+                        // your [[link]] handling still works on this text
+                        $linkPattern = '/(.*?)\[\[link\]\](.*?)\[\[\/link\]\]/';
+
+                        if (preg_match($linkPattern, $text, $m)) {
+                            $output = '<a href="' . $m[2] . '">' . $m[1] . '</a>';
                         } else {
-                            $output = $matches[2];
+                            $output = $text;
                         }
 
-
-                        return '<div><a name="footnote' . $footnote_number . '" id="footnote' . $footnote_number . '"></a> 
+                        return '<div>
+                <a name="footnote' . $footnote_number . '" id="footnote' . $footnote_number . '"></a> 
                 <a class="footnoteLink nblu" href="#sup' . $footnote_number . '">' . $footnote_number . '.</a> 
-                <span class="content" id="line_' . $line_key . '">' . $output . '<p></p><p></p></span></div>';
+                <span class="content" id="line_' . $line_key . '">' . $output . '<p></p><p></p></span>
+            </div>';
                     },
                     $foot_notes_text
             );
 
-//            $foot_notes .= preg_replace($pattern, $replacement, $foot_notes_text);
             $foot_notes .= '</div>';
             $this->transcriptHTML .= $foot_notes;
         }
