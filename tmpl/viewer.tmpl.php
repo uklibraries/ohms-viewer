@@ -128,8 +128,8 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
             ?>
             <div id="userNotesModal" title="User Notes">
                 <div class="dialog-content">
-                    <p><?php echo $interview->user_notes; ?>
-                    </p>
+                    <?php echo $interview->user_notes; ?>
+                    
                 </div>
                 <div class="dialog-footer">
                     <button id="btnOk" tabindex="0">OK</button>

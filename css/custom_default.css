@@ -284,10 +284,7 @@ div.video iframe {
   max-height: 400px;
   overflow: auto;
 }
-.ui-dialog.notes-dialog .dialog-content strong {
-  display: block;
-  margin-bottom: 5px;
-}
+
 .ui-dialog.notes-dialog .dialog-footer {
   text-align: right;
   border-top: 1px solid #ddd;
