@@ -7,6 +7,13 @@ function VisualizationJS() {
     var map2;
     var marker1;
     var marker2;
+    const labelColors = {
+        PERSON: '#dea590',
+        PLACE: '#9aa6c1',
+        DATE: '#e1be90',
+        ORG: '#ced1ab',
+        EVENT: '#c6a5ac'
+    };
     this.initialize = function (entityRows, mapPoints) {
         setupDropdownTabs("#custom-tabs-left");
         setupDropdownTabs("#custom-tabs-right");
@@ -27,6 +34,7 @@ function VisualizationJS() {
             browserTab();
             entityData = entityRows;
             wordCloudTab();
+            $('#timeline_type_filter1, #timeline_type_filter2').on('change', applyTimelineFilter);
         }
         annotationPopup();
 
@@ -203,7 +211,7 @@ function VisualizationJS() {
             const m = L.marker([lat, lng], {icon: brandIcon}).addTo(map).bindPopup(popupHtml);
             m.on('click', function () {
                 map.flyTo(m.getLatLng(), 12, {duration: 1.5});
-});
+            });
             markers.push(m);
         });
 
@@ -214,26 +222,8 @@ function VisualizationJS() {
         }
         return [map, markers];
     };
-    const resizeWordCloud = function () {
-        $('#wordcloud-tab-1-head').click(function () {
-            chart1.resize();
-        });
-        $('#wordcloud-tab-2-head').click(function () {
-            chart2.resize();
-        });
-
-
-    };
-    const wordCloudTab = function () {
-
-        const labelColors = {
-            PERSON: '#dea590',
-            PLACE: '#9aa6c1',
-            DATE: '#e1be90',
-            ORG: '#ced1ab',
-            EVENT: '#c6a5ac'
-        };
-        var option = {
+    function getBaseWordcloudOption(wordcloudData) {
+        return {
             tooltip: {show: true, formatter: p => `${p.name} (${p.value})`},
             series: [{
                     type: 'wordCloud',
@@ -247,54 +237,118 @@ function VisualizationJS() {
                             fontFamily: 'Nunito, sans-serif',
                             color: function (params) {
                                 return labelColors[params.data.labelType] || '#333';
-                            },
+                            }
                         },
                         emphasis: {
                             fontFamily: 'Nunito, sans-serif',
-                            shadowColor: '#333',
+                            shadowColor: '#333'
                         }
                     },
-                    data: entityData.map(a => ({
-                            name: a.text, // word shown
-                            value: Math.floor(Math.random() * a.count) + a.count, // value ignored since size fixed
-                            ref: a.first_ref,
-                            labelType: a.label  // custom field used for color
-                        }))
+                    data: wordcloudData
                 }]
         };
+    }
+
+// Build data based on selected types for a given tab
+    function buildFilteredWordcloudData(tabTag) {
+        const selected = ($('#ww_type_filter' + tabTag).val() || []).map(v => String(v).toUpperCase());
+
+        // If nothing selected => show none (change to "return entityData.map(...)" if you prefer show all)
+        if (selected.length === 0)
+            return [];
+
+        return (entityData || [])
+                .filter(a => selected.includes(String(a.label || '').toUpperCase()))
+                .map(a => ({
+                        name: a.text,
+                        value: Math.floor(Math.random() * a.count) + a.count, // keep your logic
+                        ref: a.first_ref,
+                        labelType: String(a.label || '').toUpperCase()
+                    }));
+    }
+
+    function applyWordcloudFilter(tabTag) {
+        const chart = (String(tabTag) === '1') ? chart1 : chart2;
+        if (!chart)
+            return;
+
+        const data = buildFilteredWordcloudData(tabTag);
+
+        // Update only series data
+        chart.setOption({
+            series: [{data}]
+        });
+
+        chart.resize();
+    }
+
+    const resizeWordCloud = function () {
+        // When switching tabs, resize the chart in that tab
+        $('#wordcloud-tab-1-head').off('click.wordcloud').on('click.wordcloud', function () {
+            if (chart1)
+                chart1.resize();
+        });
+
+        $('#wordcloud-tab-2-head').off('click.wordcloud').on('click.wordcloud', function () {
+            if (chart2)
+                chart2.resize();
+        });
+
+        // Proper resize handler for both (doesn't overwrite)
+        window.addEventListener('resize', function () {
+            if (chart1)
+                chart1.resize();
+            if (chart2)
+                chart2.resize();
+        });
+    };
+    const wordCloudTab = function () {
+// Init both charts
         chart1 = echarts.init(document.getElementById('wordcloud-1'));
         chart2 = echarts.init(document.getElementById('wordcloud-2'));
-        chart1.setOption(option);
-        chart2.setOption(option);
-        window.onresize = chart1.resize
-        window.onresize = chart2.resize
+
+        // Set initial options with filtered data (defaults selected => shows all)
+        chart1.setOption(getBaseWordcloudOption(buildFilteredWordcloudData(1)));
+        chart2.setOption(getBaseWordcloudOption(buildFilteredWordcloudData(2)));
+
+        // Bind filters (one handler for both selects)
+        $('#ww_type_filter1, #ww_type_filter2')
+                .off('change.wordcloud')
+                .on('change.wordcloud', function () {
+                    const tabTag = $(this).data('id'); // 1 or 2
+                    applyWordcloudFilter(tabTag);
+                });
+
         resizeWordCloud();
 
+        // Click behavior (keep yours)
         chart1.on('click', function (params) {
-            const word = params.name;
-            const ref = params.data.ref;
-            const label = params.data.labelType;
+            const ref = params?.data?.ref;
+            if (!ref)
+                return;
+
             let container;
             let transcriptTab;
+
             if ($('.right-side').is(':visible')) {
                 transcriptTab = '#transcript-tab-2';
                 container = $('.right-side-inner');
-
             } else {
                 container = $('.left-side');
                 transcriptTab = '#transcript-tab-1';
             }
-            scrollToTranscript(container, transcriptTab, ref)
 
+            scrollToTranscript(container, transcriptTab, ref);
         });
-        chart2.on('click', function (params) {
-            const word = params.name;
-            const ref = params.data.ref;
-            const label = params.data.labelType;
-            let container = $('.left-side');
-            let transcriptTab = '#transcript-tab-1';
-            scrollToTranscript(container, transcriptTab, ref)
 
+        chart2.on('click', function (params) {
+            const ref = params?.data?.ref;
+            if (!ref)
+                return;
+
+            const container = $('.left-side');
+            const transcriptTab = '#transcript-tab-1';
+            scrollToTranscript(container, transcriptTab, ref);
         });
 
     };
@@ -470,7 +524,7 @@ function VisualizationJS() {
         $nores.toggle(visible === 0);
     };
     const browserTab = function () {
-        $("#type_filter1, #type_filter2").multiselect({
+        $("#type_filter1, #type_filter2, #timeline_type_filter1, #timeline_type_filter2, #ww_type_filter1, #ww_type_filter2").multiselect({
             header: true,
             noneSelectedText: "Type",
             selectedList: 0,
@@ -507,6 +561,7 @@ function VisualizationJS() {
                 }).first();
 
                 if ($dropdown.length) {
+                    console.log($select.outerHeight());
                     // Optionally re-style
                     $dropdown.css({
                         position: 'absolute',
@@ -545,6 +600,7 @@ function VisualizationJS() {
         $('#type_filter1, #type_filter2').on('change', applyFilters);
         $('#browser_search1, #browser_search2').on('keyup', applyGridFilter);
         $('#type_filter1, #type_filter2').on('change', applyGridFilter);
+
         $('#sortDropdown1, #sortDropdown2').on('change', applyGridFilter);
         $('#sortDropdown1, #sortDropdown2').on('change', function () {
 
@@ -663,6 +719,35 @@ function VisualizationJS() {
             $li.parent().prev().addClass('active');
             $li.parent().hide();
         });
+    }
+    const reflowTimeline = function ($timeline) {
+        const $visible = $timeline.find('.timeline_container:visible');
+        $visible.removeClass('left right');
+        $visible.each(function (idx) {
+            $(this).addClass(idx % 2 === 0 ? 'left' : 'right');
+        });
+    }
+    const applyTimelineFilter = function () {
+        let tabTag = $(this).data('id');
+        const $wrap = $('#timeline-tab-' + tabTag);
+        const $select = $('#timeline_type_filter' + tabTag);
+        const $timeline = $wrap.find('.timeline').first();
+        const selected = ($select.val() || []).map(v => String(v).toLowerCase());
+
+        const $items = $timeline.find('.timeline_container');
+
+        if (selected.length === 0) {
+            $items.hide();
+            reflowTimeline($timeline);
+            return;
+        }
+
+        $items.each(function () {
+            const type = String($(this).data('type') || '').toLowerCase();
+            $(this).toggle(selected.includes(type));
+        });
+
+        reflowTimeline($timeline);
     }
 }
 

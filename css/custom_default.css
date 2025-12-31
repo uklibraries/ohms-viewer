@@ -769,8 +769,12 @@ div.video iframe {
   background: var(--bdg-event);
 }
 
+.ww_timeline_filter_container {
+    text-align: left;
+}
 .timeline {
   position: relative;
+  
 }
 .timeline::after {
   content: '';
@@ -953,6 +957,12 @@ div.video iframe {
   margin-right: 10px;
 }
 
+.ww_timeline_filter_container .ui-multiselect.ui-widget.ui-state-default {
+    width: 100px !important;
+}
+.ww_timeline_filter_container .multiselect-wrapper .ui-multiselect-menu {
+    margin: 30px 10px !important;
+}
 .timeline_event {
     cursor: pointer;
 }

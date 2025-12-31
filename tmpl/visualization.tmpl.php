@@ -1,12 +1,22 @@
 
 <div id="wordcloud-tab-<?php echo $tab_tag; ?>">
+    <div class="ww_timeline_filter_container">
+        <select id="ww_type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type" multiple="multiple">
+
+            <option value="person" selected="selected">Person</option>
+            <option value="place" selected="selected">Place</option>
+            <option value="date" selected="selected">Date</option>
+            <option value="org" selected="selected">Org</option>
+            <option value="event" selected="selected">Event</option>
+        </select> 
+    </div>
     <div id="wordcloud-<?php echo $tab_tag; ?>"></div> 
 
 </div>
 <?php if (count($interview->mapData) > 0): ?>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    
+
 
     <style>
         /* Full width; auto height via aspect ratio (fallback below) */
@@ -35,6 +45,16 @@
 <?php endif; ?>
 
 <div id="timeline-tab-<?php echo $tab_tag; ?>">
+    <div class="ww_timeline_filter_container">
+        <select id="timeline_type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type" multiple="multiple">
+
+            <option value="person" selected="selected">Person</option>
+            <option value="place" selected="selected">Place</option>
+            <option value="date" selected="selected">Date</option>
+            <option value="org" selected="selected">Org</option>
+            <option value="event" selected="selected">Event</option>
+        </select> 
+    </div>
     <div class="timeline">
         <?php
         $unique = [];
@@ -55,7 +75,7 @@
         foreach ($timeline as $i => $item) {
             $sideClass = ($i % 2 === 0) ? 'left' : 'right';
             ?>
-            <div class="timeline_container container <?php echo $sideClass; ?>">
+            <div data-type="<?php echo strtolower($item['label']); ?>" class="<?php echo strtolower($item['label']) ?> timeline_container container <?php echo $sideClass; ?>">
                 <div class="content">
                     <strong><?php echo htmlspecialchars($item['date']); ?></strong>
                     <div class="org timeline_event" data-ref="<?php echo $item['ref']; ?>"><?php echo htmlspecialchars((string) $item['label']); ?>: <?php echo htmlspecialchars((string) $item['wiki']['name']); ?></div>
