@@ -54,6 +54,10 @@ class ViewerController {
                 }
                 exit();
                 break;
+            case 'vtt':
+                header('Content-Type: text/vtt; charset=utf-8');
+                echo $this->interview->vtt[$_GET['lang']];
+                break;
             case 'all':
                 break;
             default:

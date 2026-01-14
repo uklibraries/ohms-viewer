@@ -17,6 +17,7 @@ class Version3 {
 
     private static $Instance = null;
     public $Transcript;
+    public $vtt = array();
     private $data;
     private $xml = null;
 
@@ -82,7 +83,8 @@ class Version3 {
 //echo '<pre>';print_r($this->data);exit;
         $collection_link = ($ohfile->record->collection_link != null) ? (string) $ohfile->record->collection_link : '';
         $series_link = ($ohfile->record->series_link != null) ? (string) $ohfile->record->series_link : '';
-
+        $this->vtt['primary'] = $this->data['vtt_transcript'];
+        $this->vtt['alternate'] = $this->data['vtt_transcript_alt'];
         if (!empty($collection_link)) {
             $this->data['collection'] = $this->graylink($this->data['collection'], $collection_link);
         }

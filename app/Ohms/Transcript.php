@@ -25,7 +25,9 @@ class Transcript {
         $vtt == true ? $this->formatTranscriptVtt() : $this->formatTranscript();
         $this->formatIndex($translate);
     }
-
+    public function getVTT(){
+        return $this->formatTranscriptVtt();
+    }
     public function getTranscriptHTML() {
         if (isset($this->transcriptHTML)) {
             return $this->transcriptHTML;
