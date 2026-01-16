@@ -54,17 +54,19 @@ else:
         <video id="my_player" controls
                preload="auto"  class="video-js">
             <source src="<?php echo $linkToMedia ?>" type="video/<?php echo $mediaFormat ?>" />
-            <?php foreach ($tracks as $t): ?>
-                <?php if ($t['has_vtt'] && $t['langName'] !== ''): ?>
-                    <track
-                        kind="captions"
-                        src="<?= htmlspecialchars($t['src'], ENT_QUOTES, 'UTF-8') ?>"
-                        srclang="<?= htmlspecialchars(Ohms\Utils::languageAbbr($t['langName']), ENT_QUOTES, 'UTF-8') ?>"
-                        label="<?= htmlspecialchars($t['langName'], ENT_QUOTES, 'UTF-8') ?>"
-                        <?= $t['default'] ? 'default' : '' ?>
-                        >
-                    <?php endif; ?>
-                <?php endforeach; ?>
+            <?php if (strtolower($interview->clipsource) == 'aviary'): ?>
+                <?php foreach ($tracks as $t): ?>
+                    <?php if ($t['has_vtt'] && $t['langName'] !== ''): ?>
+                        <track
+                            kind="captions"
+                            src="<?= htmlspecialchars($t['src'], ENT_QUOTES, 'UTF-8') ?>"
+                            srclang="<?= htmlspecialchars(Ohms\Utils::languageAbbr($t['langName']), ENT_QUOTES, 'UTF-8') ?>"
+                            label="<?= htmlspecialchars($t['langName'], ENT_QUOTES, 'UTF-8') ?>"
+                            <?= $t['default'] ? 'default' : '' ?>
+                            >
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
         </video>
     </div>
 <?php endif;
