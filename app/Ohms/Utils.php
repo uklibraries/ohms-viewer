@@ -23,6 +23,8 @@ class Utils {
         // Create DOM from URL or file
         $content = str_get_html($response);
         $mediaURL = "";
+
+        $captions = [];
         if ($content != "") {
 
             $source = $content->find('source', 0);
@@ -32,8 +34,24 @@ class Utils {
                     $mediaURL = $source->src;
                 }
             }
+            // Get all track elements
+            foreach ($content->find('track') as $track) {
+
+                // Only pick caption tracks
+                if (isset($track->kind) && strtolower($track->kind) === 'captions') {
+
+                    $captions[] = [
+                        'src' => isset($track->src) ? $track->src : null,
+                        'srclang' => isset($track->srclang) ? $track->srclang : null,
+                        'label' => isset($track->label) ? $track->label : null,
+                    ];
+                }
+            }
         }
-        return $mediaURL;
+        return [
+            'media_url' => $mediaURL,
+            'captions' => $captions,
+        ];
     }
 
     /**
@@ -808,9 +826,9 @@ class Utils {
             'yoruba' => 'yo',
             'zhuang' => 'za',
             'zulu' => 'zu',
-            'undefined' =>'un'
+            'undefined' => 'un'
         ];
-        $key=strtolower(trim($language));
+        $key = strtolower(trim($language));
         return $ISO_639_1[$key];
     }
 }

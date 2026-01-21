@@ -145,7 +145,9 @@ class Version3 {
         $player = strtolower($this->data['clipsource']);
 
         if ($player == 'aviary') {
-            $this->data['media_url'] = Utils::getAviaryUrl($ohfile->record->media_url);
+            $aviary_response = Utils::getAviaryUrl($ohfile->record->media_url);
+            $this->data['media_url'] = $aviary_response['media_url'];
+            $this->data['captions'] = $aviary_response['captions'];
             $this->data['aviaryMediaFormat'] = Utils::getAviaryMediaFormat($this->data['media_url']);
             $player = 'other';
         } else {
