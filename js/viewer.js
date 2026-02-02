@@ -91,7 +91,7 @@ jQuery(document).ready(function ($) {
     $('#accordionHolderSearch h3').off('click');
 
     // Toggle only on span click
-    $('#accordionHolderSearch').on('click', '.toggle-span', function (e) {
+    $('#accordionHolderSearch').on('click', '.toggle-span, .ui-icon-triangle-1-e, .ui-icon-triangle-1-s', function (e) {
         const $header = $(this).closest('h3');
         const index = $('#accordionHolderSearch h3').index($header);
         const $accordion = $('#accordionHolderSearch');

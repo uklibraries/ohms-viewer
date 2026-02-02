@@ -449,12 +449,12 @@ div.video iframe {
   border-style: solid;
   border-width: 13px 6.5px 0 6.5px;
   border-color: #ffffff transparent transparent transparent;
-  transform: rotate(0deg);
+  transform: rotate(-90deg);
   left: 13px;
-  top: 15px;
+  top: 12px;
 }
 #search-form .search-content .ui-accordion .ui-accordion-header.ui-state-active:after {
-  transform: rotate(180deg);
+  transform: rotate(360deg);
   top: 14px;
 }
 .popover-body #paginate_info,
@@ -1279,4 +1279,10 @@ div.video iframe {
   .left-side .grid-section .grid-item {
     width: calc(100% - 15px) !important;
   }
+}
+
+.ui-icon-triangle-1-e, .ui-icon-triangle-1-s {
+    width: 25px;
+    height: 20px;
+    z-index: 1000;
 }
