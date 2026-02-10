@@ -442,14 +442,6 @@ div.point {
     padding-bottom: 0px !important;
 }
 
-#rightsStatement, #fundingStatement {
-    display: none;
-}
-
-#usageStatement {
-    display: none;
-}
-
 .indexJumpLink {
     float: left;
     color: #366999 !important;

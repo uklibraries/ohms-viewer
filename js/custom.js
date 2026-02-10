@@ -53,19 +53,14 @@ function Viewer() {
             window.open("viewer.php?action=pdf&cachefile=" + cachefile + external + "", '_blank');
         });
 
-        $('#lnkRights').click(function () {
-            $('#rightsStatement').fadeToggle(400);
-            return false;
-        });
-        $('#lnkUsage').click(function () {
-            $('#usageStatement').fadeToggle(400);
-            return false;
-        });
-        $('#lnkFunding').click(function () {
-            $('#fundingStatement').fadeToggle(400);
-            return false;
-        });
+        $('.about-attributes').on('click', function (e) {
+            e.preventDefault(); // prevent default anchor behavior
 
+            $(this)
+                    .closest('div')     // find parent container
+                    .find('p')          // target the paragraph
+                    .slideToggle();     // slide up/down toggle
+        });
         switchViews();
         bindOldFootNotes();
 

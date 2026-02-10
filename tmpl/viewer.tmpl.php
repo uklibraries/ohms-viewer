@@ -129,7 +129,7 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
             <div id="userNotesModal" title="User Notes">
                 <div class="dialog-content">
                     <?php echo $interview->user_notes; ?>
-                    
+
                 </div>
                 <div class="dialog-footer">
                     <button id="btnOk" tabindex="0">OK</button>
@@ -208,14 +208,16 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                             </ul>
                             <div id="about-tab-1">
                                 <div class="about-panel">
-                                    <strong>Summary</strong>
-                                    <p><?php echo $interview->description; ?></p>
+                                    <div><strong><a href="javascript://" class="about-attributes">Summary</a></strong>
+                                        <p><?php echo $interview->description; ?></p>
+                                    </div>
                                     <strong>Accession Number</strong>
                                     <p><?php echo $interview->accession; ?></p>
-                                    <strong>Interviewer</strong>
-                                    <p><?php echo $interview->interviewer; ?></p>
                                     <strong>Interviewee</strong>
                                     <p><?php echo "{$interview->interviewee}"; ?></p>
+                                    <strong>Interviewer</strong>
+                                    <p><?php echo $interview->interviewer; ?></p>
+
                                     <?php
                                     if (!empty((string) $interview->date)):
                                         echo '<strong>Interview Date</strong>';
@@ -233,14 +235,22 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                                         echo '<strong>Subjects</strong>';
                                         echo "<p>{$subjects}</p>";
                                     endif;
-                                    if (!empty((string) $interview->type)):
-                                        echo '<strong>Type</strong>';
-                                        echo "<p>{$interview->type}</p>";
+                                    if (!empty($rights)):
+
+                                        echo '<div><strong><a href="javascript://" class="about-attributes">View Rights Statement</a></strong>';
+                                        echo "<p style='display:none';>{$rights}</p></div>";
                                     endif;
-                                    if (!empty((string) $interview->cms_record_id)):
-                                        echo '<strong>CMS Record ID</strong>';
-                                        echo "<p>{$interview->cms_record_id}</p>";
+                                    if (!empty($usage)):
+
+                                        echo '<div><strong><a href="javascript://" class="about-attributes">View Usage Statement</a></strong>';
+                                        echo "<p style='display:none';>{$usage}</p></div>";
                                     endif;
+                                    if (!empty($acknowledgment)):
+
+                                        echo '<div><strong><a href="javascript://" class="about-attributes">Acknowledgment</a></strong>';
+                                        echo "<p style='display:none';>{$acknowledgment}</p></div>";
+                                    endif;
+
                                     if (!empty((string) $interview->language)):
                                         echo '<strong>Language</strong>';
                                         echo "<p>{$interview->language}</p>";
@@ -248,15 +258,6 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                                     if (!empty((string) $interview->transcript_alt_lang)):
                                         echo '<strong>Language For Translation</strong>';
                                         echo "<p>{$interview->transcript_alt_lang}</p>";
-                                    endif;
-                                    if (!empty((string) $interview->userestrict)):
-                                        echo '<strong>Use Restrictions</strong>';
-                                        echo "<p>{$interview->userestrict}</p>";
-                                    endif;
-
-                                    if (!empty($userNotes)):
-                                        echo '<strong>User Notes</strong>';
-                                        echo "<p>{$userNotes}</p>";
                                     endif;
                                     ?>
 
@@ -388,31 +389,7 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
         <div id="footer">
             <div id="footer-metadata">
 
-                <?php if (!empty($rights)) { ?>
-                    <p><span></span></p><strong><a href="#" id="lnkRights">View Rights Statement</a></strong>
-                    <div id="rightsStatement"><?php echo $rights; ?></div>
-                <?php } else {
-                    ?>
-                    <p><span></span></p><strong>View Rights Statement</strong>
-                <?php }
-                ?>
-                <?php if (!empty($usage)) { ?>
-                    <p><span></span></p><strong><a href="#" id="lnkUsage">View Usage Statement</a></strong>
-                    <div id="usageStatement"><?php echo $usage; ?></div>
-                <?php } else {
-                    ?>
-                    <p><span></span></p><strong>View Usage Statement</strong>
-                <?php }
-                ?>
 
-                <?php if (!empty($acknowledgment)) { ?>
-                    <p><span></span></p><strong><a href="#" id="lnkFunding">Acknowledgment</a></strong>
-                    <div id="fundingStatement"><?php echo $acknowledgment; ?></div>
-                <?php } else {
-                    ?>
-                    <p><span></span></p><strong>Acknowledgment</strong>
-                <?php }
-                ?>
                 <?php if (!empty($collectionLink)) { ?>
                     <p><span></span></p><strong>Collection Link:
                         <?php if (isset($interview->collection_link) && (string) $interview->collection_link != '') { ?>
