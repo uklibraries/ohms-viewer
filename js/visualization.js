@@ -208,9 +208,17 @@ function VisualizationJS() {
             const count = Number(row.count || 0);
 
             const popupHtml = `<strong class="map_highlight" data-ref="${first_ref}">${esc(text)}${count ? ' (' + count + ')' : ''}</strong>`;
-            const m = L.marker([lat, lng], {icon: brandIcon}).addTo(map).bindPopup(popupHtml);
+            const m = L.marker([lat, lng], {icon: brandIcon, ref: first_ref}).addTo(map).bindPopup(popupHtml);
             m.on('click', function () {
                 map.flyTo(m.getLatLng(), 12, {duration: 1.5});
+                let container = $('.left-side');;
+                let transcriptTab = '#transcript-tab-1';
+                if ($(this).closest('.right-side').length) {
+                    container = $('.left-side');
+                    transcriptTab = '#transcript-tab-1';
+
+                }
+                scrollToTranscript(container, transcriptTab, m.options.ref);
             });
             markers.push(m);
         });
