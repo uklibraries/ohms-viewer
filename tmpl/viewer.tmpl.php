@@ -194,8 +194,12 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                         <div id="custom-tabs-left">
                             <ul>
                                 <li><a href="#about-tab-1" class="tab-left-tab">About</a></li>
-                                <li><a href="#index-tab-1" class="tab-left-tab">Index <span class="count index_count d-none"></span></a></li>
-                                <li><a href="#transcript-tab-1" class="tab-left-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
+                                <?php if (!empty((string) $interview->index)): ?>
+                                    <li><a href="#index-tab-1" class="tab-left-tab">Index <span class="count index_count d-none"></span></a></li>
+                                <?php endif; ?>
+                                <?php if (!empty((string) $interview->transcript)): ?>
+                                    <li><a href="#transcript-tab-1" class="tab-left-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
+                                <?php endif; ?>
                                 <?php if (count($interview->annotations) > 0): ?>
                                     <!-- These will be moved into dropdown via JS -->
                                     <li class="dropdown-tab"><a class="tab-left-tab" href="#wordcloud-tab-1" id="wordcloud-tab-1-head">Word Cloud</a></li>
@@ -263,31 +267,35 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 
                                 </div>
                             </div>
-                            <div id="index-tab-1">
-                                <div id="index-panel" class="index-panel">
-                                    <?php echo $interview->index; ?>
+                            <?php if (!empty((string) $interview->index)): ?>
+                                <div id="index-tab-1">
+                                    <div id="index-panel" class="index-panel">
+                                        <?php echo $interview->index; ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="transcript-tab-1">
-                                <div id="transcript-panel" class="transcript-panel">
-                                    <?php if (count($interview->annotations) > 0): ?>
-                                        <div class="data-layers">
-                                            <div class="custom-checkbox">
-                                                <input type="checkbox" id="toggle-layers-1" class="toggle-layers" data-layer="ttl1" name="toggle-layers" checked="checked">
-                                                <label for="toggle-layers-1" class="toggle-layers-label">View Data Layers</label>
+                            <?php endif; ?>
+                            <?php if (!empty((string) $interview->transcript)): ?>
+                                <div id="transcript-tab-1">
+                                    <div id="transcript-panel" class="transcript-panel">
+                                        <?php if (count($interview->annotations) > 0): ?>
+                                            <div class="data-layers">
+                                                <div class="custom-checkbox">
+                                                    <input type="checkbox" id="toggle-layers-1" class="toggle-layers" data-layer="ttl1" name="toggle-layers" checked="checked">
+                                                    <label for="toggle-layers-1" class="toggle-layers-label">View Data Layers</label>
+                                                </div>
+                                                <ul class="data-layers-list ttl1">
+                                                    <li><span class="bdg-person"><i class="fa fa-eye" data-layer="bdg-person"></i> Person</span></li>
+                                                    <li><span class="bdg-place"><i class="fa fa-eye" data-layer="bdg-place"></i> Place</span></li>
+                                                    <li><span class="bdg-date"><i class="fa fa-eye" data-layer="bdg-date"></i> Date</span></li>
+                                                    <li><span class="bdg-org"><i class="fa fa-eye" data-layer="bdg-org"></i> Org</span></li>
+                                                    <li><span class="bdg-event"><i class="fa fa-eye" data-layer="bdg-event"></i> Event</span></li>
+                                                </ul>
                                             </div>
-                                            <ul class="data-layers-list ttl1">
-                                                <li><span class="bdg-person"><i class="fa fa-eye" data-layer="bdg-person"></i> Person</span></li>
-                                                <li><span class="bdg-place"><i class="fa fa-eye" data-layer="bdg-place"></i> Place</span></li>
-                                                <li><span class="bdg-date"><i class="fa fa-eye" data-layer="bdg-date"></i> Date</span></li>
-                                                <li><span class="bdg-org"><i class="fa fa-eye" data-layer="bdg-org"></i> Org</span></li>
-                                                <li><span class="bdg-event"><i class="fa fa-eye" data-layer="bdg-event"></i> Event</span></li>
-                                            </ul>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php echo $interview->transcript; ?>
+                                        <?php endif; ?>
+                                        <?php echo $interview->transcript; ?>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
                             <?php
                             if (count($interview->annotations) > 0):
                                 $tab_tag = '1';
@@ -334,8 +342,12 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 
                         <div id="custom-tabs-right">
                             <ul>
-                                <li><a href="#index-tab-2" class="tab-right-tab">Index <span class="count index_count d-none"></span></a></li>
-                                <li><a href="#transcript-tab-2" class="tab-right-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
+                                <?php if (!empty((string) $interview->index)): ?>
+                                    <li><a href="#index-tab-2" class="tab-right-tab">Index <span class="count index_count d-none"></span></a></li>
+                                <?php endif; ?>
+                                <?php if (!empty((string) $interview->transcript)): ?>
+                                    <li><a href="#transcript-tab-2" class="tab-right-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
+                                <?php endif; ?>
                                 <?php if (count($interview->annotations) > 0): ?>
                                     <!-- These will be moved into dropdown via JS -->
                                     <li class="dropdown-tab"><a href="#wordcloud-tab-2" class="tab-right-tab" id="wordcloud-tab-2-head">Word Cloud</a></li>
@@ -347,33 +359,35 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                                     <li class="dropdown-tab"><a class="tab-right-tab" href="#browser-tab-2">Browser</a></li>
                                 <?php endif; ?>
                             </ul>
-
-                            <div id="index-tab-2">
-                                <div id="index-panel" class="index-panel">
-                                    <?php echo $interview->index; ?>
+                            <?php if (!empty((string) $interview->index)): ?>
+                                <div id="index-tab-2">
+                                    <div id="index-panel" class="index-panel">
+                                        <?php echo $interview->index; ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="transcript-tab-2">
-                                <div id="transcript-panel" class="transcript-panel">
-                                    <?php if (count($interview->annotations) > 0): ?>
-                                        <div class="data-layers">
-                                            <div class="custom-checkbox">
-                                                <input type="checkbox" id="toggle-layers-2" class="toggle-layers" data-layer="ttl2" name="toggle-layers" checked="checked">
-                                                <label for="toggle-layers-2" class="toggle-layers-label">View Data Layers</label>
+                            <?php endif; ?>
+                            <?php if (!empty((string) $interview->transcript)): ?>
+                                <div id="transcript-tab-2">
+                                    <div id="transcript-panel" class="transcript-panel">
+                                        <?php if (count($interview->annotations) > 0): ?>
+                                            <div class="data-layers">
+                                                <div class="custom-checkbox">
+                                                    <input type="checkbox" id="toggle-layers-2" class="toggle-layers" data-layer="ttl2" name="toggle-layers" checked="checked">
+                                                    <label for="toggle-layers-2" class="toggle-layers-label">View Data Layers</label>
+                                                </div>
+                                                <ul class="data-layers-list ttl2">
+                                                    <li><span class="bdg-person"><i class="fa fa-eye" data-layer="bdg-person"></i> Person</span></li>
+                                                    <li><span class="bdg-place"><i class="fa fa-eye" data-layer="bdg-place"></i> Place</span></li>
+                                                    <li><span class="bdg-date"><i class="fa fa-eye" data-layer="bdg-date"></i> Date</span></li>
+                                                    <li><span class="bdg-org"><i class="fa fa-eye" data-layer="bdg-org"></i> Org</span></li>
+                                                    <li><span class="bdg-event"><i class="fa fa-eye" data-layer="bdg-event"></i> Event</span></li>
+                                                </ul>
                                             </div>
-                                            <ul class="data-layers-list ttl2">
-                                                <li><span class="bdg-person"><i class="fa fa-eye" data-layer="bdg-person"></i> Person</span></li>
-                                                <li><span class="bdg-place"><i class="fa fa-eye" data-layer="bdg-place"></i> Place</span></li>
-                                                <li><span class="bdg-date"><i class="fa fa-eye" data-layer="bdg-date"></i> Date</span></li>
-                                                <li><span class="bdg-org"><i class="fa fa-eye" data-layer="bdg-org"></i> Org</span></li>
-                                                <li><span class="bdg-event"><i class="fa fa-eye" data-layer="bdg-event"></i> Event</span></li>
-                                            </ul>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php echo $interview->transcript; ?>
+                                        <?php endif; ?>
+                                        <?php echo $interview->transcript; ?>
+                                    </div>
                                 </div>
-                            </div>
-
+                            <?php endif; ?>
                             <?php
                             if (count($interview->annotations) > 0):
                                 $tab_tag = '2';

@@ -115,14 +115,14 @@ class Version3 {
         } else {
             $this->Transcript = new Transcript($transcript_vtt, '', $ohfile->record->index, $translate, $this->data['language'], true);
         }
-        $this->data['transcript'] = $this->Transcript->getTranscriptHTML()?: 'The transcript for this content isn’t available yet.';;
+        $this->data['transcript'] = $this->Transcript->getTranscriptHTML()?: '';
         $this->data['annotations'] = $this->Transcript->getAnnotatedTerms();
         $this->data['timeline'] = Utils::buildTimelineFlat($this->data['annotations']);
         $this->data['grid'] = Utils::extractTextThumbIndex($this->data['annotations']);
         $this->data['mapData'] = Utils::buildGeoIndex($this->data['annotations']);
         $this->data['groupAnnotations'] = Utils::renderAnnotationPopoversGroupedByText($this->data['annotations']);
         
-        $this->data['index'] = $this->Transcript->getIndexHTML()?: 'The index for this content isn’t available yet.';
+        $this->data['index'] = $this->Transcript->getIndexHTML()?: '';
         $this->data['index_points'] = $ohfile->record->index;
 
         // Video or audio-only
