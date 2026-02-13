@@ -1485,3 +1485,15 @@ p.bold {
 .no-annotation {
     border: none !important;
 }
+
+.center-wrapper {
+    height: 100vh;           /* full viewport height */
+    display: flex;
+    justify-content: center; /* horizontal center */
+    align-items: center;     /* vertical center */
+}
+
+.message-box {
+    text-align: center;
+    font-size: 25px;
+}

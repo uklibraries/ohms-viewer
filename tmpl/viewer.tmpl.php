@@ -359,6 +359,13 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                                     <li class="dropdown-tab"><a class="tab-right-tab" href="#browser-tab-2">Browser</a></li>
                                 <?php endif; ?>
                             </ul>
+                            <?php if (empty((string) $interview->index) && empty((string) $interview->transcript)): ?>
+                                <div class="center-wrapper">
+                                    <div class="message-box">
+                                        No Transcript or Index Available.
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                             <?php if (!empty((string) $interview->index)): ?>
                                 <div id="index-tab-2">
                                     <div id="index-panel" class="index-panel">
