@@ -49,7 +49,7 @@ class Version3 {
             'accession' => (string) $ohfile->record->accession,
             'date' => (string) $ohfile->record->date['value'],
             'keyword' => (string) $ohfile->record->keyword,
-            'subjects' => (string) $ohfile->record->subjects,
+            'subjects' => (string) ($ohfile->record->subjects ?? $ohfile->record->subject ?? ''),
             'type' => (string) $ohfile->record->type,
             'cms_record_id' => (string) $ohfile->record->cms_record_id,
             'collection_id' => (string) $ohfile->record->collection_id,
