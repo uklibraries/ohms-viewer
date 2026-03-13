@@ -409,6 +409,23 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 
         <div id="footer">
             <div id="footer-metadata">
+                <?php
+                if (!empty($rights)):
+
+                    echo '<div><strong><a href="javascript://" class="about-attributes">View Rights Statement</a></strong>';
+                    echo "<p style='display:none';>{$rights}</p></div>";
+                endif;
+                if (!empty($usage)):
+
+                    echo '<div><strong><a href="javascript://" class="about-attributes">View Usage Statement</a></strong>';
+                    echo "<p style='display:none';>{$usage}</p></div>";
+                endif;
+                if (!empty($acknowledgment)):
+
+                    echo '<div><strong><a href="javascript://" class="about-attributes">Acknowledgment</a></strong>';
+                    echo "<p style='display:none';>{$acknowledgment}</p></div>";
+                endif;
+                ?>
 
 
                 <?php if (!empty($collectionLink)) { ?>
