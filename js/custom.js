@@ -9,14 +9,17 @@ function Viewer() {
             if (leftTab !== null && leftTab !== "") {
                 $('a[href="' + leftTab + '"]').trigger("click");
                 localStorage.removeItem("leftTab");
+            } else if ($('a[href="#index-tab-1"]').length > 0 && $('a[href="#transcript-tab-1"]').length > 0) {
+                $('a[href="#index-tab-1"]').trigger("click");
             }
+
             if (rightTab !== null && rightTab !== "") {
                 $('a[href="' + rightTab + '"]').trigger("click");
                 localStorage.removeItem("rightTab");
+            } else if ($('a[href="#transcript-tab-2"]').length > 0) {
+                $('a[href="#transcript-tab-2"]').trigger("click");
             }
         }, 500);
-
-
 
 
         $('.tab-left-tab').click(function () {
@@ -67,6 +70,7 @@ function Viewer() {
         let indexJS = new IndexJS();
 
         indexJS.initialize();
+
 
     };
     this.footerNotes = function (event) {

@@ -219,6 +219,9 @@ function VisualizationJS() {
 
                 }
                 scrollToTranscript(container, transcriptTab, m.options.ref);
+                setTimeout(function () {
+                        $(transcriptTab + ' .bdg-text.ref_' +  m.options.ref).trigger('click');
+                    }, 300);
             });
             markers.push(m);
         });
