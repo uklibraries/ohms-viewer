@@ -249,8 +249,14 @@ div.video iframe {
   border-right: 4px solid var(--line-color);
   box-sizing: border-box;
   position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-box .left-content-holder {
   overflow: auto;
-  padding-bottom: 30px;
+  flex: auto;
 }
 .ui-dialog.notes-dialog {
   top: 50% !important;
@@ -323,10 +329,10 @@ div.video iframe {
   padding: 20px;
   position: relative;
 }
-.main-box .right-side-inner {
+/* .main-box .right-side-inner {
   overflow: auto;
   height: 100%;
-}
+} */
 .toolbar-right {
   display: flex;
   gap: 15px;
@@ -368,6 +374,15 @@ div.video iframe {
   display: block;
   margin-top: 20px;
   margin-bottom: 5px;
+}
+.main-box .index-content-holder,
+.main-box .browser-content-holder,
+.main-box .timeline-content-holder,
+.main-box .browser-content-holder,
+.main-box .transcript-content-holder {
+  max-height: calc(100vh - 130px);
+  overflow: auto;
+  position: relative;
 }
 .main-box .right-side #translate-toggle a {
   background: var(--tab-inactive-color);
