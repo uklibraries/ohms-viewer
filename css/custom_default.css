@@ -252,6 +252,12 @@ div.video iframe {
   overflow: auto;
   padding-bottom: 30px;
 }
+ #headervid {
+   position: sticky;
+   top: 0;
+   z-index: 1000;
+   background: #fff;
+ }
 .ui-dialog.notes-dialog {
   top: 50% !important;
   left: 50% !important;
@@ -353,14 +359,14 @@ div.video iframe {
   display: flex;
   z-index: 9999;
   background: #fff;
-  padding-bottom: 50px;
+  padding-bottom: 60px;
 }
 .right-side-header.scrolled .custom-tabs {
   display: inline-flex;
 }
 .right-side-header .right-data-layer {
   position: absolute;
-  bottom: 5px;
+  bottom: 10px;
   display: none;
 }
 .right-side-header.scrolled .right-data-layer {

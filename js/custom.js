@@ -21,39 +21,6 @@ function Viewer() {
             }
         }, 500);
 
-        /* Fixed Header Functionality */
-        const leftSide = document.querySelector('.left-side');
-        const header = document.getElementById('headervid');
-
-        const clone = header.cloneNode(true);
-        clone.removeAttribute('id');
-
-        // wrapper
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('fixed-header');
-        wrapper.appendChild(clone);
-
-        // insert once (hidden initially)
-        header.parentNode.insertBefore(wrapper, header);
-
-        let isVisible = false;
-
-        leftSide.addEventListener('scroll', () => {
-        const triggerPoint = 100;
-
-        if (leftSide.scrollTop > triggerPoint) {
-            if (!isVisible) {
-            wrapper.classList.add('visible');
-            isVisible = true;
-            }
-        } else {
-            if (isVisible) {
-            wrapper.classList.remove('visible');
-            isVisible = false;
-            }
-        }
-        });
-
        const innerDiv = document.querySelector('.right-side-inner');
         const headerRight = document.querySelector('.right-side-header');
 
@@ -97,6 +64,12 @@ function Viewer() {
 
             if ($tabLink.length) {
                 $tabLink.trigger("click"); // trigger click on the right tab
+            }
+
+            if ($tabLink.selector === "#transcript-tab-2") {
+                $(".right-data-layer").show();
+            } else {
+                $(".right-data-layer").hide();
             }
         });
         
