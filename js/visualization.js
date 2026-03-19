@@ -368,8 +368,14 @@ function VisualizationJS() {
         $('html, body').animate({scrollTop: 0}, 100);
         setTimeout(function () {
             let scrollTo = $(transcriptTab + ">.transcript-panel .ref_" + ref);
+            const isRightSide = container.hasClass('right-side-inner');
+
+            const offsetAdjustment = isRightSide ? 100 : 200;
             container.animate({
-                scrollTop: scrollTo.offset().top - container.offset().top + container.scrollTop()
+            scrollTop: scrollTo.offset().top 
+                    - container.offset().top 
+                    + container.scrollTop() 
+                    - offsetAdjustment
             }, 100, 'swing');
         }, 150);
     };

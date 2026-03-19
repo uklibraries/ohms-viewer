@@ -185,129 +185,127 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                             </div>
                         </div>
                     </div>
-                    <div class="left-content-holder">
-                        <div id="audio-panel">
-                            <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
-                        </div>
+                    <div id="audio-panel">
+                        <?php include_once 'tmpl/player_' . $interview->playername . '.tmpl.php'; ?>
+                    </div>
 
-                        <div class="bottom-details">
-                            <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
-                            <div id="custom-tabs-left">
-                                <ul>
-                                    <li><a href="#about-tab-1" class="tab-left-tab">About</a></li>
-                                    <?php if (!empty((string) $interview->index)): ?>
-                                        <li><a href="#index-tab-1" class="tab-left-tab">Index <span class="count index_count d-none"></span></a></li>
-                                    <?php endif; ?>
-                                    <?php if (!empty((string) $interview->transcript)): ?>
-                                        <li><a href="#transcript-tab-1" class="tab-left-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
-                                    <?php endif; ?>
-                                    <?php if (count($interview->annotations) > 0): ?>
-                                        <!-- These will be moved into dropdown via JS -->
-                                        <li class="dropdown-tab"><a class="tab-left-tab" href="#wordcloud-tab-1" id="wordcloud-tab-1-head">Word Cloud</a></li>
-                                        <?php if (count($interview->mapData) > 0): ?>
-                                            <li class="dropdown-tab"><a class="tab-left-tab" href="#map-tab-1" id="map-tab-1-head">Map</a></li>
-                                        <?php endif; ?>
-                                        <li class="dropdown-tab"><a class="tab-left-tab" href="#timeline-tab-1">Timeline</a></li>
-                                        <li class="dropdown-tab"><a class="tab-left-tab" href="#browser-tab-1">Browser</a></li>
-                                    <?php endif; ?>
-                                </ul>
-                                <div id="about-tab-1">
-                                    <div class="about-panel">
-                                        <div><strong><a href="javascript://" class="about-attributes">Summary</a></strong>
-                                            <p><?php echo $interview->description; ?></p>
-                                        </div>
-                                        <strong>Accession Number</strong>
-                                        <p><?php echo $interview->accession; ?></p>
-                                        <strong>Interviewee</strong>
-                                        <p><?php echo "{$interview->interviewee}"; ?></p>
-                                        <strong>Interviewer</strong>
-                                        <p><?php echo $interview->interviewer; ?></p>
-
-                                        <?php
-                                        if (!empty((string) $interview->date)):
-                                            echo '<strong>Interview Date</strong>';
-                                            echo "<p>{$interview->date}</p>";
-                                        endif;
-                                        if (!empty((string) $interview->keyword)):
-                                            $keywords = preg_replace('/\s*;\s*/', '; ', $interview->keyword);
-                                            $keywords = trim($keywords);
-                                            echo '<strong>Keywords</strong>';
-                                            echo "<p>{$keywords}</p>";
-                                        endif;
-                                        if (!empty((string) $interview->subjects)):
-                                            $subjects = preg_replace('/\s*;\s*/', '; ', $interview->subjects);
-                                            $subjects = trim($subjects);
-                                            echo '<strong>Subjects</strong>';
-                                            echo "<p>{$subjects}</p>";
-                                        endif;
-                                        if (!empty($rights)):
-
-                                            echo '<div><strong><a href="javascript://" class="about-attributes">View Rights Statement</a></strong>';
-                                            echo "<p style='display:none';>{$rights}</p></div>";
-                                        endif;
-                                        if (!empty($usage)):
-
-                                            echo '<div><strong><a href="javascript://" class="about-attributes">View Usage Statement</a></strong>';
-                                            echo "<p style='display:none';>{$usage}</p></div>";
-                                        endif;
-                                        if (!empty($acknowledgment)):
-
-                                            echo '<div><strong><a href="javascript://" class="about-attributes">Acknowledgment</a></strong>';
-                                            echo "<p style='display:none';>{$acknowledgment}</p></div>";
-                                        endif;
-
-                                        if (!empty((string) $interview->language)):
-                                            echo '<strong>Language</strong>';
-                                            echo "<p>{$interview->language}</p>";
-                                        endif;
-                                        if (!empty((string) $interview->transcript_alt_lang)):
-                                            echo '<strong>Language For Translation</strong>';
-                                            echo "<p>{$interview->transcript_alt_lang}</p>";
-                                        endif;
-                                        ?>
-
-                                    </div>
-                                </div>
+                    <div class="bottom-details">
+                        <div id="searchbox-panel"><?php include_once 'tmpl/search.tmpl.php'; ?></div>
+                        <div id="custom-tabs-left">
+                            <ul>
+                                <li><a href="#about-tab-1" class="tab-left-tab">About</a></li>
                                 <?php if (!empty((string) $interview->index)): ?>
-                                    <div id="index-tab-1">
-                                        <div id="index-panel" class="index-panel">
-                                            <div class="index-content-holder">
-                                                <?php echo $interview->index; ?>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <li><a href="#index-tab-1" class="tab-left-tab">Index <span class="count index_count d-none"></span></a></li>
                                 <?php endif; ?>
                                 <?php if (!empty((string) $interview->transcript)): ?>
-                                    <div id="transcript-tab-1">
-                                        <div id="transcript-panel" class="transcript-panel">
-                                            <?php if (count($interview->annotations) > 0): ?>
-                                                <div class="data-layers">
-                                                    <div class="custom-checkbox">
-                                                        <input type="checkbox" id="toggle-layers-1" class="toggle-layers" data-layer="ttl1" name="toggle-layers" checked="checked">
-                                                        <label for="toggle-layers-1" class="toggle-layers-label">View Data Layers</label>
-                                                    </div>
-                                                    <ul class="data-layers-list ttl1">
-                                                        <li><span class="bdg-person"><i class="fa fa-eye" data-layer="bdg-person"></i> Person</span></li>
-                                                        <li><span class="bdg-place"><i class="fa fa-eye" data-layer="bdg-place"></i> Place</span></li>
-                                                        <li><span class="bdg-date"><i class="fa fa-eye" data-layer="bdg-date"></i> Date</span></li>
-                                                        <li><span class="bdg-org"><i class="fa fa-eye" data-layer="bdg-org"></i> Org</span></li>
-                                                        <li><span class="bdg-event"><i class="fa fa-eye" data-layer="bdg-event"></i> Event</span></li>
-                                                    </ul>
-                                                </div>
-                                            <?php endif; ?>
-                                            <div class="transcript-content-holder">
-                                                <?php echo $interview->transcript; ?>
-                                            </div>
+                                    <li><a href="#transcript-tab-1" class="tab-left-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
+                                <?php endif; ?>
+                                <?php if (count($interview->annotations) > 0): ?>
+                                    <!-- These will be moved into dropdown via JS -->
+                                    <li class="dropdown-tab"><a class="tab-left-tab" href="#wordcloud-tab-1" id="wordcloud-tab-1-head">Word Cloud</a></li>
+                                    <?php if (count($interview->mapData) > 0): ?>
+                                        <li class="dropdown-tab"><a class="tab-left-tab" href="#map-tab-1" id="map-tab-1-head">Map</a></li>
+                                    <?php endif; ?>
+                                    <li class="dropdown-tab"><a class="tab-left-tab" href="#timeline-tab-1">Timeline</a></li>
+                                    <li class="dropdown-tab"><a class="tab-left-tab" href="#browser-tab-1">Browser</a></li>
+                                <?php endif; ?>
+                            </ul>
+                            <div id="about-tab-1">
+                                <div class="about-panel">
+                                    <div><strong><a href="javascript://" class="about-attributes">Summary</a></strong>
+                                        <p><?php echo $interview->description; ?></p>
+                                    </div>
+                                    <strong>Accession Number</strong>
+                                    <p><?php echo $interview->accession; ?></p>
+                                    <strong>Interviewee</strong>
+                                    <p><?php echo "{$interview->interviewee}"; ?></p>
+                                    <strong>Interviewer</strong>
+                                    <p><?php echo $interview->interviewer; ?></p>
+
+                                    <?php
+                                    if (!empty((string) $interview->date)):
+                                        echo '<strong>Interview Date</strong>';
+                                        echo "<p>{$interview->date}</p>";
+                                    endif;
+                                    if (!empty((string) $interview->keyword)):
+                                        $keywords = preg_replace('/\s*;\s*/', '; ', $interview->keyword);
+                                        $keywords = trim($keywords);
+                                        echo '<strong>Keywords</strong>';
+                                        echo "<p>{$keywords}</p>";
+                                    endif;
+                                    if (!empty((string) $interview->subjects)):
+                                        $subjects = preg_replace('/\s*;\s*/', '; ', $interview->subjects);
+                                        $subjects = trim($subjects);
+                                        echo '<strong>Subjects</strong>';
+                                        echo "<p>{$subjects}</p>";
+                                    endif;
+                                    if (!empty($rights)):
+
+                                        echo '<div><strong><a href="javascript://" class="about-attributes">View Rights Statement</a></strong>';
+                                        echo "<p style='display:none';>{$rights}</p></div>";
+                                    endif;
+                                    if (!empty($usage)):
+
+                                        echo '<div><strong><a href="javascript://" class="about-attributes">View Usage Statement</a></strong>';
+                                        echo "<p style='display:none';>{$usage}</p></div>";
+                                    endif;
+                                    if (!empty($acknowledgment)):
+
+                                        echo '<div><strong><a href="javascript://" class="about-attributes">Acknowledgment</a></strong>';
+                                        echo "<p style='display:none';>{$acknowledgment}</p></div>";
+                                    endif;
+
+                                    if (!empty((string) $interview->language)):
+                                        echo '<strong>Language</strong>';
+                                        echo "<p>{$interview->language}</p>";
+                                    endif;
+                                    if (!empty((string) $interview->transcript_alt_lang)):
+                                        echo '<strong>Language For Translation</strong>';
+                                        echo "<p>{$interview->transcript_alt_lang}</p>";
+                                    endif;
+                                    ?>
+
+                                </div>
+                            </div>
+                            <?php if (!empty((string) $interview->index)): ?>
+                                <div id="index-tab-1">
+                                    <div id="index-panel" class="index-panel">
+                                        <div class="index-content-holder">
+                                            <?php echo $interview->index; ?>
                                         </div>
                                     </div>
-                                <?php endif; ?>
-                                <?php
-                                if (count($interview->annotations) > 0):
-                                    $tab_tag = '1';
-                                    include 'tmpl/visualization.tmpl.php';
-                                endif;
-                                ?>
-                            </div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if (!empty((string) $interview->transcript)): ?>
+                                <div id="transcript-tab-1">
+                                    <div id="transcript-panel" class="transcript-panel">
+                                        <?php if (count($interview->annotations) > 0): ?>
+                                            <div class="data-layers">
+                                                <div class="custom-checkbox">
+                                                    <input type="checkbox" id="toggle-layers-1" class="toggle-layers" data-layer="ttl1" name="toggle-layers" checked="checked">
+                                                    <label for="toggle-layers-1" class="toggle-layers-label">View Data Layers</label>
+                                                </div>
+                                                <ul class="data-layers-list ttl1">
+                                                    <li><span class="bdg-person"><i class="fa fa-eye" data-layer="bdg-person"></i> Person</span></li>
+                                                    <li><span class="bdg-place"><i class="fa fa-eye" data-layer="bdg-place"></i> Place</span></li>
+                                                    <li><span class="bdg-date"><i class="fa fa-eye" data-layer="bdg-date"></i> Date</span></li>
+                                                    <li><span class="bdg-org"><i class="fa fa-eye" data-layer="bdg-org"></i> Org</span></li>
+                                                    <li><span class="bdg-event"><i class="fa fa-eye" data-layer="bdg-event"></i> Event</span></li>
+                                                </ul>
+                                            </div>
+                                        <?php endif; ?>
+                                        <div class="transcript-content-holder">
+                                            <?php echo $interview->transcript; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                            <?php
+                            if (count($interview->annotations) > 0):
+                                $tab_tag = '1';
+                                include 'tmpl/visualization.tmpl.php';
+                            endif;
+                            ?>
                         </div>
                     </div>
 
@@ -319,32 +317,48 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                 <div class="right-side">
                     <button class="toggle-sides"><img src="./imgs/toggle-btn-icon.png" /></button>
                     <div class="right-side-inner">
-                        <div class="toolbar-right">
-                            <?php if ($interview->translate == '1'): ?>
-                                <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
-                                    <a href="#" class="translate-link <?php echo (($_GET['translate'] ?? null) == 1) ? 'active' : ''; ?>" id="translate-link" data-lang="<?php echo $interview->language ?>"
-                                       data-translate="<?php $interview->transcript_alt_lang; ?>"
-                                       data-toggleAvailable="<?php echo $toggleAvailable; ?>"
-                                       data-linkto="<?php echo $interview->transcript_alt_lang ?>" data-default="<?php echo $interview->language ?>">
-                                        <?php echo $interview->transcript_alt_lang ?></a>
-                                    <a href="#" class="translate-link <?php echo (($_GET['translate'] ?? 0) == 0) ? 'active' : ''; ?>" id="translate-link" data-lang="<?php echo $interview->transcript_alt_lang ?>"
-                                       data-translate="<?php $interview->language; ?>"
-                                       data-toggleAvailable="<?php echo $toggleAvailable; ?>"
-                                       data-linkto="<?php echo $interview->language ?>" data-default="<?php echo $interview->language ?>">
-                                        <?php echo $interview->language ?></a>
+                        <div class="right-side-header">
+                            <div class="custom-tabs">
+                                <a href="#" class="index-tab">Index</a>
+                                <a href="#" class="transcript-tab">Transcript</a>
+                                <div class="tab-dropdown">
+                                    <span>Visualization ▼</span>
+                                    <div class="tab-dropdown-inner">
+                                        <a href="#" class="wordcloud-tab">Word Cloud</a>
+                                        <a href="#" class="map-tab">Map</a>
+                                        <a href="#" class="timeline-tab">Timeline</a>
+                                        <a href="#" class="browser-tab">Browser</a>
+                                    </div>
                                 </div>
-                                <?php
-                            endif;
-                            ?>
-                            <a href="#" class="refreshPage"></a>
-                            <?php if ($printMode) {
-                                ?> 
-                                <a href="#" class="printCustom" ></a>
+                            </div>
+
+                            <div class="toolbar-right">
+                                <?php if ($interview->translate == '1'): ?>
+                                    <div id="translate-toggle" class="<?php echo $toggleLanguageSwitch; ?>">
+                                        <a href="#" class="translate-link <?php echo (($_GET['translate'] ?? null) == 1) ? 'active' : ''; ?>" id="translate-link" data-lang="<?php echo $interview->language ?>"
+                                        data-translate="<?php $interview->transcript_alt_lang; ?>"
+                                        data-toggleAvailable="<?php echo $toggleAvailable; ?>"
+                                        data-linkto="<?php echo $interview->transcript_alt_lang ?>" data-default="<?php echo $interview->language ?>">
+                                            <?php echo $interview->transcript_alt_lang ?></a>
+                                        <a href="#" class="translate-link <?php echo (($_GET['translate'] ?? 0) == 0) ? 'active' : ''; ?>" id="translate-link" data-lang="<?php echo $interview->transcript_alt_lang ?>"
+                                        data-translate="<?php $interview->language; ?>"
+                                        data-toggleAvailable="<?php echo $toggleAvailable; ?>"
+                                        data-linkto="<?php echo $interview->language ?>" data-default="<?php echo $interview->language ?>">
+                                            <?php echo $interview->language ?></a>
+                                    </div>
+                                    <?php
+                                endif;
+                                ?>
+                                <a href="#" class="refreshPage"></a>
+                                <?php if ($printMode) {
+                                    ?> 
+                                    <a href="#" class="printCustom" ></a>
+                                <?php } ?>
+                            </div>
+                            <?php if ($printMode) { ?>
+                                <a href="#" class="printCustomMobile" ></a>
                             <?php } ?>
                         </div>
-                        <?php if ($printMode) { ?>
-                            <a href="#" class="printCustomMobile" ></a>
-                        <?php } ?>
 
                         <div id="custom-tabs-right">
                             <ul>
