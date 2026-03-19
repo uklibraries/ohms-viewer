@@ -323,7 +323,7 @@ div.video iframe {
   padding: 20px;
   position: relative;
 }
-.main-box .right-side-inner {
+.main-box .right-content-holder {
   overflow: auto;
   height: 100%;
 }
@@ -337,74 +337,6 @@ div.video iframe {
   z-index: 99;
   max-width: 500px;
   margin-left: auto;
-}
-.right-side-header {
-  position: sticky;
-  top: 0; 
-  z-index: 99;
-  text-align: left;
-}
-.right-side-header .custom-tabs {
-  display: none;
-  align-items: flex-start;
-  border: 1px solid var(--tab-active-color);
-}
-.right-side-header.scrolled {
-  display: flex;
-  z-index: 9999;
-  background: #fff;
-  padding-bottom: 50px;
-}
-.right-side-header.scrolled .custom-tabs {
-  display: inline-flex;
-}
-.right-side-header .right-data-layer {
-  position: absolute;
-  bottom: 5px;
-  display: none;
-}
-.right-side-header.scrolled .right-data-layer {
-  display: block;
-}
-.right-side-header .custom-tabs a,
-.right-side-header .custom-tabs span {
-  background: var(--tab-inactive-color);
-  border-color: var(--tab-inactive-color);
-  color: var(--line-color);
-  font-size: 16px;
-  font-weight: 500;
-  padding: 8px 10px;
-  min-height: 38px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  justify-content: center;
-  text-decoration: none;
-}
-.right-side-header .custom-tabs a.active,
-.right-side-header .custom-tabs a:hover {
-  background: var(--tab-active-color);
-  border-color: var(--tab-active-color);
-  color: #fff;
-}
-.right-side-header .custom-tabs .tab-dropdown {
-  min-width: 140px;
-  z-index: 999;
-}
-.right-side-header .custom-tabs .tab-dropdown-inner {
-  position: absolute;
-  min-width: 141px;
-  border: 1px solid var(--tab-active-color);
-  opacity: 0;
-  visibility: hidden;
-}
-.right-side-header .custom-tabs .tab-dropdown.open .tab-dropdown-inner {
-  opacity: 1;
-  visibility: visible;
-}
-.right-side-header .custom-tabs .tab-dropdown-inner a + a {
-  border-top: 1px solid var(--tab-active-color);
 }
 .toolbar-right #translate-toggle {
   margin-right: 15px;
@@ -1175,6 +1107,13 @@ div.video iframe {
 .grid-section .caption.no-image {
   padding: 60px 10px;
   font-size: 18px;
+}
+#headervid {
+  position: sticky;
+  top: 0; 
+  z-index: 99;
+  text-align: left;
+  background: #fff;
 }
 
 #footer {
