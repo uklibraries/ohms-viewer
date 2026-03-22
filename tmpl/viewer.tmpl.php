@@ -270,9 +270,7 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                             <?php if (!empty((string) $interview->index)): ?>
                                 <div id="index-tab-1">
                                     <div id="index-panel" class="index-panel">
-                                        <div class="index-content-holder">
-                                            <?php echo $interview->index; ?>
-                                        </div>
+                                        <?php echo $interview->index; ?>
                                     </div>
                                 </div>
                             <?php endif; ?>
@@ -294,9 +292,7 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                                                 </ul>
                                             </div>
                                         <?php endif; ?>
-                                        <div class="transcript-content-holder">
-                                            <?php echo $interview->transcript; ?>
-                                        </div>
+                                        <?php echo $interview->transcript; ?>
                                     </div>
                                 </div>
                             <?php endif; ?>

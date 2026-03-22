@@ -809,7 +809,6 @@ input {
     #transcript-panel {
         padding: 0;
         top: 0px;
-        height: 500px !important;
         width: 100%;
         float: none;
         margin: 0;

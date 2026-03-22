@@ -22,7 +22,7 @@ function Viewer() {
         }, 500);
 
        const innerDiv = document.querySelector('.right-side-inner');
-        const headerRight = document.querySelector('.right-side-header');
+       const headerRight = document.querySelector('.right-side-header');
 
         if (innerDiv && headerRight) {
             innerDiv.addEventListener('scroll', function() {
@@ -50,7 +50,25 @@ function Viewer() {
             // Insert wrapper at the end of the header
             headerRight.appendChild(wrapper);
         }
+        
+        // Nouman to check - Call this function on page load
 
+        function handleActiveClass(){
+            var $activePanel = $('#custom-tabs-right .ui-tabs-panel').not('.ui-tabs-hide');
+
+            if ($activePanel.length > 0) {
+                var panelId = $activePanel.first().attr('id'); // e.g. "transcript-tab-2"
+
+                // remove trailing "-number"
+                var baseClass = panelId.replace(/-\d+$/, ''); // "transcript-tab"
+
+                // remove active from all
+                $('.custom-tabs a').removeClass('active');
+
+                // add active to matching link
+                $('.custom-tabs a.' + baseClass).addClass('active');
+            }
+        }
         
         $(".custom-tabs a").on("click", function(e) {
             e.preventDefault(); // prevent default navigation
@@ -65,14 +83,9 @@ function Viewer() {
             if ($tabLink.length) {
                 $tabLink.trigger("click"); // trigger click on the right tab
             }
-
-            if ($tabLink.selector === "#transcript-tab-2") {
-                $(".right-data-layer").show();
-            } else {
-                $(".right-data-layer").hide();
-            }
+            handleActiveClass();
         });
-        
+
 
         $('.right-side-header .custom-tabs .tab-dropdown span').click(function () {
             $(this).closest('.tab-dropdown').toggleClass('open');
@@ -645,4 +658,3 @@ function IndexJS() {
 
     }
 }
-        
