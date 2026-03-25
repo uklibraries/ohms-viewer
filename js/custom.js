@@ -67,6 +67,13 @@ function Viewer() {
 
                 // add active to matching link
                 $('.custom-tabs a.' + baseClass).addClass('active');
+                
+                var $link = $('.custom-tabs a.' + baseClass);
+
+                var $dropdownParent = $link.closest('.tab-dropdown');
+                if ($dropdownParent.length) {
+                    $dropdownParent.addClass('active');
+                }
             }
         }
         
@@ -78,7 +85,7 @@ function Viewer() {
 
             // Find the tab link whose href matches the pattern (e.g., "#index-tab-2")
             var $tabLink = $('a[href$="' + triggerClass.replace("-tab", "-tab-2") + '"]');
-            $('.tab-dropdown').removeClass('open');
+            $('.tab-dropdown').removeClass('open active');
 
             if ($tabLink.length) {
                 $tabLink.trigger("click"); // trigger click on the right tab

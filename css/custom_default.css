@@ -394,6 +394,10 @@ div.video iframe {
   min-width: 140px;
   z-index: 999;
 }
+.right-side-header .tab-dropdown.active > span {
+  background: var(--tab-active-color);
+  color: #fff;
+}
 .right-side-header .custom-tabs .tab-dropdown-inner {
   position: absolute;
   min-width: 141px;
