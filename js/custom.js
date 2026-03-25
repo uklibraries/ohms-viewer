@@ -65,9 +65,6 @@ function Viewer() {
             if ($tabLink.length) {
                 $tabLink.trigger("click"); // trigger click on the right tab
             }
-            setTimeout(function(){
-            handleActiveClass();
-        }, 500);
         });
 
 
@@ -123,26 +120,9 @@ function Viewer() {
         let indexJS = new IndexJS();
 
         indexJS.initialize();
-        setTimeout(function(){
-            handleActiveClass();
-        }, 500);
 
     };
-    const handleActiveClass = function () {
-        var $activePanel = $('#custom-tabs-right .ui-tabs-panel').not('.ui-tabs-hide');
-       
-        if ($activePanel.length > 0) {
-            var panelId = $activePanel.first().attr('id'); // e.g. "transcript-tab-2"
-            // remove trailing "-number"
-            var baseClass = panelId.replace(/-\d+$/, ''); // "transcript-tab"
-
-            // remove active from all
-            $('.custom-tabs a').removeClass('active');
-
-            // add active to matching link
-            $('.custom-tabs a.' + baseClass).addClass('active');
-        }
-    };
+    
     this.footerNotes = function (event) {
         bindFootNoteHover(event)
     }
@@ -219,6 +199,51 @@ function Viewer() {
         });
 
     }
+
+    $(document).ready(function() {
+        function syncActiveTab() {
+            // Find the <a> whose parent has ui-state-active
+            var activeTab = $('a[data-tab]').filter(function() {
+                return $(this).parent().hasClass('ui-state-active');
+            }).first();
+
+            if (activeTab.length) {
+                var tabValue = activeTab.data('tab');
+                console.log('Active tab:', tabValue);
+
+                // Remove active class from all <a> with data-tab
+                $('a[data-tab]').removeClass('ui-tabs-selected');
+
+                // Add active class to all <a> with the same data-tab, including dropdown
+                $('a[data-tab="' + tabValue + '"]').addClass('ui-tabs-selected');
+            }
+
+            $('.tab-dropdown').each(function() {
+                // Check if any <a> inside has ui-tabs-selected class
+                var hasActive = $(this).find('a').filter(function() {
+                    return $(this).hasClass('ui-tabs-selected') || $(this).parent().hasClass('ui-tabs-selected');
+                }).length > 0;
+
+                if (hasActive) {
+                    $(this).addClass('ui-tabs-selected');
+                } else {
+                    $(this).removeClass('ui-tabs-selected');
+                }
+            });
+        }
+
+        // Run on page load
+        setTimeout(syncActiveTab, 1000);
+
+        // Run on click for all <a> with data-tab (tabs + dropdown)
+        $('a[data-tab]').on('click', function() {
+            // Delay to wait for ui-state-active update
+            setTimeout(syncActiveTab, 50);
+        });
+
+        
+    });
+
     const activateTruncateText = function () {
         document.querySelectorAll('.truncate').forEach(el => {
 

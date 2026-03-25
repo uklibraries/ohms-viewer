@@ -384,7 +384,7 @@ div.video iframe {
   justify-content: center;
   text-decoration: none;
 }
-.right-side-header .custom-tabs a.active,
+.right-side-header .custom-tabs a.ui-tabs-selected,
 .right-side-header .custom-tabs a:hover {
   background: var(--tab-active-color);
   border-color: var(--tab-active-color);
@@ -394,7 +394,7 @@ div.video iframe {
   min-width: 140px;
   z-index: 999;
 }
-.right-side-header .tab-dropdown.active > span {
+.right-side-header .tab-dropdown.ui-tabs-selected > span {
   background: var(--tab-active-color);
   color: #fff;
 }

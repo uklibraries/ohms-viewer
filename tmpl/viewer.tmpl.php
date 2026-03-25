@@ -315,15 +315,16 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                     <div class="right-side-inner">
                         <div class="right-side-header">
                             <div class="custom-tabs">
-                                <a href="#" class="index-tab">Index</a>
-                                <a href="#" class="transcript-tab">Transcript</a>
+                                <a href="#" class="index-tab" data-tab="index">Index</a>
+                                <a href="#" class="transcript-tab" data-tab="transcript">Transcript</a>
+
                                 <div class="tab-dropdown">
                                     <span>Visualization ▼</span>
                                     <div class="tab-dropdown-inner">
-                                        <a href="#" class="wordcloud-tab">Word Cloud</a>
-                                        <a href="#" class="map-tab">Map</a>
-                                        <a href="#" class="timeline-tab">Timeline</a>
-                                        <a href="#" class="browser-tab">Browser</a>
+                                        <a href="#" data-tab="wordcloud">Word Cloud</a>
+                                        <a href="#" data-tab="map">Map</a>
+                                        <a href="#" data-tab="timeline">Timeline</a>
+                                        <a href="#" data-tab="browser">Browser</a>
                                     </div>
                                 </div>
                             </div>
@@ -359,20 +360,20 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                         <div id="custom-tabs-right">
                             <ul>
                                 <?php if (!empty((string) $interview->index)): ?>
-                                    <li><a href="#index-tab-2" class="tab-right-tab">Index <span class="count index_count d-none"></span></a></li>
+                                    <li><a href="#index-tab-2" data-tab="index" class="tab-right-tab">Index <span class="count index_count d-none"></span></a></li>
                                 <?php endif; ?>
                                 <?php if (!empty((string) $interview->transcript)): ?>
-                                    <li><a href="#transcript-tab-2" class="tab-right-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
+                                    <li><a href="#transcript-tab-2" data-tab="transcript" class="tab-right-tab">Transcript <span class="count transcript_count d-none"></span></a></li>
                                 <?php endif; ?>
                                 <?php if (count($interview->annotations) > 0): ?>
                                     <!-- These will be moved into dropdown via JS -->
-                                    <li class="dropdown-tab"><a href="#wordcloud-tab-2" class="tab-right-tab" id="wordcloud-tab-2-head">Word Cloud</a></li>
+                                    <li class="dropdown-tab"><a href="#wordcloud-tab-2" data-tab="wordcloud" class="tab-right-tab" id="wordcloud-tab-2-head">Word Cloud</a></li>
                                     <?php if (count($interview->mapData) > 0): ?>
-                                        <li class="dropdown-tab"><a href="#map-tab-2" class="tab-right-tab" id="map-tab-2-head">Map</a></li>
+                                        <li class="dropdown-tab"><a href="#map-tab-2" data-tab="map" class="tab-right-tab" id="map-tab-2-head">Map</a></li>
                                     <?php endif; ?>
 
-                                    <li class="dropdown-tab"><a class="tab-right-tab" href="#timeline-tab-2">Timeline</a></li>
-                                    <li class="dropdown-tab"><a class="tab-right-tab" href="#browser-tab-2">Browser</a></li>
+                                    <li class="dropdown-tab" ><a class="tab-right-tab" data-tab="timeline" href="#timeline-tab-2" >Timeline</a></li>
+                                    <li class="dropdown-tab" ><a class="tab-right-tab" data-tab="browser" href="#browser-tab-2" >Browser</a></li>
                                 <?php endif; ?>
                             </ul>
                             <?php if (empty((string) $interview->index) && empty((string) $interview->transcript)): ?>

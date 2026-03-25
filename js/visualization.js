@@ -38,8 +38,6 @@ function VisualizationJS() {
         }
         annotationPopup();
 
-
-
     };
     const annotationPopup = function () {
 
