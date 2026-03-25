@@ -21,11 +21,11 @@ function Viewer() {
             }
         }, 500);
 
-       const innerDiv = document.querySelector('.right-side-inner');
-       const headerRight = document.querySelector('.right-side-header');
+        const innerDiv = document.querySelector('.right-side-inner');
+        const headerRight = document.querySelector('.right-side-header');
 
         if (innerDiv && headerRight) {
-            innerDiv.addEventListener('scroll', function() {
+            innerDiv.addEventListener('scroll', function () {
                 if (innerDiv.scrollTop > 100) {
                     headerRight.classList.add('scrolled'); // add sticky class
                 } else {
@@ -50,38 +50,13 @@ function Viewer() {
             // Insert wrapper at the end of the header
             headerRight.appendChild(wrapper);
         }
-        
-        // Nouman to check - Call this function on page load
 
-        function handleActiveClass(){
-            var $activePanel = $('#custom-tabs-right .ui-tabs-panel').not('.ui-tabs-hide');
 
-            if ($activePanel.length > 0) {
-                var panelId = $activePanel.first().attr('id'); // e.g. "transcript-tab-2"
-
-                // remove trailing "-number"
-                var baseClass = panelId.replace(/-\d+$/, ''); // "transcript-tab"
-
-                // remove active from all
-                $('.custom-tabs a').removeClass('active');
-
-                // add active to matching link
-                $('.custom-tabs a.' + baseClass).addClass('active');
-                
-                var $link = $('.custom-tabs a.' + baseClass);
-
-                var $dropdownParent = $link.closest('.tab-dropdown');
-                if ($dropdownParent.length) {
-                    $dropdownParent.addClass('active');
-                }
-            }
-        }
-        
-        $(".custom-tabs a").on("click", function(e) {
+        $(".custom-tabs a").on("click", function (e) {
             e.preventDefault(); // prevent default navigation
 
             // Get the class of the clicked link (like "index-tab" or "transcript-tab")
-            var triggerClass = $(this).attr("class"); 
+            var triggerClass = $(this).attr("class");
 
             // Find the tab link whose href matches the pattern (e.g., "#index-tab-2")
             var $tabLink = $('a[href$="' + triggerClass.replace("-tab", "-tab-2") + '"]');
@@ -90,14 +65,16 @@ function Viewer() {
             if ($tabLink.length) {
                 $tabLink.trigger("click"); // trigger click on the right tab
             }
+            setTimeout(function(){
             handleActiveClass();
+        }, 500);
         });
 
 
         $('.right-side-header .custom-tabs .tab-dropdown span').click(function () {
             $(this).closest('.tab-dropdown').toggleClass('open');
         });
-        
+
 
         $('.tab-left-tab').click(function () {
             currentLeftTab = $(this).attr('href');
@@ -143,12 +120,28 @@ function Viewer() {
         });
         switchViews();
         bindOldFootNotes();
-
         let indexJS = new IndexJS();
 
         indexJS.initialize();
+        setTimeout(function(){
+            handleActiveClass();
+        }, 500);
 
+    };
+    const handleActiveClass = function () {
+        var $activePanel = $('#custom-tabs-right .ui-tabs-panel').not('.ui-tabs-hide');
+       
+        if ($activePanel.length > 0) {
+            var panelId = $activePanel.first().attr('id'); // e.g. "transcript-tab-2"
+            // remove trailing "-number"
+            var baseClass = panelId.replace(/-\d+$/, ''); // "transcript-tab"
 
+            // remove active from all
+            $('.custom-tabs a').removeClass('active');
+
+            // add active to matching link
+            $('.custom-tabs a.' + baseClass).addClass('active');
+        }
     };
     this.footerNotes = function (event) {
         bindFootNoteHover(event)
