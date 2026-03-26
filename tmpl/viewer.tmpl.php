@@ -321,10 +321,10 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                                 <div class="tab-dropdown">
                                     <span>Visualization ▼</span>
                                     <div class="tab-dropdown-inner">
-                                        <a href="#" data-tab="wordcloud">Word Cloud</a>
-                                        <a href="#" data-tab="map">Map</a>
-                                        <a href="#" data-tab="timeline">Timeline</a>
-                                        <a href="#" data-tab="browser">Browser</a>
+                                        <a href="#" class="wordcloud-tab" data-tab="wordcloud">Word Cloud</a>
+                                        <a href="#" class="map-tab" data-tab="map">Map</a>
+                                        <a href="#" class="timeline-tab" data-tab="timeline">Timeline</a>
+                                        <a href="#" class="browser-tab" data-tab="browser">Browser</a>
                                     </div>
                                 </div>
                             </div>
