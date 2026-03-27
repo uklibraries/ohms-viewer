@@ -347,8 +347,10 @@ div.video iframe {
 .right-side-header {
   position: sticky;
   top: 0; 
-  z-index: 99;
+  z-index: 999;
   text-align: left;
+  width: 50%;
+  margin-left: auto;
 }
 .right-side-header .custom-tabs {
   display: none;
@@ -358,6 +360,7 @@ div.video iframe {
   display: flex;
   z-index: 9999;
   background: #fff;
+  width: 100%;
 }
 .right-side-header.scrolled .custom-tabs {
   display: inline-flex;
