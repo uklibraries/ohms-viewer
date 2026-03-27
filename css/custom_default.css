@@ -353,7 +353,6 @@ div.video iframe {
 .right-side-header .custom-tabs {
   display: none;
   align-items: flex-start;
-  border: 1px solid var(--tab-active-color);
 }
 .right-side-header.scrolled {
   display: flex;
@@ -371,7 +370,7 @@ div.video iframe {
 .right-side-header .custom-tabs a,
 .right-side-header .custom-tabs span {
   background: var(--tab-inactive-color);
-  border-color: var(--tab-inactive-color);
+  border: 1px solid var(--tab-active-color);
   color: var(--line-color);
   font-size: 16px;
   font-weight: 500;
