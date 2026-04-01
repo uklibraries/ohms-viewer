@@ -315,18 +315,25 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                     <div class="right-side-inner">
                         <div class="right-side-header">
                             <div class="custom-tabs">
+                                <?php if (!empty((string) $interview->index)): ?>
                                 <a href="#" class="index-tab" data-tab="index">Index</a>
+                                <?php endif; ?>
+                                <?php if (!empty((string) $interview->transcript)): ?>
                                 <a href="#" class="transcript-tab" data-tab="transcript">Transcript</a>
-
+                                <?php endif; ?>
+                                <?php if (count($interview->annotations) > 0): ?>
                                 <div class="tab-dropdown">
                                     <span>Visualization ▼</span>
                                     <div class="tab-dropdown-inner">
                                         <a href="#" class="wordcloud-tab" data-tab="wordcloud">Word Cloud</a>
+                                        <?php if (count($interview->mapData) > 0): ?>
                                         <a href="#" class="map-tab" data-tab="map">Map</a>
+                                        <?php endif; ?>
                                         <a href="#" class="timeline-tab" data-tab="timeline">Timeline</a>
                                         <a href="#" class="browser-tab" data-tab="browser">Browser</a>
                                     </div>
                                 </div>
+                                <?php endif; ?>
                             </div>
 
                             <div class="toolbar-right">
