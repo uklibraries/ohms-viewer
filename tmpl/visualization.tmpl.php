@@ -42,6 +42,16 @@
         }
     </style>
     <div id="map-tab-<?php echo $tab_tag; ?>">
+        <div class="ww_timeline_filter_container">
+            <select id="map_type_filter<?php echo $tab_tag; ?>" data-id="<?php echo $tab_tag; ?>" class="browser-type" multiple="multiple">
+
+                <option value="person">Person</option>
+                <option value="place" selected="selected">Place</option>
+                <option value="date">Date</option>
+                <option value="org">Org</option>
+                <option value="event">Event</option>
+            </select>
+        </div>
         <div id="map_area_<?php echo $tab_tag; ?>"></div>
 
     </div>

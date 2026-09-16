@@ -20,19 +20,39 @@ function VisualizationJS() {
         if (mapPoints.length > 0) {
 
             mapData = mapPoints;
-            [map1, marker1] = loadMap('map_area_1');
-            [map2, marker2] = loadMap('map_area_2');
+            // Leaflet is created lazily, the first time its tab is actually
+            // shown. Building it while the panel is still display:none
+            // gives it a zero-size container to measure, and its tile grid
+            // never fully recovers from that even after invalidateSize() /
+            // fitBounds() once the panel becomes visible.
             $('#map-tab-1-head').click(function () {
                 // panel is toggled visible by the click handler in custom.js;
                 // wait a tick so the map measures its real size.
                 setTimeout(function () {
-                    refreshMap(map1, marker1);
+                    if (!map1) {
+                        [map1, marker1] = loadMap('map_area_1');
+                        // Only "Place" is checked by default in the type
+                        // filter (most entity types never carry a geo
+                        // location), so hide any other type's markers to
+                        // match what the filter already shows as checked.
+                        applyMapFilter('1');
+                    } else {
+                        refreshMap(map1, marker1);
+                    }
                 }, 80);
             });
             $('#map-tab-2-head').click(function () {
                 setTimeout(function () {
-                    refreshMap(map2, marker2);
+                    if (!map2) {
+                        [map2, marker2] = loadMap('map_area_2');
+                        applyMapFilter('2');
+                    } else {
+                        refreshMap(map2, marker2);
+                    }
                 }, 80);
+            });
+            $('#map_type_filter1, #map_type_filter2').on('change', function () {
+                applyMapFilter($(this).data('id'));
             });
         }
 
@@ -102,15 +122,11 @@ function VisualizationJS() {
                         transcriptTab = '#transcript-tab-2';
                         mapTab = '#map-tab-1';
                         container = $('.right-side-inner');
-                        marker = marker1;
-                        map = map1;
 
                     } else {
                         container = $('.left-side');
                         transcriptTab = '#transcript-tab-1';
                         mapTab = '#map-tab-2';
-                        marker = marker2;
-                        map = map2;
 
                     }
                 }
@@ -118,7 +134,16 @@ function VisualizationJS() {
                 if (geoLocation) {
                     const [lat, lng] = geoLocation.split(",").map(Number);
                     $('a[href="' + mapTab + '"]').trigger("click");
-                    highlightMarkerByLatLng(lat, lng, marker, map);
+                    // map1/marker1 (or map2/marker2) are created lazily by
+                    // that tab's own click handler, on its own setTimeout —
+                    // wait for it before reading them.
+                    setTimeout(function () {
+                        map = (mapTab === '#map-tab-1') ? map1 : map2;
+                        marker = (mapTab === '#map-tab-1') ? marker1 : marker2;
+                        if (map && marker) {
+                            highlightMarkerByLatLng(lat, lng, marker, map);
+                        }
+                    }, 150);
 
                 }
                 setTimeout(function () {
@@ -187,6 +212,19 @@ function VisualizationJS() {
             return Math.abs(pos.lat - lat) < tolerance && Math.abs(pos.lng - lng) < tolerance;
         });
     };
+    // fitBounds() alone can pick a zoom low enough to fit a wide spread of
+    // markers into a narrow (but tall) map column. At that zoom the world
+    // map itself (256 * 2^zoom px tall) can end up shorter than the
+    // container, and Web Mercator has no tiles past the poles — so the
+    // extra container height renders as blank gray space. Never zoom out
+    // past the point where the world is shorter than the container.
+    const fitBoundsNoGap = function (map, bounds) {
+        const targetZoom = map.getBoundsZoom(bounds);
+        const size = map.getSize();
+        const minZoomForHeight = Math.ceil(Math.log2(Math.max(size.y, 1) / 256));
+        const zoom = Math.max(targetZoom, minZoomForHeight, map.getMinZoom());
+        map.setView(bounds.getCenter(), zoom, {animate: false});
+    };
     const refreshMap = function (map, markers) {
         if (!('CSS' in window && CSS.supports && CSS.supports('aspect-ratio', '1/1'))) {
             const w = document.getElementById('map').offsetWidth;
@@ -199,7 +237,7 @@ function VisualizationJS() {
             // the Map tab leaves the view mid-flight; Leaflet ignores marker
             // clicks while panning/zooming, so the first click after opening
             // the tab would appear to do nothing until the flight settled.
-            map.fitBounds(group.getBounds().pad(0.2), {animate: false});
+            fitBoundsNoGap(map, group.getBounds().pad(0.2));
         }
         // invalidateSize()/fitBounds() reposition the map and its markers via
         // JS, but the browser's own hit-testing for that area can stay stale
@@ -215,6 +253,31 @@ function VisualizationJS() {
             clientY: rect.top + rect.height / 2
         }));
     }
+    const applyMapFilter = function (tabTag) {
+        const map = (String(tabTag) === '1') ? map1 : map2;
+        const markers = (String(tabTag) === '1') ? marker1 : marker2;
+        if (!map || !markers)
+            return;
+
+        const selected = ($('#map_type_filter' + tabTag).val() || []).map(v => String(v).toUpperCase());
+
+        const visible = [];
+        markers.forEach(m => {
+            const show = selected.includes(m.options.label);
+            if (show) {
+                if (!map.hasLayer(m))
+                    m.addTo(map);
+                visible.push(m);
+            } else {
+                if (map.hasLayer(m))
+                    map.removeLayer(m);
+            }
+        });
+
+        if (visible.length) {
+            fitBoundsNoGap(map, L.featureGroup(visible).getBounds().pad(0.2));
+        }
+    };
     const esc = function (s) {
         return String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
     }
@@ -253,7 +316,8 @@ function VisualizationJS() {
             // header/player/search/tab stack, map_area_2 (right) only under
             // the tab bar.
             const topPad = mapId === 'map_area_1' ? ((window.frozenLeftHeight || 0) + 20) : 60;
-            const m = L.marker([lat, lng], {icon: brandIcon, ref: first_ref}).addTo(map).bindPopup(popupHtml, {
+            const label = String(row.label || '').toUpperCase();
+            const m = L.marker([lat, lng], {icon: brandIcon, ref: first_ref, label: label}).addTo(map).bindPopup(popupHtml, {
                 autoPanPaddingTopLeft: L.point(20, topPad),
                 autoPanPaddingBottomRight: L.point(20, 20)
             });
@@ -292,7 +356,7 @@ function VisualizationJS() {
 // Fit to markers
         if (markers.length) {
             const group = L.featureGroup(markers);
-            map.fitBounds(group.getBounds().pad(0.2), {animate: false});
+            fitBoundsNoGap(map, group.getBounds().pad(0.2));
         }
         return [map, markers];
     };
@@ -602,7 +666,7 @@ function VisualizationJS() {
         $nores.toggle(visible === 0);
     };
     const browserTab = function () {
-        $("#type_filter1, #type_filter2, #timeline_type_filter1, #timeline_type_filter2, #ww_type_filter1, #ww_type_filter2").multiselect({
+        $("#type_filter1, #type_filter2, #timeline_type_filter1, #timeline_type_filter2, #ww_type_filter1, #ww_type_filter2, #map_type_filter1, #map_type_filter2").multiselect({
             header: true,
             noneSelectedText: "Type",
             selectedList: 0,
@@ -639,13 +703,26 @@ function VisualizationJS() {
                 }).first();
 
                 if ($dropdown.length) {
-                    console.log($select.outerHeight());
                     // Optionally re-style
                     $dropdown.css({
                         position: 'absolute',
                         top: $select.outerHeight(),
                         left: 0,
-                        zIndex: 1000
+                        // Above Leaflet's own control pane (.leaflet-top /
+                        // .leaflet-bottom, z-index: 1000 by default) — the
+                        // map filter's dropdown sits right next to the map,
+                        // and equal z-index lets the map's zoom control win
+                        // the tie and render on top of this menu.
+                        zIndex: 2000,
+                        // Leaflet's tile/marker panes are GPU-composited
+                        // (translate3d). A plain z-index stacks correctly in
+                        // the DOM/paint order, but Chromium can still
+                        // composite an ordinary (non-layered) element behind
+                        // a promoted one. Promoting this dropdown to its own
+                        // layer too fixes that — without it, this menu is
+                        // provably on top in the accessibility/hit-test tree
+                        // yet visually renders behind the map.
+                        transform: 'translateZ(0)'
                     });
                 }
             }
