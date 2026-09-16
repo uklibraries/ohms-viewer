@@ -608,6 +608,11 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
                         closeOnEscape: false,
                         draggable: false,
                         resizable: false,
+                        // A modal must sit above every other z-indexed
+                        // element on the page (sticky tab bars, map filter
+                        // dropdowns, Leaflet controls, etc.) — the jQuery UI
+                        // default (~1000) collides with several of those.
+                        zIndex: 9999,
                         // Disable closing on backdrop click
                         open: function (event, ui) {
                             $(".ui-dialog-titlebar-close").remove();

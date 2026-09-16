@@ -374,7 +374,7 @@ POINT;
 
                     // Visible text: prefer annotation text, else the captured word
                     $visible = $word;
-                    $text = $attrs['wiki_name'] ?? $attrs['text'];
+                    $text = $attrs['wiki_name'] ?? $attrs['text'] ?? $visible;
                     // Classes: bdg-text + bdg-{wiki_label lower}
 
                     $wikiLabel = strtolower((string) ($attrs['wiki_label'] ?? ($attrs['label'] ?? '')));

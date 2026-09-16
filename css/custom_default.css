@@ -256,7 +256,15 @@ div.video iframe {
  #headervid {
    position: sticky;
    top: 0;
-   z-index: 1000;
+   /* This frozen left-side stack (headervid > audio-panel > searchbox-panel
+      > custom-tabs-left, descending z-index so each covers the one
+      scrolling beneath it) used to sit right at/below Leaflet's own
+      control z-index (1000 by default) — a tie or a loss there let the
+      map's zoom control render above the video/search box as the Map
+      panel's content scrolled underneath this frozen stack. Shifted the
+      whole staircase above that threshold, keeping the same relative
+      order. */
+   z-index: 1400;
    background: #fff;
  }
 .ui-dialog.notes-dialog {
@@ -390,8 +398,12 @@ div.video iframe {
 }
 .right-side-header {
   position: sticky;
-  top: 0; 
-  z-index: 999;
+  top: 0;
+  /* Above Leaflet's own control pane (.leaflet-top/.leaflet-bottom,
+     z-index: 1000 by default) — same issue as the left side's frozen
+     stack: the map's zoom control could render on top of this frozen
+     toolbar once the Map panel's content scrolled underneath it. */
+  z-index: 1400;
   text-align: left;
   width: 50%;
   margin-left: auto;
@@ -766,7 +778,8 @@ div.video iframe {
   margin: 0;
   position: sticky;
   top: 0;
-  z-index: 999;
+  /* Part of the frozen left-side staircase — see #headervid. */
+  z-index: 1300;
   background: #fff;
 }
 /* Freeze the search box and the tab bar on scroll, stacked below the
@@ -774,7 +787,8 @@ div.video iframe {
 .main-box .left-side #searchbox-panel {
   position: sticky;
   top: 0;
-  z-index: 998;
+  /* Part of the frozen left-side staircase — see #headervid. */
+  z-index: 1200;
   background: #fff;
   margin-bottom: 0;
   padding-bottom: 10px;
@@ -782,7 +796,11 @@ div.video iframe {
 .main-box .left-side #custom-tabs-left {
   position: sticky;
   top: 0;
-  z-index: 997;
+  /* Part of the frozen left-side staircase — see #headervid. Above
+     Leaflet's own control pane (.leaflet-top/.leaflet-bottom, z-index:
+     1000 by default): the map's zoom control would otherwise render on
+     top of this bar once the map scrolled into view underneath it. */
+  z-index: 1100;
   background: #fff;
   padding-bottom: 10px;
 }
@@ -900,7 +918,15 @@ div.video iframe {
   width: 100%;
   position: sticky;
   top: 0;
-  z-index: 500;
+  /* Above the map filter's stacking context (z-index: 2100 on
+     #map-tab-2 .ww_timeline_filter_container). This bar is itself
+     position:sticky + z-index, so it's a stacking context of its own —
+     the "Visualization ▼" dropdown-menu generated inside it (z-index:
+     2200, see .dropdown-menu) is capped by *this* value regardless of its
+     own, higher one. Originally 500 was enough to sit above the filter
+     row's old z-index: 150; keep that same "tab bar above the filter row"
+     relationship now that the map filter needs to go much higher. */
+  z-index: 2400;
   background: #fff;
   margin: 0;
   padding: 0 0 12px;
@@ -928,6 +954,16 @@ div.video iframe {
   padding-top: 16px;
   padding-bottom: 12px;
 }
+/* The map's type filter is a special case: position:sticky + z-index
+   establishes a stacking context, and that context's z-index (150) is
+   lower than Leaflet's own panes/controls (up to 1000). No z-index set on
+   the dropdown *inside* it can escape that — a low z-index parent caps
+   everything nested in it below higher z-index siblings. Only the map
+   filter needs to win against the map underneath it, so raise it there
+   without touching the wordcloud/timeline/browser filters above. */
+.main-box #custom-tabs-right #map-tab-2 .ww_timeline_filter_container {
+  z-index: 2100;
+}
 .dropdown-toggle-tab .dropdown-toggle {
   background: var(--tab-inactive-color);
   border-color: var(--tab-inactive-color);
@@ -949,7 +985,11 @@ div.video iframe {
 .dropdown-menu {
   max-width: 150px;
   position: absolute;
-  z-index: 1000;
+  /* Above the map filter's own stacking context (z-index: 2100 on
+     #map-tab-2 .ww_timeline_filter_container) — this menu is the "Word
+     Cloud / Map / Timeline / Browser" nav dropdown and must float above
+     whichever view is currently showing, map included. */
+  z-index: 2200;
   background: #fff;
 }
 .dropdown-menu li,
