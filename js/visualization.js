@@ -477,6 +477,7 @@ function VisualizationJS() {
             }
 
             scrollToTranscript(container, transcriptTab, ref);
+            showEntityPopover(transcriptTab, ref);
         });
 
         chart2.on('click', function (params) {
@@ -487,8 +488,22 @@ function VisualizationJS() {
             const container = $('.left-side');
             const transcriptTab = '#transcript-tab-1';
             scrollToTranscript(container, transcriptTab, ref);
+            showEntityPopover(transcriptTab, ref);
         });
 
+    };
+    // Re-triggers the click on the entity's own transcript badge, which is
+    // what actually opens the hover-over description box (see
+    // annotationPopup's ".bdg-text, .pop-page-link" handler) — this is the
+    // same mechanism the Map's marker click already uses (AVIARY-6041), so
+    // Timeline/Word Cloud/Browser table/Browser gallery clicks land on the
+    // same box via the same code path instead of a separate one. That
+    // handler's popover logic doesn't depend on geolocation, so this works
+    // for every NER entity type, geotagged or not.
+    const showEntityPopover = function (transcriptTab, ref) {
+        setTimeout(function () {
+            $(transcriptTab + ' .bdg-text.ref_' + ref).trigger('click');
+        }, 300);
     };
     const scrollToTranscript = function (container, transcriptTab, ref) {
         $('a[href="' + transcriptTab + '"]').trigger("click");
@@ -728,8 +743,35 @@ function VisualizationJS() {
             }
         });
 
-        $(document).on("click", ".anno-row, .timeline_event, .grid-item, .map_highlight", function (e) {
+        // Timeline, Browser table, and Browser gallery: scroll to the entity
+        // AND surface its hover-over description box, matching the Map's
+        // marker-click behavior (AVIARY-6041). Kept separate from
+        // .map_highlight below so that existing Map behavior — which
+        // already opens the popover itself, from its own marker click
+        // handler in loadMap() — is unchanged rather than doubled up.
+        $(document).on("click", ".anno-row, .timeline_event, .grid-item", function (e) {
             e.preventDefault(); // optional, prevents default action
+            let container;
+            let transcriptTab;
+            if ($(this).closest('.right-side').length) {
+                container = $('.left-side');
+                transcriptTab = '#transcript-tab-1';
+
+            } else if ($('.right-side').is(':visible')) {
+                transcriptTab = '#transcript-tab-2';
+                container = $('.right-side-inner');
+
+            } else {
+                container = $('.left-side');
+                transcriptTab = '#transcript-tab-1';
+            }
+            const ref = $(this).data('ref');
+            scrollToTranscript(container, transcriptTab, ref);
+            showEntityPopover(transcriptTab, ref);
+        });
+
+        $(document).on("click", ".map_highlight", function (e) {
+            e.preventDefault();
             let container;
             let transcriptTab;
             if ($(this).closest('.right-side').length) {
