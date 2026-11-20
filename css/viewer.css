@@ -1496,3 +1496,35 @@ p.bold {
     text-align: center;
     font-size: 25px;
 }
+/* ---- Maps (js/basemap.js): Map visualization tab + index GPS lightbox ---- */
+
+/* Basemap attribution is required by OpenFreeMap / OpenMapTiles /
+   OpenStreetMap: keep it small and muted, but never hide it. */
+.leaflet-container .leaflet-control-attribution {
+    font-size: 10px;
+    line-height: 1.4;
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+}
+.leaflet-container .leaflet-control-attribution a {
+    color: #0033A0;
+}
+
+/* Shown when neither the vector basemap nor a fallback raster can load. */
+.ohms-basemap-missing {
+    background: #eef0f3;
+}
+.leaflet-container .ohms-basemap-notice {
+    font-size: 11px;
+    color: #555;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+/* Index segment GPS point lightbox. */
+.ohms-gps-map {
+    width: 100%;
+    height: 100%;
+    min-height: 240px;
+}

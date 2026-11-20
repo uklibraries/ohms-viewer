@@ -243,6 +243,86 @@ Key configuration options include:
 
 10. **Open Graph Image**: Set the Open Graph image to use for links placed in social media sites with the `open_graph_image` property. This will be the image seen with links placed in social media site postings (it does not appear on the Viewer page). The image must reside in the root directory of your web site.
 
+11. **Map basemap**: `map_style_url`, `map_attribution`, `map_fallback_tile_url` and `map_fallback_attribution`. All optional; see [Map / basemap](#map--basemap) below.
+
+---
+
+## Map / basemap
+
+The viewer draws maps in two places: the **Map** visualization tab (places mentioned in the interview) and the lightbox that opens from an index segment's **GPS** link. Both use the same basemap and the same settings.
+
+### Default: OpenFreeMap, no key needed
+
+Out of the box the viewer uses the [OpenFreeMap](https://openfreemap.org) **Positron** style. It needs **no API key, account or registration**, has no request limits and permits commercial use. Leave every `map_*` setting blank and the map works.
+
+The tiles are vector tiles, rendered with [MapLibre GL JS](https://maplibre.org) inside Leaflet (via `@maplibre/maplibre-gl-leaflet`). The libraries are loaded from unpkg at pinned versions, only on interviews that have a map.
+
+OpenFreeMap is run by a single developer, funded by donations and offered without an SLA. If it ever adds limits or goes away, switching providers is a `config.ini` change, not a code change (see below).
+
+### Attribution: required, do not remove
+
+OpenFreeMap, OpenMapTiles and OpenStreetMap (ODbL) all require visible credit. The viewer shows it in the bottom-right corner of every map:
+
+> OpenFreeMap © OpenMapTiles Data from OpenStreetMap
+
+Do not hide `.leaflet-control-attribution` in your custom CSS. Restyling it (smaller, muted) is fine.
+
+### Choosing a different style
+
+Set `map_style_url` to any MapLibre style JSON URL. Other OpenFreeMap styles need nothing else; their attribution is added automatically:
+
+```ini
+map_style_url = "https://tiles.openfreemap.org/styles/liberty"
+; or
+map_style_url = "https://tiles.openfreemap.org/styles/bright"
+```
+
+For any other provider, also set `map_attribution` to the credit that provider requires. It is HTML; use single quotes inside it so the INI value stays valid:
+
+```ini
+map_attribution = "&copy; <a href='https://example.com/' target='_blank'>Example Maps</a> &copy; <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a>"
+```
+
+If `map_attribution` is blank for a non-OpenFreeMap style, the viewer shows whatever attribution that style's sources declare.
+
+### Using a paid provider (Stadia, MapTiler, ...)
+
+Point `map_style_url` at the provider's MapLibre style URL with **your institution's own key**, and set `map_attribution`:
+
+```ini
+map_style_url = "https://tiles.stadiamaps.com/styles/alidade_smooth.json?api_key=YOUR_KEY"
+map_attribution = "&copy; <a href='https://stadiamaps.com/' target='_blank'>Stadia Maps</a> &copy; <a href='https://openmaptiles.org/' target='_blank'>OpenMapTiles</a> &copy; <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a>"
+```
+
+Any usage costs are the deploying institution's responsibility. Keys placed here are visible in the page source, so restrict them by domain/referrer in the provider's dashboard.
+
+### Self-hosting the tiles
+
+OpenFreeMap publishes processed full-planet tile images and instructions for running your own instance: <https://github.com/hyperknot/openfreemap>. Point `map_style_url` at your instance's style URL.
+
+### Fallback for browsers without WebGL
+
+MapLibre needs WebGL. On machines where it is unavailable (locked-down institutional PCs, hardware acceleration disabled, very old hardware), or if the MapLibre scripts fail to load, the viewer falls back to:
+
+1. **Raster tiles from `map_fallback_tile_url`**, if you set one (a standard `{z}/{x}/{y}` URL; `{s}` and `{r}` are supported), credited with `map_fallback_attribution`:
+
+   ```ini
+   map_fallback_tile_url = "https://tiles.example.org/{z}/{x}/{y}.png"
+   map_fallback_attribution = "&copy; <a href='https://example.org/' target='_blank'>Example</a>"
+   ```
+
+2. Otherwise, the markers on a plain background with a small "Base map unavailable in this browser" notice. Markers, popups and filters keep working either way.
+
+> **Do not use `tile.openstreetmap.org`** (directly or as the fallback) for a production deployment. The [OSMF tile usage policy](https://operations.osmfoundation.org/policies/tiles/) does not allow distributed applications to use its tiles without permission. Keyless CARTO basemaps are also not a good choice: they have been reported to show an "API KEY REQUIRED" watermark since late August 2026.
+
+### Upgrading from an earlier 4.0 build
+
+* `map_api_key` (the Stadia Maps key) **has been removed**. The viewer no longer reads it, and leaving it in `config.ini` is harmless. You can delete it.
+* With no other change, maps switch to OpenFreeMap Positron and no longer depend on Stadia.
+* To keep using Stadia on your own account, use `map_style_url` / `map_attribution` as shown under [Using a paid provider](#using-a-paid-provider-stadia-maptiler-).
+* Index GPS links no longer open Google Maps. They open the point on the same basemap as the Map tab, at the segment's zoom level.
+* Optional new settings: `map_style_url`, `map_attribution`, `map_fallback_tile_url`, `map_fallback_attribution` (see `config/config.example.ini`).
+
 ---
 
 ## 🔐 Security Considerations

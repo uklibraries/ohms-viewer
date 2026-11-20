@@ -73,7 +73,11 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
     'jquery.simplePagination.js', 'video.min.js', 'jquery.easing.1.4.js', 'jquery.scrollTo-min.js',
     'popper.js', 'tooltip.js', 'echarts-en.min-421rc1.js', 'echarts-wordcloud2.min.js',
     'viewer.js', 'custom.js', 'viewer_' . $interview->viewerjs . '.js',
-    'masonry.pkgd.min.js', 'imagesloaded.pkgd.min.js', 'visualization.js']
+    'masonry.pkgd.min.js', 'imagesloaded.pkgd.min.js', 'basemap.js', 'visualization.js'];
+// Leaflet + MapLibre are only needed when there is something to put on a
+// map: the Map visualization tab, or a GPS link in the index.
+$needsMapLibraries = count($interview->mapData) > 0
+        || strpos((string) $interview->index, 'ohms-gps-link') !== false;
 ?>
 
 <!DOCTYPE html>
@@ -97,6 +101,14 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
         <script src="js/fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>
         <link rel="stylesheet" href="js/fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen"/>
         <script src="js/fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+        <?php if ($needsMapLibraries): ?>
+            <!-- Basemap: OpenFreeMap vector tiles rendered by MapLibre GL inside Leaflet (js/basemap.js). Versions pinned. -->
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+            <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css" integrity="sha384-uTttxo/aOKbdE5RlD/SPzSDoDmNvGlUYPjONi2MN/b7c9HPSvW07OIuyP7uL6jxK" crossorigin="anonymous">
+            <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js" integrity="sha384-5+cfbwT0iiub6VsQAdn6yz16nr6sDiQoHx6tm4O8OVYXHYOxcffFmCJBL0dgdvGp" crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.1.4/dist/leaflet-maplibre-gl.js" integrity="sha384-tXYNKOHx4T02jMP7YYCtBxPIv1B5gaA5mcVPBzqMp6d7VzWzxJgI2aWF/nJLrQdS" crossorigin="anonymous"></script>
+        <?php endif; ?>
         <meta property="og:title" content="<?php echo $interview->title; ?>"/>
         <meta property="og:url" content="<?php echo $baseurl ?>">
         <?php if (isset($openGraphImage)) { ?>
@@ -513,7 +525,20 @@ $js = ['jquery.min.js', 'jquery-ui.min.js', 'jquery.multiselect.min.js', 'tipped
 
             var playerNameJS = '<?php echo $interview->playername; ?>';
             var cachefile = '<?php echo $interview->cachefile; ?>';
-            var mapApiKey = <?php echo json_encode(isset($config['map_api_key']) ? $config['map_api_key'] : ''); ?>;
+            // Basemap settings from config.ini; blank values fall back to the
+            // OpenFreeMap Positron defaults in js/basemap.js. (The old
+            // map_api_key setting is no longer read.)
+            var ohmsMapConfig = <?php
+            $mapSetting = function ($key) use ($config) {
+                return isset($config[$key]) && is_string($config[$key]) ? trim($config[$key]) : '';
+            };
+            echo json_encode([
+                'styleUrl' => $mapSetting('map_style_url'),
+                'attribution' => $mapSetting('map_attribution'),
+                'fallbackTileUrl' => $mapSetting('map_fallback_tile_url'),
+                'fallbackAttribution' => $mapSetting('map_fallback_attribution'),
+            ], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES);
+            ?>;
             var initialLoad = true;
             $(document).ready(function () {
                 setTimeout(() => {

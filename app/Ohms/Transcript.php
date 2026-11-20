@@ -124,13 +124,23 @@ class Transcript {
                                     . '<div style=" clear: both; "></div>'
                                     . "<div class='multiGPSSection'>";
 
-                        $gpsHTML .= '<strong>GPS:</strong> <a class="fancybox-media nblu" href="' . htmlentities(str_replace(' ', '', 'http://maps.google.com/maps?ll=' . $gps . '&t=m&z=' . $zoom . '&output=embed')) . '">';
-                        if ($gps_text <> '') {
-                            $gpsHTML .= nl2br($gps_text);
+                        $gpsLabel = ($gps_text <> '') ? nl2br($gps_text) : 'Link to map';
+                        // The point opens in a lightbox on the same Leaflet +
+                        // OpenFreeMap basemap as the Map visualization
+                        // (js/basemap.js), so the link only carries the data.
+                        list($gpsLat, $gpsLng) = Utils::parseLatLng((string) $gps);
+                        if ($gpsLat !== null) {
+                            $gpsHTML .= '<strong>GPS:</strong> <a class="ohms-gps-link nblu" href="#"'
+                                    . ' data-lat="' . $gpsLat . '" data-lng="' . $gpsLng . '"'
+                                    . ' data-zoom="' . (int) $zoom . '"'
+                                    . ' data-has-label="' . ($gps_text <> '' ? '1' : '0') . '">'
+                                    . $gpsLabel . '</a>';
                         } else {
-                            $gpsHTML .= 'Link to map';
+                            // Coordinates we can't place on a map: keep the
+                            // label, just without a link.
+                            $gpsHTML .= '<strong>GPS:</strong> ' . $gpsLabel;
                         }
-                        $gpsHTML .= '</a><br/><strong>Map Coordinates:</strong> ' . $gps . '<br/>';
+                        $gpsHTML .= '<br/><strong>Map Coordinates:</strong> ' . $gps . '<br/>';
 
                         if (count($gpsPoints) > 1 && $gpsCounter < (count($gpsPoints) - 1)) {
                             $gpsHTML .= '<div class="separator"></div>';

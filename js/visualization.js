@@ -17,7 +17,9 @@ function VisualizationJS() {
     this.initialize = function (entityRows, mapPoints) {
         setupDropdownTabs("#custom-tabs-left", "Visualization ▼", false);
         setupDropdownTabs("#custom-tabs-right");
-        if (mapPoints.length > 0) {
+        // Leaflet comes from a CDN (tmpl/viewer.tmpl.php); if it failed to
+        // load, leave the Map tab empty rather than throwing on every click.
+        if (mapPoints.length > 0 && typeof L !== 'undefined') {
 
             mapData = mapPoints;
             // Leaflet is created lazily, the first time its tab is actually
@@ -282,23 +284,9 @@ function VisualizationJS() {
         return String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
     }
     const loadMap = function (mapId) {
-        const map = L.map(mapId).setView([20, 0], 2);
-        const apiKey = (typeof mapApiKey !== 'undefined' && mapApiKey) ? mapApiKey : '';
-        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key=' + apiKey, {
-            maxZoom: 20,
-            attribution: ''
-        }).addTo(map);
-        const brandIcon = L.divIcon({
-            className: 'custom-marker',
-            html: `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="#0033A0">
-          <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zM12 11.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
-        </svg>
-      `,
-            iconSize: [32, 32],
-            iconAnchor: [16, 32],
-            popupAnchor: [0, -32]
-        });
+        const map = L.map(mapId, OhmsBasemap.mapOptions()).setView([20, 0], 2);
+        OhmsBasemap.addTo(map);
+        const brandIcon = OhmsBasemap.pinIcon();
 // Plot markers
         const markers = [];
         mapData.forEach(row => {
