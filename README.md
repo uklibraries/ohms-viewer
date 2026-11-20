@@ -265,11 +265,13 @@ OpenFreeMap, OpenMapTiles and OpenStreetMap (ODbL) all require visible credit. T
 
 > OpenFreeMap © OpenMapTiles Data from OpenStreetMap
 
+For any style served from `tiles.openfreemap.org`, this credit is always shown and **cannot be changed or removed through `config.ini`**: `map_attribution` is ignored for OpenFreeMap styles. To show a different credit, switch to another provider or a self-hosted instance (below), which you then credit yourself.
+
 Do not hide `.leaflet-control-attribution` in your custom CSS. Restyling it (smaller, muted) is fine.
 
 ### Choosing a different style
 
-Set `map_style_url` to any MapLibre style JSON URL. Other OpenFreeMap styles need nothing else; their attribution is added automatically:
+Set `map_style_url` to any MapLibre style JSON URL. Other OpenFreeMap styles need nothing else; the required OpenFreeMap credit is added automatically (and `map_attribution` is ignored for them):
 
 ```ini
 map_style_url = "https://tiles.openfreemap.org/styles/liberty"
@@ -277,7 +279,7 @@ map_style_url = "https://tiles.openfreemap.org/styles/liberty"
 map_style_url = "https://tiles.openfreemap.org/styles/bright"
 ```
 
-For any other provider, also set `map_attribution` to the credit that provider requires. It is HTML; use single quotes inside it so the INI value stays valid:
+For any non-OpenFreeMap provider, also set `map_attribution` to the credit that provider requires (OpenStreetMap credit is always required for OSM-based maps). It is HTML; use single quotes inside it so the INI value stays valid:
 
 ```ini
 map_attribution = "&copy; <a href='https://example.com/' target='_blank'>Example Maps</a> &copy; <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a>"
@@ -298,7 +300,11 @@ Any usage costs are the deploying institution's responsibility. Keys placed here
 
 ### Self-hosting the tiles
 
-OpenFreeMap publishes processed full-planet tile images and instructions for running your own instance: <https://github.com/hyperknot/openfreemap>. Point `map_style_url` at your instance's style URL.
+OpenFreeMap publishes processed full-planet tile images and instructions for running your own instance: <https://github.com/hyperknot/openfreemap>. Point `map_style_url` at your instance's style URL and set `map_attribution` to credit the data, at least OpenMapTiles and OpenStreetMap:
+
+```ini
+map_attribution = "&copy; <a href='https://www.openmaptiles.org/' target='_blank'>OpenMapTiles</a> Data from <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a>"
+```
 
 ### Fallback for browsers without WebGL
 

@@ -60,20 +60,17 @@ var OhmsBasemap = (function () {
         return setting('styleUrl') || DEFAULT_STYLE_URL;
     }
 
-    // Attribution for the vector basemap. A configured value always wins;
-    // otherwise any OpenFreeMap style gets the required OpenFreeMap /
-    // OpenMapTiles / OpenStreetMap credit (its style JSON carries none).
-    // For any other style, return null and let the bridge read the
+    // Attribution for the vector basemap. Any style served by OpenFreeMap
+    // always gets the OpenFreeMap / OpenMapTiles / OpenStreetMap credit its
+    // terms require (its style JSON carries none), and map_attribution
+    // cannot replace or remove it. map_attribution only applies to other
+    // providers; without it, return null and let the bridge read the
     // attribution from the style's own sources.
     function vectorAttribution() {
-        var configured = setting('attribution');
-        if (configured) {
-            return configured;
-        }
         if (/^https?:\/\/tiles\.openfreemap\.org\//i.test(styleUrl())) {
             return OPENFREEMAP_ATTRIBUTION;
         }
-        return null;
+        return setting('attribution') || null;
     }
 
     function addVectorLayer(map) {
