@@ -57,10 +57,6 @@
  *      Instagram
  *          http://instagr.am/p/IejkuUGxQn/
  *          http://instagram.com/p/IejkuUGxQn/
- *      Google maps
- *          http://maps.google.com/maps?q=Eiffel+Tower,+Avenue+Gustave+Eiffel,+Paris,+France&t=h&z=17
- *          http://maps.google.com/?ll=48.857995,2.294297&spn=0.007666,0.021136&t=m&z=16
- *          http://maps.google.com/?ll=48.859463,2.292626&spn=0.000965,0.002642&t=m&z=19&layer=c&cbll=48.859524,2.292532&panoid=YJ0lq28OOy3VT2IqIuVY0g&cbp=12,151.58,,0,-15.56
  */
 (function ($) {
 	"use strict";
@@ -153,14 +149,9 @@
 				matcher : /(instagr\.am|instagram\.com)\/p\/([a-zA-Z0-9_\-]+)\/?/i,
 				type : 'image',
 				url  : '//$1/p/$2/media/?size=l'
-			},
-			google_maps : {
-				matcher : /maps\.google\.([a-z]{2,3}(\.[a-z]{2})?)\/(\?ll=|maps\?)(.*)/i,
-				type : 'iframe',
-				url  : function( rez ) {
-					return '//maps.google.' + rez[1] + '/' + rez[3] + '' + rez[4] + '&output=' + (rez[4].indexOf('layer=c') > 0 ? 'svembed' : 'embed');
-				}
 			}
+			// Google Maps handler removed (AVIARY-6522): index GPS links now
+			// open a Leaflet/OpenFreeMap map, see js/basemap.js.
 		},
 
 		beforeLoad : function(opts, obj) {

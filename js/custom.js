@@ -253,16 +253,9 @@ function Viewer() {
             $('a[href="#about-tab-1"]').trigger("click");
             $('a[href="#index-tab-2"]').trigger("click");
         });
-        $('.fancybox-media').fancybox({
-            openEffect: 'none',
-            closeEffect: 'none',
-            width: '80%',
-            height: '80%',
-            fitToView: true,
-            helpers: {
-                media: {}
-            }
-        });
+        if (typeof OhmsBasemap !== 'undefined') {
+            OhmsBasemap.bindGpsLinks();
+        }
         let url = new URL(window.location.href);
         let external = '';
         if (url.searchParams.has('external')) {

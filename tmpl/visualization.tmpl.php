@@ -16,10 +16,7 @@
 
 </div>
 <?php if (count($interview->mapData) > 0): ?>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-
+    <?php /* Leaflet/MapLibre are loaded once in the <head> of tmpl/viewer.tmpl.php. */ ?>
     <style>
         /* Full width; auto height via aspect ratio (fallback below) */
         #map_area_1, #map_area_2 {
@@ -35,10 +32,6 @@
                 height: 80vh;           /* Slightly shorter on large screens */
                 margin: 12px 0;
             }
-        }
-        .leaflet-control-attribution {
-            font-size: 10px;
-            background: rgba(255, 255, 255, 0.7);
         }
     </style>
     <div id="map-tab-<?php echo $tab_tag; ?>">
